@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stapleford Watches</title>
+
+<style>
+body { font-family: Arial, sans-serif; background:#111; color:#fff; margin:0; }
+header { padding:20px; text-align:center; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; padding:20px; }
+.card { background:#222; padding:10px; border-radius:10px; }
+.card img { width:100%; border-radius:8px; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Stapleford Watches" style="max-width:200px;">
+</header>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const watches = [
+  {
+    id: "tudor-black-bay",
+    image: "Watches/TBB1/1.jpg",
+    gallery: [
+      "Watches/TBB1/1.jpg",
+      "Watches/TBB1/2.jpg",
+      "Watches/TBB1/3.jpg"
+    ],
+    title: "Black Bay",
+    brand: "Tudor",
+    price: 2900,
+    status: "sold"
+  },
+  {
+    id: "omega-speedmaster",
+    image: "Watches/OS1/1.jpg",
+    gallery: [
+      "Watches/OS1/1.jpg",
+      "Watches/OS1/2.jpg",
+      "Watches/OS1/3.jpg"
+    ],
+    title: "Speedmaster",
+    brand: "Omega",
+    price: 4200,
+    status: "sold"
+  },
+  {
+    id: "rolex-submariner",
+    image: "Watches/RS1/1.jpg",
+    gallery: [
+      "Watches/RS1/1.jpg",
+      "Watches/RS1/2.jpg",
+      "Watches/RS1/3.jpg"
+    ],
+    title: "Submariner",
+    brand: "Rolex",
+    price: 8500,
+    status: "available"
+  },
+  {
+    id: "cartier-santos",
+    image: "Watches/CS1/1.jpg",
+    gallery: [
+      "Watches/CS1/1.jpg",
+      "Watches/CS1/2.jpg",
+      "Watches/CS1/3.jpg"
+    ],
+    title: "Santos",
+    brand: "Cartier",
+    price: 5100,
+    status: "available"
+  }
+];
+
+const grid = document.getElementById("grid");
+
+watches.forEach(w => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <img src="${w.image}" alt="${w.title}">
+    <h3>${w.title}</h3>
+    <p>${w.brand}</p>
+    <p>£${w.price}</p>
+  `;
+  grid.appendChild(card);
+});
+</script>
+
+</body>
+</html>
