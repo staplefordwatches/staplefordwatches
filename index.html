@@ -1358,7 +1358,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:2595,
  status:"available",
- specs:{year:"1970s",caseSize:"42MM",colour:"BLUE",condition:"VERY GOOD",contents:"—"}},
+ specs:{year:"1970s",caseSize:"42MM",colour:"BLUE",condition:"VERY GOOD",contents:"BOX ONLY"}},
   
 {id:"tudor-black bay",
  image:"Images/Watches/TBB1/1.JPG",
@@ -1375,7 +1375,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"TUDOR",
  price:3095,
  status:"available",
- specs:{year:"2024",caseSize:"41MM",colour:"BLACK",condition:"EXCELLENT",contents:"—"}},
+ specs:{year:"2024",caseSize:"41MM",colour:"BLACK",condition:"EXCELLENT",contents:"FULL SET"}},
 
 {id:"omega-seamaster-aqua-terra",
  image:"Images/Watches/OS2/1.jpg",
@@ -1393,7 +1393,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3495,
  status:"available",
- specs:{year:"2021",caseSize:"41MM",colour:"GREEN",condition:"VERY GOOD",contents:"—"}},
+ specs:{year:"2021",caseSize:"41MM",colour:"GREEN",condition:"VERY GOOD",contents:"FULL SET"}},
   
 {id:"omega-seamaster-planet-ocean",
  image:"Images/Watches/OS3/1.jpg",
@@ -1410,7 +1410,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3495,
  status:"available",
- specs:{year:"2018",caseSize:"43.5MM",colour:"BLACK",condition:"VERY GOOD",contents:"—"}},
+ specs:{year:"2018",caseSize:"43.5MM",colour:"BLACK",condition:"VERY GOOD",contents:"FULL SET"}},
 
   {id:"zenith-moonphase-quartz",
  image:"Images/Watches/Z1/1.JPG",
@@ -1425,7 +1425,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"ZENITH",
  price:390,
  status:"available",
- specs:{year:"1980s",caseSize:"27MM",colour:"GOLD",condition:"GOOD",contents:"—"}},
+ specs:{year:"1980s",caseSize:"27MM",colour:"GOLD",condition:"GOOD",contents:"WATCH ONLY"}},
 
   {id:"tag-heuer-formula-one",
  image:"Images/Watches/TH1/1.jpg",
@@ -1442,7 +1442,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"TAG Heuer",
  price:1350,
  status:"available",
- specs:{year:"2025",caseSize:"38MM",colour:"GREEN",condition:"NEW",contents:"—"}},
+ specs:{year:"2025",caseSize:"38MM",colour:"GREEN",condition:"NEW",contents:"FULL SET"}},
 
   {id:"omega-seamaster-diver",
  image:"Images/Watches/OS4/1.jpg",
@@ -1459,7 +1459,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3285,
  status:"available",
- specs:{year:"2021 (Approx)",caseSize:"42MM",colour:"WHITE",condition:"VERY GOOD",contents:"—"}},
+ specs:{year:"2021 (Approx)",caseSize:"42MM",colour:"WHITE",condition:"VERY GOOD",contents:"BOX ONLY"}},
 
   {id:"noah-timex",
  image:"Images/Watches/TX1/1.jpg",
@@ -1476,7 +1476,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"NOAH x TIMEX",
  price:420,
  status:"available",
- specs:{year:"2020",caseSize:"38MM",colour:"GREEN",condition:"NEW",contents:"—"}},
+ specs:{year:"2020",caseSize:"38MM",colour:"GREEN",condition:"NEW",contents:"FULL SET"}},
 
   {id:"omega-seamaster-diver-2",
  image:"Images/Watches/OS5/2.jpg",
@@ -1493,7 +1493,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3050,
  status:"available",
- specs:{year:"2021 (Approx)",caseSize:"42MM",colour:"BLACK",condition:"GOOD",contents:"—"}},
+ specs:{year:"2021 (Approx)",caseSize:"42MM",colour:"BLACK",condition:"GOOD",contents:"BOX ONLY"}},
 
   {id:"omega-seamaster-aqua-terra-black",
  image:"Images/Watches/OS6/1.jpg",
@@ -1510,7 +1510,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3695,
  status:"available",
- specs:{year:"2025",caseSize:"41MM",colour:"BLACK",condition:"EXCELLENT",contents:"—"}},
+ specs:{year:"2025",caseSize:"41MM",colour:"BLACK",condition:"EXCELLENT",contents:"FULL SET"}},
 ];
 
 const gallery=document.getElementById("gallery");
@@ -1802,7 +1802,7 @@ function render(){
           <div class="spec-row"><span class="spec-label">CASE SIZE</span><span class="spec-value">${w.specs.caseSize}</span></div>
           <div class="spec-row"><span class="spec-label">COLOUR</span><span class="spec-value">${w.specs.colour}</span></div>
           <div class="spec-row"><span class="spec-label">CONDITION</span><span class="spec-value">${w.specs.condition}</span></div>
-          <div class="spec-row"><span class="spec-label">CONTENTS</span><span class="spec-value">—</span></div>
+          <div class="spec-row"><span class="spec-label">CONTENTS</span><span class="spec-value">${W.specs.contents}</span></div>
         </div>
       </div>` : ""}
     </div>
