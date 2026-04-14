@@ -570,6 +570,10 @@ footer{
   white-space:nowrap;
 }
 
+.sort-option{
+  text-transform:uppercase;
+}
+
 .filter-option:hover{
   background:#f5f5f5;
 }
@@ -585,6 +589,10 @@ footer{
   font-size:12px;
   white-space:nowrap;
 }
+.filter-check span{
+  text-transform:uppercase;
+}
+
 
 .filter-check:hover{
   background:#f5f5f5;
@@ -637,11 +645,13 @@ footer{
   border-radius:0;
   -webkit-appearance:none;
   appearance:none;
-}
+
+  text-transform:uppercase;}
 
 .filter-search-input::placeholder{
   color:rgba(0,0,0,0.45);
-}
+
+  text-transform:uppercase;}
 
 .filter-search-input:focus{
   border-color:#000;
@@ -1241,23 +1251,23 @@ a, button{
       </button>
       <div id="filterMenu" class="filter-menu">
         <div class="filter-search-wrap">
-          <input id="watchSearch" class="filter-search-input" type="text" placeholder="Search brand or model" autocomplete="off" />
+          <input id="watchSearch" class="filter-search-input" type="text" placeholder="SEARCH" autocomplete="off" />
         </div>
         <div class="filter-section-label">Sort</div>
-        <div class="filter-option sort-option" data-value="price-low">Price ↑</div>
-        <div class="filter-option sort-option" data-value="price-high">Price ↓</div>
-        <div class="filter-option sort-option" data-value="brand-az">Brand A–Z</div>
-        <div class="filter-option sort-option" data-value="brand-za">Brand Z–A</div>
-        <div class="filter-option sort-option" data-value="new-old">New–Old</div>
-        <div class="filter-option sort-option" data-value="old-new">Old–New</div>
+        <div class="filter-option sort-option" data-value="price-low">PRICE ↑</div>
+        <div class="filter-option sort-option" data-value="price-high">PRICE ↓</div>
+        <div class="filter-option sort-option" data-value="brand-az">BRAND A–Z</div>
+        <div class="filter-option sort-option" data-value="brand-za">BRAND Z–A</div>
+        <div class="filter-option sort-option" data-value="new-old">NEW–OLD</div>
+        <div class="filter-option sort-option" data-value="old-new">OLD–NEW</div>
         <div class="filter-section-label">Filter</div>
         <label class="filter-check">
           <input type="checkbox" id="filterAvailable">
-          <span>Available</span>
+          <span>AVAILABLE</span>
         </label>
         <label class="filter-check">
           <input type="checkbox" id="filterSold">
-          <span>Sold</span>
+          <span>SOLD</span>
         </label>
       </div>
     </div>
