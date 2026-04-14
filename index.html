@@ -80,6 +80,23 @@ body{
   line-height:1;
 }
 
+.nav-right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  min-width:96px;
+  font-size:12px;
+  line-height:1;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.uk-time{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  letter-spacing:0.02em;
+}
+
 .filter{
   padding:0;
   border:none;
@@ -437,9 +454,11 @@ footer{
   cursor:pointer;
   padding:0;
   color:#000;
-  display:flex;
+  display:inline-flex;
   align-items:center;
-  gap:6px;
+  justify-content:center;
+  gap:5px;
+  white-space:nowrap;
 }
 
 #filterBtn span{
@@ -448,9 +467,11 @@ footer{
 }
 
 #filterBtn svg{
-  width:14px;
-  height:14px;
+  width:11px;
+  height:11px;
   flex:0 0 auto;
+  display:block;
+  vertical-align:middle;
 }
 
 .filter-menu{
@@ -674,6 +695,12 @@ footer{
     flex:0 0 auto;
   }
 
+  .nav-right{
+    min-width:auto;
+    flex:0 0 auto;
+    font-size:11px !important;
+  }
+
   .left-icons{
     width:auto !important;
     flex:1 1 auto;
@@ -708,6 +735,10 @@ footer{
   .left-icons{
     font-size:10px !important;
     gap:6px 10px !important;
+  }
+
+  .nav-right{
+    font-size:10px !important;
   }
 
   .filter-menu{
@@ -1245,9 +1276,11 @@ a, button{
 <div class="nav">
   <div class="filter-wrap-inline">
     <div class="filter-custom">
-      <button id="filterBtn" type="button">
-        
+      <button id="filterBtn" type="button" aria-label="Sort watches">
         <span>SORT</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M8 6v12m0 0-3-3m3 3 3-3M16 18V6m0 0-3 3m3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
       <div id="filterMenu" class="filter-menu">
         <div class="filter-search-wrap">
@@ -1272,8 +1305,9 @@ a, button{
       </div>
     </div>
   </div>
-
-
+  <div class="nav-right">
+    <span id="ukTime" class="uk-time" aria-label="Current UK time"></span>
+  </div>
 </div>
 
 <div class="grid" id="gallery"></div>
@@ -1311,6 +1345,25 @@ a, button{
 
 
 <script>
+function updateUkTime(){
+  const el = document.getElementById('ukTime');
+  if(!el) return;
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat('en-GB',{
+    timeZone:'Europe/London',
+    hour:'2-digit',
+    minute:'2-digit',
+    second:'2-digit',
+    hour12:false
+  }).formatToParts(now);
+  const hh = parts.find(p=>p.type==='hour')?.value || '';
+  const mm = parts.find(p=>p.type==='minute')?.value || '';
+  const ss = parts.find(p=>p.type==='second')?.value || '';
+  el.textContent = `LONDON, UK | ${hh}:${mm}:${ss}`;
+}
+updateUkTime();
+setInterval(updateUkTime, 1000);
+
 const watches=[
 /* SIMPLE IMAGE SETUP PER WATCH
 
