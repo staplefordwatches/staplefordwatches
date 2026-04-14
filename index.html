@@ -222,13 +222,13 @@ footer{
   gap:0;
 }
 
-.enquire-link-inline{
+..enquire-link-inline{
   color:#000;
   text-decoration:none;
   font-size:11px;
   letter-spacing:0.04em;
   text-transform:uppercase;
-  padding:10px 0;
+  padding:8px 0;
   border-top:1px solid rgba(0,0,0,0.12);
 }
 
@@ -792,6 +792,24 @@ body.no-results-active .no-results{
 
 
 
+
+
+/* ===== INLINE ARROWS FIX ===== */
+.spec-trigger,
+.spec-hide,
+.enquire-trigger,
+.enquire-hide-inline{
+  white-space:nowrap !important;
+}
+
+.spec-trigger span,
+.spec-hide span,
+.enquire-trigger span,
+.enquire-hide-inline span{
+  display:inline-block !important;
+  white-space:nowrap !important;
+}
+
 /* ===== TYPOGRAPHY FIX (AUTO-INJECTED) ===== */
 .spec-trigger,
 .enquire-link-inline,
@@ -910,6 +928,7 @@ a, button{
   display:flex;
   flex-direction:column;
   gap:10px;
+  z-index:3;
 }
 
 .lightbox-thumb{
@@ -920,6 +939,7 @@ a, button{
   cursor:pointer;
   opacity:0.6;
   background:#fff;
+  pointer-events:auto !important;
 }
 
 .lightbox-thumb.active{
@@ -928,6 +948,7 @@ a, button{
 }
 
 .lightbox-stage{
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -935,11 +956,22 @@ a, button{
   height:100%;
 }
 
+.lightbox-image-wrap{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  max-width:100%;
+  max-height:80vh;
+  cursor:pointer;
+}
+
 .lightbox-stage img{
+  display:block;
   max-width:100%;
   max-height:80vh;
   object-fit:contain;
-  pointer-events:none !important;
+  pointer-events:auto !important;
 }
 
 .lightbox-close,
@@ -990,6 +1022,93 @@ a, button{
 .image.available{
   cursor:default;
 }
+
+
+.lightbox-enquire{
+  position:absolute;
+  right:8px;
+  bottom:8px;
+  width:auto;
+  max-width:calc(100% - 16px);
+  display:flex;
+  justify-content:flex-end;
+  z-index:3;
+}
+
+.lightbox-enquire .enquire-trigger{
+  right:0;
+  bottom:0;
+}
+
+.lightbox-enquire .enquire-overlay{
+  inset:auto 0 0 auto;
+  width:auto;
+  min-width:124px;
+  max-width:160px;
+  padding:10px 12px;
+  background:rgba(255,255,255,0.96);
+  text-align:right;
+  align-items:flex-end;
+}
+
+.lightbox-enquire .enquire-links-inline{
+  display:grid;
+  justify-items:end;
+  text-align:right;
+}
+
+.lightbox-enquire .enquire-link-inline,
+.lightbox-enquire .enquire-link-inline:link,
+.lightbox-enquire .enquire-link-inline:visited,
+.lightbox-enquire .enquire-link-inline:hover,
+.lightbox-enquire .enquire-link-inline:active{
+  display:block;
+  color:#000 !important;
+  text-decoration:none !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  padding:8px 0;
+  border-top:1px solid rgba(0,0,0,0.12);
+  background:transparent;
+}
+
+.lightbox-enquire .enquire-hide-inline{
+  color:#000;
+  text-decoration:none;
+}
+
+.lightbox-enquire.show-enquire .enquire-trigger{
+  display:none;
+}
+
+.lightbox-enquire.show-enquire .enquire-overlay{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.lightbox-enquire:not(.show-enquire) .enquire-overlay{
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+}
+
+@media (max-width: 767px){
+  .lightbox-enquire{
+    right:8px;
+    bottom:8px;
+    width:auto;
+    max-width:calc(100% - 16px);
+  }
+
+  .lightbox-enquire .enquire-overlay{
+    max-width:150px;
+  }
+}
+
 
 @media (max-width: 767px){
   .lightbox{
@@ -1105,7 +1224,23 @@ a, button{
     <div id="lightboxThumbs" class="lightbox-thumbs"></div>
     <div class="lightbox-stage">
       <button class="lightbox-prev" type="button" aria-label="Previous image">Prev</button>
-      <img id="lightboxImage" src="" alt="">
+      <div class="lightbox-image-wrap">
+        <img id="lightboxImage" src="" alt="">
+        <div id="lightboxEnquire" class="lightbox-enquire" hidden>
+        <button id="lightboxEnquireTrigger" class="enquire-trigger" type="button" aria-expanded="false">
+          <span>ENQUIRE ↑</span>
+        </button>
+        <div id="lightboxEnquireOverlay" class="enquire-overlay" aria-hidden="true">
+          <button id="lightboxEnquireHide" class="spec-hide enquire-hide-inline" type="button" aria-label="Hide enquiry options">
+            <span>HIDE ↓</span>
+          </button>
+          <div class="enquire-links-inline">
+            <a id="lightboxWhatsapp" class="enquire-link-inline" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            <a id="lightboxEmail" class="enquire-link-inline" href="#">Email</a>
+          </div>
+        </div>
+        </div>
+      </div>
       <button class="lightbox-next" type="button" aria-label="Next image">Next</button>
       <div id="lightboxMeta" class="lightbox-meta"></div>
     </div>
@@ -1371,13 +1506,10 @@ function getWatchYear(w){
 }
 
 function getEnquiryData(w){
-  const reference = (w.id || '').replace(/-/g, ' ').toUpperCase();
   const watchName = `${w.brand} ${w.title}`.trim();
-  const descriptor = reference ? `${watchName} (${reference})` : watchName;
-  const message = `Hi Stapleford Watches, I am interested in the ${descriptor}. Is it still available?`;
-  const subject = `Enquiry: ${descriptor}`;
+  const message = `Hi Stapleford Watches, I am interested in the ${watchName}. Is it still available?`;
+  const subject = `Enquiry: ${watchName}`;
   return {
-    reference,
     watchName,
     whatsapp: `https://wa.me/447438196047?text=${encodeURIComponent(message)}`,
     email: `mailto:ben@staplefordwatches.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
@@ -1410,9 +1542,16 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxThumbs = document.getElementById("lightboxThumbs");
 const lightboxMeta = document.getElementById("lightboxMeta");
+const lightboxEnquire = document.getElementById("lightboxEnquire");
+const lightboxEnquireTrigger = document.getElementById("lightboxEnquireTrigger");
+const lightboxEnquireOverlay = document.getElementById("lightboxEnquireOverlay");
+const lightboxEnquireHide = document.getElementById("lightboxEnquireHide");
+const lightboxWhatsapp = document.getElementById("lightboxWhatsapp");
+const lightboxEmail = document.getElementById("lightboxEmail");
 let lightboxImages = [];
 let lightboxIndex = 0;
 let lightboxTitle = "";
+let lightboxWatch = null;
 
 function renderLightbox(){
   if(!lightboxImages.length) return;
@@ -1420,11 +1559,26 @@ function renderLightbox(){
   lightboxImage.alt = `${lightboxTitle} image ${lightboxIndex + 1}`;
   lightboxMeta.textContent = `${lightboxTitle} · ${lightboxIndex + 1}/${lightboxImages.length}`;
   lightboxThumbs.innerHTML = lightboxImages.map((src, idx) =>
-    `<img class="lightbox-thumb ${idx===lightboxIndex ? 'active' : ''}" src="${src}" alt="${lightboxTitle} thumbnail ${idx + 1}" data-index="${idx}">`
+    `<img class="lightbox-thumb ${idx===lightboxIndex ? 'active' : ''}" src="${src}" alt="${lightboxTitle} thumbnail ${idx + 1}" data-index="${idx}" onclick="event.stopPropagation();">`
   ).join("");
+
+  if(lightboxWatch && lightboxWatch.status === "available") {
+    const enquiryData = getEnquiryData(lightboxWatch);
+    if(lightboxWhatsapp) lightboxWhatsapp.href = enquiryData.whatsapp;
+    if(lightboxEmail) lightboxEmail.href = enquiryData.email;
+    if(lightboxEnquire) {
+      lightboxEnquire.hidden = false;
+      lightboxEnquire.classList.remove("show-enquire");
+    }
+    if(lightboxEnquireTrigger) lightboxEnquireTrigger.setAttribute("aria-expanded", "false");
+    if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
+  } else if(lightboxEnquire) {
+    lightboxEnquire.hidden = true;
+  }
 }
 
 function openLightbox(w, startIndex = 0){
+  lightboxWatch = w;
   lightboxImages = getWatchImages(w);
   if(!lightboxImages.length) return;
   lightboxTitle = `${w.brand} ${w.title}`.trim();
@@ -1439,6 +1593,13 @@ function closeLightbox(){
   lightbox.classList.remove("open");
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
+  lightboxWatch = null;
+  if(lightboxEnquire){
+    lightboxEnquire.hidden = true;
+    lightboxEnquire.classList.remove("show-enquire");
+  }
+  if(lightboxEnquireTrigger) lightboxEnquireTrigger.setAttribute("aria-expanded", "false");
+  if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
 }
 
 function stepLightbox(direction){
@@ -1453,6 +1614,15 @@ lightbox?.addEventListener("click", (e) => {
   }
 });
 
+document.addEventListener("click", (e) => {
+  if(!lightbox?.classList.contains("open")) return;
+  if(!lightboxEnquire || !lightboxEnquire.classList.contains("show-enquire")) return;
+  if(e.target.closest("#lightboxEnquire")) return;
+  lightboxEnquire.classList.remove("show-enquire");
+  lightboxEnquireTrigger?.setAttribute("aria-expanded", "false");
+  lightboxEnquireOverlay?.setAttribute("aria-hidden", "true");
+});
+
 document.querySelector(".lightbox-close")?.addEventListener("click", closeLightbox);
 document.querySelector(".lightbox-prev")?.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -1463,9 +1633,42 @@ document.querySelector(".lightbox-next")?.addEventListener("click", (e) => {
   stepLightbox(1);
 });
 
+document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) => {
+  if(e.target.closest("#lightboxEnquire")) return;
+  stepLightbox(1);
+});
+
+lightboxEnquireTrigger?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  lightboxEnquire?.classList.add("show-enquire");
+  lightboxEnquireTrigger.setAttribute("aria-expanded", "true");
+  lightboxEnquireOverlay?.setAttribute("aria-hidden", "false");
+});
+
+lightboxEnquireHide?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  lightboxEnquire?.classList.remove("show-enquire");
+  lightboxEnquireTrigger?.setAttribute("aria-expanded", "false");
+  lightboxEnquireOverlay?.setAttribute("aria-hidden", "true");
+});
+
+lightboxEnquireOverlay?.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
 lightboxThumbs?.addEventListener("click", (e) => {
   const thumb = e.target.closest(".lightbox-thumb");
   if(!thumb) return;
+  e.stopPropagation();
+  lightboxIndex = Number(thumb.dataset.index || 0);
+  renderLightbox();
+});
+
+lightboxThumbs?.addEventListener("pointerdown", (e) => {
+  const thumb = e.target.closest(".lightbox-thumb");
+  if(!thumb) return;
+  e.preventDefault();
+  e.stopPropagation();
   lightboxIndex = Number(thumb.dataset.index || 0);
   renderLightbox();
 });
@@ -1525,23 +1728,9 @@ function render(){
       <img src="${w.image}" loading="${i<3?'eager':'lazy'}" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       ${isAvailable ? `
       <button class="spec-trigger" type="button" aria-expanded="false">
-        <span>VIEW SPEC ↑</span>
+        <span>SPEC ↑</span>
         
       </button>
-      <button class="enquire-trigger" type="button" aria-expanded="false">
-        <span>ENQUIRE ↑</span>
-        
-      </button>
-      <div class="enquire-overlay" aria-hidden="true">
-        <button class="spec-hide enquire-hide-inline" type="button" aria-label="Hide enquiry links">
-          <span>HIDE ↓</span>
-          
-        </button>
-        <div class="enquire-links-inline">
-          <a class="enquire-link-inline enquire-whatsapp-inline" href="#" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="enquire-link-inline enquire-email-inline" href="#">Email</a>
-        </div>
-      </div>
       <div class="spec-overlay" aria-hidden="true">
         <button class="spec-hide" type="button" aria-label="Hide specifications">
           <span>HIDE ↓</span>
@@ -1567,21 +1756,9 @@ function render(){
     const image = div.querySelector('.image.available');
     const trigger = div.querySelector('.spec-trigger');
     const hideBtn = div.querySelector('.spec-overlay .spec-hide');
-    const enquireTrigger = div.querySelector('.enquire-trigger');
-    const enquireOverlay = div.querySelector('.enquire-overlay');
-    const enquireHideBtn = div.querySelector('.enquire-overlay .enquire-hide-inline');
-    const enquireWhatsapp = div.querySelector('.enquire-whatsapp-inline');
-    const enquireEmail = div.querySelector('.enquire-email-inline');
-    const enquiryData = getEnquiryData(w);
-
-    if(enquireWhatsapp) enquireWhatsapp.href = enquiryData.whatsapp;
-    if(enquireEmail) enquireEmail.href = enquiryData.email;
-
     trigger.addEventListener('click', (event) => {
       event.stopPropagation();
       const isOpen = image.classList.contains('show-spec');
-      image.classList.remove('show-enquire');
-      enquireTrigger?.setAttribute('aria-expanded', 'false');
       if(isOpen){
         image.classList.remove('show-spec');
         trigger.setAttribute('aria-expanded', 'false');
@@ -1597,41 +1774,16 @@ function render(){
       trigger.setAttribute('aria-expanded', 'false');
     });
 
-    if(enquireTrigger && enquireOverlay){
-      enquireTrigger.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const isOpen = image.classList.contains('show-enquire');
-        image.classList.remove('show-spec');
-        trigger.setAttribute('aria-expanded', 'false');
-        if(isOpen){
-          image.classList.remove('show-enquire');
-          enquireTrigger.setAttribute('aria-expanded', 'false');
-        } else {
-          image.classList.add('show-enquire');
-          enquireTrigger.setAttribute('aria-expanded', 'true');
-        }
-      });
-    }
-
-    if(enquireHideBtn){
-      enquireHideBtn.addEventListener('click', (event) => {
-        event.stopPropagation();
-        image.classList.remove('show-enquire');
-        enquireTrigger?.setAttribute('aria-expanded', 'false');
-      });
-    }
-
     image.addEventListener('click', (event) => {
-      const clickedControl = event.target.closest('.spec-trigger, .enquire-trigger, .spec-overlay, .enquire-overlay, .spec-hide, .enquire-hide-inline, a, button');
+      const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button');
       if(clickedControl) return;
       openLightbox(w, 0);
     });
 
     document.addEventListener('click', (event) => {
       if(!div.contains(event.target)){
-        image.classList.remove('show-spec', 'show-enquire');
+        image.classList.remove('show-spec');
         trigger.setAttribute('aria-expanded', 'false');
-        enquireTrigger?.setAttribute('aria-expanded', 'false');
       }
     });
   }
