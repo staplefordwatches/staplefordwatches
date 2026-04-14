@@ -964,6 +964,7 @@ a, button{
   max-width:100%;
   max-height:80vh;
   cursor:pointer;
+  z-index:1;
 }
 
 .lightbox-stage img{
@@ -972,6 +973,8 @@ a, button{
   max-height:80vh;
   object-fit:contain;
   pointer-events:auto !important;
+  position:relative;
+  z-index:1;
 }
 
 .lightbox-close,
@@ -988,7 +991,7 @@ a, button{
   text-transform:uppercase;
   padding:10px 12px;
   cursor:pointer;
-  z-index:2;
+  z-index:20;
 }
 
 .lightbox-close{
