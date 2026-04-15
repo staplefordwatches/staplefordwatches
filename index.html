@@ -84,32 +84,17 @@ body{
   display:flex;
   align-items:center;
   justify-content:flex-end;
+  min-width:96px;
   font-size:12px;
   line-height:1;
   text-transform:uppercase;
   white-space:nowrap;
-  gap:4px;
-}
-
-.uk-time,
-.uk-place,
-.uk-sep{
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  letter-spacing:0.02em;
-}
-
-.uk-sep{
-  display:inline-block;
-  min-width:8px;
-  text-align:center;
 }
 
 .uk-time{
-  display:inline-block;
-  min-width:64px;
-  font-variant-numeric:tabular-nums;
-  text-align:left;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  letter-spacing:0.02em;
 }
 
 .filter{
@@ -1322,10 +1307,8 @@ a, button{
       </div>
     </div>
   </div>
-  <div class="nav-right" aria-label="Current UK time in London">
-    <span class="uk-place">London, UK</span>
-    <span class="uk-sep" aria-hidden="true">|</span>
-    <span id="ukTime" class="uk-time"></span>
+  <div class="nav-right">
+    <span id="ukTime" class="uk-time" aria-label="Current UK time"></span>
   </div>
 </div>
 
@@ -1378,7 +1361,7 @@ function updateUkTime(){
   const hh = parts.find(p=>p.type==='hour')?.value || '';
   const mm = parts.find(p=>p.type==='minute')?.value || '';
   const ss = parts.find(p=>p.type==='second')?.value || '';
-  el.textContent = `${hh}:${mm}:${ss}`;
+  el.textContent = `LONDON, UK | ${hh}:${mm}:${ss}`;
 }
 updateUkTime();
 setInterval(updateUkTime, 1000);
