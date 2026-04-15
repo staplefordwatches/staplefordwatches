@@ -95,6 +95,17 @@ body{
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
   letter-spacing:0.02em;
+  display:inline-flex;
+  align-items:center;
+  white-space:nowrap;
+}
+
+.uk-time-digits{
+  display:inline-block;
+  width:8ch;
+  text-align:left;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:'tnum' 1, 'lnum' 1;
 }
 
 .filter{
@@ -1308,7 +1319,7 @@ a, button{
     </div>
   </div>
   <div class="nav-right">
-    <span id="ukTime" class="uk-time" aria-label="Current UK time"></span>
+    <span class="uk-time" aria-label="Current UK time in London, UK"><span class="uk-time-label">LONDON, UK | </span><span id="ukTimeDigits" class="uk-time-digits">00:00:00</span></span>
   </div>
 </div>
 
@@ -1348,7 +1359,7 @@ a, button{
 
 <script>
 function updateUkTime(){
-  const el = document.getElementById('ukTime');
+  const el = document.getElementById('ukTimeDigits');
   if(!el) return;
   const now = new Date();
   const parts = new Intl.DateTimeFormat('en-GB',{
@@ -1361,7 +1372,7 @@ function updateUkTime(){
   const hh = parts.find(p=>p.type==='hour')?.value || '';
   const mm = parts.find(p=>p.type==='minute')?.value || '';
   const ss = parts.find(p=>p.type==='second')?.value || '';
-  el.textContent = `LONDON, UK | ${hh}:${mm}:${ss}`;
+  el.textContent = `${hh}:${mm}:${ss}`;
 }
 updateUkTime();
 setInterval(updateUkTime, 1000);
