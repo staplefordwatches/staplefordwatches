@@ -98,6 +98,15 @@ body{
   white-space:nowrap;
 }
 
+.uk-time-separator{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:1ch;
+  line-height:1;
+}
+
+
 .uk-time{
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
@@ -1337,7 +1346,7 @@ a, button{
     </div>
   </div>
   <div class="nav-right">
-    <span class="uk-time" aria-label="Current UK time in London, UK"><span class="uk-time-label">LONDON, UK | </span><span id="ukTimeDigits" class="uk-time-digits">00:00:00</span></span>
+    <span class="uk-time" aria-label="Current UK time in London, UK"><span class="uk-time-label">LONDON, UK</span><span class="uk-time-separator" aria-hidden="true">|</span><span id="ukTimeDigits" class="uk-time-digits">00:00:00</span></span>
   </div>
 </div>
 
@@ -1851,6 +1860,8 @@ function render(){
   case "new-old": items.sort((a,b)=>getWatchYear(b)-getWatchYear(a)); break;
   case "old-new": items.sort((a,b)=>getWatchYear(a)-getWatchYear(b)); break;
  }
+
+ items.sort((a,b)=>Number(a.status === "sold") - Number(b.status === "sold"));
 
  gallery.innerHTML="";
 
