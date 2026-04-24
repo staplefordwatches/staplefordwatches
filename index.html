@@ -1304,6 +1304,16 @@ a, button{
   cursor:default;
 }
 
+
+.merchant-product-link{
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+}
+
 </style>
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4">
@@ -1459,7 +1469,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"TAG Heuer",
  price:1395,
  status:"available",
- specs:{reference:"WBY1113.BA0042",year:"2026",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
+ specs:{reference:"",year:"2026",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
 
 {id:"omega-seamaster",
  image:"Images/Watches/OS1/cover.webp", 
@@ -1475,7 +1485,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:2595,
  status:"available",
- specs:{reference:"176.005",year:"1970s",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
+ specs:{reference:"",year:"1970s",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
   
 {id:"tudor-black bay",
  image:"Images/Watches/TBB1/cover.webp",
@@ -1492,7 +1502,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"TUDOR",
  price:3095,
  status:"available",
- specs:{reference:"M7941A1A0NU-0003",year:"2024",caseSize:"41MM",condition:"EXCELLENT",contents:"FULL SET"}},
+ specs:{reference:"",year:"2024",caseSize:"41MM",condition:"EXCELLENT",contents:"FULL SET"}},
 
 {id:"omega-seamaster-aqua-terra",
  image:"Images/Watches/OS2/cover.webp",
@@ -1527,7 +1537,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3495,
  status:"available",
- specs:{reference:"215.33.44.21.01.001",year:"2018",caseSize:"43.5MM",condition:"VERY GOOD",contents:"FULL SET"}},
+ specs:{reference:"",year:"2018",caseSize:"43.5MM",condition:"VERY GOOD",contents:"FULL SET"}},
 
   {id:"zenith-moonphase-quartz",
  image:"Images/Watches/Z1/cover.webp",
@@ -1542,7 +1552,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"ZENITH",
  price:390,
  status:"available",
- specs:{reference:"27.0040.727",year:"1980s",caseSize:"27MM",condition:"GOOD",contents:"WATCH ONLY"}},
+ specs:{reference:"",year:"1980s",caseSize:"27MM",condition:"GOOD",contents:"WATCH ONLY"}},
 
   {id:"tag-heuer-formula-one",
  image:"Images/Watches/TH1/cover.webp",
@@ -1576,7 +1586,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3285,
  status:"available",
- specs:{reference:"210.30.42.20.04.001",year:"2021 (Approx)",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
+ specs:{reference:"",year:"2021 (Approx)",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
 
   {id:"noah-timex",
  image:"Images/Watches/TX1/cover.webp",
@@ -1593,7 +1603,7 @@ You can add, remove, or reorder them whenever needed.
  brand:"NOAH x TIMEX",
  price:420,
  status:"available",
- specs:{reference:"TW2V30700",year:"2020",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
+ specs:{reference:"",year:"2020",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
 
   {id:"omega-seamaster-diver-2",
  image:"Images/Watches/OS5/1.webp",
@@ -1627,14 +1637,70 @@ You can add, remove, or reorder them whenever needed.
  brand:"OMEGA",
  price:3695,
  status:"available",
- specs:{reference:"220.12.41.21.01.001",year:"2025",caseSize:"41MM",condition:"EXCELLENT",contents:"FULL SET"}},
+ specs:{reference:"",year:"2025",caseSize:"41MM",condition:"EXCELLENT",contents:"FULL SET"}},
 ];
+
+const SITE_ORIGIN = "https://staplefordwatches.co.uk";
+
+function getAbsoluteUrl(path){
+  if(!path) return SITE_ORIGIN + "/";
+  return new URL(path, SITE_ORIGIN + "/").href;
+}
+
+function getProductLink(w){
+  return `${SITE_ORIGIN}/#${w.listingId}`;
+}
+
+function getImageLink(w){
+  return getAbsoluteUrl(w.image);
+}
+
+function getWatchDescription(w){
+  const condition = w.specs?.condition ? String(w.specs.condition).toLowerCase() : "pre-owned";
+  const caseSize = w.specs?.caseSize ? ` ${w.specs.caseSize}` : "";
+  const year = w.specs?.year ? ` from ${w.specs.year}` : "";
+  const contents = w.specs?.contents ? ` Includes ${String(w.specs.contents).toLowerCase()}.` : "";
+  return `${condition} ${w.brand} ${w.title}${caseSize}${year}, listed by Stapleford Watches.${contents} Contact us for current availability and further images.`;
+}
+
+function getStructuredProductData(w){
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": `${w.brand} ${w.title}`.trim(),
+    "brand": { "@type": "Brand", "name": w.brand },
+    "sku": w.listingId,
+    "description": getWatchDescription(w),
+    "image": getImageLink(w),
+    "url": getProductLink(w),
+    "offers": {
+      "@type": "Offer",
+      "url": getProductLink(w),
+      "priceCurrency": "GBP",
+      "price": String(w.price),
+      "availability": w.status === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      "itemCondition": "https://schema.org/UsedCondition"
+    }
+  };
+}
 
 watches.forEach((watch, index) => {
   const listingId = watch.listingId || `SW${String(index + 1).padStart(3, "0")}`;
   watch.listingId = listingId;
   watch.specs = { ...watch.specs, listingId };
+  watch.productLink = getProductLink(watch);
+  watch.imageLink = getImageLink(watch);
+  watch.description = getWatchDescription(watch);
 });
+
+
+const productStructuredDataScript = document.createElement("script");
+productStructuredDataScript.type = "application/ld+json";
+productStructuredDataScript.textContent = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": watches.map(getStructuredProductData)
+});
+document.head.appendChild(productStructuredDataScript);
 
 const gallery=document.getElementById("gallery");
 let currentSort = "default";
@@ -1907,13 +1973,21 @@ function render(){
  document.body.classList.toggle("no-results-active", !hasResults);
 
  items.forEach((w,i)=>{
-  const div=document.createElement("div");
+  const div=document.createElement("article");
   div.className="card";
+  div.setAttribute("itemscope", "");
+  div.setAttribute("itemtype", "https://schema.org/Product");
+  div.id = w.listingId;
+  div.dataset.listingId = w.listingId;
+  div.dataset.productLink = w.productLink;
+  div.dataset.imageLink = w.imageLink;
   const isAvailable = w.status === "available";
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isAvailable?"available":""}">
-      <img src="${w.image}" loading="${i<3?'eager':'lazy'}" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<3?'eager':'lazy'}" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${w.brand} ${w.title}"></a>
+      <link itemprop="image" href="${w.imageLink}">
       ${isAvailable ? `
       <button class="spec-trigger" type="button" aria-expanded="false">
         <span>SPEC ↑</span>
