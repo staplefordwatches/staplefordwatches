@@ -270,23 +270,6 @@ footer{
 }
 .image.sold img{opacity:0.4;}
 
-.image.coming-soon img{opacity:0.62;}
-.image.coming-soon::after{
-  content:"COMING SOON";
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%, -50%);
-  background:rgba(255,255,255,0.9);
-  color:#000;
-  padding:10px 14px;
-  font-size:11px;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  white-space:nowrap;
-  pointer-events:none;
-}
-
 
 .enquire-overlay{
   position:absolute;
@@ -1472,17 +1455,6 @@ If a watch has lots of images, just add more lines in gallery:[ ... ].
 You can add, remove, or reorder them whenever needed.
 */
 
-{id:"heuer-carrera-coming-soon",
- image:"Images/Watches/H1/cover.webp",
- gallery:[
-   "Images/Watches/H1/cover.webp"
- ],
- title:"Carrera Chronograph",
- brand:"HEUER",
- price:0,
- status:"coming-soon",
- specs:{reference:"73353 N",year:"1970s",caseSize:"38MM",condition:"GOOD",contents:"WATCH ONLY"}},
-
     {id:"tag-heuer-formula-one",
  image:"Images/Watches/TH1/cover.webp",
  gallery:[
@@ -2010,11 +1982,9 @@ function render(){
   div.dataset.productLink = w.productLink;
   div.dataset.imageLink = w.imageLink;
   const isAvailable = w.status === "available";
-  const isComingSoon = w.status === "coming-soon";
-  const displayPrice = w.status === "sold" ? "SOLD" : (isComingSoon ? "COMING SOON" : "£" + w.price.toLocaleString());
 
   div.innerHTML=`
-    <div class="image ${w.status==="sold"?"sold":""} ${isAvailable?"available":""} ${isComingSoon?"coming-soon":""}">
+    <div class="image ${w.status==="sold"?"sold":""} ${isAvailable?"available":""}">
       <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<3?'eager':'lazy'}" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       <a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${w.brand} ${w.title}"></a>
       <link itemprop="image" href="${w.imageLink}">
@@ -2041,7 +2011,7 @@ function render(){
     <div class="info">
       <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${w.title}</div></div>
       <div class="info-right">
-        <div class="price">${displayPrice}</div>
+        <div class="price">${w.status==="sold" ? "SOLD" : "£"+w.price.toLocaleString()}</div>
       </div>
     </div>
   `;
