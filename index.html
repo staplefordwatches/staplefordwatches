@@ -274,17 +274,18 @@ footer{
 .image.coming-soon::after{
   content:"COMING SOON";
   position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%, -50%);
-  background:rgba(255,255,255,0.9);
+  right:8px;
+  top:8px;
+  background:rgba(255,255,255,0.96);
   color:#000;
-  padding:10px 14px;
+  font:inherit;
   font-size:11px;
-  letter-spacing:0.12em;
+  letter-spacing:0.04em;
+  padding:8px 10px;
   text-transform:uppercase;
   white-space:nowrap;
   pointer-events:none;
+  z-index:2;
 }
 
 
@@ -354,24 +355,24 @@ footer{
   pointer-events:none;
 }
 
-.image.available:not(.show-spec) .spec-overlay{
+.image.has-spec:not(.show-spec) .spec-overlay{
   opacity:0;
   transform:translateY(10px);
   pointer-events:none;
 }
 
-.image.available.show-spec .spec-overlay{
+.image.has-spec.show-spec .spec-overlay{
   opacity:1;
   transform:translateY(0);
   pointer-events:auto;
 }
 
-.image.available.show-spec .spec-trigger,
-.image.available.show-spec .enquire-trigger{
+.image.has-spec.show-spec .spec-trigger,
+.image.has-spec.show-spec .enquire-trigger{
   display:none;
 }
 
-.image.available.show-spec .spec-overlay{
+.image.has-spec.show-spec .spec-overlay{
   opacity:1;
   transform:translateY(0);
   pointer-events:auto;
@@ -1178,7 +1179,8 @@ a, button{
   text-transform:uppercase;
 }
 
-.image.available{
+.image.available,
+.image.coming-soon.has-spec{
   cursor:default;
 }
 
@@ -1472,16 +1474,16 @@ If a watch has lots of images, just add more lines in gallery:[ ... ].
 You can add, remove, or reorder them whenever needed.
 */
 
-{id:"heuer-carrera-coming-soon",
- image:"Images/Watches/H1/cover.webp",
+{id:"tag-heuer-carrera-coming-soon",
+ image:"cover.jpg",
  gallery:[
-   "Images/Watches/H1/cover.webp"
+   "cover.jpg"
  ],
  title:"Carrera Chronograph",
- brand:"HEUER",
+ brand:"TAG Heuer",
  price:0,
  status:"coming-soon",
- specs:{reference:"73353 N",year:"1970s",caseSize:"38MM",condition:"GOOD",contents:"COMING SOON"}},
+ specs:{reference:"",year:"",caseSize:"",condition:"",contents:"COMING SOON"}},
 
     {id:"tag-heuer-formula-one",
  image:"Images/Watches/TH1/cover.webp",
@@ -2011,14 +2013,15 @@ function render(){
   div.dataset.imageLink = w.imageLink;
   const isAvailable = w.status === "available";
   const isComingSoon = w.status === "coming-soon";
+  const hasSpec = isAvailable || isComingSoon;
   const displayPrice = w.status === "sold" ? "SOLD" : (isComingSoon ? "COMING SOON" : "£" + w.price.toLocaleString());
 
   div.innerHTML=`
-    <div class="image ${w.status==="sold"?"sold":""} ${isAvailable?"available":""} ${isComingSoon?"coming-soon":""}">
+    <div class="image ${w.status==="sold"?"sold":""} ${isAvailable?"available":""} ${isComingSoon?"coming-soon":""} ${hasSpec?"has-spec":""}">
       <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<3?'eager':'lazy'}" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       <a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${w.brand} ${w.title}"></a>
       <link itemprop="image" href="${w.imageLink}">
-      ${isAvailable ? `
+      ${hasSpec ? `
       <button class="spec-trigger" type="button" aria-expanded="false">
         <span>SPEC ↑</span>
         
@@ -2046,8 +2049,8 @@ function render(){
     </div>
   `;
 
-  if(isAvailable){
-    const image = div.querySelector('.image.available');
+  if(hasSpec){
+    const image = div.querySelector('.image.has-spec');
     const trigger = div.querySelector('.spec-trigger');
     const hideBtn = div.querySelector('.spec-overlay .spec-hide');
     trigger.addEventListener('click', (event) => {
