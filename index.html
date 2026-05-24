@@ -268,7 +268,41 @@ footer{
     width:100%;
   }
 }
-.image.sold img{opacity:0.4;}
+.image.sold img,
+.image.reserved img{opacity:0.4;}
+
+.status-badge{
+  position:absolute;
+  left:8px;
+  top:8px;
+  background:rgba(255,255,255,0.96);
+  color:#000;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  line-height:1;
+  padding:8px 10px;
+  z-index:4;
+}
+
+.lightbox-status-badge{
+  position:absolute;
+  left:8px;
+  top:8px;
+  background:rgba(255,255,255,0.96);
+  color:#000;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  line-height:1;
+  padding:8px 10px;
+  z-index:5;
+  pointer-events:none;
+}
 
 
 .enquire-overlay{
@@ -1397,6 +1431,7 @@ a, button{
     <div class="lightbox-stage">
       <button class="lightbox-prev" type="button" aria-label="Previous image">Prev</button>
       <div class="lightbox-image-wrap">
+        <div id="lightboxStatusBadge" class="lightbox-status-badge" hidden>RESERVED</div>
         <img id="lightboxImage" src="" alt="">
         <div id="lightboxEnquire" class="lightbox-enquire" hidden>
         <button id="lightboxEnquireTrigger" class="enquire-trigger" type="button" aria-expanded="false">
@@ -1510,7 +1545,7 @@ You can add, remove, or reorder them whenever needed.
  title:"Radiomir Base PAM00210",
  brand:"Panerai",
  price:3295,
- status:"available",
+ status:"reserved",
  specs:{reference:"PAM00210",year:"2006",caseSize:"45MM",condition:"EXCELLENT",contents:"FULL SET"}},
 
   
@@ -1898,6 +1933,7 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxThumbs = document.getElementById("lightboxThumbs");
 const lightboxMeta = document.getElementById("lightboxMeta");
+const lightboxStatusBadge = document.getElementById("lightboxStatusBadge");
 const lightboxEnquire = document.getElementById("lightboxEnquire");
 const lightboxEnquireTrigger = document.getElementById("lightboxEnquireTrigger");
 const lightboxEnquireOverlay = document.getElementById("lightboxEnquireOverlay");
@@ -1914,6 +1950,11 @@ function renderLightbox(){
   lightboxImage.src = lightboxImages[lightboxIndex];
   lightboxImage.alt = `${lightboxTitle} image ${lightboxIndex + 1}`;
   lightboxMeta.textContent = `${lightboxTitle} · ${lightboxIndex + 1}/${lightboxImages.length}`;
+  if(lightboxStatusBadge){
+    const isReserved = lightboxWatch && lightboxWatch.status === "reserved";
+    lightboxStatusBadge.hidden = !isReserved;
+    lightboxStatusBadge.textContent = isReserved ? "RESERVED" : "";
+  }
   lightboxThumbs.innerHTML = lightboxImages.map((src, idx) =>
     `<img class="lightbox-thumb ${idx===lightboxIndex ? 'active' : ''}" src="${src}" alt="${lightboxTitle} thumbnail ${idx + 1}" data-index="${idx}" onclick="event.stopPropagation();">`
   ).join("");
@@ -1950,6 +1991,10 @@ function closeLightbox(){
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
   lightboxWatch = null;
+  if(lightboxStatusBadge){
+    lightboxStatusBadge.hidden = true;
+    lightboxStatusBadge.textContent = "";
+  }
   if(lightboxEnquire){
     lightboxEnquire.hidden = true;
     lightboxEnquire.classList.remove("show-enquire");
@@ -2042,7 +2087,7 @@ function render(){
 
  if(showAvailable || showSold){
   items = items.filter(w => {
-    return (showAvailable && w.status === "available") || (showSold && w.status === "sold");
+    return (showAvailable && w.status === "available") || (showSold && ["sold", "reserved"].includes(w.status));
   });
  }
 
@@ -2063,7 +2108,7 @@ function render(){
   case "old-new": items.sort((a,b)=>getWatchYear(a)-getWatchYear(b)); break;
  }
 
- items.sort((a,b)=>Number(a.status === "sold") - Number(b.status === "sold"));
+ items.sort((a,b)=>Number(["sold", "reserved"].includes(a.status)) - Number(["sold", "reserved"].includes(b.status)));
 
  gallery.innerHTML="";
 
@@ -2086,12 +2131,14 @@ function render(){
   div.dataset.productLink = w.productLink;
   div.dataset.imageLink = w.imageLink;
   const isAvailable = w.status === "available";
+  const isReserved = w.status === "reserved";
 
   div.innerHTML=`
-    <div class="image ${w.status==="sold"?"sold":""} ${isAvailable?"available":""}">
+    <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
       <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<3?'eager':'lazy'}" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       <a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${w.brand} ${w.title}"></a>
       <link itemprop="image" href="${w.imageLink}">
+      ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
       <button class="spec-trigger" type="button" aria-expanded="false">
         <span>SPEC ↑</span>
@@ -2115,7 +2162,7 @@ function render(){
     <div class="info">
       <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${w.title}</div></div>
       <div class="info-right">
-        <div class="price">${w.status==="sold" ? "SOLD" : "£"+w.price.toLocaleString()}</div>
+        <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
       </div>
     </div>
   `;
