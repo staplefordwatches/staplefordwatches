@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1366,152 +1367,6 @@ a, button{
   pointer-events:none;
 }
 
-
-/* ===== BUY / SELL NAV + SELL WATCH VIEW ===== */
-.view-tabs{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  margin-left:14px;
-}
-
-.view-tab{
-  background:none;
-  border:none;
-  padding:0;
-  color:#000;
-  font:inherit;
-  font-size:12px;
-  line-height:1;
-  text-transform:uppercase;
-  cursor:pointer;
-  opacity:0.45;
-}
-
-.view-tab.active{
-  opacity:1;
-}
-
-.sell-card .image{
-  background:#f4f4f4;
-}
-
-.sell-silhouette{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.sell-silhouette svg{
-  width:45%;
-  max-width:210px;
-  height:auto;
-  opacity:0.18;
-}
-
-.sell-card .spec-overlay{
-  justify-content:flex-end;
-}
-
-.sell-form-title{
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  letter-spacing:0.06em;
-  font-size:12px;
-  margin-bottom:10px;
-  text-transform:uppercase;
-}
-
-.sell-form{
-  display:grid;
-  gap:7px;
-}
-
-.sell-form input,
-.sell-form select,
-.sell-form textarea{
-  width:100%;
-  border:0;
-  border-top:1px solid rgba(0,0,0,0.15);
-  border-radius:0;
-  background:transparent;
-  color:#000;
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  padding:7px 0 0;
-  outline:none;
-  appearance:none;
-}
-
-.sell-form textarea{
-  min-height:54px;
-  resize:vertical;
-}
-
-.sell-form input::placeholder,
-.sell-form textarea::placeholder{
-  color:#000;
-  opacity:0.65;
-}
-
-.sell-submit{
-  justify-self:start;
-  border:none;
-  background:#000;
-  color:#fff;
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  padding:8px 10px;
-  cursor:pointer;
-  margin-top:2px;
-}
-
-@media (max-width:767px){
-  .view-tabs{
-    gap:8px;
-    margin-left:10px;
-  }
-
-  .view-tab,
-  .sell-form-title,
-  .sell-form input,
-  .sell-form select,
-  .sell-form textarea,
-  .sell-submit{
-    font-size:10px;
-  }
-
-  .sell-form{
-    gap:5px;
-  }
-}
-
-
-
-/* ===== SELL YOUR WATCH FONT SIZE MATCH ===== */
-.sell-card .spec-trigger,
-.sell-card .spec-trigger span,
-.sell-form-title{
-  font-size:11px !important;
-  line-height:1 !important;
-}
-
-@media (max-width:767px){
-  .sell-card .spec-trigger,
-  .sell-card .spec-trigger span,
-  .sell-form-title{
-    font-size:10px !important;
-  }
-}
-
 </style>
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4">
@@ -1559,10 +1414,6 @@ a, button{
           <span>SOLD</span>
         </label>
       </div>
-    </div>
-    <div class="view-tabs" aria-label="Buy or sell watches">
-      <button id="buyTab" class="view-tab active" type="button" aria-pressed="true">BUY</button>
-      <button id="sellTab" class="view-tab" type="button" aria-pressed="false">SELL YOUR WATCH</button>
     </div>
   </div>
   <div class="nav-right">
@@ -1658,59 +1509,7 @@ If a watch has lots of images, just add more lines in gallery:[ ... ].
 You can add, remove, or reorder them whenever needed.
 */
 
-      {id:"omega-speedmaster-moonphase",
- image:"Images/Watches/OSP1/1.webp",
- gallery:[
-   "Images/Watches/OSP1/1.webp",
-   "Images/Watches/OSP1/2.webp",
-   "Images/Watches/OSP1/3.webp",
-   "Images/Watches/OSP1/4.webp",
-   "Images/Watches/OSP1/5.webp",
-   "Images/Watches/OSP1/6.webp",
-   "Images/Watches/OSP1/7.webp",
- ],
- title:"Speedmaster Professional Moonphase",
- brand:"OMEGA",
- price:4295,
- status:"available",
- specs:{reference:"3575.20.00",year:"2005",caseSize:"42MM",condition:"GREAT",contents:"WARRANTY CARD AND BOX"}},
-  
-    {id:"panerai-radiomir-green",
- image:"Images/Watches/P2/1.webp",
- gallery:[
-   "Images/Watches/P2/1.webp",
-   "Images/Watches/P2/2.webp",
-   "Images/Watches/P2/3.webp",
-   "Images/Watches/P2/4.webp",
-   "Images/Watches/P2/5.webp",
-   "Images/Watches/P2/6.webp",
-   "Images/Watches/P2/7.webp",
-   "Images/Watches/P2/8.webp",
- ],
- title:"Radiomir PAM01384",
- brand:"PANERAI",
- price:3295,
- status:"available",
- specs:{reference:"PAM001384",year:"2026",caseSize:"45MM",condition:"AS NEW",contents:"FULL SET"}},
-  
-  {id:"zenith-tank",
- image:"Images/Watches/Z2/1.webp",
- gallery:[
-   "Images/Watches/Z2/1.webp",
-   "Images/Watches/Z2/2.webp",
-   "Images/Watches/Z2/3.webp",
-   "Images/Watches/Z2/4.webp",
-   "Images/Watches/Z2/5.webp",
-   "Images/Watches/Z2/6.webp",
-   "Images/Watches/Z2/7.webp",
- ],
- title:"Tank Art Deco c. 1939",
- brand:"ZENITH",
- price:995,
- status:"available",
- specs:{reference:"564581",year:"c. 1939",caseSize:"30MM (41MM inc. lugs) x 22MM",condition:"GOOD",contents:"WATCH ONLY"}},
-  
-  {id:"jlc-reverso-calendar",
+    {id:"jlc-reverso-calendar",
  image:"Images/Watches/JLC2/1.webp",
  gallery:[
    "Images/Watches/JLC2/1.webp",
@@ -1728,7 +1527,7 @@ You can add, remove, or reorder them whenever needed.
  title:"Reverso Tribute Duoface Calendar",
  brand:"Jaeger-LeCoultre",
  price:10495,
- status:"sold",
+ status:"available",
  specs:{reference:"Q3918420",year:"2023",caseSize:"49.4MM x 29.9MM",condition:"EXCELLENT",contents:"FULL SET"}},
 
        {id:"panerai-radiomir-210",
@@ -1746,7 +1545,7 @@ You can add, remove, or reorder them whenever needed.
  title:"Radiomir Base PAM00210",
  brand:"Panerai",
  price:3295,
- status:"sold",
+ status:"reserved",
  specs:{reference:"PAM00210",year:"2006",caseSize:"45MM",condition:"EXCELLENT",contents:"FULL SET"}},
 
   
@@ -1764,7 +1563,7 @@ You can add, remove, or reorder them whenever needed.
  ],
  title:"Carrera First Execution Chronograph",
  brand:"Heuer",
- price:2195,
+ price:2495,
  status:"available",
  specs:{reference:"73353 N",year:"1970s",caseSize:"38MM",condition:"GOOD",contents:"WATCH ONLY"}},
 
@@ -1823,7 +1622,7 @@ You can add, remove, or reorder them whenever needed.
  ],
  title:"Seamaster Blue Jedi ST 176.005",
  brand:"OMEGA",
- price:2195,
+ price:2595,
  status:"available",
  specs:{reference:"176.005",year:"1970s",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
   
@@ -1925,7 +1724,7 @@ You can add, remove, or reorder them whenever needed.
  title:"Seamaster Diver 300M",
  brand:"OMEGA",
  price:3145,
- status:"sold",
+ status:"available",
  specs:{reference:"210.30.42.20.04.001",year:"2021 (Approx)",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
 
   {id:"noah-timex",
@@ -2043,15 +1842,12 @@ productStructuredDataScript.textContent = JSON.stringify({
 document.head.appendChild(productStructuredDataScript);
 
 const gallery=document.getElementById("gallery");
-let currentView = "buy";
 let currentSort = "default";
 let showAvailable = false;
 let showSold = false;
 
 const filterMenu = document.getElementById("filterMenu");
 const watchSearch = document.getElementById("watchSearch");
-const buyTab = document.getElementById("buyTab");
-const sellTab = document.getElementById("sellTab");
 let searchQuery = "";
 
 document.getElementById("filterBtn").onclick = () => {
@@ -2286,134 +2082,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 
-
-function setView(view){
-  currentView = view === "sell" ? "sell" : "buy";
-  if(buyTab){
-    buyTab.classList.toggle("active", currentView === "buy");
-    buyTab.setAttribute("aria-pressed", currentView === "buy" ? "true" : "false");
-  }
-  if(sellTab){
-    sellTab.classList.toggle("active", currentView === "sell");
-    sellTab.setAttribute("aria-pressed", currentView === "sell" ? "true" : "false");
-  }
-  if(filterMenu) filterMenu.style.display = "none";
-  render();
-}
-
-if(buyTab) buyTab.addEventListener("click", () => setView("buy"));
-if(sellTab) sellTab.addEventListener("click", () => setView("sell"));
-
-function getSellWatchEmail(form){
-  const data = new FormData(form);
-  const brand = data.get("brand") || "";
-  const model = data.get("model") || "";
-  const year = data.get("year") || "";
-  const condition = data.get("condition") || "";
-  const boxPapers = data.get("boxPapers") || "";
-  const comments = data.get("comments") || "";
-  const subject = `Sell your watch: ${brand} ${model}`.trim();
-  const body = [
-    "SELL YOUR WATCH",
-    "",
-    `BRAND: ${brand}`,
-    `MODEL: ${model}`,
-    `YEAR: ${year}`,
-    `CONDITION: ${condition}`,
-    `BOX AND PAPERS?: ${boxPapers}`,
-    `ANY OTHER COMMENTS?: ${comments}`
-  ].join("\n");
-  return `mailto:ben@staplefordwatches.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
-function renderSellView(){
-  gallery.innerHTML = "";
-  const noResults = document.getElementById("noResults");
-  if(noResults) noResults.hidden = true;
-  document.body.classList.remove("no-results-active");
-
-  const div = document.createElement("article");
-  div.className = "card sell-card";
-  div.innerHTML = `
-    <div class="image available sell-image">
-      <div class="sell-silhouette" aria-hidden="true">
-        <svg viewBox="0 0 120 180" role="img" focusable="false">
-          <path d="M47 3h26l7 35c14 8 23 23 23 42s-9 34-23 42l-7 55H47l-7-55c-14-8-23-23-23-42s9-34 23-42L47 3Z" fill="currentColor"/>
-          <circle cx="60" cy="80" r="34" fill="#fff" opacity="0.92"/>
-          <circle cx="60" cy="80" r="28" fill="currentColor" opacity="0.28"/>
-          <path d="M60 55v25l17 10" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
-        </svg>
-      </div>
-      <button class="spec-trigger" type="button" aria-expanded="false">
-        <span>SELL YOUR WATCH ↑</span>
-      </button>
-      <div class="spec-overlay" aria-hidden="true">
-        <button class="spec-hide" type="button" aria-label="Hide sell your watch form">
-          <span>HIDE ↓</span>
-        </button>
-        <div class="sell-form-title">SELL YOUR WATCH</div>
-        <form id="sellWatchForm" class="sell-form">
-          <input name="brand" type="text" placeholder="BRAND" autocomplete="off" required>
-          <input name="model" type="text" placeholder="MODEL" autocomplete="off" required>
-          <input name="year" type="text" placeholder="YEAR" inputmode="numeric" autocomplete="off">
-          <input name="condition" type="text" placeholder="CONDITION" autocomplete="off">
-          <select name="boxPapers" aria-label="Box and papers">
-            <option value="" disabled selected hidden>BOX AND PAPERS?</option>
-            <option value="Yes">YES</option>
-            <option value="No">NO</option>
-            <option value="Box only">BOX ONLY</option>
-            <option value="Papers only">PAPERS ONLY</option>
-          </select>
-          <textarea name="comments" placeholder="ANY OTHER COMMENTS?"></textarea>
-          <button class="sell-submit" type="submit">SUBMIT</button>
-        </form>
-      </div>
-    </div>
-
-  `;
-
-  const image = div.querySelector('.image.available');
-  const trigger = div.querySelector('.spec-trigger');
-  const overlay = div.querySelector('.spec-overlay');
-  const hideBtn = div.querySelector('.spec-hide');
-  const form = div.querySelector('#sellWatchForm');
-
-  function setSellOverlay(open){
-    image.classList.toggle('show-spec', open);
-    trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
-  }
-
-  trigger.addEventListener('click', (event) => {
-    event.stopPropagation();
-    setSellOverlay(!image.classList.contains('show-spec'));
-  });
-
-  hideBtn.addEventListener('click', (event) => {
-    event.stopPropagation();
-    setSellOverlay(false);
-  });
-
-  image.addEventListener('click', (event) => {
-    const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button, input, select, textarea, form');
-    if(clickedControl) return;
-    setSellOverlay(true);
-  });
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    window.location.href = getSellWatchEmail(form);
-  });
-
-  gallery.appendChild(div);
-}
-
 function render(){
- if(currentView === "sell"){
-  renderSellView();
-  return;
- }
-
  let items=[...watches];
 
  if(showAvailable || showSold){
