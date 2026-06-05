@@ -1449,9 +1449,13 @@ a, button{
 
 .sell-copy{
   margin:0 0 24px;
-  max-width:520px;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
   font-size:13px;
   line-height:1.5;
+  white-space:normal;
+  overflow-wrap:break-word;
 }
 
 .sell-form{
@@ -2242,7 +2246,6 @@ input[list]{
         </label>
       </div>
 
-      <p id="sellFormMessage" class="sell-form-message" role="alert"></p>
       <button class="sell-submit" type="submit">Submit watch</button>
       <p class="sell-note">For the most accurate estimate, please include photos of the watch and any accessories.</p>
     </form>
@@ -2747,34 +2750,9 @@ function setPage(page){
 buyNav?.addEventListener("click", () => setPage("buy"));
 sellNav?.addEventListener("click", () => setPage("sell"));
 
-function isValidEmail(value){
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(value || "").trim());
-}
-
-function setEmailError(show){
-  const field = document.getElementById("sellerEmailField");
-  const input = document.getElementById("sellerEmail");
-  const message = document.getElementById("sellFormMessage");
-  field?.classList.toggle("has-error", show);
-  input?.setAttribute("aria-invalid", show ? "true" : "false");
-  if(message){
-    message.textContent = show ? "Please enter a valid email address before submitting." : "";
-    message.classList.toggle("show", show);
-  }
-  if(show) input?.focus();
-}
-
 sellForm?.addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(sellForm);
-  const email = String(data.get("email") || "").trim();
-
-  if(!isValidEmail(email)){
-    setEmailError(true);
-    return;
-  }
-
-  setEmailError(false);
 
   const lines = [
     "Hi Stapleford Watches,",
@@ -2782,16 +2760,14 @@ sellForm?.addEventListener("submit", (e) => {
     "I would like to submit a watch to sell.",
     "",
     `Name: ${data.get("name") || ""}`,
-    `Email: ${email}`,
     `Brand: ${data.get("brand") || ""}`,
     `Model / reference: ${data.get("model") || ""}`,
     `Year: ${data.get("year") || ""}`,
     `Box / papers: ${data.get("contents") || ""}`,
     `Condition: ${data.get("condition") || ""}`,
-    `Additional information: ${data.get("details") || ""}`,
-    "",
-    "I will attach photos before sending."
+    `Additional information: ${data.get("details") || ""}`
   ];
+
   const subject = `Watch submission: ${data.get("brand") || ""} ${data.get("model") || ""}`.trim();
   const method = data.get("submitMethod") || "email";
 
@@ -2864,10 +2840,6 @@ brandSuggestionList?.addEventListener("pointerdown", (e) => {
 
 document.addEventListener("click", (e) => {
   if(!e.target.closest(".brand-autocomplete")) hideBrandSuggestions();
-});
-
-document.getElementById("sellerEmail")?.addEventListener("input", (e) => {
-  if(isValidEmail(e.target.value)) setEmailError(false);
 });
 
 document.getElementById("filterBtn").onclick = () => {
