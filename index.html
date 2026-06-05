@@ -510,17 +510,21 @@ footer{
 .filter-wrap-inline{
   display:flex;
   align-items:center;
+  height:18px;
 }
 
 .filter-custom{
   position:relative;
+  display:flex;
+  align-items:center;
+  height:18px;
 }
 
 #filterBtn{
   background:none;
   border:none;
   font-size:12px;
-  line-height:1;
+  line-height:18px;
   text-transform:uppercase;
   cursor:pointer;
   padding:0;
@@ -530,11 +534,16 @@ footer{
   justify-content:center;
   gap:5px;
   white-space:nowrap;
+  height:18px;
+  min-height:18px;
+  vertical-align:top;
 }
 
 #filterBtn span{
-  display:inline-block;
-  line-height:1;
+  display:inline-flex;
+  align-items:center;
+  height:18px;
+  line-height:18px;
 }
 
 #filterBtn svg{
@@ -542,7 +551,8 @@ footer{
   height:11px;
   flex:0 0 auto;
   display:block;
-  vertical-align:middle;
+  align-self:center;
+  transform:translateY(0);
 }
 
 .filter-menu{
@@ -1371,12 +1381,15 @@ a, button{
 .nav-left{
   display:flex;
   align-items:center;
-  gap:16px;
+  gap:14px;
+  min-height:18px;
 }
 
 .nav-pages{
-  display:flex;
+  display:inline-flex;
   align-items:center;
+  height:18px;
+  min-height:18px;
   gap:12px;
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
@@ -1393,8 +1406,14 @@ a, button{
   color:#000;
   cursor:pointer;
   font:inherit;
-  line-height:1;
+  font-size:12px;
+  line-height:18px;
+  height:18px;
+  min-height:18px;
   padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   text-transform:uppercase;
 }
 
@@ -1479,6 +1498,97 @@ a, button{
   resize:vertical;
 }
 
+.sell-error{
+  display:none;
+  margin-top:2px;
+  color:#b00020;
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:11px;
+  line-height:1.35;
+}
+
+.sell-field.has-error input,
+.sell-field.has-error textarea{
+  border-color:#b00020;
+}
+
+.sell-field.has-error .sell-error{
+  display:block;
+}
+
+
+.sell-method-title{
+  grid-column:1 / -1;
+  margin-top:4px;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px;
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+
+.sell-form-message{
+  grid-column:1 / -1;
+  display:none;
+  color:#b00020;
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.sell-form-message.show{
+  display:block;
+}
+
+.sell-methods{
+  grid-column:1 / -1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:2px;
+}
+
+.sell-method-option{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+}
+
+.sell-method-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.sell-method-label{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  min-height:38px;
+  border:1px solid #000;
+  padding:10px 12px;
+  cursor:pointer;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px;
+  line-height:1;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+}
+
+.sell-method-option input:checked + .sell-method-label{
+  background:#000;
+  color:#fff;
+}
+
+.sell-method-icon{
+  width:15px;
+  height:15px;
+  display:block;
+  flex:0 0 auto;
+}
+
 .sell-submit{
   grid-column:1 / -1;
   justify-self:start;
@@ -1539,6 +1649,260 @@ body.sell-active #noResults{
   }
 }
 
+
+
+/* FINAL BUY / SELL / SORT ALIGNMENT + SELL FORM POLISH */
+.nav{
+  align-items:center !important;
+}
+
+.nav-left{
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  min-height:24px !important;
+}
+
+.filter-wrap-inline,
+.filter-custom,
+.nav-pages{
+  display:inline-flex !important;
+  align-items:center !important;
+  height:24px !important;
+  min-height:24px !important;
+}
+
+.nav-pages{
+  gap:12px !important;
+}
+
+#filterBtn,
+.nav-page-btn{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#000 !important;
+  cursor:pointer !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  height:24px !important;
+  min-height:24px !important;
+  padding:0 !important;
+  margin:0 !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px !important;
+  line-height:24px !important;
+  letter-spacing:0.02em !important;
+  text-transform:uppercase !important;
+  vertical-align:middle !important;
+}
+
+#filterBtn span,
+.nav-page-btn span{
+  display:inline-flex !important;
+  align-items:center !important;
+  height:24px !important;
+  line-height:24px !important;
+}
+
+#filterBtn svg{
+  width:11px !important;
+  height:11px !important;
+  margin-left:5px !important;
+  display:block !important;
+  flex:0 0 auto !important;
+}
+
+.nav-page-btn[aria-current="page"]{
+  text-decoration:underline !important;
+  text-underline-offset:3px !important;
+}
+
+.brand-quick-picks{
+  grid-column:1 / -1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:-5px;
+  margin-bottom:2px;
+}
+
+.brand-chip{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid #000;
+  background:#fff;
+  color:#000;
+  cursor:pointer;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px;
+  line-height:1;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  padding:7px 9px;
+}
+
+.brand-chip:hover,
+.brand-chip:focus{
+  background:#000;
+  color:#fff;
+  outline:none;
+}
+
+.sell-field.has-error input{
+  border-color:#b00020 !important;
+}
+
+@media (max-width: 640px){
+  .nav-left{gap:10px !important;}
+  .nav-pages{gap:9px !important;}
+  #filterBtn,.nav-page-btn{font-size:11px !important; height:24px !important; line-height:24px !important;}
+}
+
+
+
+/* CONFIRMED FINAL OVERRIDES: align Buy/Sell exactly with Sort */
+.nav{align-items:center !important;}
+.nav-left{display:flex !important;align-items:center !important;gap:14px !important;}
+.filter-wrap-inline,.filter-custom,.nav-pages{display:flex !important;align-items:center !important;}
+#filterBtn,.nav-page-btn{height:22px !important;min-height:22px !important;line-height:22px !important;margin:0 !important;padding:0 !important;display:inline-flex !important;align-items:center !important;justify-content:center !important;vertical-align:middle !important;}
+#filterBtn span,.nav-page-btn span{height:22px !important;line-height:22px !important;display:inline-flex !important;align-items:center !important;}
+.nav-pages{gap:12px !important;transform:translateY(0) !important;}
+#filterBtn svg{width:11px !important;height:11px !important;margin-left:5px !important;display:block !important;}
+.brand-field{grid-column:1 / -1 !important;}
+.brand-quick-picks{display:flex !important;flex-wrap:wrap !important;gap:7px !important;margin:7px 0 0 !important;}
+.brand-chip{border:1px solid #000 !important;background:#fff !important;color:#000 !important;cursor:pointer !important;font-size:11px !important;line-height:1 !important;padding:7px 9px !important;text-transform:uppercase !important;}
+.sell-field.has-error input{border-color:#b00020 !important;}
+.sell-field.has-error .sell-error{display:block !important;}
+.sell-form-message.show{display:block !important;}
+
+
+
+/* === BEN REQUESTED SELL PAGE FIXES - VERIFIED 2026-06-05 === */
+.nav{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+}
+.nav-left{
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  min-height:24px !important;
+}
+.filter-wrap-inline,
+.filter-custom,
+.nav-pages{
+  display:flex !important;
+  align-items:center !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+.nav-pages{ gap:12px !important; }
+#filterBtn,
+.nav-page-btn{
+  box-sizing:border-box !important;
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  vertical-align:middle !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px !important;
+  letter-spacing:0.02em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  cursor:pointer !important;
+}
+#filterBtn span,
+.nav-page-btn span{
+  display:inline-flex !important;
+  align-items:center !important;
+  height:24px !important;
+  line-height:24px !important;
+}
+#filterBtn svg{
+  width:11px !important;
+  height:11px !important;
+  margin-left:5px !important;
+  flex:0 0 auto !important;
+  align-self:center !important;
+  transform:none !important;
+}
+.nav-page-btn[aria-current="page"] span{
+  text-decoration:underline !important;
+  text-underline-offset:3px !important;
+}
+.sell-field.has-error input{
+  border-color:#b00020 !important;
+}
+.sell-field.has-error .sell-error,
+.sell-form-message.show{
+  display:block !important;
+}
+.brand-field{ grid-column:1 / -1 !important; }
+.brand-quick-picks{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:7px !important;
+  margin-top:8px !important;
+}
+.brand-chip{
+  border:1px solid #000 !important;
+  background:#fff !important;
+  color:#000 !important;
+  cursor:pointer !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1 !important;
+  padding:7px 9px !important;
+  text-transform:uppercase !important;
+}
+.brand-chip:hover,
+.brand-chip:focus{
+  background:#000 !important;
+  color:#fff !important;
+}
+.sell-method-label{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:7px !important;
+}
+.sell-method-icon{
+  width:16px !important;
+  height:16px !important;
+  display:block !important;
+}
+@media (max-width:640px){
+  .nav-left{gap:10px !important;}
+  .nav-pages{gap:9px !important;}
+  #filterBtn,.nav-page-btn{font-size:11px !important;height:24px !important;line-height:24px !important;}
+}
+
+
+
+/* Final brand autocomplete cleanup: use the native datalist popup only, no visible chips. */
+.brand-quick-picks,
+.brand-chip{
+  display:none !important;
+}
+#watchBrand{
+  width:100%;
+}
+
 </style>
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4">
@@ -1589,10 +1953,10 @@ body.sell-active #noResults{
       </div>
       </div>
     </div>
-    <div class="nav-pages" aria-label="Buy or sell watches">
-      <button id="buyNav" class="nav-page-btn" type="button" aria-current="page">BUY</button>
-      <button id="sellNav" class="nav-page-btn" type="button">SELL</button>
-    </div>
+    <nav class="nav-pages" aria-label="Buy or sell watches">
+      <button id="buyNav" class="nav-page-btn" type="button" aria-current="page"><span>BUY</span></button>
+      <button id="sellNav" class="nav-page-btn" type="button" aria-current="false"><span>SELL</span></button>
+    </nav>
   </div>
   <div class="nav-right">
     <span class="uk-time" aria-label="Current UK time in London, UK"><span class="uk-time-label">LONDON, UK</span><span class="uk-time-separator" aria-hidden="true">|</span><span id="ukTimeDigits" class="uk-time-digits">00:00:00</span></span>
@@ -1605,38 +1969,123 @@ body.sell-active #noResults{
 <section id="sellPage" class="sell-page" hidden>
   <div class="sell-panel">
     <h1 class="sell-title">Sell your watch</h1>
-    <p class="sell-copy">Submit your watch details below and Stapleford Watches will get back to you. Add the brand, model, condition, contents, and your preferred contact details.</p>
-    <form id="sellForm" class="sell-form">
+    <p class="sell-copy">Please share the details of the watch you are considering selling. Stapleford Watches will review your submission and come back to you directly.</p>
+
+    <form id="sellForm" class="sell-form" novalidate>
       <div class="sell-field">
         <label for="sellerName">Name</label>
         <input id="sellerName" name="name" type="text" autocomplete="name" required>
       </div>
-      <div class="sell-field">
-        <label for="sellerContact">Email or phone</label>
-        <input id="sellerContact" name="contact" type="text" autocomplete="email" required>
+
+      <div class="sell-field" id="sellerEmailField">
+        <label for="sellerEmail">Email</label>
+        <input id="sellerEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" aria-describedby="sellerEmailError">
+        <span class="sell-error" id="sellerEmailError" role="alert">Please enter a valid email address.</span>
       </div>
-      <div class="sell-field">
+
+      <div class="sell-field sell-field-wide brand-field">
         <label for="watchBrand">Brand</label>
-        <input id="watchBrand" name="brand" type="text" required>
+        <input id="watchBrand" name="brand" type="text" list="brandSuggestions" autocomplete="off" placeholder="Start typing brand" required>
+        <datalist id="brandSuggestions">
+          <option value="Rolex"></option>
+          <option value="Patek Philippe"></option>
+          <option value="Audemars Piguet"></option>
+          <option value="Richard Mille"></option>
+          <option value="Omega"></option>
+          <option value="Cartier"></option>
+          <option value="Tudor"></option>
+          <option value="Zenith"></option>
+          <option value="Vacheron Constantin"></option>
+          <option value="Jaeger-LeCoultre"></option>
+          <option value="Breitling"></option>
+          <option value="IWC"></option>
+          <option value="Panerai"></option>
+          <option value="TAG Heuer"></option>
+          <option value="Hublot"></option>
+          <option value="Breguet"></option>
+          <option value="Blancpain"></option>
+          <option value="Chopard"></option>
+          <option value="Girard-Perregaux"></option>
+          <option value="Ulysse Nardin"></option>
+          <option value="A. Lange & Söhne"></option>
+          <option value="Grand Seiko"></option>
+          <option value="Seiko"></option>
+          <option value="Longines"></option>
+          <option value="Tissot"></option>
+          <option value="Bell & Ross"></option>
+          <option value="Bremont"></option>
+          <option value="Christopher Ward"></option>
+          <option value="Nomos"></option>
+          <option value="Oris"></option>
+          <option value="Piaget"></option>
+          <option value="Bulgari"></option>
+          <option value="Franck Muller"></option>
+          <option value="F.P. Journe"></option>
+          <option value="MB&F"></option>
+          <option value="De Bethune"></option>
+          <option value="Parmigiani Fleurier"></option>
+          <option value="Roger Dubuis"></option>
+          <option value="Akrivia"></option>
+          <option value="Laurent Ferrier"></option>
+          <option value="H. Moser & Cie"></option>
+          <option value="Urwerk"></option>
+          <option value="Ressence"></option>
+          <option value="Greubel Forsey"></option>
+          <option value="Jacob & Co."></option>
+          <option value="Maurice Lacroix"></option>
+          <option value="Frederique Constant"></option>
+          <option value="Baume & Mercier"></option>
+          <option value="Rado"></option>
+          <option value="Hamilton"></option>
+          <option value="Sinn"></option>
+          <option value="Doxa"></option>
+          <option value="Squale"></option>
+          <option value="Ming"></option>
+          <option value="Studio Underd0g"></option>
+        </datalist>
       </div>
+
       <div class="sell-field">
         <label for="watchModel">Model / reference</label>
         <input id="watchModel" name="model" type="text" required>
       </div>
+
       <div class="sell-field">
         <label for="watchYear">Year</label>
         <input id="watchYear" name="year" type="text">
       </div>
-      <div class="sell-field">
+
+      <div class="sell-field sell-field-wide">
         <label for="watchContents">Box / papers</label>
         <input id="watchContents" name="contents" type="text" placeholder="Full set, box only, watch only...">
       </div>
+
       <div class="sell-field sell-field-wide">
-        <label for="watchDetails">Condition and details</label>
-        <textarea id="watchDetails" name="details" placeholder="Tell us about the condition, service history, asking price, and anything else useful."></textarea>
+        <label for="watchDetails">Additional Information</label>
+        <textarea id="watchDetails" name="details" placeholder="Optional"></textarea>
       </div>
+
+      <div class="sell-method-title">Submit via</div>
+      <div class="sell-methods" aria-label="Submit via">
+        <label class="sell-method-option">
+          <input type="radio" name="submitMethod" value="email" checked>
+          <span class="sell-method-label">
+            <svg class="sell-method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6.5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Email
+          </span>
+        </label>
+        <label class="sell-method-option">
+          <input type="radio" name="submitMethod" value="whatsapp">
+          <span class="sell-method-label">
+            <svg class="sell-method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5a8.4 8.4 0 0 0-7.2 12.8L4 20.5l4.3-1.1A8.4 8.4 0 1 0 12 3.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.8 8.4c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.6 1.4c.1.3 0 .5-.2.7l-.4.5c.7 1.2 1.5 2 2.8 2.7l.5-.4c.2-.2.5-.2.7-.1l1.4.6c.3.1.4.3.4.6v.5c0 .3-.1.5-.4.7-.5.3-1.2.5-1.9.3-3-.6-5.4-3-6-6-.1-.7 0-1.4.3-1.9Z" fill="currentColor"/></svg>
+            WhatsApp
+          </span>
+        </label>
+      </div>
+
+      <p id="sellFormMessage" class="sell-form-message" role="alert"></p>
       <button class="sell-submit" type="submit">Submit watch</button>
-      <p class="sell-note">This opens an email with your details ready to send. You can attach watch photos before sending.</p>
+      <p class="sell-note">Choose Email or WhatsApp to open a message with your watch details ready to send. You can attach photos before sending.</p>
     </form>
   </div>
 </section>
@@ -2139,26 +2588,63 @@ function setPage(page){
 buyNav?.addEventListener("click", () => setPage("buy"));
 sellNav?.addEventListener("click", () => setPage("sell"));
 
+function isValidEmail(value){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(value || "").trim());
+}
+
+function setEmailError(show){
+  const field = document.getElementById("sellerEmailField");
+  const input = document.getElementById("sellerEmail");
+  const message = document.getElementById("sellFormMessage");
+  field?.classList.toggle("has-error", show);
+  input?.setAttribute("aria-invalid", show ? "true" : "false");
+  if(message){
+    message.textContent = show ? "Please enter a valid email address before submitting." : "";
+    message.classList.toggle("show", show);
+  }
+  if(show) input?.focus();
+}
+
 sellForm?.addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(sellForm);
+  const email = String(data.get("email") || "").trim();
+
+  if(!isValidEmail(email)){
+    setEmailError(true);
+    return;
+  }
+
+  setEmailError(false);
+
   const lines = [
     "Hi Stapleford Watches,",
     "",
     "I would like to submit a watch to sell.",
     "",
     `Name: ${data.get("name") || ""}`,
-    `Contact: ${data.get("contact") || ""}`,
+    `Email: ${email}`,
     `Brand: ${data.get("brand") || ""}`,
     `Model / reference: ${data.get("model") || ""}`,
     `Year: ${data.get("year") || ""}`,
     `Box / papers: ${data.get("contents") || ""}`,
-    `Condition and details: ${data.get("details") || ""}`,
+    `Additional information: ${data.get("details") || ""}`,
     "",
     "I will attach photos before sending."
   ];
   const subject = `Watch submission: ${data.get("brand") || ""} ${data.get("model") || ""}`.trim();
+  const method = data.get("submitMethod") || "email";
+
+  if(method === "whatsapp"){
+    window.location.href = `https://wa.me/447438196047?text=${encodeURIComponent(lines.join("\n"))}`;
+    return;
+  }
+
   window.location.href = `mailto:ben@staplefordwatches.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+});
+
+document.getElementById("sellerEmail")?.addEventListener("input", (e) => {
+  if(isValidEmail(e.target.value)) setEmailError(false);
 });
 
 document.getElementById("filterBtn").onclick = () => {
