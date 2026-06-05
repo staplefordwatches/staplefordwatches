@@ -3076,7 +3076,7 @@ html body #sellPage #watchBrand::placeholder{
 
       <div class="sell-field sell-field-half">
         <label for="watchContents">Box / papers</label>
-        <input id="watchContents" name="contents" type="text" placeholder="FULL SET / BOX ONLY / WATCH ONLY">
+        <input id="watchContents" name="contents" type="text" placeholder="">
       </div>
 
       <div class="sell-field sell-field-half">
@@ -3613,6 +3613,7 @@ function setPage(page){
   document.body.classList.toggle("sell-active", isSell);
   buyNav?.setAttribute("aria-current", isSell ? "false" : "page");
   sellNav?.setAttribute("aria-current", isSell ? "page" : "false");
+  document.title = isSell ? "Sell a watch" : "Stapleford Watches";
   if(filterMenu) filterMenu.style.display = "none";
   if(!isSell) render();
 }
