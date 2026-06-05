@@ -2630,6 +2630,370 @@ input[list]{
 }
 </style>
 
+
+
+<!-- FINAL USER FIX: restore Sell title font, align placeholder/select sizes, update copy -->
+<style>
+#sellPage .sell-title{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:18px !important;
+  line-height:1.2 !important;
+  text-transform:uppercase !important;
+  letter-spacing:0.03em !important;
+  transform:none !important;
+  margin:0 0 12px !important;
+  padding:0 !important;
+  overflow:visible !important;
+}
+
+#sellPage .sell-copy{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+  color:#8a8a8a !important;
+  margin:0 0 22px !important;
+}
+
+#sellPage .sell-field label,
+#sellPage .sell-method-title{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+}
+
+#sellPage .sell-field input,
+#sellPage .sell-field textarea{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+}
+
+#sellPage .sell-field input::placeholder,
+#sellPage .sell-field textarea::placeholder,
+#sellPage #watchContents::placeholder,
+#sellPage .custom-select-trigger{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+}
+
+#sellPage .custom-select-trigger{
+  min-height:44px !important;
+  padding:10px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+}
+
+#sellPage .custom-select-options button{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+}
+
+#sellPage .sell-form{
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  column-gap:12px !important;
+  row-gap:12px !important;
+}
+#sellPage .sell-field-half{grid-column:span 1 !important;min-width:0 !important;}
+#sellPage .sell-form > .sell-field:not(.sell-field-half),
+#sellPage .sell-field-wide,
+#sellPage .sell-method-title,
+#sellPage .sell-methods,
+#sellPage .sell-form-message,
+#sellPage .sell-submit{grid-column:1 / -1 !important;}
+
+@media (max-width:700px){
+  #sellPage .sell-title{
+    font-family:'InterEmbedded', Arial, sans-serif !important;
+    font-weight:500 !important;
+    font-size:18px !important;
+    line-height:1.2 !important;
+    text-transform:uppercase !important;
+    letter-spacing:0.03em !important;
+    transform:none !important;
+  }
+  #sellPage .sell-form{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    column-gap:8px !important;
+    row-gap:10px !important;
+  }
+  #sellPage .sell-field label,
+  #sellPage .sell-method-title,
+  #sellPage .sell-field input::placeholder,
+  #sellPage .sell-field textarea::placeholder,
+  #sellPage #watchContents::placeholder,
+  #sellPage .custom-select-trigger{
+    font-size:11px !important;
+    line-height:1.15 !important;
+    letter-spacing:0.05em !important;
+  }
+  #sellPage .sell-field-half input,
+  #sellPage .sell-field-half .custom-select-trigger{
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+}
+</style>
+
+
+
+<!-- FINAL SAFETY FIX: Select text only + Box/Papers wording, no box-size changes -->
+<style>
+/* Keep the existing box sizing/layout untouched; only match the SELECT typography to the small grey field text. */
+#sellPage .custom-select-trigger,
+#sellPage .custom-select-trigger:focus,
+#sellPage .custom-select-trigger:hover{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+}
+#sellPage .custom-select-options button{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+}
+#sellPage #watchContents::placeholder{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+}
+</style>
+
+
+
+<!-- FINAL FIX: Match Condition SELECT typography only; no box size/layout changes -->
+<style>
+#sellPage .sell-field-half .custom-select-trigger,
+#sellPage .sell-field-half .custom-select-trigger:focus,
+#sellPage .sell-field-half .custom-select-trigger:hover{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+}
+#sellPage .sell-field-half .custom-select-options button{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+}
+@media (max-width:700px){
+  #sellPage .sell-field-half .custom-select-trigger,
+  #sellPage .sell-field-half .custom-select-trigger:focus,
+  #sellPage .sell-field-half .custom-select-trigger:hover,
+  #sellPage .sell-field-half .custom-select-options button{
+    font-size:8px !important;
+    line-height:1.15 !important;
+    letter-spacing:0.05em !important;
+  }
+}
+</style>
+
+
+<style>
+#sellerName,
+#watchModel{
+  text-transform: uppercase !important;
+}
+#sellerName::placeholder,
+#watchModel::placeholder{
+  text-transform: uppercase !important;
+}
+</style>
+
+<style>
+/* LOCK CONDITION SELECT TYPOGRAPHY ONLY — no box size/layout changes */
+html body #sellPage .sell-field .custom-select-wrap > button.custom-select-trigger,
+html body #sellPage .sell-field .custom-select-wrap > button.custom-select-trigger:hover,
+html body #sellPage .sell-field .custom-select-wrap > button.custom-select-trigger:focus,
+html body #sellPage .sell-field-half .custom-select-wrap > button.custom-select-trigger,
+html body #sellPage .sell-field-half .custom-select-wrap > button.custom-select-trigger:hover,
+html body #sellPage .sell-field-half .custom-select-wrap > button.custom-select-trigger:focus{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+html body #sellPage .custom-select-options button{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+}
+</style>
+
+
+<style>
+/* FINAL LOCK: condition dropdown typography only. No box sizing or layout changes. */
+html body #sellPage .custom-select-wrap > button.custom-select-trigger,
+html body #sellPage .custom-select-wrap > button.custom-select-trigger:hover,
+html body #sellPage .custom-select-wrap > button.custom-select-trigger:focus{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+html body #sellPage .custom-select-options button,
+html body #sellPage .custom-select-options button:hover,
+html body #sellPage .custom-select-options button:focus{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+</style>
+
+
+
+<!-- FINAL FIX: lock Condition dropdown + Brand suggestions typography across desktop/mobile. No box size/layout changes. -->
+<style>
+/* Condition select: selected placeholder and dropdown options must never resize on hover or in minimised/mobile view. */
+html body #sellPage .custom-select-wrap > button.custom-select-trigger,
+html body #sellPage .custom-select-wrap > button.custom-select-trigger:hover,
+html body #sellPage .custom-select-wrap > button.custom-select-trigger:focus,
+html body #sellPage .custom-select-wrap.is-open > button.custom-select-trigger{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+html body #sellPage .custom-select-options button,
+html body #sellPage .custom-select-options button:hover,
+html body #sellPage .custom-select-options button:focus,
+html body #sellPage .custom-select-options button[role="option"],
+html body #sellPage .custom-select-options button[role="option"]:hover,
+html body #sellPage .custom-select-options button[role="option"]:focus{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+/* Brand autocomplete suggestions: match the Condition dropdown option style. */
+html body #sellPage .brand-suggestion-list .brand-suggestion-item,
+html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
+html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+/* Brand placeholder keeps the same small grey form style. */
+html body #sellPage #watchBrand::placeholder{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+}
+
+@media (max-width:700px){
+  html body #sellPage .custom-select-wrap > button.custom-select-trigger,
+  html body #sellPage .custom-select-wrap > button.custom-select-trigger:hover,
+  html body #sellPage .custom-select-wrap > button.custom-select-trigger:focus,
+  html body #sellPage .custom-select-wrap.is-open > button.custom-select-trigger,
+  html body #sellPage .custom-select-options button,
+  html body #sellPage .custom-select-options button:hover,
+  html body #sellPage .custom-select-options button:focus,
+  html body #sellPage .custom-select-options button[role="option"],
+  html body #sellPage .custom-select-options button[role="option"]:hover,
+  html body #sellPage .custom-select-options button[role="option"]:focus,
+  html body #sellPage .brand-suggestion-list .brand-suggestion-item,
+  html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
+  html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus,
+  html body #sellPage #watchBrand::placeholder{
+    font-size:11px !important;
+    line-height:1.15 !important;
+    letter-spacing:0.06em !important;
+    -webkit-text-size-adjust:100% !important;
+    text-size-adjust:100% !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -2687,12 +3051,12 @@ input[list]{
 <section id="sellPage" class="sell-page" hidden>
   <div class="sell-panel">
     <h1 class="sell-title">Sell your watch</h1>
-    <p class="sell-copy">Please share the details of your watch and we will come back to you.</p>
+    <p class="sell-copy">Please share the details of your watch. We will review your submission and come back to you directly.</p>
 
     <form id="sellForm" class="sell-form" novalidate>
       <div class="sell-field">
         <label for="sellerName">Name</label>
-        <input id="sellerName" name="name" type="text" placeholder="FIRST LAST" autocomplete="name" required>
+        <input id="sellerName" name="name" type="text" placeholder="FIRST LAST" autocomplete="name" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" required>
       </div>
 <div class="sell-field sell-field-wide brand-field brand-autocomplete">
         <label for="watchBrand">Brand</label>
@@ -2702,7 +3066,7 @@ input[list]{
 
       <div class="sell-field sell-field-half">
         <label for="watchModel">Model</label>
-        <input id="watchModel" name="model" type="text" required>
+        <input id="watchModel" name="model" type="text" placeholder="MODEL" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" required>
       </div>
 
       <div class="sell-field sell-field-half">
@@ -2712,7 +3076,7 @@ input[list]{
 
       <div class="sell-field sell-field-half">
         <label for="watchContents">Box / papers</label>
-        <input id="watchContents" name="contents" type="text" placeholder="FULL SET / BOX ONLY">
+        <input id="watchContents" name="contents" type="text" placeholder="FULL SET / BOX ONLY / WATCH ONLY">
       </div>
 
       <div class="sell-field sell-field-half">
@@ -3803,5 +4167,25 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 </script>
 
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  ["sellerName", "watchModel"].forEach(function(id){
+    const input = document.getElementById(id);
+    if(!input) return;
+    input.addEventListener("input", function(){
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const upper = input.value.toUpperCase();
+      if(input.value !== upper){
+        input.value = upper;
+        if(typeof start === "number" && typeof end === "number"){
+          input.setSelectionRange(start, end);
+        }
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>
