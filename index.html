@@ -1366,6 +1366,179 @@ a, button{
   pointer-events:none;
 }
 
+
+/* BUY / SELL NAV + SELL SUBMISSION */
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.nav-pages{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px;
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+}
+
+.nav-page-btn{
+  appearance:none;
+  background:none;
+  border:0;
+  color:#000;
+  cursor:pointer;
+  font:inherit;
+  line-height:1;
+  padding:0;
+  text-transform:uppercase;
+}
+
+.nav-page-btn[aria-current="page"]{
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+.sell-page{
+  width:min(100%, var(--max-width));
+  margin:0 auto;
+  padding:34px 6px 16px;
+  flex:0 0 auto;
+}
+
+.sell-panel{
+  max-width:620px;
+  margin:0 auto;
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-weight:400 !important;
+  letter-spacing:0.01em;
+}
+
+.sell-title{
+  margin:0 0 12px;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:18px;
+  line-height:1.2;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+}
+
+.sell-copy{
+  margin:0 0 24px;
+  max-width:520px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.sell-form{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+
+.sell-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.sell-field-wide{
+  grid-column:1 / -1;
+}
+
+.sell-field label{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px;
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+
+.sell-field input,
+.sell-field textarea{
+  width:100%;
+  border:1px solid #000;
+  border-radius:0;
+  background:#fff;
+  color:#000;
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px;
+  line-height:1.3;
+  padding:10px;
+  outline:none;
+}
+
+.sell-field textarea{
+  min-height:108px;
+  resize:vertical;
+}
+
+.sell-submit{
+  grid-column:1 / -1;
+  justify-self:start;
+  margin-top:4px;
+  border:1px solid #000;
+  background:#000;
+  color:#fff;
+  cursor:pointer;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px;
+  line-height:1;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  padding:12px 16px;
+}
+
+.sell-note{
+  grid-column:1 / -1;
+  margin:2px 0 0;
+  font-size:11px;
+  line-height:1.4;
+  opacity:0.65;
+}
+
+body.sell-active .grid,
+body.sell-active #noResults{
+  display:none !important;
+}
+
+@media (max-width: 640px){
+  .nav-left{
+    gap:10px;
+  }
+
+  .nav-pages{
+    gap:9px;
+    font-size:11px !important;
+  }
+
+  .sell-page{
+    padding:28px 8px 12px;
+  }
+
+  .sell-form{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width: 380px){
+  .nav-left{
+    gap:8px;
+  }
+
+  .nav-pages{
+    gap:7px;
+    font-size:10px !important;
+  }
+}
+
 </style>
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4">
@@ -1384,8 +1557,9 @@ a, button{
 </div>
 
 <div class="nav">
-  <div class="filter-wrap-inline">
-    <div class="filter-custom">
+  <div class="nav-left">
+    <div class="filter-wrap-inline">
+      <div class="filter-custom">
       <button id="filterBtn" type="button" aria-label="Sort watches">
         <span>SORT</span>
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -1413,6 +1587,11 @@ a, button{
           <span>SOLD</span>
         </label>
       </div>
+      </div>
+    </div>
+    <div class="nav-pages" aria-label="Buy or sell watches">
+      <button id="buyNav" class="nav-page-btn" type="button" aria-current="page">BUY</button>
+      <button id="sellNav" class="nav-page-btn" type="button">SELL</button>
     </div>
   </div>
   <div class="nav-right">
@@ -1422,6 +1601,45 @@ a, button{
 
 <div class="grid" id="gallery"></div>
 <div id="noResults" class="no-results" hidden>No watches found</div>
+
+<section id="sellPage" class="sell-page" hidden>
+  <div class="sell-panel">
+    <h1 class="sell-title">Sell your watch</h1>
+    <p class="sell-copy">Submit your watch details below and Stapleford Watches will get back to you. Add the brand, model, condition, contents, and your preferred contact details.</p>
+    <form id="sellForm" class="sell-form">
+      <div class="sell-field">
+        <label for="sellerName">Name</label>
+        <input id="sellerName" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="sell-field">
+        <label for="sellerContact">Email or phone</label>
+        <input id="sellerContact" name="contact" type="text" autocomplete="email" required>
+      </div>
+      <div class="sell-field">
+        <label for="watchBrand">Brand</label>
+        <input id="watchBrand" name="brand" type="text" required>
+      </div>
+      <div class="sell-field">
+        <label for="watchModel">Model / reference</label>
+        <input id="watchModel" name="model" type="text" required>
+      </div>
+      <div class="sell-field">
+        <label for="watchYear">Year</label>
+        <input id="watchYear" name="year" type="text">
+      </div>
+      <div class="sell-field">
+        <label for="watchContents">Box / papers</label>
+        <input id="watchContents" name="contents" type="text" placeholder="Full set, box only, watch only...">
+      </div>
+      <div class="sell-field sell-field-wide">
+        <label for="watchDetails">Condition and details</label>
+        <textarea id="watchDetails" name="details" placeholder="Tell us about the condition, service history, asking price, and anything else useful."></textarea>
+      </div>
+      <button class="sell-submit" type="submit">Submit watch</button>
+      <p class="sell-note">This opens an email with your details ready to send. You can attach watch photos before sending.</p>
+    </form>
+  </div>
+</section>
 
 <div id="lightbox" class="lightbox" aria-hidden="true">
   <button class="lightbox-close" type="button" aria-label="Close gallery">Close</button>
@@ -1901,6 +2119,48 @@ const filterMenu = document.getElementById("filterMenu");
 const watchSearch = document.getElementById("watchSearch");
 let searchQuery = "";
 
+const buyNav = document.getElementById("buyNav");
+const sellNav = document.getElementById("sellNav");
+const sellPage = document.getElementById("sellPage");
+const sellForm = document.getElementById("sellForm");
+let currentPage = "buy";
+
+function setPage(page){
+  currentPage = page === "sell" ? "sell" : "buy";
+  const isSell = currentPage === "sell";
+  if(sellPage) sellPage.hidden = !isSell;
+  document.body.classList.toggle("sell-active", isSell);
+  buyNav?.setAttribute("aria-current", isSell ? "false" : "page");
+  sellNav?.setAttribute("aria-current", isSell ? "page" : "false");
+  if(filterMenu) filterMenu.style.display = "none";
+  if(!isSell) render();
+}
+
+buyNav?.addEventListener("click", () => setPage("buy"));
+sellNav?.addEventListener("click", () => setPage("sell"));
+
+sellForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const data = new FormData(sellForm);
+  const lines = [
+    "Hi Stapleford Watches,",
+    "",
+    "I would like to submit a watch to sell.",
+    "",
+    `Name: ${data.get("name") || ""}`,
+    `Contact: ${data.get("contact") || ""}`,
+    `Brand: ${data.get("brand") || ""}`,
+    `Model / reference: ${data.get("model") || ""}`,
+    `Year: ${data.get("year") || ""}`,
+    `Box / papers: ${data.get("contents") || ""}`,
+    `Condition and details: ${data.get("details") || ""}`,
+    "",
+    "I will attach photos before sending."
+  ];
+  const subject = `Watch submission: ${data.get("brand") || ""} ${data.get("model") || ""}`.trim();
+  window.location.href = `mailto:ben@staplefordwatches.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+});
+
 document.getElementById("filterBtn").onclick = () => {
   const isOpen = filterMenu.style.display === "block";
   filterMenu.style.display = isOpen ? "none" : "block";
@@ -2134,6 +2394,7 @@ document.addEventListener("keydown", (e) => {
 
 
 function render(){
+ if(currentPage === "sell") return;
  let items=[...watches];
 
  if(showAvailable || showSold){
