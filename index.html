@@ -55,6 +55,11 @@ body{
   margin:8px auto 0px;
   display:flex;
   justify-content:center;
+  background:none;
+  border:0;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
 }
 
 .logo img{
@@ -2128,9 +2133,9 @@ input[list]{
 
 <body>
 
-<div class="logo">
+<button id="logoHome" class="logo" type="button" aria-label="Return to buy page">
   <img src="SW HIGH RES.png" draggable="false" oncontextmenu="return false;" ondragstart="return false;" alt="Stapleford Watches">
-</div>
+</button>
 
 <div class="nav">
   <div class="nav-left">
@@ -2181,7 +2186,7 @@ input[list]{
 <section id="sellPage" class="sell-page" hidden>
   <div class="sell-panel">
     <h1 class="sell-title">Sell your watch</h1>
-    <p class="sell-copy">Please share the details of the watch you are considering selling. Stapleford Watches will review your submission and come back to you directly.</p>
+    <p class="sell-copy">Please share the details of the watch you are considering selling. We will review your submission and come back to you directly.</p>
 
     <form id="sellForm" class="sell-form" novalidate>
       <div class="sell-field">
@@ -2734,6 +2739,7 @@ const buyNav = document.getElementById("buyNav");
 const sellNav = document.getElementById("sellNav");
 const sellPage = document.getElementById("sellPage");
 const sellForm = document.getElementById("sellForm");
+const logoHome = document.getElementById("logoHome");
 let currentPage = "buy";
 
 function setPage(page){
@@ -2749,6 +2755,20 @@ function setPage(page){
 
 buyNav?.addEventListener("click", () => setPage("buy"));
 sellNav?.addEventListener("click", () => setPage("sell"));
+logoHome?.addEventListener("click", () => {
+  searchQuery = "";
+  currentSort = "default";
+  showAvailable = false;
+  showSold = false;
+  if(watchSearch) watchSearch.value = "";
+  const filterAvailable = document.getElementById("filterAvailable");
+  const filterSold = document.getElementById("filterSold");
+  if(filterAvailable) filterAvailable.checked = false;
+  if(filterSold) filterSold.checked = false;
+  if(typeof closeLightbox === "function" && lightbox?.classList.contains("open")) closeLightbox();
+  setPage("buy");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 sellForm?.addEventListener("submit", (e) => {
   e.preventDefault();
