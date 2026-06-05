@@ -1894,14 +1894,61 @@ body.sell-active #noResults{
 
 
 
-/* Final brand autocomplete cleanup: use the native datalist popup only, no visible chips. */
+/* Brand autocomplete: clean popup suggestions, no visible clutter. */
 .brand-quick-picks,
 .brand-chip{
   display:none !important;
 }
+.brand-autocomplete{
+  position:relative;
+}
 #watchBrand{
   width:100%;
 }
+.brand-suggestion-list{
+  position:absolute;
+  left:0;
+  right:0;
+  top:calc(100% + 6px);
+  z-index:9999;
+  max-height:220px;
+  overflow:auto;
+  background:#fff;
+  border:1px solid #111;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+}
+.brand-suggestion-item{
+  width:100%;
+  display:block;
+  border:0;
+  border-bottom:1px solid #eee;
+  background:#fff;
+  color:#111;
+  text-align:left;
+  padding:12px 13px;
+  font:inherit;
+  font-size:14px;
+  cursor:pointer;
+}
+.brand-suggestion-item:last-child{
+  border-bottom:0;
+}
+.brand-suggestion-item:hover,
+.brand-suggestion-item:focus{
+  background:#f5f5f5;
+  outline:none;
+}
+@media (max-width:640px){
+  .brand-suggestion-list{
+    max-height:260px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .brand-suggestion-item{
+    min-height:44px;
+    font-size:16px;
+  }
+}
+
 
 </style>
 
@@ -1983,66 +2030,10 @@ body.sell-active #noResults{
         <span class="sell-error" id="sellerEmailError" role="alert">Please enter a valid email address.</span>
       </div>
 
-      <div class="sell-field sell-field-wide brand-field">
+      <div class="sell-field sell-field-wide brand-field brand-autocomplete">
         <label for="watchBrand">Brand</label>
-        <input id="watchBrand" name="brand" type="text" list="brandSuggestions" autocomplete="off" placeholder="Start typing brand" required>
-        <datalist id="brandSuggestions">
-          <option value="Rolex"></option>
-          <option value="Patek Philippe"></option>
-          <option value="Audemars Piguet"></option>
-          <option value="Richard Mille"></option>
-          <option value="Omega"></option>
-          <option value="Cartier"></option>
-          <option value="Tudor"></option>
-          <option value="Zenith"></option>
-          <option value="Vacheron Constantin"></option>
-          <option value="Jaeger-LeCoultre"></option>
-          <option value="Breitling"></option>
-          <option value="IWC"></option>
-          <option value="Panerai"></option>
-          <option value="TAG Heuer"></option>
-          <option value="Hublot"></option>
-          <option value="Breguet"></option>
-          <option value="Blancpain"></option>
-          <option value="Chopard"></option>
-          <option value="Girard-Perregaux"></option>
-          <option value="Ulysse Nardin"></option>
-          <option value="A. Lange & Söhne"></option>
-          <option value="Grand Seiko"></option>
-          <option value="Seiko"></option>
-          <option value="Longines"></option>
-          <option value="Tissot"></option>
-          <option value="Bell & Ross"></option>
-          <option value="Bremont"></option>
-          <option value="Christopher Ward"></option>
-          <option value="Nomos"></option>
-          <option value="Oris"></option>
-          <option value="Piaget"></option>
-          <option value="Bulgari"></option>
-          <option value="Franck Muller"></option>
-          <option value="F.P. Journe"></option>
-          <option value="MB&F"></option>
-          <option value="De Bethune"></option>
-          <option value="Parmigiani Fleurier"></option>
-          <option value="Roger Dubuis"></option>
-          <option value="Akrivia"></option>
-          <option value="Laurent Ferrier"></option>
-          <option value="H. Moser & Cie"></option>
-          <option value="Urwerk"></option>
-          <option value="Ressence"></option>
-          <option value="Greubel Forsey"></option>
-          <option value="Jacob & Co."></option>
-          <option value="Maurice Lacroix"></option>
-          <option value="Frederique Constant"></option>
-          <option value="Baume & Mercier"></option>
-          <option value="Rado"></option>
-          <option value="Hamilton"></option>
-          <option value="Sinn"></option>
-          <option value="Doxa"></option>
-          <option value="Squale"></option>
-          <option value="Ming"></option>
-          <option value="Studio Underd0g"></option>
-        </datalist>
+        <input id="watchBrand" name="brand" type="text" autocomplete="off" placeholder="Start typing brand" required aria-autocomplete="list" aria-expanded="false" aria-controls="brandSuggestionList">
+        <div id="brandSuggestionList" class="brand-suggestion-list" role="listbox" hidden></div>
       </div>
 
       <div class="sell-field">
@@ -2641,6 +2632,69 @@ sellForm?.addEventListener("submit", (e) => {
   }
 
   window.location.href = `mailto:ben@staplefordwatches.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+});
+
+const luxuryWatchBrands = [
+  "Rolex", "Patek Philippe", "Audemars Piguet", "Richard Mille", "Omega", "Cartier", "Tudor", "Zenith",
+  "Vacheron Constantin", "Jaeger-LeCoultre", "Breitling", "IWC", "Panerai", "TAG Heuer", "Hublot",
+  "Breguet", "Blancpain", "Chopard", "Girard-Perregaux", "Ulysse Nardin", "A. Lange & Söhne",
+  "Grand Seiko", "Seiko", "Longines", "Tissot", "Bell & Ross", "Bremont", "Christopher Ward", "Nomos",
+  "Oris", "Piaget", "Bulgari", "Franck Muller", "F.P. Journe", "MB&F", "De Bethune", "Parmigiani Fleurier",
+  "Roger Dubuis", "Akrivia", "Laurent Ferrier", "H. Moser & Cie", "Urwerk", "Ressence", "Greubel Forsey",
+  "Jacob & Co.", "Maurice Lacroix", "Frederique Constant", "Baume & Mercier", "Rado", "Hamilton", "Sinn",
+  "Doxa", "Squale", "Ming", "Studio Underd0g"
+];
+
+const brandInput = document.getElementById("watchBrand");
+const brandSuggestionList = document.getElementById("brandSuggestionList");
+
+function hideBrandSuggestions(){
+  if(!brandSuggestionList || !brandInput) return;
+  brandSuggestionList.hidden = true;
+  brandSuggestionList.innerHTML = "";
+  brandInput.setAttribute("aria-expanded", "false");
+}
+
+function showBrandSuggestions(){
+  if(!brandSuggestionList || !brandInput) return;
+  const query = brandInput.value.trim().toLowerCase();
+  if(query.length < 1){
+    hideBrandSuggestions();
+    return;
+  }
+  const matches = luxuryWatchBrands
+    .filter(brand => brand.toLowerCase().includes(query))
+    .slice(0, 8);
+
+  if(!matches.length){
+    hideBrandSuggestions();
+    return;
+  }
+
+  brandSuggestionList.innerHTML = matches.map(brand =>
+    `<button type="button" class="brand-suggestion-item" role="option" data-brand="${brand.replace(/"/g, '&quot;')}">${brand}</button>`
+  ).join("");
+  brandSuggestionList.hidden = false;
+  brandInput.setAttribute("aria-expanded", "true");
+}
+
+brandInput?.addEventListener("input", showBrandSuggestions);
+brandInput?.addEventListener("focus", showBrandSuggestions);
+brandInput?.addEventListener("keydown", (e) => {
+  if(e.key === "Escape") hideBrandSuggestions();
+});
+
+brandSuggestionList?.addEventListener("pointerdown", (e) => {
+  const option = e.target.closest(".brand-suggestion-item");
+  if(!option || !brandInput) return;
+  e.preventDefault();
+  brandInput.value = option.dataset.brand || option.textContent.trim();
+  hideBrandSuggestions();
+  brandInput.focus();
+});
+
+document.addEventListener("click", (e) => {
+  if(!e.target.closest(".brand-autocomplete")) hideBrandSuggestions();
 });
 
 document.getElementById("sellerEmail")?.addEventListener("input", (e) => {
