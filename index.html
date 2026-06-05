@@ -1018,7 +1018,7 @@ body.no-results-active .no-results{
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
   letter-spacing:0.04em !important;
-  text-transform:uppercase !important;
+  text-transform:none !important;
 }
 
 
@@ -1951,113 +1951,167 @@ body.sell-active #noResults{
 
 
 
-/* Photo upload/drop area for sell form */
-.sell-photo-drop{
-  grid-column:1 / -1;
-  border:1px dashed #000;
-  background:#fff;
-  min-height:118px;
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  text-align:center;
+
+input[list]{
+  background-image:none !important;
+}
+
+
+/* Custom Condition selector — matches form boxes without browser/Safari dropdown styling */
+.custom-select-wrap{
+  position:relative;
+  width:100%;
+}
+
+.custom-select-trigger{
+  width:100%;
+  box-sizing:border-box;
+  background:transparent;
+  color:inherit;
+  border:1px solid currentColor;
+  border-radius:0;
+  font:inherit;
+  text-align:left;
+  text-transform:uppercase;
+  padding:10px;
+  line-height:1.2;
   cursor:pointer;
-  transition:background .15s ease, border-color .15s ease;
 }
-.sell-photo-drop.is-dragover{
-  background:#f6f6f6;
-}
-.sell-photo-drop input{
+
+.custom-select-trigger::after{
+  content:"";
   position:absolute;
-  width:1px;
-  height:1px;
-  opacity:0;
+  right:14px;
+  top:50%;
+  width:7px;
+  height:7px;
+  border-right:1px solid currentColor;
+  border-bottom:1px solid currentColor;
+  transform:translateY(-65%) rotate(45deg);
   pointer-events:none;
 }
-.sell-photo-main{
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:12px;
-  line-height:1;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-}
-.sell-photo-sub{
-  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
-  font-size:12px;
-  line-height:1.4;
-  opacity:.65;
-}
-.sell-photo-previews{
-  grid-column:1 / -1;
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(86px, 1fr));
-  gap:10px;
-}
-.sell-photo-preview{
-  position:relative;
-  aspect-ratio:1 / 1;
-  border:1px solid #ddd;
-  background:#f7f7f7;
-  overflow:hidden;
-}
-.sell-photo-preview img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-.sell-photo-remove{
-  position:absolute;
-  top:5px;
-  right:5px;
-  width:24px;
-  height:24px;
-  border:1px solid #000;
-  background:#fff;
-  color:#000;
-  cursor:pointer;
-  font-family:Arial, sans-serif;
-  font-size:16px;
-  line-height:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.sell-photo-name{
+
+.custom-select-options{
   position:absolute;
   left:0;
   right:0;
-  bottom:0;
-  background:rgba(255,255,255,.88);
-  color:#000;
-  padding:4px 5px;
-  font-size:10px;
-  line-height:1.2;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  top:calc(100% + 6px);
+  z-index:50;
+  display:none;
+  background:var(--card-bg, #fff);
+  color:inherit;
+  border:1px solid currentColor;
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
 }
-@media (max-width:640px){
-  .sell-photo-drop{
-    min-height:104px;
-    padding:16px 12px;
-  }
-  .sell-photo-main{
-    font-size:12px;
-  }
-  .sell-photo-sub{
-    font-size:11px;
-  }
-  .sell-photo-previews{
-    grid-template-columns:repeat(3, 1fr);
-  }
+
+.custom-select-wrap.is-open .custom-select-options{
+  display:block;
+}
+
+.custom-select-options button{
+  display:block;
+  width:100%;
+  background:transparent;
+  color:inherit;
+  border:0;
+  border-bottom:1px solid rgba(0,0,0,.12);
+  font:inherit;
+  text-align:left;
+  text-transform:uppercase;
+  padding:10px;
+  cursor:pointer;
+}
+
+.custom-select-options button:last-child{
+  border-bottom:0;
+}
+
+.custom-select-options button:hover,
+.custom-select-options button:focus{
+  background:rgba(0,0,0,.05);
+  outline:none;
+}
+
+
+
+/* Match other form fields exactly */
+.custom-select-trigger{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px 14px !important;
+  height:auto !important;
+  min-height:0 !important;
+  display:block !important;
+  line-height:normal !important;
+}
+
+.custom-select-options button{
+  padding:12px 14px !important;
+  min-height:0 !important;
+  display:block !important;
+}
+
+/* === FINAL CONDITION FIELD PIXEL MATCH === */
+.sell-field .custom-select-trigger{
+  width:100% !important;
+  box-sizing:border-box !important;
+  height:auto !important;
+  min-height:0 !important;
+  margin:0 !important;
+  border:1px solid #000 !important;
+  border-radius:0 !important;
+  background:#fff !important;
+  color:#000 !important;
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+  line-height:1.3 !important;
+  padding:10px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:left !important;
+  text-transform:uppercase !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+}
+
+.sell-field .custom-select-trigger::after{
+  right:10px !important;
+  top:50% !important;
+  width:7px !important;
+  height:7px !important;
+  transform:translateY(-65%) rotate(45deg) !important;
+}
+
+.sell-field .custom-select-options button{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.3 !important;
+  padding:10px !important;
+}
+
+
+.brand-suggestions,
+.brand-suggestions *{
+  text-transform:none !important;
+}
+
+
+/* === BRAND SUGGESTIONS ALL CAPS === */
+.brand-suggestions,
+.brand-suggestions *,
+.brand-suggestion,
+.brand-suggestion *,
+#brandSuggestions,
+#brandSuggestions *,
+[data-brand-suggestion],
+[data-brand-suggestion] *{
+  text-transform:uppercase !important;
 }
 
 </style>
+
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=4">
@@ -2128,18 +2182,11 @@ body.sell-active #noResults{
     <form id="sellForm" class="sell-form" novalidate>
       <div class="sell-field">
         <label for="sellerName">Name</label>
-        <input id="sellerName" name="name" type="text" autocomplete="name" required>
+        <input id="sellerName" name="name" type="text" placeholder="FIRST LAST" autocomplete="name" required>
       </div>
-
-      <div class="sell-field" id="sellerEmailField">
-        <label for="sellerEmail">Email</label>
-        <input id="sellerEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" aria-describedby="sellerEmailError">
-        <span class="sell-error" id="sellerEmailError" role="alert">Please enter a valid email address.</span>
-      </div>
-
-      <div class="sell-field sell-field-wide brand-field brand-autocomplete">
+<div class="sell-field sell-field-wide brand-field brand-autocomplete">
         <label for="watchBrand">Brand</label>
-        <input id="watchBrand" name="brand" type="text" autocomplete="off" placeholder="Start typing brand" required aria-autocomplete="list" aria-expanded="false" aria-controls="brandSuggestionList">
+        <input id="watchBrand" style="text-transform:uppercase;text-transform:uppercase" name="brand" type="text" placeholder="Start typing brand" required aria-autocomplete="list" aria-expanded="false" aria-controls="brandSuggestionList" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
         <div id="brandSuggestionList" class="brand-suggestion-list" role="listbox" hidden></div>
       </div>
 
@@ -2153,26 +2200,29 @@ body.sell-active #noResults{
         <input id="watchYear" name="year" type="text">
       </div>
 
-      <div class="sell-field sell-field-wide">
+      <div class="sell-field">
         <label for="watchContents">Box / papers</label>
-        <input id="watchContents" name="contents" type="text" placeholder="Full set, box only, watch only...">
+        <input id="watchContents" name="contents" type="text" placeholder="FULL SET, BOX ONLY, WATCH ONLY...">
+      </div>
+
+      <div class="sell-field">
+        <label for="watchCondition">Condition</label>
+        <div class="custom-select-wrap" data-custom-select>
+          <input id="watchCondition" name="condition" type="hidden" value="">
+          <button class="custom-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">SELECT</button>
+          <div class="custom-select-options" role="listbox">
+            <button type="button" role="option" data-value="NEW">NEW</button>
+            <button type="button" role="option" data-value="EXCELLENT">EXCELLENT</button>
+            <button type="button" role="option" data-value="GOOD">GOOD</button>
+            <button type="button" role="option" data-value="FAIR">FAIR</button>
+          </div>
+        </div>
       </div>
 
       <div class="sell-field sell-field-wide">
         <label for="watchDetails">Additional Information</label>
-        <textarea id="watchDetails" name="details" placeholder="Optional"></textarea>
+        <textarea id="watchDetails" name="details" placeholder="OPTIONAL"></textarea>
       </div>
-
-
-      <div class="sell-field sell-field-wide">
-        <label for="watchPhotos">Photos</label>
-        <label id="photoDropZone" class="sell-photo-drop" for="watchPhotos">
-          <input id="watchPhotos" name="photos" type="file" accept="image/*,.heic,.heif" multiple>
-          <span class="sell-photo-main">Upload photos</span>
-          <span class="sell-photo-sub">Tap to attach, or drag and drop images here.</span>
-        </label>
-      </div>
-      <div id="photoPreviewList" class="sell-photo-previews" aria-live="polite"></div>
 
       <div class="sell-method-title">Submit via</div>
       <div class="sell-methods" aria-label="Submit via">
@@ -2194,7 +2244,7 @@ body.sell-active #noResults{
 
       <p id="sellFormMessage" class="sell-form-message" role="alert"></p>
       <button class="sell-submit" type="submit">Submit watch</button>
-      <p class="sell-note">Choose Email or WhatsApp to open a message with your watch details ready to send. Photo previews stay on this page; attach the selected photos in Email or WhatsApp before sending.</p>
+      <p class="sell-note">For the most accurate estimate, please include photos of the watch and any accessories.</p>
     </form>
   </div>
 </section>
@@ -2262,7 +2312,7 @@ Examples:
 
 {
   id:"rolex-submariner",
-  brand:"Rolex",
+  brand:"ROLEX",
   title:"Submariner",
   image:"sub-cover.jpg",
   gallery:[
@@ -2275,7 +2325,7 @@ Examples:
 If a watch only has one image, just use:
 {
   id:"cartier-tank",
-  brand:"Cartier",
+  brand:"CARTIER",
   title:"Tank",
   image:"tank-cover.jpg"
 }
@@ -2352,7 +2402,7 @@ You can add, remove, or reorder them whenever needed.
    "Images/Watches/JLC2/11.webp",
  ],
  title:"Reverso Tribute Duoface Calendar",
- brand:"Jaeger-LeCoultre",
+ brand:"JAEGER-LECOULTRE",
  price:10495,
  status:"sold",
  specs:{reference:"Q3918420",year:"2023",caseSize:"49.4MM x 29.9MM",condition:"EXCELLENT",contents:"FULL SET"}},
@@ -2370,7 +2420,7 @@ You can add, remove, or reorder them whenever needed.
    "Images/Watches/P1/8.webp",
  ],
  title:"Radiomir Base PAM00210",
- brand:"Panerai",
+ brand:"PANERAI",
  price:3295,
  status:"sold",
  specs:{reference:"PAM00210",year:"2006",caseSize:"45MM",condition:"EXCELLENT",contents:"FULL SET"}},
@@ -2416,7 +2466,7 @@ You can add, remove, or reorder them whenever needed.
    "Images/Watches/JLC1/cover.webp",
  ],
  title:"Reverso Classic Small",
- brand:"Jaeger-LeCoultre",
+ brand:"JAEGER-LECOULTRE",
  price:3795,
  status:"sold",
  specs:{reference:"Q2608440",year:"2022",caseSize:"21MM",condition:"EXCELLENT",contents:"FULL SET"}},
@@ -2432,7 +2482,7 @@ You can add, remove, or reorder them whenever needed.
    "Images/Watches/TH2/6.webp",
  ],
  title:"Formula One Solargraph Green",
- brand:"TAG Heuer",
+ brand:"TAG HEUER",
  price:1295,
  status:"sold",
  specs:{reference:"WBY111E.BA0042",year:"2026",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
@@ -2532,7 +2582,7 @@ You can add, remove, or reorder them whenever needed.
    "Images/Watches/TH1/7.webp",
  ],
  title:"Formula One Solargraph Ltd Edn",
- brand:"TAG Heuer",
+ brand:"TAG HEUER",
  price:1350,
  status:"sold",
  specs:{reference:"",year:"2025",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
@@ -2714,80 +2764,6 @@ function setEmailError(show){
   if(show) input?.focus();
 }
 
-
-const photoInput = document.getElementById("watchPhotos");
-const photoDropZone = document.getElementById("photoDropZone");
-const photoPreviewList = document.getElementById("photoPreviewList");
-let selectedWatchPhotos = [];
-
-function refreshPhotoPreviews(){
-  if(!photoPreviewList) return;
-  photoPreviewList.innerHTML = "";
-  selectedWatchPhotos.forEach((file, index) => {
-    const item = document.createElement("div");
-    item.className = "sell-photo-preview";
-
-    const remove = document.createElement("button");
-    remove.type = "button";
-    remove.className = "sell-photo-remove";
-    remove.setAttribute("aria-label", "Remove photo");
-    remove.textContent = "×";
-    remove.addEventListener("click", () => {
-      selectedWatchPhotos.splice(index, 1);
-      refreshPhotoPreviews();
-    });
-
-    const name = document.createElement("div");
-    name.className = "sell-photo-name";
-    name.textContent = file.name;
-
-    if(file.type.startsWith("image/")){
-      const img = document.createElement("img");
-      img.alt = file.name;
-      img.src = URL.createObjectURL(file);
-      img.onload = () => URL.revokeObjectURL(img.src);
-      item.appendChild(img);
-    }else{
-      item.style.display = "flex";
-      item.style.alignItems = "center";
-      item.style.justifyContent = "center";
-      item.textContent = "HEIC";
-    }
-
-    item.appendChild(remove);
-    item.appendChild(name);
-    photoPreviewList.appendChild(item);
-  });
-}
-
-function addWatchPhotos(fileList){
-  const files = Array.from(fileList || []).filter(file =>
-    file.type.startsWith("image/") || /\.(heic|heif)$/i.test(file.name)
-  );
-  selectedWatchPhotos = [...selectedWatchPhotos, ...files].slice(0, 10);
-  refreshPhotoPreviews();
-}
-
-photoInput?.addEventListener("change", (e) => addWatchPhotos(e.target.files));
-
-["dragenter", "dragover"].forEach(eventName => {
-  photoDropZone?.addEventListener(eventName, (e) => {
-    e.preventDefault();
-    photoDropZone.classList.add("is-dragover");
-  });
-});
-
-["dragleave", "drop"].forEach(eventName => {
-  photoDropZone?.addEventListener(eventName, (e) => {
-    e.preventDefault();
-    photoDropZone.classList.remove("is-dragover");
-  });
-});
-
-photoDropZone?.addEventListener("drop", (e) => {
-  addWatchPhotos(e.dataTransfer?.files);
-});
-
 sellForm?.addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(sellForm);
@@ -2811,10 +2787,10 @@ sellForm?.addEventListener("submit", (e) => {
     `Model / reference: ${data.get("model") || ""}`,
     `Year: ${data.get("year") || ""}`,
     `Box / papers: ${data.get("contents") || ""}`,
+    `Condition: ${data.get("condition") || ""}`,
     `Additional information: ${data.get("details") || ""}`,
-    `Photos selected: ${selectedWatchPhotos.length ? selectedWatchPhotos.map(file => file.name).join(", ") : "None"}`,
     "",
-    selectedWatchPhotos.length ? "I have selected photos on the form. I will attach/send them with this message." : "I will attach photos before sending if needed."
+    "I will attach photos before sending."
   ];
   const subject = `Watch submission: ${data.get("brand") || ""} ${data.get("model") || ""}`.trim();
   const method = data.get("submitMethod") || "email";
@@ -2828,14 +2804,14 @@ sellForm?.addEventListener("submit", (e) => {
 });
 
 const luxuryWatchBrands = [
-  "Rolex", "Patek Philippe", "Audemars Piguet", "Richard Mille", "Omega", "Cartier", "Tudor", "Zenith",
-  "Vacheron Constantin", "Jaeger-LeCoultre", "Breitling", "IWC", "Panerai", "TAG Heuer", "Hublot",
-  "Breguet", "Blancpain", "Chopard", "Girard-Perregaux", "Ulysse Nardin", "A. Lange & Söhne",
-  "Grand Seiko", "Seiko", "Longines", "Tissot", "Bell & Ross", "Bremont", "Christopher Ward", "Nomos",
-  "Oris", "Piaget", "Bulgari", "Franck Muller", "F.P. Journe", "MB&F", "De Bethune", "Parmigiani Fleurier",
-  "Roger Dubuis", "Akrivia", "Laurent Ferrier", "H. Moser & Cie", "Urwerk", "Ressence", "Greubel Forsey",
-  "Jacob & Co.", "Maurice Lacroix", "Frederique Constant", "Baume & Mercier", "Rado", "Hamilton", "Sinn",
-  "Doxa", "Squale", "Ming", "Studio Underd0g"
+  "ROLEX", "PATEK PHILIPPE", "AUDEMARS PIGUET", "RICHARD MILLE", "OMEGA", "CARTIER", "TUDOR", "ZENITH",
+  "VACHERON CONSTANTIN", "JAEGER-LECOULTRE", "BREITLING", "IWC", "PANERAI", "TAG HEUER", "HUBLOT",
+  "BREGUET", "BLANCPAIN", "CHOPARD", "GIRARD-PERREGAUX", "ULYSSE NARDIN", "A. LANGE & SÖHNE",
+  "GRAND SEIKO", "SEIKO", "LONGINES", "TISSOT", "BELL & ROSS", "BREMONT", "CHRISTOPHER WARD", "NOMOS",
+  "ORIS", "PIAGET", "BULGARI", "FRANCK MULLER", "F.P. JOURNE", "MB&F", "DE BETHUNE", "PARMIGIANI FLEURIER",
+  "ROGER DUBUIS", "AKRIVIA", "LAURENT FERRIER", "H. MOSER & CIE", "URWERK", "RESSENCE", "GREUBEL FORSEY",
+  "JACOB & CO.", "MAURICE LACROIX", "FREDERIQUE CONSTANT", "BAUME & MERCIER", "RADO", "HAMILTON", "SINN",
+  "DOXA", "SQUALE", "MING", "STUDIO UNDERD0G"
 ];
 
 const brandInput = document.getElementById("watchBrand");
@@ -3300,6 +3276,38 @@ document.addEventListener('selectstart', function(e){
 document.addEventListener('contextmenu', function(e){
   e.preventDefault();
 }, true);
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  document.querySelectorAll("[data-custom-select]").forEach(function(select){
+    const trigger = select.querySelector(".custom-select-trigger");
+    const input = select.querySelector("input[type='hidden']");
+    const options = select.querySelectorAll(".custom-select-options button");
+
+    trigger.addEventListener("click", function(){
+      const isOpen = select.classList.toggle("is-open");
+      trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    options.forEach(function(option){
+      option.addEventListener("click", function(){
+        input.value = option.dataset.value || option.textContent.trim();
+        trigger.textContent = option.textContent.trim();
+        select.classList.remove("is-open");
+        trigger.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.addEventListener("click", function(event){
+      if(!select.contains(event.target)){
+        select.classList.remove("is-open");
+        trigger.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+});
 </script>
 
 </body>
