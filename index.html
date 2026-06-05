@@ -1471,7 +1471,7 @@ a, button{
 }
 
 .sell-copy{
-  margin:0 0 24px;
+  margin:0 0 12px;
   width:100%;
   max-width:100%;
   box-sizing:border-box;
@@ -3235,6 +3235,43 @@ html body #sellPage .sell-field .custom-select-wrap.has-value.is-open > .custom-
 }
 </style>
 
+
+<!-- FINAL USER FIX: sell intro copy matches small grey field text and displays in capitals -->
+<style>
+#sellPage .sell-copy{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+  color:#8a8a8a !important;
+  text-transform:uppercase !important;
+  letter-spacing:0.06em !important;
+  margin:0 0 22px !important;
+}
+</style>
+
+
+<!-- FINAL OVERRIDE: balance sell heading/copy/form spacing -->
+<style>
+html body #sellPage .sell-title{
+  margin-bottom:10px !important;
+}
+html body #sellPage .sell-copy{
+  margin:0 0 10px !important;
+}
+html body #sellPage .sell-form{
+  margin-top:0 !important;
+}
+@media (max-width:700px){
+  html body #sellPage .sell-title{
+    margin-bottom:10px !important;
+  }
+  html body #sellPage .sell-copy{
+    margin:0 0 10px !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -3292,7 +3329,7 @@ html body #sellPage .sell-field .custom-select-wrap.has-value.is-open > .custom-
 <section id="sellPage" class="sell-page" hidden>
   <div class="sell-panel">
     <h1 class="sell-title">Sell your watch</h1>
-    <p class="sell-copy">Please share the details of your watch. We will review your submission and come back to you directly.</p>
+    <p class="sell-copy">PLEASE SHARE THE DETAILS OF YOUR WATCH. WE WILL REVIEW YOUR SUBMISSION AND COME BACK TO YOU DIRECTLY.</p>
 
     <form id="sellForm" class="sell-form" novalidate>
       <div class="sell-field">
