@@ -3166,6 +3166,75 @@ html body #sellPage .sell-field textarea{
 }
 </style>
 
+
+
+<!-- FINAL FIX: shrink completed Sell form output text to match the small grey field style. No box size/layout changes. -->
+<style>
+/* Typed/entered text in Sell form fields */
+html body #sellPage .sell-field input,
+html body #sellPage .sell-field textarea,
+html body #sellPage #sellerName,
+html body #sellPage #watchBrand,
+html body #sellPage #watchModel,
+html body #sellPage #watchYear,
+html body #sellPage #watchContents,
+html body #sellPage #watchDetails{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  color:#111 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+/* Keep the compact all-caps look for the small fields the user fills in. */
+html body #sellPage #sellerName,
+html body #sellPage #watchBrand,
+html body #sellPage #watchModel,
+html body #sellPage #watchYear,
+html body #sellPage #watchContents{
+  text-transform:uppercase !important;
+}
+
+/* Selected Condition value: same size/style as the other completed field outputs. */
+html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger,
+html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:hover,
+html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:focus,
+html body #sellPage .sell-field .custom-select-wrap.has-value.is-open > .custom-select-trigger{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+@media (max-width:700px){
+  html body #sellPage .sell-field input,
+  html body #sellPage .sell-field textarea,
+  html body #sellPage #sellerName,
+  html body #sellPage #watchBrand,
+  html body #sellPage #watchModel,
+  html body #sellPage #watchYear,
+  html body #sellPage #watchContents,
+  html body #sellPage #watchDetails,
+  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger,
+  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:hover,
+  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:focus{
+    font-size:11px !important;
+    line-height:1.15 !important;
+    letter-spacing:0.06em !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
