@@ -9,9 +9,18 @@
 
 @font-face{
   font-family:'PeaVirginia';
-  src:url('peavirginia.ttf') format('truetype');
+  src:local('Pea Virginia'), local('PeaVirginia'), url('./peavirginia.ttf') format('truetype');
   font-weight:400;
   font-style:normal;
+  font-display:swap;
+}
+
+@font-face{
+  font-family:'Pea Virginia';
+  src:local('Pea Virginia'), local('PeaVirginia'), url('./peavirginia.ttf') format('truetype');
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
 }
 
 @font-face{
@@ -1453,12 +1462,12 @@ a, button{
 
 .sell-title{
   margin:0 0 12px;
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:18px;
-  line-height:1.2;
-  text-transform:uppercase;
-  letter-spacing:0.03em;
+  font-family:'Pea Virginia','PeaVirginia', cursive !important;
+  font-weight:400 !important;
+  font-size:38px;
+  line-height:1.05;
+  text-transform:none;
+  letter-spacing:0;
 }
 
 .sell-copy{
@@ -1659,7 +1668,12 @@ body.sell-active #noResults{
   }
 
   .sell-form{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:10px;
+  }
+
+  .sell-form > .sell-field:not(.sell-field-half){
+    grid-column:1 / -1;
   }
 }
 
@@ -2135,6 +2149,227 @@ input[list]{
   text-transform:uppercase !important;
 }
 
+
+
+/* Final mobile sell-form fix: keep the compact fields two per row at every screen size. */
+#sellPage .sell-form{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  column-gap:10px !important;
+  row-gap:12px !important;
+}
+
+#sellPage .sell-field{
+  min-width:0 !important;
+}
+
+#sellPage .sell-field-half{
+  grid-column:auto !important;
+}
+
+#sellPage .sell-form > .sell-field:not(.sell-field-half),
+#sellPage .sell-field-wide,
+#sellPage .sell-method-title,
+#sellPage .sell-methods,
+#sellPage .sell-form-message,
+#sellPage .sell-submit{
+  grid-column:1 / -1 !important;
+}
+
+#sellPage .sell-title{
+  font-family:'Pea Virginia','PeaVirginia', cursive !important;
+  font-weight:400 !important;
+  text-transform:none !important;
+  letter-spacing:0 !important;
+}
+
+@media (max-width: 600px){
+  #sellPage .sell-form{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    column-gap:8px !important;
+    row-gap:10px !important;
+  }
+
+  #sellPage .sell-field-half{
+    grid-column:auto !important;
+  }
+
+  #sellPage .sell-field-half label{
+    font-size:9px !important;
+    letter-spacing:0.04em !important;
+  }
+
+  #sellPage .sell-field-half input,
+  #sellPage .sell-field-half .custom-select-trigger{
+    min-width:0 !important;
+    width:100% !important;
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+
+  #sellPage .sell-field-half input::placeholder{
+    font-size:9px !important;
+  }
+}
+
+
+
+/* Final sell form corrections: smaller title and true 2-column compact fields on mobile. */
+#sellPage .sell-title{
+  font-size:30px !important;
+  line-height:1.05 !important;
+  margin-bottom:10px !important;
+}
+
+#sellPage .sell-form{
+  display:grid !important;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap:10px !important;
+}
+
+#sellPage .sell-field{
+  min-width:0 !important;
+  width:auto !important;
+  max-width:none !important;
+}
+
+#sellPage .sell-field-half{
+  grid-column:span 1 !important;
+}
+
+#sellPage .sell-form > .sell-field:not(.sell-field-half),
+#sellPage .sell-field-wide,
+#sellPage .sell-method-title,
+#sellPage .sell-methods,
+#sellPage .sell-form-message,
+#sellPage .sell-submit{
+  grid-column:1 / -1 !important;
+}
+
+@media (max-width: 700px){
+  #sellPage .sell-form{
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap:8px !important;
+  }
+
+  #sellPage .sell-field-half{
+    grid-column:span 1 !important;
+  }
+
+  #sellPage .sell-field-half label{
+    font-size:8.5px !important;
+    letter-spacing:0.035em !important;
+    white-space:nowrap !important;
+  }
+
+  #sellPage .sell-field-half input,
+  #sellPage .sell-field-half .custom-select-trigger{
+    box-sizing:border-box !important;
+    width:100% !important;
+    min-width:0 !important;
+    padding-left:7px !important;
+    padding-right:7px !important;
+    font-size:11px !important;
+  }
+
+  #sellPage #watchContents::placeholder{
+    font-size:8px !important;
+  }
+}
+
+
+
+/* Final override: keep Sell title identical on mobile/minimised view and keep compact fields 2 per row. */
+#sellPage .sell-title{
+  font-family:'Pea Virginia','PeaVirginia', cursive !important;
+  font-size:30px !important;
+  line-height:1.05 !important;
+  font-weight:400 !important;
+  text-transform:none !important;
+  letter-spacing:0 !important;
+  margin-bottom:10px !important;
+}
+
+#sellPage .sell-form{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  column-gap:8px !important;
+  row-gap:10px !important;
+}
+
+#sellPage .sell-field-half{
+  grid-column:span 1 !important;
+  min-width:0 !important;
+}
+
+#sellPage .sell-form > .sell-field:not(.sell-field-half),
+#sellPage .sell-field-wide,
+#sellPage .sell-method-title,
+#sellPage .sell-methods,
+#sellPage .sell-form-message,
+#sellPage .sell-submit{
+  grid-column:1 / -1 !important;
+}
+
+@media (max-width:700px){
+  #sellPage .sell-title{
+    font-family:'Pea Virginia','PeaVirginia', cursive !important;
+    font-size:30px !important;
+    line-height:1.05 !important;
+    font-weight:400 !important;
+    text-transform:none !important;
+    letter-spacing:0 !important;
+  }
+
+  #sellPage .sell-form{
+    display:grid !important;
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    column-gap:8px !important;
+    row-gap:10px !important;
+  }
+
+  #sellPage .sell-field-half{
+    grid-column:span 1 !important;
+    min-width:0 !important;
+  }
+
+  #sellPage .sell-field-half label{
+    white-space:nowrap !important;
+    font-size:8.5px !important;
+  }
+
+  #sellPage .sell-field-half input,
+  #sellPage .sell-field-half .custom-select-trigger{
+    width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+    padding-left:7px !important;
+    padding-right:7px !important;
+    font-size:11px !important;
+  }
+}
+
+
+
+/* Final Sell title descender fix: keep Pea Virginia look but stop the y dropping into the copy below. */
+#sellPage .sell-title{
+  font-size:28px !important;
+  line-height:0.9 !important;
+  margin-bottom:18px !important;
+  display:block !important;
+  transform:scaleY(0.92) !important;
+  transform-origin:left top !important;
+}
+
+@media (max-width:700px){
+  #sellPage .sell-title{
+    font-size:28px !important;
+    line-height:0.9 !important;
+    margin-bottom:18px !important;
+    transform:scaleY(0.92) !important;
+  }
+}
+
 </style>
 
 
@@ -2144,6 +2379,256 @@ input[list]{
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4">
 <link rel="manifest" href="/site.webmanifest?v=4">
 <meta name="theme-color" content="#ffffff">
+
+
+
+<!-- FINAL USER FIX: Sell title descender clearance + matching Box/Papers placeholder -->
+<style>
+#sellPage .sell-title{
+  font-family:'PeaVirginia','Pea Virginia', cursive !important;
+  font-size:25px !important;
+  line-height:1.25 !important;
+  font-weight:400 !important;
+  transform:none !important;
+  text-transform:none !important;
+  letter-spacing:0 !important;
+  margin:0 0 8px !important;
+  padding-bottom:4px !important;
+}
+
+#sellPage .sell-copy{
+  margin-top:0 !important;
+}
+
+#sellPage #watchContents{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+  letter-spacing:0 !important;
+  text-transform:uppercase !important;
+}
+
+#sellPage #watchContents::placeholder{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+  letter-spacing:0 !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+  text-transform:uppercase !important;
+}
+
+#sellPage .sell-field-half input,
+#sellPage .sell-field-half .custom-select-trigger{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+}
+
+@media (max-width:700px){
+  #sellPage .sell-title{
+    font-family:'PeaVirginia','Pea Virginia', cursive !important;
+    font-size:25px !important;
+    line-height:1.25 !important;
+    transform:none !important;
+    margin:0 0 8px !important;
+    padding-bottom:4px !important;
+  }
+
+  #sellPage .sell-form{
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) !important;
+    column-gap:8px !important;
+    row-gap:10px !important;
+  }
+
+  #sellPage .sell-field-half{
+    grid-column:span 1 !important;
+    min-width:0 !important;
+  }
+
+  #sellPage .sell-field-half input,
+  #sellPage .sell-field-half .custom-select-trigger,
+  #sellPage #watchContents,
+  #sellPage #watchContents::placeholder{
+    font-size:11px !important;
+  }
+}
+</style>
+
+
+
+<!-- FINAL USER FIX: Sell copy wording + consistent Sell form typography -->
+<style>
+#sellPage .sell-panel{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.35 !important;
+}
+
+#sellPage .sell-title{
+  font-family:'PeaVirginia','Pea Virginia', cursive !important;
+  font-weight:400 !important;
+  font-size:24px !important;
+  line-height:1.4 !important;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+  transform:none !important;
+  margin:0 0 12px !important;
+  padding:0 !important;
+  overflow:visible !important;
+}
+
+#sellPage .sell-copy{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.45 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+  color:#8a8a8a !important;
+  margin:0 0 22px !important;
+  max-width:100% !important;
+}
+
+#sellPage .sell-form{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  column-gap:12px !important;
+  row-gap:12px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+#sellPage .sell-form > .sell-field:not(.sell-field-half),
+#sellPage .sell-field-wide,
+#sellPage .sell-method-title,
+#sellPage .sell-methods,
+#sellPage .sell-form-message,
+#sellPage .sell-submit{
+  grid-column:1 / -1 !important;
+}
+
+#sellPage .sell-field-half{
+  grid-column:span 1 !important;
+  min-width:0 !important;
+}
+
+#sellPage .sell-field{
+  min-width:0 !important;
+  gap:6px !important;
+}
+
+#sellPage .sell-field label,
+#sellPage .sell-method-title{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  white-space:nowrap !important;
+}
+
+#sellPage .sell-field input,
+#sellPage .sell-field textarea,
+#sellPage .custom-select-trigger{
+  box-sizing:border-box !important;
+  width:100% !important;
+  min-width:0 !important;
+  border:1px solid #000 !important;
+  border-radius:0 !important;
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+  color:#000 !important;
+  padding:10px !important;
+  min-height:44px !important;
+}
+
+#sellPage .sell-field textarea{
+  min-height:108px !important;
+}
+
+#sellPage .sell-field input::placeholder,
+#sellPage .sell-field textarea::placeholder,
+#sellPage #watchContents::placeholder{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+  font-weight:400 !important;
+  letter-spacing:0 !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+  text-transform:uppercase !important;
+}
+
+#sellPage #watchContents{
+  text-transform:uppercase !important;
+}
+
+#sellPage .custom-select-trigger{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  text-align:left !important;
+}
+
+#sellPage .sell-method-label,
+#sellPage .sell-submit{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+}
+
+@media (max-width:700px){
+  #sellPage .sell-page,
+  .sell-page{
+    padding-left:8px !important;
+    padding-right:8px !important;
+    box-sizing:border-box !important;
+  }
+
+  #sellPage .sell-title{
+    font-size:24px !important;
+    line-height:1.4 !important;
+    margin:0 0 12px !important;
+  }
+
+  #sellPage .sell-form{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    column-gap:8px !important;
+    row-gap:10px !important;
+  }
+
+  #sellPage .sell-field label,
+  #sellPage .sell-method-title{
+    font-size:11px !important;
+    line-height:1.15 !important;
+    letter-spacing:0.05em !important;
+  }
+
+  #sellPage .sell-field input,
+  #sellPage .sell-field textarea,
+  #sellPage .custom-select-trigger,
+  #sellPage .sell-field input::placeholder,
+  #sellPage .sell-field textarea::placeholder,
+  #sellPage #watchContents::placeholder{
+    font-size:13px !important;
+    line-height:1.25 !important;
+  }
+
+  #sellPage .sell-field-half input,
+  #sellPage .sell-field-half .custom-select-trigger{
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+}
+</style>
 
 </head>
 
@@ -2202,7 +2687,7 @@ input[list]{
 <section id="sellPage" class="sell-page" hidden>
   <div class="sell-panel">
     <h1 class="sell-title">Sell your watch</h1>
-    <p class="sell-copy">Please share the details of your watch. We will review your submission and come back to you directly.</p>
+    <p class="sell-copy">Please share the details of your watch and we will come back to you.</p>
 
     <form id="sellForm" class="sell-form" novalidate>
       <div class="sell-field">
@@ -2216,7 +2701,7 @@ input[list]{
       </div>
 
       <div class="sell-field sell-field-half">
-        <label for="watchModel">Model / reference</label>
+        <label for="watchModel">Model</label>
         <input id="watchModel" name="model" type="text" required>
       </div>
 
@@ -2227,7 +2712,7 @@ input[list]{
 
       <div class="sell-field sell-field-half">
         <label for="watchContents">Box / papers</label>
-        <input id="watchContents" name="contents" type="text" placeholder="FULL SET, BOX ONLY, WATCH ONLY...">
+        <input id="watchContents" name="contents" type="text" placeholder="FULL SET / BOX ONLY">
       </div>
 
       <div class="sell-field sell-field-half">
@@ -2797,7 +3282,7 @@ sellForm?.addEventListener("submit", (e) => {
     "",
     `Name: ${data.get("name") || ""}`,
     `Brand: ${data.get("brand") || ""}`,
-    `Model / reference: ${data.get("model") || ""}`,
+    `Model: ${data.get("model") || ""}`,
     `Year: ${data.get("year") || ""}`,
     `Box / papers: ${data.get("contents") || ""}`,
     `Condition: ${data.get("condition") || ""}`,
@@ -3320,25 +3805,3 @@ document.addEventListener("DOMContentLoaded", function(){
 
 </body>
 </html>
-
-
-<script>
-/* ===== IMAGE LOCKDOWN / CLEANER INTERACTION ===== */
-document.addEventListener('contextmenu', function(e){
-  if(e.target.closest('img, .image, .product-image')){
-    e.preventDefault();
-  }
-}, true);
-
-document.addEventListener('dragstart', function(e){
-  if(e.target.closest('img, .image, .product-image')){
-    e.preventDefault();
-  }
-}, true);
-
-document.addEventListener('selectstart', function(e){
-  if(e.target.closest('img, .image, .product-image')){
-    e.preventDefault();
-  }
-}, true);
-</script>
