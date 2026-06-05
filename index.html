@@ -2994,6 +2994,178 @@ html body #sellPage #watchBrand::placeholder{
 }
 </style>
 
+
+
+<!-- FINAL FIX: Condition selected value matches typed input style; placeholder SELECT remains grey. -->
+<style>
+html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger,
+html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:hover,
+html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:focus,
+html body #sellPage .custom-select-wrap.has-value.is-open > button.custom-select-trigger{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-weight:400 !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+  letter-spacing:0 !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+@media (max-width:700px){
+  html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger,
+  html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:hover,
+  html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:focus,
+  html body #sellPage .custom-select-wrap.has-value.is-open > button.custom-select-trigger{
+    font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+    font-weight:400 !important;
+    font-size:13px !important;
+    line-height:1.25 !important;
+    letter-spacing:0 !important;
+    color:#111 !important;
+  }
+}
+</style>
+
+
+
+<!-- FINAL FIX: standardise every Sell form box including Box / papers -->
+<style>
+/* Same physical box for Name, Brand, Model, Year, Box / papers and Condition. */
+html body #sellPage .sell-field input,
+html body #sellPage .sell-field textarea,
+html body #sellPage .sell-field .custom-select-trigger,
+html body #sellPage #watchContents{
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  width:100% !important;
+  min-width:0 !important;
+  height:44px !important;
+  min-height:44px !important;
+  max-height:44px !important;
+  padding:10px !important;
+  margin:0 !important;
+  border:1px solid #000 !important;
+  border-radius:0 !important;
+  background:#fff !important;
+  box-shadow:none !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+}
+
+/* Text inside normal typed fields. */
+html body #sellPage .sell-field input,
+html body #sellPage #watchContents{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-weight:400 !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+  letter-spacing:0 !important;
+  color:#111 !important;
+}
+
+/* Placeholder text inside boxes. */
+html body #sellPage .sell-field input::placeholder,
+html body #sellPage #watchContents::placeholder{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+}
+
+/* Condition placeholder: SELECT. */
+html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger,
+html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger:hover,
+html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger:focus{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+  justify-content:space-between !important;
+  text-align:left !important;
+}
+
+/* Condition selected value: match typed outputs. */
+html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger,
+html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:hover,
+html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:focus{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-weight:400 !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+  letter-spacing:0 !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+  justify-content:space-between !important;
+  text-align:left !important;
+}
+
+/* Condition dropdown options and Brand suggestions: stable, dark, same size in normal/hover/mobile. */
+html body #sellPage .custom-select-options button,
+html body #sellPage .custom-select-options button:hover,
+html body #sellPage .custom-select-options button:focus,
+html body #sellPage .brand-suggestion-list .brand-suggestion-item,
+html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
+html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+/* Keep the textarea as the only taller field. */
+html body #sellPage .sell-field textarea{
+  display:block !important;
+  height:108px !important;
+  min-height:108px !important;
+  max-height:none !important;
+}
+
+@media (max-width:700px){
+  html body #sellPage .sell-field input,
+  html body #sellPage .sell-field .custom-select-trigger,
+  html body #sellPage #watchContents{
+    height:44px !important;
+    min-height:44px !important;
+    max-height:44px !important;
+    padding:8px !important;
+  }
+  html body #sellPage .sell-field input,
+  html body #sellPage #watchContents,
+  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger{
+    font-size:13px !important;
+    line-height:1.25 !important;
+  }
+  html body #sellPage .sell-field input::placeholder,
+  html body #sellPage #watchContents::placeholder,
+  html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger,
+  html body #sellPage .custom-select-options button,
+  html body #sellPage .brand-suggestion-list .brand-suggestion-item{
+    font-size:11px !important;
+    line-height:1.15 !important;
+    letter-spacing:0.06em !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -4143,6 +4315,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const trigger = select.querySelector(".custom-select-trigger");
     const input = select.querySelector("input[type='hidden']");
     const options = select.querySelectorAll(".custom-select-options button");
+    if(input && input.value){
+      select.classList.add("has-value");
+    }
 
     trigger.addEventListener("click", function(){
       const isOpen = select.classList.toggle("is-open");
@@ -4153,6 +4328,7 @@ document.addEventListener("DOMContentLoaded", function(){
       option.addEventListener("click", function(){
         input.value = option.dataset.value || option.textContent.trim();
         trigger.textContent = option.textContent.trim();
+        select.classList.add("has-value");
         select.classList.remove("is-open");
         trigger.setAttribute("aria-expanded", "false");
       });
