@@ -60,6 +60,15 @@ body{
   cursor:pointer;
   appearance:none;
   -webkit-appearance:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.logo:focus,
+.logo:focus-visible,
+.logo:active{
+  outline:none;
+  box-shadow:none;
+  opacity:1;
 }
 
 .logo img{
@@ -2767,7 +2776,8 @@ logoHome?.addEventListener("click", () => {
   if(filterSold) filterSold.checked = false;
   if(typeof closeLightbox === "function" && lightbox?.classList.contains("open")) closeLightbox();
   setPage("buy");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  // Go back to the BUY page instantly, without the smooth-scroll flash/jump.
+  window.scrollTo(0, 0);
 });
 
 sellForm?.addEventListener("submit", (e) => {
