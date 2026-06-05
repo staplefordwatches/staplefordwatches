@@ -1950,6 +1950,113 @@ body.sell-active #noResults{
 }
 
 
+
+/* Photo upload/drop area for sell form */
+.sell-photo-drop{
+  grid-column:1 / -1;
+  border:1px dashed #000;
+  background:#fff;
+  min-height:118px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-align:center;
+  cursor:pointer;
+  transition:background .15s ease, border-color .15s ease;
+}
+.sell-photo-drop.is-dragover{
+  background:#f6f6f6;
+}
+.sell-photo-drop input{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  pointer-events:none;
+}
+.sell-photo-main{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px;
+  line-height:1;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+.sell-photo-sub{
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:12px;
+  line-height:1.4;
+  opacity:.65;
+}
+.sell-photo-previews{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(86px, 1fr));
+  gap:10px;
+}
+.sell-photo-preview{
+  position:relative;
+  aspect-ratio:1 / 1;
+  border:1px solid #ddd;
+  background:#f7f7f7;
+  overflow:hidden;
+}
+.sell-photo-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.sell-photo-remove{
+  position:absolute;
+  top:5px;
+  right:5px;
+  width:24px;
+  height:24px;
+  border:1px solid #000;
+  background:#fff;
+  color:#000;
+  cursor:pointer;
+  font-family:Arial, sans-serif;
+  font-size:16px;
+  line-height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.sell-photo-name{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(255,255,255,.88);
+  color:#000;
+  padding:4px 5px;
+  font-size:10px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media (max-width:640px){
+  .sell-photo-drop{
+    min-height:104px;
+    padding:16px 12px;
+  }
+  .sell-photo-main{
+    font-size:12px;
+  }
+  .sell-photo-sub{
+    font-size:11px;
+  }
+  .sell-photo-previews{
+    grid-template-columns:repeat(3, 1fr);
+  }
+}
+
 </style>
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=4">
@@ -2056,6 +2163,17 @@ body.sell-active #noResults{
         <textarea id="watchDetails" name="details" placeholder="Optional"></textarea>
       </div>
 
+
+      <div class="sell-field sell-field-wide">
+        <label for="watchPhotos">Photos</label>
+        <label id="photoDropZone" class="sell-photo-drop" for="watchPhotos">
+          <input id="watchPhotos" name="photos" type="file" accept="image/*,.heic,.heif" multiple>
+          <span class="sell-photo-main">Upload photos</span>
+          <span class="sell-photo-sub">Tap to attach, or drag and drop images here.</span>
+        </label>
+      </div>
+      <div id="photoPreviewList" class="sell-photo-previews" aria-live="polite"></div>
+
       <div class="sell-method-title">Submit via</div>
       <div class="sell-methods" aria-label="Submit via">
         <label class="sell-method-option">
@@ -2076,7 +2194,7 @@ body.sell-active #noResults{
 
       <p id="sellFormMessage" class="sell-form-message" role="alert"></p>
       <button class="sell-submit" type="submit">Submit watch</button>
-      <p class="sell-note">Choose Email or WhatsApp to open a message with your watch details ready to send. You can attach photos before sending.</p>
+      <p class="sell-note">Choose Email or WhatsApp to open a message with your watch details ready to send. Photo previews stay on this page; attach the selected photos in Email or WhatsApp before sending.</p>
     </form>
   </div>
 </section>
@@ -2596,6 +2714,80 @@ function setEmailError(show){
   if(show) input?.focus();
 }
 
+
+const photoInput = document.getElementById("watchPhotos");
+const photoDropZone = document.getElementById("photoDropZone");
+const photoPreviewList = document.getElementById("photoPreviewList");
+let selectedWatchPhotos = [];
+
+function refreshPhotoPreviews(){
+  if(!photoPreviewList) return;
+  photoPreviewList.innerHTML = "";
+  selectedWatchPhotos.forEach((file, index) => {
+    const item = document.createElement("div");
+    item.className = "sell-photo-preview";
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "sell-photo-remove";
+    remove.setAttribute("aria-label", "Remove photo");
+    remove.textContent = "×";
+    remove.addEventListener("click", () => {
+      selectedWatchPhotos.splice(index, 1);
+      refreshPhotoPreviews();
+    });
+
+    const name = document.createElement("div");
+    name.className = "sell-photo-name";
+    name.textContent = file.name;
+
+    if(file.type.startsWith("image/")){
+      const img = document.createElement("img");
+      img.alt = file.name;
+      img.src = URL.createObjectURL(file);
+      img.onload = () => URL.revokeObjectURL(img.src);
+      item.appendChild(img);
+    }else{
+      item.style.display = "flex";
+      item.style.alignItems = "center";
+      item.style.justifyContent = "center";
+      item.textContent = "HEIC";
+    }
+
+    item.appendChild(remove);
+    item.appendChild(name);
+    photoPreviewList.appendChild(item);
+  });
+}
+
+function addWatchPhotos(fileList){
+  const files = Array.from(fileList || []).filter(file =>
+    file.type.startsWith("image/") || /\.(heic|heif)$/i.test(file.name)
+  );
+  selectedWatchPhotos = [...selectedWatchPhotos, ...files].slice(0, 10);
+  refreshPhotoPreviews();
+}
+
+photoInput?.addEventListener("change", (e) => addWatchPhotos(e.target.files));
+
+["dragenter", "dragover"].forEach(eventName => {
+  photoDropZone?.addEventListener(eventName, (e) => {
+    e.preventDefault();
+    photoDropZone.classList.add("is-dragover");
+  });
+});
+
+["dragleave", "drop"].forEach(eventName => {
+  photoDropZone?.addEventListener(eventName, (e) => {
+    e.preventDefault();
+    photoDropZone.classList.remove("is-dragover");
+  });
+});
+
+photoDropZone?.addEventListener("drop", (e) => {
+  addWatchPhotos(e.dataTransfer?.files);
+});
+
 sellForm?.addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(sellForm);
@@ -2620,8 +2812,9 @@ sellForm?.addEventListener("submit", (e) => {
     `Year: ${data.get("year") || ""}`,
     `Box / papers: ${data.get("contents") || ""}`,
     `Additional information: ${data.get("details") || ""}`,
+    `Photos selected: ${selectedWatchPhotos.length ? selectedWatchPhotos.map(file => file.name).join(", ") : "None"}`,
     "",
-    "I will attach photos before sending."
+    selectedWatchPhotos.length ? "I have selected photos on the form. I will attach/send them with this message." : "I will attach photos before sending if needed."
   ];
   const subject = `Watch submission: ${data.get("brand") || ""} ${data.get("model") || ""}`.trim();
   const method = data.get("submitMethod") || "email";
