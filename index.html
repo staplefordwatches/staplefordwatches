@@ -1468,6 +1468,9 @@ a, button{
   box-sizing:border-box;
   font-size:13px;
   line-height:1.5;
+  color:#8a8a8a;
+  text-transform:none;
+  letter-spacing:normal;
   white-space:normal;
   overflow-wrap:break-word;
 }
@@ -1486,6 +1489,10 @@ a, button{
 
 .sell-field-wide{
   grid-column:1 / -1;
+}
+
+.sell-field-half{
+  grid-column:auto;
 }
 
 .sell-field label{
@@ -2195,7 +2202,7 @@ input[list]{
 <section id="sellPage" class="sell-page" hidden>
   <div class="sell-panel">
     <h1 class="sell-title">Sell your watch</h1>
-    <p class="sell-copy">Please share the details of the watch you are considering selling. We will review your submission and come back to you directly.</p>
+    <p class="sell-copy">Please share the details of your watch. We will review your submission and come back to you directly.</p>
 
     <form id="sellForm" class="sell-form" novalidate>
       <div class="sell-field">
@@ -2208,22 +2215,22 @@ input[list]{
         <div id="brandSuggestionList" class="brand-suggestion-list" role="listbox" hidden></div>
       </div>
 
-      <div class="sell-field">
+      <div class="sell-field sell-field-half">
         <label for="watchModel">Model / reference</label>
         <input id="watchModel" name="model" type="text" required>
       </div>
 
-      <div class="sell-field">
+      <div class="sell-field sell-field-half">
         <label for="watchYear">Year</label>
         <input id="watchYear" name="year" type="text">
       </div>
 
-      <div class="sell-field">
+      <div class="sell-field sell-field-half">
         <label for="watchContents">Box / papers</label>
         <input id="watchContents" name="contents" type="text" placeholder="FULL SET, BOX ONLY, WATCH ONLY...">
       </div>
 
-      <div class="sell-field">
+      <div class="sell-field sell-field-half">
         <label for="watchCondition">Condition</label>
         <div class="custom-select-wrap" data-custom-select>
           <input id="watchCondition" name="condition" type="hidden" value="">
@@ -2261,7 +2268,6 @@ input[list]{
       </div>
 
       <button class="sell-submit" type="submit">Submit watch</button>
-      <p class="sell-note">For the most accurate estimate, please include photos of the watch and any accessories.</p>
     </form>
   </div>
 </section>
