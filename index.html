@@ -3272,6 +3272,41 @@ html body #sellPage .sell-form{
 }
 </style>
 
+
+<!-- PROFESSIONAL FIX: match Sell form heading labels in horizontal/mobile view. -->
+<style>
+/* Stop browser landscape text boosting from enlarging individual Sell form labels. */
+html,
+body,
+html body #sellPage,
+html body #sellPage *{
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+/* Base lock so labels cannot inherit larger typography from the full-width rows. */
+html body #sellPage .sell-field > label,
+html body #sellPage .sell-method-title{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  white-space:nowrap !important;
+}
+
+/* Horizontal phone view: Name, Brand, Additional Information and Submit Via now match Model/Year/Box/Condition. */
+@media (max-width:700px), (orientation:landscape) and (max-height:500px){
+  html body #sellPage .sell-field > label,
+  html body #sellPage .sell-method-title{
+    font-size:8.5px !important;
+    line-height:1.15 !important;
+    letter-spacing:0.035em !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
