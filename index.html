@@ -3273,9 +3273,9 @@ html body #sellPage .sell-form{
 </style>
 
 
-<!-- PROFESSIONAL FIX: match Sell form heading labels in horizontal/mobile view. -->
+<!-- PROFESSIONAL FIX: prevent horizontal/landscape text enlargement on Sell form labels and controls. -->
 <style>
-/* Stop browser landscape text boosting from enlarging individual Sell form labels. */
+/* iOS/Safari can enlarge small text in landscape unless every affected text node is explicitly locked. */
 html,
 body,
 html body #sellPage,
@@ -3284,26 +3284,119 @@ html body #sellPage *{
   text-size-adjust:100% !important;
 }
 
-/* Base lock so labels cannot inherit larger typography from the full-width rows. */
+/* Keep Sell form labels the same compact professional size in normal and horizontal views. */
 html body #sellPage .sell-field > label,
-html body #sellPage .sell-method-title{
+html body #sellPage .sell-method-title,
+html body #sellPage .sell-method-label,
+html body #sellPage .sell-submit,
+html body #sellPage .brand-suggestion-list .brand-suggestion-item,
+html body #sellPage .custom-select-options button{
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
   font-size:11px !important;
   line-height:1.15 !important;
   letter-spacing:0.06em !important;
   text-transform:uppercase !important;
-  white-space:nowrap !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
 }
 
-/* Horizontal phone view: Name, Brand, Additional Information and Submit Via now match Model/Year/Box/Condition. */
-@media (max-width:700px), (orientation:landscape) and (max-height:500px){
+/* Explicitly catch phone landscape where width may be over the mobile breakpoint. */
+@media (orientation:landscape) and (max-height:500px){
   html body #sellPage .sell-field > label,
-  html body #sellPage .sell-method-title{
-    font-size:8.5px !important;
+  html body #sellPage .sell-method-title,
+  html body #sellPage .sell-method-label,
+  html body #sellPage .sell-submit,
+  html body #sellPage .brand-suggestion-list .brand-suggestion-item,
+  html body #sellPage .custom-select-options button{
+    font-size:11px !important;
     line-height:1.15 !important;
-    letter-spacing:0.035em !important;
+    letter-spacing:0.06em !important;
   }
+}
+
+
+/* FINAL OVERRIDE: Sell-page labels must match the nav/action bar text sizing. */
+html, body, button, input, textarea, select{
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+#sellPage .sell-field label,
+#sellPage .sell-method-title{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.02em !important;
+  text-transform:uppercase !important;
+  white-space:nowrap !important;
+}
+@media (max-width:640px){
+  #sellPage .sell-field label,
+  #sellPage .sell-method-title{
+    font-size:11px !important;
+    letter-spacing:0.02em !important;
+  }
+}
+@media (max-width:380px){
+  #sellPage .sell-field label,
+  #sellPage .sell-method-title{
+    font-size:10px !important;
+    letter-spacing:0.02em !important;
+  }
+}
+</style>
+
+
+
+<!-- TRUE FINAL OVERRIDE: match Sell labels to SORT / BUY / SELL nav text exactly, including phone landscape. -->
+<style id="ben-final-nav-matched-sell-labels">
+html, body, button, input, textarea, select, label{
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+:root{
+  --ben-nav-text-size:12px;
+  --ben-nav-letter-spacing:0.02em;
+  --ben-nav-font-family:'InterEmbedded', Arial, sans-serif;
+  --ben-nav-font-weight:500;
+}
+
+@media (max-width:640px), (orientation:landscape) and (max-height:500px){
+  :root{ --ben-nav-text-size:11px; }
+}
+
+@media (max-width:380px){
+  :root{ --ben-nav-text-size:10px; }
+}
+
+#filterBtn,
+#filterBtn span,
+.nav-page-btn,
+.nav-page-btn span,
+#sellPage .sell-field > label,
+#sellPage .sell-method-title,
+#sellPage .sell-method-label,
+#sellPage .sell-submit{
+  font-family:var(--ben-nav-font-family) !important;
+  font-weight:var(--ben-nav-font-weight) !important;
+  font-size:var(--ben-nav-text-size) !important;
+  letter-spacing:var(--ben-nav-letter-spacing) !important;
+  line-height:1.15 !important;
+  text-transform:uppercase !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+#filterBtn,
+.nav-page-btn{
+  line-height:24px !important;
+}
+
+#sellPage .sell-field > label,
+#sellPage .sell-method-title{
+  white-space:nowrap !important;
 }
 </style>
 
