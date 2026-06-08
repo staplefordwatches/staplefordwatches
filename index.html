@@ -3945,12 +3945,14 @@ html body #filterMenu .status-filter-option{
 
 
 
-<style id="ben-v16-stock-market-banner">
-/* V16: experimental stock-market-style banner across the very top. */
+<style id="ben-v17-stock-market-banner">
+/* V17: Bloomberg-style live stock banner using the site's own watch listings. */
 html body .market-ticker{
+  position:relative !important;
+  z-index:9999 !important;
   width:100% !important;
-  height:28px !important;
-  min-height:28px !important;
+  height:30px !important;
+  min-height:30px !important;
   overflow:hidden !important;
   background:#050505 !important;
   color:#fff !important;
@@ -3962,30 +3964,46 @@ html body .market-ticker{
 html body .market-ticker-track{
   display:inline-flex !important;
   align-items:center !important;
-  gap:28px !important;
+  gap:14px !important;
   width:max-content !important;
-  padding-left:16px !important;
+  padding-left:18px !important;
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
   font-size:11px !important;
-  line-height:28px !important;
-  letter-spacing:0.04em !important;
+  line-height:30px !important;
+  letter-spacing:0.045em !important;
   text-transform:uppercase !important;
-  animation:benMarketTicker 34s linear infinite !important;
+  animation:benMarketTicker 44s linear infinite !important;
 }
 html body .market-ticker span{
   display:inline-flex !important;
   align-items:center !important;
   gap:6px !important;
 }
-html body .market-ticker .ticker-muted{
-  color:rgba(255,255,255,.58) !important;
+html body .market-ticker .ticker-label{
+  color:#f5a623 !important;
+  font-weight:600 !important;
+}
+html body .market-ticker .ticker-brand{
+  color:rgba(255,255,255,.62) !important;
+}
+html body .market-ticker .ticker-model{
+  color:#ffffff !important;
+}
+html body .market-ticker .ticker-price{
+  color:#ffffff !important;
 }
 html body .market-ticker .ticker-up{
-  color:#dfe8df !important;
+  color:#19c37d !important;
+  font-weight:600 !important;
 }
 html body .market-ticker .ticker-down{
-  color:#e8dfdf !important;
+  color:#ff5f57 !important;
+  font-weight:600 !important;
+}
+html body .market-ticker .ticker-divider{
+  color:rgba(255,255,255,.22) !important;
+  margin:0 4px !important;
 }
 @keyframes benMarketTicker{
   from{ transform:translateX(0); }
@@ -3993,14 +4011,15 @@ html body .market-ticker .ticker-down{
 }
 @media (max-width:640px){
   html body .market-ticker{
-    height:26px !important;
-    min-height:26px !important;
+    height:28px !important;
+    min-height:28px !important;
   }
   html body .market-ticker-track{
     font-size:10px !important;
-    line-height:26px !important;
-    gap:22px !important;
-    animation-duration:28s !important;
+    line-height:28px !important;
+    gap:12px !important;
+    padding-left:14px !important;
+    animation-duration:36s !important;
   }
 }
 @media (prefers-reduced-motion:reduce){
@@ -4013,32 +4032,39 @@ html body .market-ticker .ticker-down{
 </head>
 
 <body>
-<div class="market-ticker" aria-label="Stapleford Watches market banner">
-  <div class="market-ticker-track" aria-hidden="true">
-    <span>STAPLEFORD MARKET</span>
-    <span class="ticker-muted">ROLEX</span>
-    <span class="ticker-up">GMT-MASTER II ↑</span>
-    <span class="ticker-muted">PATEK PHILIPPE</span>
-    <span>NAUTILUS</span>
-    <span class="ticker-muted">AUDEMARS PIGUET</span>
-    <span>ROYAL OAK</span>
-    <span class="ticker-muted">CARTIER</span>
-    <span class="ticker-down">SANTOS ↓</span>
-    <span class="ticker-muted">OMEGA</span>
-    <span>SPEEDMASTER</span>
-    <span>BUY • SELL • SOURCE</span>
-    <span>STAPLEFORD MARKET</span>
-    <span class="ticker-muted">ROLEX</span>
-    <span class="ticker-up">GMT-MASTER II ↑</span>
-    <span class="ticker-muted">PATEK PHILIPPE</span>
-    <span>NAUTILUS</span>
-    <span class="ticker-muted">AUDEMARS PIGUET</span>
-    <span>ROYAL OAK</span>
-    <span class="ticker-muted">CARTIER</span>
-    <span class="ticker-down">SANTOS ↓</span>
-    <span class="ticker-muted">OMEGA</span>
-    <span>SPEEDMASTER</span>
-    <span>BUY • SELL • SOURCE</span>
+<div class="market-ticker" aria-label="Stapleford Watches live stock banner">
+  <div class="market-ticker-track" id="marketTickerTrack" aria-hidden="true">
+    <span class="ticker-label">LIVE STOCK</span>
+    <span class="ticker-brand">OMEGA</span>
+    <span class="ticker-model">SEAMASTER PLANET OCEAN 600M</span>
+    <span class="ticker-price">£3,195</span>
+    <span class="ticker-up">AVAILABLE</span>
+    <span class="ticker-divider">•</span>
+    <span class="ticker-brand">PANERAI</span>
+    <span class="ticker-model">RADIOMIR PAM01384</span>
+    <span class="ticker-price">£3,295</span>
+    <span class="ticker-up">AVAILABLE</span>
+    <span class="ticker-divider">•</span>
+    <span class="ticker-brand">JAEGER-LECOULTRE</span>
+    <span class="ticker-model">REVERSO TRIBUTE DUOFACE CALENDAR</span>
+    <span class="ticker-price">£10,495</span>
+    <span class="ticker-down">SOLD</span>
+    <span class="ticker-divider">•</span>
+    <span class="ticker-label">LIVE STOCK</span>
+    <span class="ticker-brand">OMEGA</span>
+    <span class="ticker-model">SEAMASTER PLANET OCEAN 600M</span>
+    <span class="ticker-price">£3,195</span>
+    <span class="ticker-up">AVAILABLE</span>
+    <span class="ticker-divider">•</span>
+    <span class="ticker-brand">PANERAI</span>
+    <span class="ticker-model">RADIOMIR PAM01384</span>
+    <span class="ticker-price">£3,295</span>
+    <span class="ticker-up">AVAILABLE</span>
+    <span class="ticker-divider">•</span>
+    <span class="ticker-brand">JAEGER-LECOULTRE</span>
+    <span class="ticker-model">REVERSO TRIBUTE DUOFACE CALENDAR</span>
+    <span class="ticker-price">£10,495</span>
+    <span class="ticker-down">SOLD</span>
   </div>
 </div>
 
@@ -5382,6 +5408,67 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 });
 </script>
+<script>
+(function buildStaplefordTicker(){
+  const run = function(){
+    const track = document.getElementById("marketTickerTrack");
+    if(!track || typeof WATCHES === "undefined" || !Array.isArray(WATCHES)) return;
+
+  const escapeHtml = (value) => String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+  const formatPrice = (value) => {
+    const number = Number(value);
+    if(!Number.isFinite(number)) return "";
+    return `£${number.toLocaleString("en-GB")}`;
+  };
+
+  const prioritised = [...WATCHES]
+    .filter((watch) => watch && watch.brand && watch.title && Number.isFinite(Number(watch.price)))
+    .sort((a, b) => {
+      const aAvailable = String(a.status || "").toLowerCase() === "available" ? 0 : 1;
+      const bAvailable = String(b.status || "").toLowerCase() === "available" ? 0 : 1;
+      if(aAvailable !== bAvailable) return aAvailable - bAvailable;
+      return 0;
+    })
+    .slice(0, 8);
+
+  const buildRow = () => {
+    const bits = ['<span class="ticker-label">LIVE STOCK</span>'];
+    prioritised.forEach((watch, index) => {
+      const brand = escapeHtml(String(watch.brand).toUpperCase());
+      const model = escapeHtml(String(watch.title).toUpperCase());
+      const price = escapeHtml(formatPrice(watch.price));
+      const isSold = String(watch.status || "").toLowerCase() === "sold";
+      const statusClass = isSold ? "ticker-down" : "ticker-up";
+      const statusText = isSold ? "SOLD" : "AVAILABLE";
+      bits.push(`<span class="ticker-brand">${brand}</span>`);
+      bits.push(`<span class="ticker-model">${model}</span>`);
+      bits.push(`<span class="ticker-price">${price}</span>`);
+      bits.push(`<span class="${statusClass}">${statusText}</span>`);
+      if(index !== prioritised.length - 1) {
+        bits.push('<span class="ticker-divider">•</span>');
+      }
+    });
+    return bits.join('');
+  };
+
+    const row = buildRow();
+    track.innerHTML = row + '<span class="ticker-divider">•</span>' + row;
+  };
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
+})();
+</script>
+
 </body>
 </html>
 
