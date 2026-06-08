@@ -4020,29 +4020,48 @@ html body .footer-links{
 
 
 
-<style id="ben-v24-sell-title-buy-grid-alignment">
-/* V24: align SELL YOUR WATCH with the top edge of the first Buy product image. */
-html body{
-  --content-start-offset: 34px;
+
+
+
+<style id="ben-v25-sell-start-grid-align">
+/* V25: align SELL YOUR WATCH start with the Buy product image top edge. */
+html body #sell,
+html body #sellPage,
+html body #sellSection,
+html body .sell-page,
+html body .sell-section{
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
-html body #sellSection,
-html body .sell-section{
-  padding-top: var(--content-start-offset) !important;
+html body .sell-container,
+html body .sell-content,
+html body .sell-form-wrap,
+html body .sell-form-section{
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 html body .sell-title,
+html body .sell-heading,
+html body #sell h1,
+html body #sell h2,
+html body #sellPage h1,
+html body #sellPage h2,
 html body #sellSection h1,
 html body #sellSection h2,
+html body .sell-page h1,
+html body .sell-page h2,
 html body .sell-section h1,
 html body .sell-section h2{
   margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
-@media (max-width:640px){
-  html body{
-    --content-start-offset: 28px;
-  }
+/* Match the Buy grid content start after the nav/sort area */
+html body .sell-view,
+html body .sell-panel{
+  padding-top: 0 !important;
 }
 </style>
 
