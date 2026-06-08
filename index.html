@@ -3456,6 +3456,493 @@ html body #sellPage input{
   appearance:none;
 }
 </style>
+<style id="ben-v9-stable-sell-nav-position">
+/* V9: stop BUY/SELL nav moving between Buy and Sell.
+   The sort row is invisible on Sell but its space is reserved, so the top nav stays locked. */
+html body .nav{
+  align-items:flex-start !important;
+}
+html body .nav-left{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  gap:2px !important;
+  min-height:50px !important;
+}
+html body .nav-pages{
+  order:1 !important;
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+html body .filter-wrap-inline{
+  order:2 !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+html body.sell-active .filter-wrap-inline{
+  display:flex !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+html body.sell-active #filterMenu{
+  display:none !important;
+}
+html body .nav-page-btn{
+  min-width:34px !important;
+}
+html body .nav-right,
+html body .uk-time{
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  display:flex !important;
+  align-items:center !important;
+  padding-top:0 !important;
+}
+</style>
+
+<style id="ben-v10-sort-vertical-align-fix">
+/* V10: keep SORT row vertically aligned under BUY/SELL while reserving its space on Sell. */
+html body .nav-left{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:0 !important;
+  min-height:48px !important;
+}
+html body .nav-pages,
+html body .filter-wrap-inline,
+html body .filter-custom{
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+}
+html body #filterBtn,
+html body .nav-page-btn{
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+html body #filterBtn span,
+html body .nav-page-btn span{
+  height:24px !important;
+  line-height:24px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+}
+html body #filterBtn svg{
+  width:13px !important;
+  height:13px !important;
+  margin-left:2px !important;
+  display:block !important;
+  flex:0 0 auto !important;
+  transform:none !important;
+}
+html body.sell-active .filter-wrap-inline{
+  display:flex !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+</style>
+
+<style id="ben-v11-sort-under-buy-align">
+/* V11: align SORT text directly under BUY text, while keeping the hidden sort row space on Sell. */
+html body .nav-left{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:0 !important;
+  min-height:48px !important;
+}
+html body .nav-pages{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+html body .filter-wrap-inline{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  padding-left:11px !important;
+  box-sizing:border-box !important;
+}
+html body .filter-custom{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+html body #filterBtn{
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:2px !important;
+}
+html body #filterBtn span{
+  height:24px !important;
+  line-height:24px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+}
+html body #filterBtn svg{
+  width:13px !important;
+  height:13px !important;
+  margin-left:2px !important;
+  display:block !important;
+  flex:0 0 auto !important;
+  transform:none !important;
+}
+html body.sell-active .filter-wrap-inline{
+  display:flex !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+</style>
+
+<style id="ben-v12-nav-and-filter-dropdown-fix">
+/* V12: lock SORT directly under BUY and make the buy filter dropdown match the Sell form dropdown style. */
+html body .nav{
+  align-items:flex-start !important;
+}
+html body .nav-left{
+  display:inline-flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:0 !important;
+  min-height:48px !important;
+}
+html body .nav-pages{
+  order:1 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:36px !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  line-height:24px !important;
+  width:auto !important;
+}
+html body .nav-page-btn,
+html body .nav-page-btn span{
+  min-width:0 !important;
+  width:auto !important;
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:left !important;
+}
+html body .filter-wrap-inline{
+  order:2 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  width:auto !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+html body .filter-custom{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+html body #filterBtn,
+html body #filterBtn span{
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:left !important;
+  gap:0 !important;
+}
+html body #filterBtn svg{
+  width:13px !important;
+  height:13px !important;
+  margin-left:4px !important;
+  display:block !important;
+  flex:0 0 auto !important;
+  transform:none !important;
+}
+html body.sell-active .filter-wrap-inline{
+  display:flex !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+html body.sell-active #filterMenu{
+  display:none !important;
+}
+html body .nav-right,
+html body .uk-time{
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  padding-top:0 !important;
+}
+
+/* Buy SORT dropdown styled like the Sell form Condition dropdown. */
+html body #filterMenu.filter-menu{
+  position:absolute !important;
+  left:0 !important;
+  right:auto !important;
+  top:calc(100% + 6px) !important;
+  z-index:9999 !important;
+  min-width:210px !important;
+  max-width:min(260px, calc(100vw - 24px)) !important;
+  padding:0 !important;
+  background:#fff !important;
+  color:#111 !important;
+  border:1px solid currentColor !important;
+  border-radius:0 !important;
+  box-shadow:0 12px 30px rgba(0,0,0,.12) !important;
+  overflow:hidden !important;
+}
+html body #filterMenu .filter-search-wrap{
+  padding:8px !important;
+  border-bottom:1px solid rgba(0,0,0,.12) !important;
+  background:#fff !important;
+}
+html body #filterMenu .filter-search-input{
+  width:100% !important;
+  box-sizing:border-box !important;
+  height:34px !important;
+  min-height:34px !important;
+  border:1px solid currentColor !important;
+  border-radius:0 !important;
+  background:#fff !important;
+  color:#111 !important;
+  padding:9px 10px !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  outline:none !important;
+}
+html body #filterMenu .filter-search-input::placeholder{
+  color:#a7a7a7 !important;
+  opacity:1 !important;
+}
+html body #filterMenu .filter-section-label{
+  padding:10px 12px 7px !important;
+  border-bottom:1px solid rgba(0,0,0,.12) !important;
+  background:#fff !important;
+  color:#777 !important;
+  opacity:1 !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:10px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.08em !important;
+  text-transform:uppercase !important;
+  cursor:default !important;
+}
+html body #filterMenu .filter-option,
+html body #filterMenu .filter-check{
+  display:flex !important;
+  align-items:center !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  min-height:38px !important;
+  padding:12px !important;
+  border-bottom:1px solid rgba(0,0,0,.12) !important;
+  background:#fff !important;
+  color:#111 !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+  white-space:nowrap !important;
+}
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-check:hover,
+html body #filterMenu .filter-check:focus-within{
+  background:rgba(0,0,0,.05) !important;
+  outline:none !important;
+}
+html body #filterMenu .filter-check:last-child,
+html body #filterMenu .filter-option:last-child{
+  border-bottom:0 !important;
+}
+html body #filterMenu .filter-check input{
+  width:13px !important;
+  height:13px !important;
+  margin:0 8px 0 0 !important;
+  accent-color:#000 !important;
+  flex:0 0 auto !important;
+}
+</style>
+
+
+<style id="ben-v13-sort-filter-cleanup">
+/* V13: no checkbox controls for Available/Sold, and keep SORT/FILTER typography consistent. */
+html body .nav-left,
+html body .nav-pages,
+html body .filter-wrap-inline,
+html body .filter-custom{
+  align-items:flex-start !important;
+}
+
+html body .filter-wrap-inline{
+  padding-left:0 !important;
+}
+
+html body #filterBtn,
+html body #filterBtn span,
+html body .nav-page-btn,
+html body .nav-page-btn span{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px !important;
+  line-height:24px !important;
+  letter-spacing:0.02em !important;
+  text-transform:uppercase !important;
+}
+
+html body #filterMenu .filter-section-label,
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:12px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.02em !important;
+  text-transform:uppercase !important;
+}
+
+html body #filterMenu .filter-section-label{
+  color:#111 !important;
+  padding:12px !important;
+}
+
+html body #filterMenu .status-filter-option{
+  position:relative !important;
+}
+
+html body #filterMenu .status-filter-option.active::after{
+  content:'•' !important;
+  margin-left:auto !important;
+  padding-left:12px !important;
+}
+
+html body #filterMenu .filter-check input{
+  display:none !important;
+}
+
+@media (max-width:640px){
+  html body #filterBtn,
+  html body #filterBtn span,
+  html body .nav-page-btn,
+  html body .nav-page-btn span,
+  html body #filterMenu .filter-section-label,
+  html body #filterMenu .filter-option,
+  html body #filterMenu .status-filter-option{
+    font-size:12px !important;
+  }
+}
+</style>
+
+
+
+<style id="ben-v14-lighter-dropdown-section-labels">
+/* V14: make the SORT and FILTER section headings in the dropdown lighter, matching the Sell form labels. */
+html body #filterMenu .filter-section-label{
+  color:rgba(0,0,0,.45) !important;
+  opacity:1 !important;
+  font-size:10px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.08em !important;
+  font-weight:500 !important;
+  padding:10px 12px 7px !important;
+}
+
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option{
+  color:#111 !important;
+}
+</style>
+
+
+
+<style id="ben-v15-sort-filter-same-size">
+/* V15: SORT and FILTER headings stay lighter but use the same size as the dropdown options. */
+html body #filterMenu .filter-section-label{
+  color:rgba(0,0,0,.45) !important;
+  opacity:1 !important;
+  font-size:12px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.02em !important;
+  font-weight:500 !important;
+  padding:12px !important;
+}
+
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option{
+  font-size:12px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.02em !important;
+}
+</style>
+
 </head>
 
 <body>
@@ -3490,14 +3977,8 @@ html body #sellPage input{
         <div class="filter-option sort-option" data-value="new-old">NEW–OLD</div>
         <div class="filter-option sort-option" data-value="old-new">OLD–NEW</div>
         <div class="filter-section-label">Filter</div>
-        <label class="filter-check">
-          <input type="checkbox" id="filterAvailable">
-          <span>AVAILABLE</span>
-        </label>
-        <label class="filter-check">
-          <input type="checkbox" id="filterSold">
-          <span>SOLD</span>
-        </label>
+        <div class="filter-option status-filter-option" data-status="available">AVAILABLE</div>
+        <div class="filter-option status-filter-option" data-status="sold">SOLD</div>
       </div>
       </div>
     </div>
@@ -4203,10 +4684,7 @@ logoHome?.addEventListener("click", () => {
   showAvailable = false;
   showSold = false;
   if(watchSearch) watchSearch.value = "";
-  const filterAvailable = document.getElementById("filterAvailable");
-  const filterSold = document.getElementById("filterSold");
-  if(filterAvailable) filterAvailable.checked = false;
-  if(filterSold) filterSold.checked = false;
+  document.querySelectorAll(".status-filter-option.active").forEach(option => option.classList.remove("active"));
   if(typeof closeLightbox === "function" && lightbox?.classList.contains("open")) closeLightbox();
   setPage("buy");
   // Go back to the BUY page instantly, without the smooth-scroll flash/jump.
@@ -4359,14 +4837,22 @@ document.querySelectorAll(".sort-option").forEach(item=>{
   };
 });
 
-document.getElementById("filterAvailable").addEventListener("change", (e) => {
-  showAvailable = e.target.checked;
-  render();
-});
+document.querySelectorAll(".status-filter-option").forEach(item => {
+  item.addEventListener("click", () => {
+    const status = item.dataset.status;
 
-document.getElementById("filterSold").addEventListener("change", (e) => {
-  showSold = e.target.checked;
-  render();
+    if (status === "available") {
+      showAvailable = !showAvailable;
+      item.classList.toggle("active", showAvailable);
+    }
+
+    if (status === "sold") {
+      showSold = !showSold;
+      item.classList.toggle("active", showSold);
+    }
+
+    render();
+  });
 });
 
 function getWatchYear(w){
@@ -4802,3 +5288,4 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 </body>
 </html>
+
