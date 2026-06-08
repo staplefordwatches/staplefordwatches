@@ -3951,34 +3951,7 @@ html body #filterMenu .status-filter-option{
 
 
 
-<style id="ben-v21-london-edge-tweak">
-/* V21: keep original header layout; only pull London time to match the BUY edge spacing visually. */
-html body .nav{
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
 
-html body .nav-left{
-  margin-left: 0 !important;
-}
-
-html body .nav-right,
-html body .time-wrap,
-html body .london-time,
-html body #londonTime,
-html body .nav-time{
-  margin-right: 0 !important;
-  padding-right: 0 !important;
-  text-align: right !important;
-}
-
-@media (max-width:640px){
-  html body .nav{
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-}
-</style>
 
 
 
@@ -4029,6 +4002,50 @@ html body .sell-section h2{
 html body .sell-view,
 html body .sell-panel{
   padding-top: 0 !important;
+}
+</style>
+
+
+
+
+
+<style id="ben-v28-header-exact-footer-padding">
+/* V28: header nav uses the same container width and 6px edge padding as the footer. */
+html body .nav{
+  width: min(100%, var(--max-width)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  box-sizing: border-box !important;
+}
+
+html body .nav-left,
+html body .nav-pages{
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+html body #buyNav{
+  margin-left: 0 !important;
+}
+
+html body .nav-right,
+html body .time-wrap,
+html body .london-time,
+html body #londonTime,
+html body .nav-time{
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+}
+
+@media (max-width:640px){
+  html body .nav{
+    width: min(100%, var(--max-width)) !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
 }
 </style>
 
