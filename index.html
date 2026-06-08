@@ -3943,9 +3943,105 @@ html body #filterMenu .status-filter-option{
 }
 </style>
 
+
+
+<style id="ben-v16-stock-market-banner">
+/* V16: experimental stock-market-style banner across the very top. */
+html body .market-ticker{
+  width:100% !important;
+  height:28px !important;
+  min-height:28px !important;
+  overflow:hidden !important;
+  background:#050505 !important;
+  color:#fff !important;
+  border-bottom:1px solid rgba(255,255,255,.18) !important;
+  display:flex !important;
+  align-items:center !important;
+  white-space:nowrap !important;
+}
+html body .market-ticker-track{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:28px !important;
+  width:max-content !important;
+  padding-left:16px !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:28px !important;
+  letter-spacing:0.04em !important;
+  text-transform:uppercase !important;
+  animation:benMarketTicker 34s linear infinite !important;
+}
+html body .market-ticker span{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:6px !important;
+}
+html body .market-ticker .ticker-muted{
+  color:rgba(255,255,255,.58) !important;
+}
+html body .market-ticker .ticker-up{
+  color:#dfe8df !important;
+}
+html body .market-ticker .ticker-down{
+  color:#e8dfdf !important;
+}
+@keyframes benMarketTicker{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+@media (max-width:640px){
+  html body .market-ticker{
+    height:26px !important;
+    min-height:26px !important;
+  }
+  html body .market-ticker-track{
+    font-size:10px !important;
+    line-height:26px !important;
+    gap:22px !important;
+    animation-duration:28s !important;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  html body .market-ticker-track{
+    animation:none !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
+<div class="market-ticker" aria-label="Stapleford Watches market banner">
+  <div class="market-ticker-track" aria-hidden="true">
+    <span>STAPLEFORD MARKET</span>
+    <span class="ticker-muted">ROLEX</span>
+    <span class="ticker-up">GMT-MASTER II ↑</span>
+    <span class="ticker-muted">PATEK PHILIPPE</span>
+    <span>NAUTILUS</span>
+    <span class="ticker-muted">AUDEMARS PIGUET</span>
+    <span>ROYAL OAK</span>
+    <span class="ticker-muted">CARTIER</span>
+    <span class="ticker-down">SANTOS ↓</span>
+    <span class="ticker-muted">OMEGA</span>
+    <span>SPEEDMASTER</span>
+    <span>BUY • SELL • SOURCE</span>
+    <span>STAPLEFORD MARKET</span>
+    <span class="ticker-muted">ROLEX</span>
+    <span class="ticker-up">GMT-MASTER II ↑</span>
+    <span class="ticker-muted">PATEK PHILIPPE</span>
+    <span>NAUTILUS</span>
+    <span class="ticker-muted">AUDEMARS PIGUET</span>
+    <span>ROYAL OAK</span>
+    <span class="ticker-muted">CARTIER</span>
+    <span class="ticker-down">SANTOS ↓</span>
+    <span class="ticker-muted">OMEGA</span>
+    <span>SPEEDMASTER</span>
+    <span>BUY • SELL • SOURCE</span>
+  </div>
+</div>
+
 
 <button id="logoHome" class="logo" type="button" aria-label="Return to buy page">
   <img src="SW HIGH RES.png" draggable="false" oncontextmenu="return false;" ondragstart="return false;" alt="Stapleford Watches">
