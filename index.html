@@ -2311,6 +2311,39 @@ input[list]{
   margin-left:2px !important;
 }
 
+
+
+/* === BUY-ONLY SORT NAV POSITION === */
+.nav{
+  align-items:flex-start !important;
+}
+.nav-left{
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  gap:2px !important;
+}
+.nav-pages{
+  order:1 !important;
+}
+.filter-wrap-inline{
+  order:2 !important;
+}
+.nav-right{
+  height:24px !important;
+  min-height:24px !important;
+  display:flex !important;
+  align-items:center !important;
+  padding-top:0 !important;
+}
+.uk-time{
+  height:24px !important;
+  align-items:center !important;
+}
+body.sell-active .filter-wrap-inline,
+body.sell-active #filterMenu{
+  display:none !important;
+}
+
 </style>
 
 
@@ -2499,6 +2532,31 @@ input[list]{
 
 #sellPage #watchContents{
   text-transform:uppercase !important;
+}
+
+#sellPage .sell-field.has-error label{
+  color:#b00020 !important;
+}
+
+#sellPage .sell-field.has-error input,
+#sellPage .sell-field.has-error textarea,
+#sellPage .sell-field.has-error .custom-select-trigger{
+  border-color:#b00020 !important;
+}
+
+#sellPage .sell-form-message{
+  color:#b00020 !important;
+  text-transform:uppercase !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.25 !important;
+  letter-spacing:0.06em !important;
+  margin-top:2px !important;
+}
+
+#sellPage .sell-form-message.show{
+  display:block !important;
 }
 
 #sellPage .custom-select-trigger{
@@ -2861,7 +2919,10 @@ html body #sellPage .custom-select-options button[role="option"]:focus{
 /* Brand autocomplete suggestions: match the Condition dropdown option style. */
 html body #sellPage .brand-suggestion-list .brand-suggestion-item,
 html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus{
+html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus,
+html body #sellPage .year-suggestion-list .year-suggestion-item,
+html body #sellPage .year-suggestion-list .year-suggestion-item:hover,
+html body #sellPage .year-suggestion-list .year-suggestion-item:focus{
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
   font-size:11px !important;
@@ -3026,7 +3087,10 @@ html body #sellPage .custom-select-options button:hover,
 html body #sellPage .custom-select-options button:focus,
 html body #sellPage .brand-suggestion-list .brand-suggestion-item,
 html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus{
+html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus,
+html body #sellPage .year-suggestion-list .year-suggestion-item,
+html body #sellPage .year-suggestion-list .year-suggestion-item:hover,
+html body #sellPage .year-suggestion-list .year-suggestion-item:focus{
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
   font-size:11px !important;
@@ -3066,7 +3130,8 @@ html body #sellPage .sell-field textarea{
   html body #sellPage #watchContents::placeholder,
   html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger,
   html body #sellPage .custom-select-options button,
-  html body #sellPage .brand-suggestion-list .brand-suggestion-item{
+  html body #sellPage .brand-suggestion-list .brand-suggestion-item,
+  html body #sellPage .year-suggestion-list .year-suggestion-item{
     font-size:11px !important;
     line-height:1.15 !important;
     letter-spacing:0.06em !important;
@@ -3188,6 +3253,7 @@ html body #sellPage .sell-method-title,
 html body #sellPage .sell-method-label,
 html body #sellPage .sell-submit,
 html body #sellPage .brand-suggestion-list .brand-suggestion-item,
+html body #sellPage .year-suggestion-list .year-suggestion-item,
 html body #sellPage .custom-select-options button{
   font-family:'InterEmbedded', Arial, sans-serif !important;
   font-weight:500 !important;
@@ -3293,6 +3359,103 @@ html, body, button, input, textarea, select, label{
 }
 </style>
 
+
+<style>
+/* Year autocomplete: uses the same clean dropdown styling as Brand suggestions. */
+html body #sellPage .year-autocomplete{
+  position:relative !important;
+}
+html body #sellPage .year-suggestion-list{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  top:100% !important;
+  z-index:20 !important;
+  background:#fff !important;
+  border:1px solid #000 !important;
+  border-top:none !important;
+  max-height:180px !important;
+  overflow:auto !important;
+}
+html body #sellPage .year-suggestion-list .year-suggestion-item,
+html body #sellPage .year-suggestion-list .year-suggestion-item:hover,
+html body #sellPage .year-suggestion-list .year-suggestion-item:focus{
+  display:block !important;
+  width:100% !important;
+  padding:10px !important;
+  margin:0 !important;
+  border:0 !important;
+  border-bottom:1px solid #e6e6e6 !important;
+  background:#fff !important;
+  text-align:left !important;
+  cursor:pointer !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+  opacity:1 !important;
+}
+html body #sellPage .year-suggestion-list .year-suggestion-item:last-child{
+  border-bottom:0 !important;
+}
+
+
+/* === V7: keep nav text same size on desktop/minimised views + remove contact autofill icon === */
+html body .nav-pages,
+html body .nav-page-btn,
+html body .nav-page-btn span,
+html body #filterBtn,
+html body #filterBtn span,
+html body .nav-right,
+html body .uk-time{
+  font-size:12px !important;
+  line-height:24px !important;
+  letter-spacing:0.02em !important;
+}
+
+@media (max-width: 640px){
+  html body .nav-pages,
+  html body .nav-page-btn,
+  html body .nav-page-btn span,
+  html body #filterBtn,
+  html body #filterBtn span,
+  html body .nav-right,
+  html body .uk-time{
+    font-size:12px !important;
+    line-height:24px !important;
+  }
+}
+
+@media (max-width: 380px){
+  html body .nav-pages,
+  html body .nav-page-btn,
+  html body .nav-page-btn span,
+  html body #filterBtn,
+  html body #filterBtn span,
+  html body .nav-right,
+  html body .uk-time{
+    font-size:12px !important;
+    line-height:24px !important;
+  }
+}
+
+html body #sellPage input::-webkit-contacts-auto-fill-button,
+html body #sellPage input::-webkit-credentials-auto-fill-button{
+  visibility:hidden !important;
+  display:none !important;
+  pointer-events:none !important;
+  position:absolute !important;
+  right:0 !important;
+}
+
+html body #sellPage input{
+  -webkit-appearance:none;
+  appearance:none;
+}
+</style>
 </head>
 
 <body>
@@ -3303,6 +3466,10 @@ html, body, button, input, textarea, select, label{
 
 <div class="nav">
   <div class="nav-left">
+    <nav class="nav-pages" aria-label="Buy or sell watches">
+      <button id="buyNav" class="nav-page-btn" type="button" aria-current="page"><span>BUY</span></button>
+      <button id="sellNav" class="nav-page-btn" type="button" aria-current="false"><span>SELL</span></button>
+    </nav>
     <div class="filter-wrap-inline">
       <div class="filter-custom">
       <button id="filterBtn" type="button" aria-label="Sort watches">
@@ -3334,10 +3501,6 @@ html, body, button, input, textarea, select, label{
       </div>
       </div>
     </div>
-    <nav class="nav-pages" aria-label="Buy or sell watches">
-      <button id="buyNav" class="nav-page-btn" type="button" aria-current="page"><span>BUY</span></button>
-      <button id="sellNav" class="nav-page-btn" type="button" aria-current="false"><span>SELL</span></button>
-    </nav>
   </div>
   <div class="nav-right">
     <span class="uk-time" aria-label="Current UK time in London, UK"><span class="uk-time-label">LONDON, UK</span><span class="uk-time-separator" aria-hidden="true">|</span><span id="ukTimeDigits" class="uk-time-digits">00:00:00</span></span>
@@ -3352,30 +3515,42 @@ html, body, button, input, textarea, select, label{
     <h1 class="sell-title">Sell your watch</h1>
     <p class="sell-copy">PLEASE SHARE THE DETAILS OF YOUR WATCH. WE WILL REVIEW YOUR SUBMISSION AND COME BACK TO YOU DIRECTLY.</p>
 
-    <form id="sellForm" class="sell-form" novalidate>
+    <form id="sellForm" class="sell-form" action="https://formspree.io/f/mdavgyov" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="New watch submission - Stapleford Watches">
       <div class="sell-field">
         <label for="sellerName">Name</label>
-        <input id="sellerName" name="name" type="text" placeholder="FIRST LAST" autocomplete="name" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" required>
+        <input id="sellerName" name="name" type="text" placeholder="FIRST LAST" autocomplete="name" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase">
+      </div>
+
+      <div class="sell-field">
+        <label for="sellerEmail">Email</label>
+        <input id="sellerEmail" name="email" type="email" placeholder="EMAIL ADDRESS" autocomplete="email" autocorrect="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase">
+      </div>
+
+      <div class="sell-field">
+        <label for="sellerPhone">Phone / WhatsApp</label>
+        <input id="sellerPhone" name="phone" type="tel" inputmode="tel" placeholder="PHONE NUMBER" autocomplete="tel" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
 <div class="sell-field sell-field-wide brand-field brand-autocomplete">
         <label for="watchBrand">Brand</label>
-        <input id="watchBrand" style="text-transform:uppercase;text-transform:uppercase" name="brand" type="text" placeholder="Start typing brand" required aria-autocomplete="list" aria-expanded="false" aria-controls="brandSuggestionList" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
+        <input id="watchBrand" style="text-transform:uppercase;text-transform:uppercase" name="brand" type="text" placeholder="Start typing brand" aria-autocomplete="list" aria-expanded="false" aria-controls="brandSuggestionList" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
         <div id="brandSuggestionList" class="brand-suggestion-list" role="listbox" hidden></div>
       </div>
 
       <div class="sell-field sell-field-half">
         <label for="watchModel">Model</label>
-        <input id="watchModel" name="model" type="text" placeholder="MODEL" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase" required>
+        <input id="watchModel" name="model" type="text" placeholder="MODEL" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase">
       </div>
 
-      <div class="sell-field sell-field-half">
+      <div class="sell-field sell-field-half year-autocomplete">
         <label for="watchYear">Year</label>
-        <input id="watchYear" name="year" type="text">
+        <input id="watchYear" name="year" type="text" placeholder="START TYPING YEAR" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" aria-autocomplete="list" aria-expanded="false" aria-controls="yearSuggestionList" autocomplete="off">
+        <div id="yearSuggestionList" class="brand-suggestion-list year-suggestion-list" role="listbox" hidden></div>
       </div>
 
       <div class="sell-field sell-field-half">
         <label for="watchContents">Box / papers</label>
-        <input id="watchContents" name="contents" type="text" placeholder="">
+        <input id="watchContents" name="contents" type="text" placeholder="" autocomplete="off" autocorrect="off">
       </div>
 
       <div class="sell-field sell-field-half">
@@ -3394,28 +3569,11 @@ html, body, button, input, textarea, select, label{
 
       <div class="sell-field sell-field-wide">
         <label for="watchDetails">Additional Information</label>
-        <textarea id="watchDetails" name="details" placeholder="OPTIONAL"></textarea>
+        <textarea id="watchDetails" name="details" placeholder="OPTIONAL" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase"></textarea>
       </div>
 
-      <div class="sell-method-title">Submit via</div>
-      <div class="sell-methods" aria-label="Submit via">
-        <label class="sell-method-option">
-          <input type="radio" name="submitMethod" value="email" checked>
-          <span class="sell-method-label">
-            <svg class="sell-method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6.5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Email
-          </span>
-        </label>
-        <label class="sell-method-option">
-          <input type="radio" name="submitMethod" value="whatsapp">
-          <span class="sell-method-label">
-            <svg class="sell-method-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5a8.4 8.4 0 0 0-7.2 12.8L4 20.5l4.3-1.1A8.4 8.4 0 1 0 12 3.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.8 8.4c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.6 1.4c.1.3 0 .5-.2.7l-.4.5c.7 1.2 1.5 2 2.8 2.7l.5-.4c.2-.2.5-.2.7-.1l1.4.6c.3.1.4.3.4.6v.5c0 .3-.1.5-.4.7-.5.3-1.2.5-1.9.3-3-.6-5.4-3-6-6-.1-.7 0-1.4.3-1.9Z" fill="currentColor"/></svg>
-            WhatsApp
-          </span>
-        </label>
-      </div>
-
-      <button class="sell-submit" type="submit">Submit watch</button>
+      <div id="sellFormMessage" class="sell-form-message" aria-live="polite" hidden>MISSING FIELD</div>
+      <button class="sell-submit" type="submit">Submit</button>
     </form>
   </div>
 </section>
@@ -3938,6 +4096,93 @@ const sellForm = document.getElementById("sellForm");
 const logoHome = document.getElementById("logoHome");
 let currentPage = "buy";
 
+
+const sellFormMessage = document.getElementById("sellFormMessage");
+const sellRequiredGroups = [
+  { fields: ["sellerName"], message: "MISSING FIELD" },
+  { fields: ["sellerEmail", "sellerPhone"], message: "MISSING FIELD" },
+  { fields: ["watchBrand"], message: "MISSING FIELD" }
+];
+
+function getSellFieldWrap(fieldId){
+  return document.getElementById(fieldId)?.closest(".sell-field");
+}
+
+function setSellFieldError(fieldId, hasError){
+  const wrap = getSellFieldWrap(fieldId);
+  if(wrap) wrap.classList.toggle("has-error", hasError);
+}
+
+function clearSellErrors(){
+  sellForm?.querySelectorAll(".sell-field.has-error").forEach(field => field.classList.remove("has-error"));
+  if(sellFormMessage){
+    sellFormMessage.hidden = true;
+    sellFormMessage.classList.remove("show");
+  }
+}
+
+function validateSellForm(){
+  clearSellErrors();
+  let valid = true;
+  let firstMissing = null;
+
+  sellRequiredGroups.forEach(group => {
+    const groupHasValue = group.fields.some(fieldId => {
+      const field = document.getElementById(fieldId);
+      return field && String(field.value || "").trim().length > 0;
+    });
+
+    if(!groupHasValue){
+      valid = false;
+      group.fields.forEach(fieldId => setSellFieldError(fieldId, true));
+      if(!firstMissing) firstMissing = document.getElementById(group.fields[0]);
+    }
+  });
+
+  const emailField = document.getElementById("sellerEmail");
+  if(emailField && emailField.value.trim() && !emailField.checkValidity()){
+    valid = false;
+    setSellFieldError("sellerEmail", true);
+    if(!firstMissing) firstMissing = emailField;
+  }
+
+  const yearField = document.getElementById("watchYear");
+  if(yearField && yearField.value.trim()){
+    const yearValue = yearField.value.trim();
+    const yearNumber = Number(yearValue);
+    if(!/^\d{4}$/.test(yearValue) || yearNumber < 1900 || yearNumber > new Date().getFullYear()){
+      valid = false;
+      setSellFieldError("watchYear", true);
+      if(!firstMissing) firstMissing = yearField;
+    }
+  }
+
+  if(!valid && sellFormMessage){
+    sellFormMessage.textContent = "MISSING FIELD";
+    sellFormMessage.hidden = false;
+    sellFormMessage.classList.add("show");
+    firstMissing?.focus({ preventScroll:true });
+    firstMissing?.scrollIntoView({ behavior:"smooth", block:"center" });
+  }
+
+  return valid;
+}
+
+sellForm?.addEventListener("submit", (e) => {
+  if(!validateSellForm()) e.preventDefault();
+});
+
+sellForm?.querySelectorAll("input, textarea").forEach(field => {
+  field.addEventListener("input", () => {
+    field.closest(".sell-field")?.classList.remove("has-error");
+    if(sellForm?.querySelectorAll(".sell-field.has-error").length === 0 && sellFormMessage){
+      sellFormMessage.hidden = true;
+      sellFormMessage.classList.remove("show");
+    }
+  });
+});
+
+
 function setPage(page){
   currentPage = page === "sell" ? "sell" : "buy";
   const isSell = currentPage === "sell";
@@ -3968,34 +4213,6 @@ logoHome?.addEventListener("click", () => {
   window.scrollTo(0, 0);
 });
 
-sellForm?.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const data = new FormData(sellForm);
-
-  const lines = [
-    "Hi Stapleford Watches,",
-    "",
-    "I would like to submit a watch to sell.",
-    "",
-    `Name: ${data.get("name") || ""}`,
-    `Brand: ${data.get("brand") || ""}`,
-    `Model: ${data.get("model") || ""}`,
-    `Year: ${data.get("year") || ""}`,
-    `Box / papers: ${data.get("contents") || ""}`,
-    `Condition: ${data.get("condition") || ""}`,
-    `Additional information: ${data.get("details") || ""}`
-  ];
-
-  const subject = `Watch submission: ${data.get("brand") || ""} ${data.get("model") || ""}`.trim();
-  const method = data.get("submitMethod") || "email";
-
-  if(method === "whatsapp"){
-    window.location.href = `https://wa.me/447438196047?text=${encodeURIComponent(lines.join("\n"))}`;
-    return;
-  }
-
-  window.location.href = `mailto:ben@staplefordwatches.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
-});
 
 const luxuryWatchBrands = [
   "ROLEX", "PATEK PHILIPPE", "AUDEMARS PIGUET", "RICHARD MILLE", "OMEGA", "CARTIER", "TUDOR", "ZENITH",
@@ -4058,6 +4275,60 @@ brandSuggestionList?.addEventListener("pointerdown", (e) => {
 
 document.addEventListener("click", (e) => {
   if(!e.target.closest(".brand-autocomplete")) hideBrandSuggestions();
+  if(!e.target.closest(".year-autocomplete")) hideYearSuggestions();
+});
+
+const yearInput = document.getElementById("watchYear");
+const yearSuggestionList = document.getElementById("yearSuggestionList");
+const currentYear = new Date().getFullYear();
+const watchYears = Array.from({ length: currentYear - 1900 + 1 }, (_, index) => String(currentYear - index));
+
+function hideYearSuggestions(){
+  if(!yearSuggestionList || !yearInput) return;
+  yearSuggestionList.hidden = true;
+  yearSuggestionList.innerHTML = "";
+  yearInput.setAttribute("aria-expanded", "false");
+}
+
+function showYearSuggestions(){
+  if(!yearSuggestionList || !yearInput) return;
+  const query = yearInput.value.trim();
+  if(query.length < 1){
+    hideYearSuggestions();
+    return;
+  }
+
+  const matches = watchYears
+    .filter(year => year.startsWith(query))
+    .slice(0, 8);
+
+  if(!matches.length){
+    hideYearSuggestions();
+    return;
+  }
+
+  yearSuggestionList.innerHTML = matches.map(year =>
+    `<button type="button" class="year-suggestion-item" role="option" data-year="${year}">${year}</button>`
+  ).join("");
+  yearSuggestionList.hidden = false;
+  yearInput.setAttribute("aria-expanded", "true");
+}
+
+yearInput?.addEventListener("input", () => {
+  yearInput.value = yearInput.value.replace(/\D/g, "").slice(0, 4);
+  showYearSuggestions();
+});
+yearInput?.addEventListener("focus", showYearSuggestions);
+yearInput?.addEventListener("keydown", (e) => {
+  if(e.key === "Escape") hideYearSuggestions();
+});
+yearSuggestionList?.addEventListener("pointerdown", (e) => {
+  const option = e.target.closest(".year-suggestion-item");
+  if(!option || !yearInput) return;
+  e.preventDefault();
+  yearInput.value = option.dataset.year || option.textContent.trim();
+  hideYearSuggestions();
+  yearInput.focus();
 });
 
 document.getElementById("filterBtn").onclick = () => {
