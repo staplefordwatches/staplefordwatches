@@ -4049,6 +4049,28 @@ html body .nav-time{
 }
 </style>
 
+
+<style id="ben-v29-london-move-right">
+/* V29: keep header/footer container matching, but move London time slightly closer to the right edge. */
+html body .nav-right,
+html body .time-wrap,
+html body .london-time,
+html body #londonTime,
+html body .nav-time{
+  transform: translateX(8px) !important;
+}
+
+@media (max-width:640px){
+  html body .nav-right,
+  html body .time-wrap,
+  html body .london-time,
+  html body #londonTime,
+  html body .nav-time{
+    transform: translateX(4px) !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
