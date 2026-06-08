@@ -3949,57 +3949,36 @@ html body #filterMenu .status-filter-option{
 
 
 
-<style id="ben-v20-header-exact-edge-alignment">
-/* V20: exact mirrored edge padding — BUY left edge and London time right edge use the same page inset. */
-html body{
-  --header-edge-padding: clamp(16px, 3vw, 42px);
-}
 
+
+<style id="ben-v21-london-edge-tweak">
+/* V21: keep original header layout; only pull London time to match the BUY edge spacing visually. */
 html body .nav{
-  width: 100% !important;
-  box-sizing: border-box !important;
-  padding-left: var(--header-edge-padding) !important;
-  padding-right: var(--header-edge-padding) !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  display: flex !important;
-  align-items: flex-start !important;
-  justify-content: space-between !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
 }
 
 html body .nav-left{
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-}
-
-html body .nav-pages{
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-}
-
-html body #buyNav{
   margin-left: 0 !important;
 }
 
 html body .nav-right,
 html body .time-wrap,
 html body .london-time,
-html body .time,
 html body #londonTime,
 html body .nav-time{
   margin-right: 0 !important;
   padding-right: 0 !important;
   text-align: right !important;
-  justify-self: flex-end !important;
 }
 
 @media (max-width:640px){
-  html body{
-    --header-edge-padding: 16px;
+  html body .nav{
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 }
 </style>
-
 
 </head>
 
