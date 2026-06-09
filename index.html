@@ -5264,7 +5264,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<3?'eager':'lazy'}" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<6?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       <a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${w.brand} ${w.title}"></a>
       <link itemprop="image" href="${w.imageLink}">
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
