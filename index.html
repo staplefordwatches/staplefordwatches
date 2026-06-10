@@ -3203,8 +3203,8 @@ html body #sellPage .sell-field .custom-select-wrap.has-value.is-open > .custom-
   line-height:1.45 !important;
   font-weight:400 !important;
   color:#8a8a8a !important;
-  text-transform:uppercase !important;
-  letter-spacing:0.06em !important;
+  text-transform:none !important;
+  letter-spacing:0.02em !important;
   margin:0 0 22px !important;
 }
 </style>
@@ -4209,6 +4209,67 @@ html body .info-hero-image{
   }
 }
 </style>
+
+<style id="ben-v33-sell-info-style-match">
+/* V33: make the SELL page match the INFO page's uppercase, restrained typography. */
+html body #sellPage .sell-title{
+  margin:0 0 18px !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  text-transform:uppercase !important;
+  letter-spacing:0.08em !important;
+}
+
+html body #sellPage .sell-copy{
+  font-size:11px !important;
+  line-height:1.72 !important;
+  letter-spacing:0.02em !important;
+  text-transform:none !important;
+  opacity:0.76 !important;
+  color:#000 !important;
+}
+
+html body #sellPage .sell-field label,
+html body #sellPage .sell-method-title,
+html body #sellPage .sell-submit,
+html body #sellPage .custom-select-trigger,
+html body #sellPage .custom-select-options button{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  text-transform:uppercase !important;
+  letter-spacing:0.12em !important;
+}
+
+html body #sellPage input::placeholder,
+html body #sellPage textarea::placeholder{
+  text-transform:uppercase !important;
+  letter-spacing:0.06em !important;
+}
+</style>
+
+
+<style id="sell-copy-case-fix-final">
+html body section#sellPage p.sell-copy,
+html body section#sellPage p#sellIntroCopy,
+html body #sellPage .sell-panel > p.sell-copy{
+  text-transform:none !important;
+  letter-spacing:0.02em !important;
+}
+</style>
+<script id="sell-copy-case-fix-script">
+document.addEventListener('DOMContentLoaded', function(){
+  var el = document.getElementById('sellIntroCopy') || document.querySelector('#sellPage .sell-copy');
+  if(el){
+    el.textContent = 'Please share the details of your watch. We will review your submission and come back to you directly.';
+    el.style.setProperty('text-transform','none','important');
+    el.style.setProperty('letter-spacing','0.02em','important');
+  }
+});
+</script>
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -4255,42 +4316,42 @@ html body .info-hero-image{
 <div class="no-results" hidden="" id="noResults">No watches found</div>
 <section class="sell-page" hidden="" id="sellPage">
 <div class="sell-panel">
-<h1 class="sell-title">Sell your watch</h1>
-<p class="sell-copy">PLEASE SHARE THE DETAILS OF YOUR WATCH. WE WILL REVIEW YOUR SUBMISSION AND COME BACK TO YOU DIRECTLY.</p>
+<h1 class="sell-title">SELL YOUR WATCH</h1>
+<p class="sell-copy" id="sellIntroCopy" style="text-transform:none !important; letter-spacing:0.02em !important;">Please share the details of your watch. We will review your submission and come back to you directly.</p>
 <form action="https://formspree.io/f/mdavgyov" class="sell-form" id="sellForm" method="POST" novalidate="">
-<input name="_subject" type="hidden" value="New watch submission - Stapleford Watches"/>
+<input name="_subject" type="hidden" value="NEW WATCH SUBMISSION - STAPLEFORD WATCHES"/>
 <div class="sell-field">
-<label for="sellerName">Name</label>
+<label for="sellerName">NAME</label>
 <input autocapitalize="characters" autocomplete="name" id="sellerName" name="name" placeholder="FIRST LAST" spellcheck="false" style="text-transform:uppercase" type="text"/>
 </div>
 <div class="sell-field">
-<label for="sellerEmail">Email</label>
+<label for="sellerEmail">EMAIL</label>
 <input autocapitalize="characters" autocomplete="email" autocorrect="off" id="sellerEmail" name="email" placeholder="EMAIL ADDRESS" spellcheck="false" style="text-transform:uppercase" type="email"/>
 </div>
 <div class="sell-field">
-<label for="sellerPhone">Phone / WhatsApp</label>
+<label for="sellerPhone">PHONE / WHATSAPP</label>
 <input autocapitalize="off" autocomplete="tel" autocorrect="off" id="sellerPhone" inputmode="tel" name="phone" placeholder="PHONE NUMBER" spellcheck="false" type="tel"/>
 </div>
 <div class="sell-field sell-field-wide brand-field brand-autocomplete">
-<label for="watchBrand">Brand</label>
-<input aria-autocomplete="list" aria-controls="brandSuggestionList" aria-expanded="false" autocapitalize="characters" autocomplete="off" autocorrect="off" id="watchBrand" name="brand" placeholder="Start typing brand" spellcheck="false" style="text-transform:uppercase;text-transform:uppercase" type="text"/>
+<label for="watchBrand">BRAND</label>
+<input aria-autocomplete="list" aria-controls="brandSuggestionList" aria-expanded="false" autocapitalize="characters" autocomplete="off" autocorrect="off" id="watchBrand" name="brand" placeholder="START TYPING BRAND" spellcheck="false" style="text-transform:uppercase;text-transform:uppercase" type="text"/>
 <div class="brand-suggestion-list" hidden="" id="brandSuggestionList" role="listbox"></div>
 </div>
 <div class="sell-field sell-field-half">
-<label for="watchModel">Model</label>
+<label for="watchModel">MODEL</label>
 <input autocapitalize="characters" autocomplete="off" autocorrect="off" id="watchModel" name="model" placeholder="MODEL" spellcheck="false" style="text-transform:uppercase" type="text"/>
 </div>
 <div class="sell-field sell-field-half year-autocomplete">
-<label for="watchYear">Year</label>
+<label for="watchYear">YEAR</label>
 <input aria-autocomplete="list" aria-controls="yearSuggestionList" aria-expanded="false" autocomplete="off" id="watchYear" inputmode="numeric" maxlength="4" name="year" pattern="[0-9]{4}" placeholder="START TYPING YEAR" type="text"/>
 <div class="brand-suggestion-list year-suggestion-list" hidden="" id="yearSuggestionList" role="listbox"></div>
 </div>
 <div class="sell-field sell-field-half">
-<label for="watchContents">Box / papers</label>
+<label for="watchContents">BOX / PAPERS</label>
 <input autocomplete="off" autocorrect="off" id="watchContents" name="contents" placeholder="" type="text"/>
 </div>
 <div class="sell-field sell-field-half">
-<label for="watchCondition">Condition</label>
+<label for="watchCondition">CONDITION</label>
 <div class="custom-select-wrap" data-custom-select="">
 <input id="watchCondition" name="condition" type="hidden" value=""/>
 <button aria-expanded="false" aria-haspopup="listbox" class="custom-select-trigger" type="button">SELECT</button>
@@ -4303,11 +4364,11 @@ html body .info-hero-image{
 </div>
 </div>
 <div class="sell-field sell-field-wide">
-<label for="watchDetails">Additional Information</label>
+<label for="watchDetails">ADDITIONAL INFORMATION</label>
 <textarea autocapitalize="characters" id="watchDetails" name="details" placeholder="OPTIONAL" spellcheck="false" style="text-transform:uppercase"></textarea>
 </div>
 <div aria-live="polite" class="sell-form-message" hidden="" id="sellFormMessage">MISSING FIELD</div>
-<button class="sell-submit" type="submit">Submit</button>
+<button class="sell-submit" type="submit">SUBMIT</button>
 </form>
 </div>
 </section>
