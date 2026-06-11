@@ -2766,6 +2766,48 @@ body.sell-active #filterMenu{
   display:block;
 }
 
+
+/* Stronger BUY NOW button inside product detail box */
+.lightbox-detail-buy{
+  background:#000 !important;
+  color:#fff !important;
+  border:1px solid #000 !important;
+  padding:11px 18px !important;
+  min-width:128px;
+  text-align:center;
+  border-radius:999px;
+  font-size:11px !important;
+  font-weight:700 !important;
+  letter-spacing:0.12em !important;
+  box-shadow:0 10px 24px rgba(0,0,0,0.16);
+  transition:transform 160ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.lightbox-detail-buy:hover{
+  transform:translateY(-1px);
+  box-shadow:0 14px 30px rgba(0,0,0,0.22);
+}
+
+.lightbox-detail-buy:active{
+  transform:translateY(0);
+  box-shadow:0 8px 18px rgba(0,0,0,0.18);
+}
+
+.lightbox-detail-buy[hidden]{
+  display:none !important;
+}
+
+@media (max-width: 560px){
+  .lightbox-detail-actions{
+    gap:12px;
+  }
+  .lightbox-detail-buy{
+    min-width:118px;
+    padding:10px 15px !important;
+    font-size:10px !important;
+  }
+}
+
 </style>
 <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/>
 <link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/>
@@ -5389,7 +5431,7 @@ html body.info-active #filterMenu{
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
 <div class="lightbox-detail-actions">
-  <button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY</button>
+  <button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY NOW</button>
   <div class="lightbox-detail-contact-options" id="lightboxDetailContactOptions" aria-label="Contact options">
     <a class="lightbox-detail-contact-link lightbox-detail-contact-whatsapp" href="#" id="lightboxDetailWhatsapp" rel="noopener" target="_blank" aria-label="Enquire by WhatsApp" title="WhatsApp">
       <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3.2A12.6 12.6 0 0 0 5.2 22.3L3.7 28l5.9-1.5A12.6 12.6 0 1 0 16 3.2Zm0 2.3a10.3 10.3 0 0 1 0 20.6c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.5.9.9-3.4-.3-.4A10.3 10.3 0 0 1 16 5.5Zm-4.3 5.2c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.8.5-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.4l-1.8-.9c-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.2-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-.8-1.9c-.2-.5-.4-.5-.7-.5h-.6Z"/></svg>
