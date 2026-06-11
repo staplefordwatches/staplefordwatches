@@ -59,7 +59,7 @@ function normaliseWatch(record) {
       contents: clean(fields["Contents"])
     },
     specifications: clean(fields["Specifications"]),
-    description: clean(fields["Watch Description"] || fields["Description"] || fields["Notes"]),
+    description: clean(fields["Watch Description"] || fields["Description"]),
     featured: Boolean(fields["Featured"]),
     stockQuantity: Number(fields["Stock Quantity"] ?? 1)
   };
