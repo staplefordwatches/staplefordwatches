@@ -7939,6 +7939,189 @@ html body .lightbox-next{
 }
 </style>
 
+
+
+<style id="stapleford-mobile-cart-drawer-world-class-fix">
+/* World-class mobile cart drawer fix: real Safari viewport, full-width mobile panel, visible checkout footer. */
+html,
+body{
+  width:100% !important;
+  max-width:100% !important;
+  overflow-x:hidden !important;
+}
+
+html.cart-drawer-is-open,
+html.cart-drawer-is-open body{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+}
+
+html body #cartBackdrop.cart-backdrop{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:var(--stapleford-visual-vh, 100dvh) !important;
+  min-height:100svh !important;
+  background:rgba(0,0,0,.16) !important;
+  z-index:3999 !important;
+}
+
+html body #cartDrawer.cart-drawer{
+  position:fixed !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:auto !important;
+  left:auto !important;
+  width:min(430px, 100vw) !important;
+  max-width:100vw !important;
+  height:var(--stapleford-visual-vh, 100dvh) !important;
+  min-height:100svh !important;
+  max-height:var(--stapleford-visual-vh, 100dvh) !important;
+  background:#fff !important;
+  z-index:4000 !important;
+  box-sizing:border-box !important;
+  padding:24px !important;
+  padding-bottom:max(24px, env(safe-area-inset-bottom)) !important;
+  border-left:1px solid rgba(0,0,0,.12) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  overflow:hidden !important;
+  transform:translate3d(100%,0,0) !important;
+  transition:transform .25s ease !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+
+html body #cartDrawer.cart-drawer.open{
+  transform:translate3d(0,0,0) !important;
+}
+
+html body #cartDrawer .cart-head{
+  flex:0 0 auto !important;
+  min-height:42px !important;
+  padding:0 0 18px 0 !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
+
+html body #cartDrawer .cart-items{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:24px 0 !important;
+  margin:0 !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+}
+
+html body #cartDrawer .cart-foot{
+  flex:0 0 auto !important;
+  position:relative !important;
+  bottom:auto !important;
+  z-index:2 !important;
+  width:100% !important;
+  background:#fff !important;
+  padding:18px 0 0 0 !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+  border-top:1px solid rgba(0,0,0,.1) !important;
+}
+
+html body #cartDrawer .cart-error{
+  flex:0 0 auto !important;
+  background:#fff !important;
+  padding-top:10px !important;
+  margin:0 !important;
+}
+
+@supports (height:100dvh){
+  html body #cartBackdrop.cart-backdrop,
+  html body #cartDrawer.cart-drawer{
+    height:var(--stapleford-visual-vh, 100dvh) !important;
+    max-height:var(--stapleford-visual-vh, 100dvh) !important;
+  }
+}
+
+@media (max-width: 640px){
+  html body #cartBackdrop.cart-backdrop{
+    background:transparent !important;
+  }
+
+  html body #cartDrawer.cart-drawer{
+    left:0 !important;
+    right:0 !important;
+    width:var(--stapleford-visual-vw, 100vw) !important;
+    max-width:var(--stapleford-visual-vw, 100vw) !important;
+    border-left:0 !important;
+    border-right:0 !important;
+    padding:22px max(20px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)) !important;
+  }
+
+  html body #cartDrawer .cart-head,
+  html body #cartDrawer .cart-foot{
+    font-size:12px !important;
+    letter-spacing:.09em !important;
+  }
+
+  html body #cartDrawer .cart-items{
+    padding:22px 0 !important;
+  }
+
+  html body #cartDrawer .cart-item{
+    grid-template-columns:76px minmax(0,1fr) !important;
+    column-gap:14px !important;
+    margin-bottom:22px !important;
+  }
+
+  html body #cartDrawer .cart-item img{
+    width:76px !important;
+    height:76px !important;
+  }
+
+  html body #cartDrawer .cart-item-title,
+  html body #cartDrawer .cart-item-price,
+  html body #cartDrawer .cart-remove,
+  html body #cartDrawer .cart-checkout,
+  html body #cartDrawer .cart-close,
+  html body #cartDrawer .cart-continue{
+    font-size:12px !important;
+    line-height:1.28 !important;
+  }
+
+  html body #cartDrawer .cart-actions{
+    gap:11px !important;
+  }
+}
+
+@media (max-width: 380px){
+  html body #cartDrawer.cart-drawer{
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+
+  html body #cartDrawer .cart-item{
+    grid-template-columns:66px minmax(0,1fr) !important;
+    column-gap:12px !important;
+  }
+
+  html body #cartDrawer .cart-item img{
+    width:66px !important;
+    height:66px !important;
+  }
+
+  html body #cartDrawer .cart-head,
+  html body #cartDrawer .cart-foot,
+  html body #cartDrawer .cart-item-title,
+  html body #cartDrawer .cart-item-price,
+  html body #cartDrawer .cart-remove,
+  html body #cartDrawer .cart-checkout,
+  html body #cartDrawer .cart-close,
+  html body #cartDrawer .cart-continue{
+    font-size:11px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -9093,6 +9276,8 @@ function openCart(){
   const opener = document.getElementById("cartOpen");
   if(!drawer) return;
   drawer.classList.add("open");
+  document.documentElement.classList.add("cart-drawer-is-open");
+  document.body.classList.add("cart-drawer-is-open");
   drawer.setAttribute("aria-hidden", "false");
   opener?.setAttribute("aria-expanded", "true");
   if(backdrop){
@@ -9106,6 +9291,8 @@ function closeCart(){
   const backdrop = document.getElementById("cartBackdrop");
   const opener = document.getElementById("cartOpen");
   drawer?.classList.remove("open");
+  document.documentElement.classList.remove("cart-drawer-is-open");
+  document.body.classList.remove("cart-drawer-is-open");
   drawer?.setAttribute("aria-hidden", "true");
   opener?.setAttribute("aria-expanded", "false");
   if(backdrop){
@@ -9329,5 +9516,29 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 });
 </script>
+
+<script id="stapleford-mobile-cart-visual-viewport-fix">
+(function(){
+  function setCartViewportVars(){
+    var viewport = window.visualViewport;
+    var width = viewport && viewport.width ? viewport.width : window.innerWidth;
+    var height = viewport && viewport.height ? viewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--stapleford-visual-vw', Math.round(width) + 'px');
+    document.documentElement.style.setProperty('--stapleford-visual-vh', Math.round(height) + 'px');
+  }
+
+  setCartViewportVars();
+  window.addEventListener('resize', setCartViewportVars, { passive:true });
+  window.addEventListener('orientationchange', function(){
+    setCartViewportVars();
+    setTimeout(setCartViewportVars, 250);
+  }, { passive:true });
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', setCartViewportVars, { passive:true });
+    window.visualViewport.addEventListener('scroll', setCartViewportVars, { passive:true });
+  }
+})();
+</script>
+
 </body>
 </html>
