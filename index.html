@@ -7925,6 +7925,52 @@ html body .lightbox .lightbox-meta{
 }
 </style>
 
+
+<style id="sold-listing-not-clickable-fix">
+/* Sold/reserved listings remain visible but do not behave like clickable gallery products. */
+.card .image.sold,
+.card .image.reserved {
+  cursor: default !important;
+}
+.card .image.sold img,
+.card .image.reserved img {
+  pointer-events: none;
+}
+</style>
+
+
+<!-- FINAL OVERRIDE: black rectangular BUY button on listing cards -->
+<style id="ben-final-listing-buy-black-box">
+.card .info .info-right .cart-trigger,
+.card .info .cart-trigger,
+.info-right button.cart-trigger,
+button.cart-trigger{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#000 !important;
+  color:#fff !important;
+  border:1px solid #000 !important;
+  border-radius:0 !important;
+  padding:8px 13px !important;
+  min-height:30px !important;
+  line-height:1 !important;
+  font-family:'InterRegularEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  letter-spacing:0.10em !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+}
+.card .info .info-right .cart-trigger:hover,
+.card .info .cart-trigger:hover,
+.info-right button.cart-trigger:hover,
+button.cart-trigger:hover{
+  background:#fff !important;
+  color:#000 !important;
+}
+</style>
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -8993,6 +9039,8 @@ function render(){
   }
 
   image?.addEventListener('click', (event) => {
+    // Sold/reserved watches stay as listing-page only; no product/gallery view.
+    if(!isAvailable) return;
     const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button');
     if(clickedControl) return;
     openLightbox(w, 0);
