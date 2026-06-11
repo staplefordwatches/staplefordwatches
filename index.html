@@ -1265,41 +1265,17 @@ a, button{
 }
 
 .lightbox-description-toggle,
-.lightbox-buy-button{
-  width:100%;
-  border:1px solid rgba(0,0,0,0.16);
-  background:transparent;
-  color:#000;
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:10px;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  padding:10px 12px;
-  cursor:pointer;
-  text-align:center;
-}
 
 .lightbox-description-toggle{
   margin:0 0 10px;
 }
 
-.lightbox-buy-button{
-  margin:12px 0 0;
-  background:#000;
-  color:#fff;
-  border-color:#000;
-}
 
-.lightbox-buy-button[hidden],
 .lightbox-description-toggle[hidden]{
   display:none;
 }
 
 .lightbox-description-toggle:hover,
-.lightbox-buy-button:hover{
-  opacity:.58;
-}
 
 .lightbox-detail-specs{
   display:grid;
@@ -5268,10 +5244,9 @@ html body.info-active #filterMenu{
 <div class="lightbox-detail-kicker">DETAILS</div>
 <div class="lightbox-detail-title" id="lightboxDetailTitle"></div>
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
-<button class="lightbox-description-toggle" id="lightboxDescriptionToggle" type="button" aria-expanded="false">DESCRIPTION ↑</button>
+<button class="lightbox-description-toggle" id="lightboxDescriptionToggle" type="button" aria-expanded="false">DESCRIPTION</button>
 <div class="lightbox-detail-description" id="lightboxDetailDescription" hidden></div>
 <dl class="lightbox-detail-specs" id="lightboxDetailSpecs"></dl>
-<button class="lightbox-buy-button" id="lightboxBuyButton" type="button" hidden>BUY</button>
 </aside>
 </div>
 </div>
@@ -5785,7 +5760,6 @@ const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
 const lightboxDescriptionToggle = document.getElementById("lightboxDescriptionToggle");
 const lightboxDetailSpecs = document.getElementById("lightboxDetailSpecs");
-const lightboxBuyButton = document.getElementById("lightboxBuyButton");
 let lightboxImages = [];
 let lightboxIndex = 0;
 let lightboxTitle = "";
@@ -5805,7 +5779,7 @@ function renderLightboxDetails(){
   setText(lightboxDetailDescription, descriptionText);
   if(lightboxDescriptionToggle){
     lightboxDescriptionToggle.hidden = !descriptionText;
-    lightboxDescriptionToggle.textContent = "DESCRIPTION ↑";
+    lightboxDescriptionToggle.textContent = "DESCRIPTION";
     lightboxDescriptionToggle.setAttribute("aria-expanded", "false");
   }
   if(lightboxDetailDescription){
@@ -5875,7 +5849,7 @@ if(lightboxDescriptionToggle){
     if(!lightboxDetailDescription) return;
     const isOpen = !lightboxDetailDescription.hidden;
     lightboxDetailDescription.hidden = isOpen;
-    lightboxDescriptionToggle.textContent = isOpen ? "DESCRIPTION ↑" : "HIDE DESCRIPTION ↓";
+    lightboxDescriptionToggle.textContent = isOpen ? "DESCRIPTION" : "HIDE DESCRIPTION";
     lightboxDescriptionToggle.setAttribute("aria-expanded", String(!isOpen));
   });
 }
