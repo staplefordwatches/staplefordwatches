@@ -173,7 +173,6 @@ body{
 
 .image{
   aspect-ratio:4/5;
-  cursor:pointer;
   overflow:hidden;
   position:relative;
 }
@@ -1309,6 +1308,36 @@ a, button{
   margin-bottom:10px;
 }
 
+.lightbox-detail-contact-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  border-top:1px solid rgba(0,0,0,0.12);
+  padding-top:10px;
+  margin-top:2px;
+  margin-bottom:10px;
+}
+
+.lightbox-detail-contact-options[hidden]{
+  display:none !important;
+}
+
+.lightbox-detail-contact-link{
+  color:#000;
+  text-decoration:none;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  cursor:pointer;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  font-size:10px;
+  line-height:1.2;
+}
+
+.lightbox-detail-contact-link:hover{
+  opacity:0.65;
+}
+
 .lightbox-detail-buy[hidden],
 .lightbox-detail-enquire[hidden]{
   display:none !important;
@@ -1386,7 +1415,7 @@ a, button{
 }
 
 .image.available{
-  cursor:pointer;
+  cursor:default;
 }
 
 
@@ -1525,7 +1554,7 @@ a, button{
 
 /* ===== CLEANER PRODUCT IMAGE INTERACTION ===== */
 .image.available:hover{
-  cursor:pointer;
+  cursor:default;
 }
 
 
@@ -5296,20 +5325,6 @@ html body.info-active #filterMenu{
 <div class="lightbox-image-wrap">
 <div class="lightbox-status-badge" hidden="" id="lightboxStatusBadge">RESERVED</div>
 <img alt="" id="lightboxImage" src=""/>
-<div class="lightbox-enquire" hidden="" id="lightboxEnquire">
-<button aria-expanded="false" class="enquire-trigger" id="lightboxEnquireTrigger" type="button">
-<span>ENQUIRE ↑</span>
-</button>
-<div aria-hidden="true" class="enquire-overlay" id="lightboxEnquireOverlay">
-<button aria-label="Hide enquiry options" class="spec-hide enquire-hide-inline" id="lightboxEnquireHide" type="button">
-<span>HIDE ↓</span>
-</button>
-<div class="enquire-links-inline">
-<a class="enquire-link-inline" href="#" id="lightboxWhatsapp" rel="noopener" target="_blank">WHATSAPP</a>
-<a class="enquire-link-inline" href="#" id="lightboxEmail">EMAIL</a>
-</div>
-</div>
-</div>
 </div>
 <button aria-label="Next image" class="lightbox-next" type="button">Next</button>
 <div class="lightbox-meta" id="lightboxMeta"></div>
@@ -5324,7 +5339,11 @@ html body.info-active #filterMenu{
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
 <div class="lightbox-detail-actions">
   <button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY</button>
-  <a class="lightbox-detail-enquire" href="#" id="lightboxDetailEnquire" rel="noopener" target="_blank">ENQUIRE</a>
+  <button aria-expanded="false" class="lightbox-detail-enquire" id="lightboxDetailEnquire" type="button">ENQUIRE ↑</button>
+</div>
+<div class="lightbox-detail-contact-options" hidden="" id="lightboxDetailContactOptions">
+  <a class="lightbox-detail-contact-link" href="#" id="lightboxDetailWhatsapp" rel="noopener" target="_blank">WHATSAPP</a>
+  <a class="lightbox-detail-contact-link" href="#" id="lightboxDetailEmail">EMAIL</a>
 </div>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
@@ -5843,6 +5862,9 @@ const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
 const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
 const lightboxDetailEnquire = document.getElementById("lightboxDetailEnquire");
+const lightboxDetailContactOptions = document.getElementById("lightboxDetailContactOptions");
+const lightboxDetailWhatsapp = document.getElementById("lightboxDetailWhatsapp");
+const lightboxDetailEmail = document.getElementById("lightboxDetailEmail");
 const lightboxDetailSpecToggle = document.getElementById("lightboxDetailSpecToggle");
 const lightboxDetailSpecs = document.getElementById("lightboxDetailSpecs");
 let lightboxImages = [];
@@ -5867,6 +5889,14 @@ function setLightboxSpecsOpen(isOpen){
   }
 }
 
+function setLightboxDetailEnquiryOpen(isOpen){
+  if(lightboxDetailContactOptions) lightboxDetailContactOptions.hidden = !isOpen;
+  if(lightboxDetailEnquire){
+    lightboxDetailEnquire.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    lightboxDetailEnquire.textContent = isOpen ? "HIDE ENQUIRY ↓" : "ENQUIRE ↑";
+  }
+}
+
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
   const specs = lightboxWatch.specs || {};
@@ -5886,8 +5916,10 @@ function renderLightboxDetails(){
 
   if(lightboxDetailEnquire){
     lightboxDetailEnquire.hidden = false;
-    lightboxDetailEnquire.href = enquiryData.whatsapp;
   }
+  if(lightboxDetailWhatsapp) lightboxDetailWhatsapp.href = enquiryData.whatsapp;
+  if(lightboxDetailEmail) lightboxDetailEmail.href = enquiryData.email;
+  setLightboxDetailEnquiryOpen(false);
 
   const specRows = [
     ["REFERENCE", specs.reference],
@@ -5929,15 +5961,6 @@ function renderLightbox(){
     `<img class="lightbox-thumb ${idx===lightboxIndex ? 'active' : ''}" src="${src}" alt="${lightboxTitle} thumbnail ${idx + 1}" data-index="${idx}" onclick="event.stopPropagation();">`
   ).join("");
 
-  if(lightboxWatch) {
-    const enquiryData = getEnquiryData(lightboxWatch);
-    if(lightboxWhatsapp) lightboxWhatsapp.href = enquiryData.whatsapp;
-    if(lightboxEmail) lightboxEmail.href = enquiryData.email;
-  }
-  if(lightboxEnquire) {
-    lightboxEnquire.hidden = true;
-    lightboxEnquire.classList.remove("show-enquire");
-  }
 }
 
 function openLightbox(w, startIndex = 0){
@@ -5969,6 +5992,7 @@ function closeLightbox(){
   if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
   setLightboxDetailsOpen(true);
   setLightboxSpecsOpen(false);
+  setLightboxDetailEnquiryOpen(false);
 }
 
 function stepLightbox(direction){
@@ -6003,7 +6027,7 @@ document.querySelector(".lightbox-next")?.addEventListener("click", (e) => {
 });
 
 document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) => {
-  if(e.target.closest("#lightboxEnquire, #lightboxDetails, #lightboxDetailsReopen")) return;
+  if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen")) return;
   stepLightbox(1);
 });
 
@@ -6055,6 +6079,13 @@ lightboxDetailBuy?.addEventListener("click", (e) => {
 });
 
 lightboxDetailEnquire?.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  const isOpen = lightboxDetailContactOptions && !lightboxDetailContactOptions.hidden;
+  setLightboxDetailEnquiryOpen(!isOpen);
+});
+
+lightboxDetailContactOptions?.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
