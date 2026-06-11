@@ -2903,6 +2903,19 @@ body.sell-active #filterMenu{
   }
 }
 
+
+/* FINAL: remove gallery preview thumbnails entirely */
+.lightbox-thumbs,
+.lightbox-thumb{
+  display:none !important;
+}
+.lightbox-inner{
+  grid-template-columns:1fr !important;
+}
+.lightbox-stage{
+  grid-column:1 / -1 !important;
+}
+
 </style>
 <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/>
 <link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/>
@@ -7428,7 +7441,6 @@ html body.info-active #filterMenu{
 <div aria-hidden="true" class="lightbox" id="lightbox">
 <button aria-label="Close gallery" class="lightbox-close" type="button">Close</button>
 <div class="lightbox-inner">
-<div class="lightbox-thumbs" id="lightboxThumbs"></div>
 <div class="lightbox-stage">
 <div class="lightbox-image-wrap">
 <button aria-label="Previous image" class="lightbox-prev" type="button">‹</button>
@@ -8065,9 +8077,8 @@ function renderLightbox(){
     lightboxStatusBadge.hidden = !isReserved;
     lightboxStatusBadge.textContent = isReserved ? "RESERVED" : "";
   }
-  lightboxThumbs.innerHTML = lightboxImages.map((src, idx) =>
-    `<img class="lightbox-thumb ${idx===lightboxIndex ? 'active' : ''}" src="${src}" alt="${lightboxTitle} thumbnail ${idx + 1}" data-index="${idx}" onclick="event.stopPropagation();">`
-  ).join("");
+  // Preview thumbnails removed: use image-side arrows or tap left/right of image to navigate.
+  if(lightboxThumbs) lightboxThumbs.innerHTML = "";
 
 }
 
