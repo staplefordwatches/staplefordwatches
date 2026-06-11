@@ -8167,29 +8167,65 @@ setInterval(updateUkTime, 1000);
 let watches = [];
 let watchesLoaded = false;
 
+const WATCHES_CACHE_KEY = "stapleford_watches_cache_v1";
+const WATCHES_CACHE_MAX_AGE_MS = 5 * 60 * 1000;
+
+function renderLoadedWatches(nextWatches){
+  watches = Array.isArray(nextWatches) ? nextWatches : [];
+  prepareWatches();
+  updateProductStructuredData();
+  watchesLoaded = true;
+  renderCart();
+  render();
+}
+
+function getCachedWatches(){
+  try{
+    const cached = JSON.parse(localStorage.getItem(WATCHES_CACHE_KEY) || "null");
+    if(!cached || !Array.isArray(cached.watches)) return null;
+    if(Date.now() - Number(cached.savedAt || 0) > WATCHES_CACHE_MAX_AGE_MS) return null;
+    return cached.watches;
+  } catch {
+    return null;
+  }
+}
+
+function saveCachedWatches(nextWatches){
+  try{
+    localStorage.setItem(WATCHES_CACHE_KEY, JSON.stringify({
+      savedAt: Date.now(),
+      watches: Array.isArray(nextWatches) ? nextWatches : []
+    }));
+  } catch {}
+}
+
 async function loadWatchesFromAirtable(){
   const galleryEl = document.getElementById("gallery");
-  if(galleryEl){
+  const cachedWatches = getCachedWatches();
+
+  if(cachedWatches){
+    renderLoadedWatches(cachedWatches);
+  } else if(galleryEl){
     galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:InterEmbedded, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">LOADING WATCHES…</div>';
   }
 
   try{
-    const response = await fetch("/api/watches", { headers: { "Accept": "application/json" } });
+    const response = await fetch("/api/watches", {
+      headers: { "Accept": "application/json" },
+      cache: "no-store"
+    });
     const data = await response.json();
 
     if(!response.ok){
       throw new Error(data.error || "Could not load watches from Airtable");
     }
 
-    watches = Array.isArray(data.watches) ? data.watches : [];
-    prepareWatches();
-    updateProductStructuredData();
-    watchesLoaded = true;
-    renderCart();
-    render();
+    const nextWatches = Array.isArray(data.watches) ? data.watches : [];
+    saveCachedWatches(nextWatches);
+    renderLoadedWatches(nextWatches);
   } catch(error){
     console.error(error);
-    if(galleryEl){
+    if(!cachedWatches && galleryEl){
       galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:InterEmbedded, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">COULD NOT LOAD WATCHES. CHECK AIRTABLE SETTINGS.</div>';
     }
   }
@@ -8950,7 +8986,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<6?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<2?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${w.brand} ${w.title}"></a>` : ""}
       <link itemprop="image" href="${w.imageLink}">
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
