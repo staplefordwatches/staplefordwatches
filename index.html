@@ -2715,6 +2715,57 @@ body.sell-active #filterMenu{
   text-transform:uppercase;
 }
 
+
+/* Detail-panel enquiry icons and gallery enquire removal */
+#lightboxEnquire,
+.lightbox-enquire{
+  display:none !important;
+}
+
+.lightbox-detail-actions{
+  align-items:center;
+  justify-content:flex-start;
+}
+
+.lightbox-detail-contact-options{
+  display:flex !important;
+  align-items:center;
+  gap:10px;
+  border-top:0 !important;
+  padding-top:0 !important;
+  margin:0 0 0 auto !important;
+}
+
+.lightbox-detail-contact-options[hidden]{
+  display:flex !important;
+}
+
+.lightbox-detail-contact-link,
+.lightbox-detail-contact-link:link,
+.lightbox-detail-contact-link:visited{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:28px;
+  color:#000 !important;
+  text-decoration:none !important;
+  border:1px solid rgba(0,0,0,0.18);
+  border-radius:999px;
+  background:rgba(255,255,255,0.82);
+}
+
+.lightbox-detail-contact-link:hover{
+  opacity:0.65;
+}
+
+.lightbox-detail-contact-link svg{
+  width:15px;
+  height:15px;
+  fill:currentColor;
+  display:block;
+}
+
 </style>
 <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/>
 <link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/>
@@ -5339,11 +5390,14 @@ html body.info-active #filterMenu{
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
 <div class="lightbox-detail-actions">
   <button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY</button>
-  <button aria-expanded="false" class="lightbox-detail-enquire" id="lightboxDetailEnquire" type="button">ENQUIRE ↑</button>
-</div>
-<div class="lightbox-detail-contact-options" hidden="" id="lightboxDetailContactOptions">
-  <a class="lightbox-detail-contact-link" href="#" id="lightboxDetailWhatsapp" rel="noopener" target="_blank">WHATSAPP</a>
-  <a class="lightbox-detail-contact-link" href="#" id="lightboxDetailEmail">EMAIL</a>
+  <div class="lightbox-detail-contact-options" id="lightboxDetailContactOptions" aria-label="Contact options">
+    <a class="lightbox-detail-contact-link lightbox-detail-contact-whatsapp" href="#" id="lightboxDetailWhatsapp" rel="noopener" target="_blank" aria-label="Enquire by WhatsApp" title="WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3.2A12.6 12.6 0 0 0 5.2 22.3L3.7 28l5.9-1.5A12.6 12.6 0 1 0 16 3.2Zm0 2.3a10.3 10.3 0 0 1 0 20.6c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.5.9.9-3.4-.3-.4A10.3 10.3 0 0 1 16 5.5Zm-4.3 5.2c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.8.5-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.4l-1.8-.9c-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.2-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-.8-1.9c-.2-.5-.4-.5-.7-.5h-.6Z"/></svg>
+    </a>
+    <a class="lightbox-detail-contact-link lightbox-detail-contact-email" href="#" id="lightboxDetailEmail" aria-label="Enquire by email" title="Email">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 8h22a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2Zm1.2 2 9.8 7.1 9.8-7.1H6.2Zm20.8 2.1-10.4 7.5a1 1 0 0 1-1.2 0L5 12.1V22h22v-9.9Z"/></svg>
+    </a>
+  </div>
 </div>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
@@ -5890,11 +5944,8 @@ function setLightboxSpecsOpen(isOpen){
 }
 
 function setLightboxDetailEnquiryOpen(isOpen){
-  if(lightboxDetailContactOptions) lightboxDetailContactOptions.hidden = !isOpen;
-  if(lightboxDetailEnquire){
-    lightboxDetailEnquire.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    lightboxDetailEnquire.textContent = isOpen ? "HIDE ENQUIRY ↓" : "ENQUIRE ↑";
-  }
+  // Contact icons are always visible in the details panel.
+  if(lightboxDetailContactOptions) lightboxDetailContactOptions.hidden = false;
 }
 
 function renderLightboxDetails(){
@@ -5914,12 +5965,9 @@ function renderLightboxDetails(){
     lightboxDetailBuy.dataset.watchId = lightboxWatch.listingId || "";
   }
 
-  if(lightboxDetailEnquire){
-    lightboxDetailEnquire.hidden = false;
-  }
   if(lightboxDetailWhatsapp) lightboxDetailWhatsapp.href = enquiryData.whatsapp;
   if(lightboxDetailEmail) lightboxDetailEmail.href = enquiryData.email;
-  setLightboxDetailEnquiryOpen(false);
+  setLightboxDetailEnquiryOpen(true);
 
   const specRows = [
     ["REFERENCE", specs.reference],
