@@ -7758,6 +7758,173 @@ html body .lightbox-next:active{
 }
 </style>
 
+
+
+<style id="stapleford-final-arrow-close-correction">
+/* FINAL: clean balanced gallery arrows + close button layered behind details panel. */
+.lightbox,
+.lightbox *{
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+/* Keep the product details box above the close button if they overlap. */
+html body .lightbox .lightbox-detail-panel{
+  z-index:80 !important;
+}
+html body .lightbox .lightbox-detail-reopen{
+  z-index:81 !important;
+}
+
+/* Close: small label, same style/scale as the earlier version, never huge/off-screen. */
+html body .lightbox .lightbox-close,
+html body .lightbox-close{
+  position:absolute !important;
+  top:18px !important;
+  right:18px !important;
+  left:auto !important;
+  bottom:auto !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:none !important;
+  max-height:none !important;
+  transform:none !important;
+  padding:10px 12px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:rgba(255,255,255,0.96) !important;
+  color:#000 !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:0.04em !important;
+  text-transform:uppercase !important;
+  text-align:center !important;
+  opacity:1 !important;
+  box-shadow:none !important;
+  text-shadow:none !important;
+  cursor:pointer !important;
+  z-index:50 !important; /* below the details panel, above image/arrows */
+}
+
+/* Arrows: clickable side zones, with subtle large transparent glyphs. */
+html body .lightbox .lightbox-prev,
+html body .lightbox .lightbox-next,
+html body .lightbox-prev,
+html body .lightbox-next{
+  position:absolute !important;
+  top:0 !important;
+  bottom:0 !important;
+  transform:none !important;
+  width:30% !important;
+  height:100% !important;
+  min-width:72px !important;
+  max-width:260px !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 24px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:none !important;
+  display:flex !important;
+  align-items:center !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:clamp(76px, 7.5vw, 122px) !important;
+  font-weight:200 !important;
+  line-height:1 !important;
+  color:rgba(0,0,0,0.36) !important;
+  opacity:0.55 !important;
+  text-shadow:0 1px 14px rgba(255,255,255,0.95) !important;
+  cursor:pointer !important;
+  pointer-events:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  z-index:35 !important;
+}
+html body .lightbox .lightbox-prev,
+html body .lightbox-prev{
+  left:0 !important;
+  right:auto !important;
+  justify-content:flex-start !important;
+}
+html body .lightbox .lightbox-next,
+html body .lightbox-next{
+  right:0 !important;
+  left:auto !important;
+  justify-content:flex-end !important;
+}
+html body .lightbox .lightbox-prev:hover,
+html body .lightbox .lightbox-next:hover,
+html body .lightbox .lightbox-prev:active,
+html body .lightbox .lightbox-next:active,
+html body .lightbox .lightbox-prev:focus,
+html body .lightbox .lightbox-next:focus{
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:none !important;
+  color:rgba(0,0,0,0.48) !important;
+  opacity:0.72 !important;
+}
+
+/* No preview thumbnails or bottom title/counter. */
+html body .lightbox .lightbox-thumbs,
+html body .lightbox .lightbox-thumb{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+html body .lightbox .lightbox-meta{
+  display:none !important;
+  visibility:hidden !important;
+}
+
+@media (max-width: 760px){
+  html body .lightbox .lightbox-prev,
+  html body .lightbox .lightbox-next,
+  html body .lightbox-prev,
+  html body .lightbox-next{
+    width:34% !important;
+    min-width:68px !important;
+    padding:0 14px !important;
+    font-size:clamp(62px, 18vw, 92px) !important;
+    opacity:0.50 !important;
+  }
+  html body .lightbox .lightbox-close,
+  html body .lightbox-close{
+    top:10px !important;
+    right:10px !important;
+    padding:8px 10px !important;
+    font-size:10px !important;
+    z-index:50 !important;
+  }
+}
+
+/* Mobile landscape / short screens: arrows stay visible, but do not dominate. */
+@media (max-height: 520px) and (orientation: landscape){
+  html body .lightbox .lightbox-prev,
+  html body .lightbox .lightbox-next,
+  html body .lightbox-prev,
+  html body .lightbox-next{
+    width:28% !important;
+    min-width:64px !important;
+    padding:0 12px !important;
+    font-size:clamp(54px, 15vh, 76px) !important;
+    opacity:0.48 !important;
+  }
+  html body .lightbox .lightbox-close,
+  html body .lightbox-close{
+    top:8px !important;
+    right:8px !important;
+    padding:7px 9px !important;
+    font-size:10px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
