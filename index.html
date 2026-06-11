@@ -1186,50 +1186,47 @@ a, button{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  width:auto;
-  height:auto;
-  border:none;
-  background:transparent;
-  color:rgba(0,0,0,0.58);
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:300 !important;
-  font-size:78px;
+  width:22%;
+  height:100%;
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:rgba(0,0,0,0.34);
+  font-family:Arial, sans-serif !important;
+  font-weight:200 !important;
+  font-size:112px;
   line-height:1;
   display:flex;
   align-items:center;
-  justify-content:center;
   cursor:pointer;
   z-index:8;
-  opacity:0.72;
-  padding:18px 20px;
-  text-shadow:0 1px 8px rgba(255,255,255,0.65);
+  opacity:0.66;
+  padding:0;
+  text-shadow:0 1px 12px rgba(255,255,255,0.85);
   transition:opacity .18s ease, color .18s ease;
 }
 
 .lightbox-prev:hover,
 .lightbox-next:hover{
-  opacity:0.96;
-  background:transparent;
-  color:rgba(0,0,0,0.82);
+  opacity:0.9;
+  background:transparent !important;
+  color:rgba(0,0,0,0.52);
 }
 
 .lightbox-prev{
   left:0;
+  justify-content:flex-start;
+  padding-left:18px;
 }
 
 .lightbox-next{
   right:0;
+  justify-content:flex-end;
+  padding-right:18px;
 }
 
 .lightbox-meta{
-  position:absolute;
-  left:18px;
-  bottom:18px;
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
+  display:none !important;
 }
 
 .lightbox-detail-panel{
@@ -1569,14 +1566,22 @@ a, button{
 
   .lightbox-prev,
   .lightbox-next{
-    width:auto;
-    height:auto;
-    font-size:58px;
-    padding:16px 14px;
+    width:24%;
+    height:100%;
+    font-size:86px;
+    padding:0;
+  }
+
+  .lightbox-prev{
+    padding-left:8px;
+  }
+
+  .lightbox-next{
+    padding-right:8px;
   }
 
   .lightbox-meta{
-    font-size:10px;
+    display:none !important;
   }
 }
 
@@ -2837,6 +2842,10 @@ body.sell-active #filterMenu{
   }
 }
 
+
+/* Gallery clean-up: big transparent arrows, no bottom title/counter */
+.lightbox-meta{display:none !important;}
+.lightbox-prev,.lightbox-next{border:0 !important;background:transparent !important;box-shadow:none !important;}
 </style>
 <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/>
 <link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/>
@@ -6071,7 +6080,7 @@ function renderLightbox(){
   if(!lightboxImages.length) return;
   lightboxImage.src = lightboxImages[lightboxIndex];
   lightboxImage.alt = `${lightboxTitle} image ${lightboxIndex + 1}`;
-  lightboxMeta.textContent = `${lightboxTitle} · ${lightboxIndex + 1}/${lightboxImages.length}`;
+  if(lightboxMeta) lightboxMeta.textContent = "";
   renderLightboxDetails();
   if(lightboxStatusBadge){
     const isReserved = lightboxWatch && lightboxWatch.status === "reserved";
