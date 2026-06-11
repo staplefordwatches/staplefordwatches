@@ -7480,6 +7480,61 @@ html body.info-active #filterMenu{
   }
 }
 </style>
+
+<style id="stapleford-close-small-final-fix">
+/* Final close button correction: small text label, matching the earlier reference file. */
+.lightbox-close{
+  position:absolute !important;
+  top:18px !important;
+  right:18px !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  padding:10px 12px !important;
+  border:0 !important;
+  background:rgba(255,255,255,0.96) !important;
+  color:#000 !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:0.04em !important;
+  text-transform:uppercase !important;
+  text-align:center !important;
+  cursor:pointer !important;
+  z-index:80 !important;
+  text-shadow:none !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+.lightbox-close:hover,
+.lightbox-close:focus,
+.lightbox-close:active{
+  background:rgba(255,255,255,0.96) !important;
+  color:#000 !important;
+  outline:none !important;
+}
+@media (max-width: 767px){
+  .lightbox-close{
+    top:12px !important;
+    right:12px !important;
+    padding:8px 10px !important;
+    font-size:10px !important;
+    line-height:1 !important;
+  }
+}
+@media (max-height: 520px), (max-width: 900px) and (orientation: landscape){
+  .lightbox-close{
+    top:8px !important;
+    right:8px !important;
+    padding:7px 9px !important;
+    font-size:10px !important;
+    line-height:1 !important;
+  }
+}
+</style>
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
