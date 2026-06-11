@@ -517,7 +517,6 @@ footer{
 .filter-wrap-inline{
   display:flex;
   align-items:center;
-  gap:14px;
   height:18px;
 }
 
@@ -1207,89 +1206,6 @@ a, button{
   font-size:11px;
   letter-spacing:0.04em;
   text-transform:uppercase;
-}
-
-.lightbox-detail-panel{
-  position:absolute;
-  right:18px;
-  bottom:18px;
-  width:min(340px, 30vw);
-  max-height:48vh;
-  overflow:auto;
-  background:rgba(255,255,255,0.96);
-  border:1px solid rgba(0,0,0,0.12);
-  padding:16px 16px 14px;
-  z-index:6;
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  color:#000;
-  box-shadow:0 12px 32px rgba(0,0,0,0.08);
-}
-
-.lightbox-detail-kicker{
-  font-size:10px;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  opacity:0.62;
-  margin-bottom:8px;
-}
-
-.lightbox-detail-title{
-  font-size:14px;
-  line-height:1.25;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-
-.lightbox-detail-price{
-  font-size:12px;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  margin-bottom:12px;
-}
-
-.lightbox-detail-description{
-  font-size:12px;
-  line-height:1.55;
-  letter-spacing:0.02em;
-  text-transform:none;
-  margin-bottom:12px;
-  white-space:pre-line;
-}
-
-.lightbox-detail-specs{
-  display:grid;
-  grid-template-columns:auto 1fr;
-  gap:6px 14px;
-  border-top:1px solid rgba(0,0,0,0.12);
-  padding-top:10px;
-  font-size:10px;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-}
-
-.lightbox-detail-specs dt{
-  opacity:0.58;
-}
-
-.lightbox-detail-specs dd{
-  margin:0;
-  text-align:right;
-}
-
-@media (max-width: 760px){
-  .lightbox-detail-panel{
-    left:12px;
-    right:12px;
-    bottom:12px;
-    width:auto;
-    max-height:34vh;
-    padding:13px 14px 12px;
-  }
-  .lightbox-meta{
-    left:12px;
-    bottom:calc(34vh + 28px);
-  }
 }
 
 .image.available{
@@ -2426,161 +2342,6 @@ input[list]{
 body.sell-active .filter-wrap-inline,
 body.sell-active #filterMenu{
   display:none !important;
-}
-
-
-
-/* ===== CART / SQUARE CHECKOUT ===== */
-.cart-open{
-  position:static;
-  z-index:auto;
-  border:none;
-  background:transparent;
-  color:#000;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif;
-  font-size:12px;
-  font-weight:500;
-  letter-spacing:0.02em;
-  text-transform:uppercase;
-  cursor:pointer;
-  padding:0;
-  margin:0;
-  line-height:18px;
-  height:18px;
-  min-height:18px;
-  display:inline-flex;
-  align-items:center;
-  white-space:nowrap;
-}
-
-.cart-trigger,
-.cart-checkout,
-.cart-remove,
-.cart-close,
-.cart-continue{
-  border:none;
-  background:transparent;
-  color:#000;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif;
-  font-size:11px;
-  line-height:1.2;
-  font-weight:500;
-  text-transform:uppercase;
-  letter-spacing:0.08em;
-  cursor:pointer;
-  padding:0;
-}
-
-.cart-trigger{ margin-top:2px; }
-.cart-trigger:hover,
-.cart-checkout:hover,
-.cart-remove:hover,
-.cart-close:hover,
-.cart-continue:hover,
-.cart-open:hover{ opacity:.55; }
-
-.cart-trigger:disabled,
-.cart-checkout:disabled{ opacity:.35; cursor:default; }
-
-.cart-drawer{
-  position:fixed;
-  inset:0 0 0 auto;
-  width:min(390px,100vw);
-  height:100vh;
-  background:#fff;
-  z-index:4000;
-  transform:translateX(100%);
-  transition:transform .25s ease;
-  padding:24px;
-  box-sizing:border-box;
-  border-left:1px solid rgba(0,0,0,.12);
-  display:flex;
-  flex-direction:column;
-}
-
-.cart-drawer.open{ transform:translateX(0); }
-
-.cart-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.16);
-  z-index:3999;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .25s ease;
-}
-
-.cart-backdrop.open{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.cart-head,
-.cart-foot{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:18px;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif;
-  font-size:11px;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-}
-
-.cart-head{ padding-bottom:18px; border-bottom:1px solid rgba(0,0,0,.1); }
-.cart-foot{ padding-top:18px; border-top:1px solid rgba(0,0,0,.1); align-items:flex-end; }
-.cart-actions{ display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
-
-.cart-items{
-  flex:1;
-  overflow:auto;
-  padding:24px 0;
-}
-
-.cart-item{
-  display:grid;
-  grid-template-columns:64px 1fr;
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.cart-item img{
-  width:64px;
-  height:64px;
-  object-fit:cover;
-  background:#f4f4f4;
-}
-
-.cart-item-title{
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif;
-  font-size:11px;
-  line-height:1.35;
-  text-transform:uppercase;
-  letter-spacing:0.06em;
-}
-
-.cart-item-price{
-  margin:6px 0 8px;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif;
-  font-size:11px;
-  opacity:.7;
-}
-
-.cart-empty,
-.cart-error{
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif;
-  font-size:11px;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  opacity:.65;
-  line-height:1.5;
-}
-
-.cart-error{ color:#8a0000; opacity:1; margin-top:12px; }
-
-@media (max-width:767px){
-  .cart-open{ font-size:10px; }
-  .cart-drawer{ padding:18px; }
 }
 
 </style>
@@ -4509,534 +4270,6 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
-
-<style id="stapleford-cart-nav-perfect-fix">
-/* Align CART with the existing right-side nav typography and edge. */
-html body .nav-right{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-end !important;
-  justify-content:flex-start !important;
-  gap:0 !important;
-  text-align:right !important;
-  padding-right:0 !important;
-  margin-right:0 !important;
-}
-html body .nav-right .uk-time,
-html body .nav-right .cart-open{
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif !important;
-  font-size:12px !important;
-  font-weight:500 !important;
-  letter-spacing:0.02em !important;
-  line-height:24px !important;
-  height:24px !important;
-  min-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  text-transform:uppercase !important;
-  color:#000 !important;
-  white-space:nowrap !important;
-}
-html body .nav-right .cart-open{
-  position:static !important;
-  display:block !important;
-  border:0 !important;
-  background:transparent !important;
-  appearance:none !important;
-  -webkit-appearance:none !important;
-  text-align:right !important;
-  cursor:pointer !important;
-}
-html body .nav-right .cart-open:hover{ opacity:.55 !important; }
-@media (max-width:640px){
-  html body .nav-right .uk-time,
-  html body .nav-right .cart-open{
-    font-size:12px !important;
-    line-height:24px !important;
-    height:24px !important;
-  }
-}
-</style>
-
-<style id="stapleford-cart-nav-exact-column-fix">
-/* Exact right nav column: London/time and CART share one width, one edge, one type style. */
-html body .nav{
-  position:relative !important;
-}
-html body .nav-right{
-  display:grid !important;
-  grid-template-rows:24px 24px !important;
-  grid-auto-flow:row !important;
-  align-items:center !important;
-  justify-items:start !important;
-  width:max-content !important;
-  min-width:0 !important;
-  height:48px !important;
-  min-height:48px !important;
-  margin-left:auto !important;
-  margin-right:0 !important;
-  padding:0 !important;
-  text-align:left !important;
-  gap:0 !important;
-}
-html body .nav-right .uk-time,
-html body .nav-right .cart-open{
-  justify-self:start !important;
-  align-self:center !important;
-  width:100% !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif !important;
-  font-size:12px !important;
-  font-weight:500 !important;
-  letter-spacing:0.02em !important;
-  text-transform:uppercase !important;
-  color:#000 !important;
-  white-space:nowrap !important;
-  box-sizing:border-box !important;
-}
-html body .nav-right .uk-time{
-  display:flex !important;
-  justify-content:flex-start !important;
-  align-items:center !important;
-  text-align:left !important;
-}
-html body .nav-right .cart-open{
-  position:static !important;
-  display:block !important;
-  border:0 !important;
-  background:transparent !important;
-  appearance:none !important;
-  -webkit-appearance:none !important;
-  text-align:left !important;
-  cursor:pointer !important;
-}
-html body .nav-right .uk-time-separator{
-  width:1ch !important;
-  margin:0 !important;
-}
-html body .nav-right .uk-time-digits{
-  width:8ch !important;
-  text-align:left !important;
-}
-html body .nav-right .cart-open:hover{ opacity:.55 !important; }
-@media (max-width:640px){
-  html body .nav-right .uk-time,
-  html body .nav-right .cart-open{
-    font-size:12px !important;
-    line-height:24px !important;
-    height:24px !important;
-  }
-}
-</style>
-
-
-<style id="stapleford-cart-beside-sort-final-fix">
-/* FINAL: CART belongs with SORT in the lower left controls row.
-   This overrides the earlier right-nav cart experiments and makes SORT/CART a single exact baseline group. */
-html body .nav{
-  width:min(100%, var(--max-width)) !important;
-  margin:0 auto 4px !important;
-  padding:0 6px !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  justify-content:space-between !important;
-  align-items:flex-start !important;
-}
-html body .nav-left{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-start !important;
-  justify-content:flex-start !important;
-  gap:0 !important;
-  min-height:48px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-html body .nav-pages{
-  order:1 !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  gap:14px !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-html body .filter-wrap-inline{
-  order:2 !important;
-  display:inline-flex !important;
-  flex-direction:row !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  gap:14px !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  visibility:visible !important;
-  opacity:1 !important;
-}
-html body .filter-custom{
-  position:relative !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-html body #filterBtn,
-html body #cartOpen,
-html body .cart-open{
-  position:static !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  background:transparent !important;
-  appearance:none !important;
-  -webkit-appearance:none !important;
-  color:#000 !important;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif !important;
-  font-weight:500 !important;
-  font-size:12px !important;
-  letter-spacing:0.02em !important;
-  text-transform:uppercase !important;
-  text-align:left !important;
-  white-space:nowrap !important;
-  cursor:pointer !important;
-  vertical-align:top !important;
-  transform:none !important;
-}
-html body #filterBtn span,
-html body #cartOpen span{
-  display:inline-flex !important;
-  align-items:center !important;
-  height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-html body #filterBtn svg{
-  width:13px !important;
-  height:13px !important;
-  margin-left:4px !important;
-  display:block !important;
-  flex:0 0 auto !important;
-  transform:none !important;
-}
-html body .nav-right{
-  display:flex !important;
-  flex-direction:row !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  text-align:right !important;
-  transform:translateX(8px) !important;
-}
-html body .nav-right .uk-time{
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  display:inline-flex !important;
-  align-items:center !important;
-}
-html body.sell-active .filter-wrap-inline,
-html body.info-active .filter-wrap-inline{
-  display:inline-flex !important;
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
-@media (max-width:640px){
-  html body .nav-pages{ gap:12px !important; }
-  html body .filter-wrap-inline{ gap:12px !important; }
-  html body .nav-right{ transform:translateX(4px) !important; }
-  html body #filterBtn,
-  html body #cartOpen,
-  html body .cart-open,
-  html body #filterBtn span,
-  html body #cartOpen span{
-    font-size:12px !important;
-    height:24px !important;
-    line-height:24px !important;
-  }
-}
-</style>
-
-
-<style id="stapleford-cart-visible-all-pages-final">
-/* FINAL: keep CART visible on BUY, SELL and INFO while hiding only SORT off the BUY page. */
-html body.sell-active .filter-wrap-inline,
-html body.info-active .filter-wrap-inline{
-  display:inline-flex !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-html body.sell-active #cartOpen,
-html body.info-active #cartOpen{
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-html body.sell-active .filter-custom,
-html body.info-active .filter-custom,
-html body.sell-active #filterMenu,
-html body.info-active #filterMenu{
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
-</style>
-
-
-
-<style id="stapleford-responsive-cart-sort-final">
-/* Responsive CART / SORT controls: one stable row, no fragile offsets. */
-html body .nav{
-  width:min(100%, var(--max-width)) !important;
-  margin:0 auto 4px !important;
-  padding:0 6px !important;
-  box-sizing:border-box !important;
-  display:grid !important;
-  grid-template-columns:minmax(0, 1fr) max-content !important;
-  column-gap:16px !important;
-  align-items:start !important;
-}
-
-html body .nav-left{
-  min-width:0 !important;
-  min-height:48px !important;
-  height:auto !important;
-  display:grid !important;
-  grid-template-rows:24px 24px !important;
-  align-items:start !important;
-  justify-items:start !important;
-  gap:0 !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-
-html body .nav-pages{
-  grid-row:1 !important;
-  order:unset !important;
-  display:flex !important;
-  flex-wrap:nowrap !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  gap:14px !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-
-html body .filter-wrap-inline{
-  grid-row:2 !important;
-  order:unset !important;
-  display:flex !important;
-  flex-wrap:nowrap !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  gap:14px !important;
-  width:auto !important;
-  max-width:100% !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  box-sizing:border-box !important;
-  overflow:visible !important;
-}
-
-html body .filter-custom{
-  position:relative !important;
-  display:inline-flex !important;
-  flex:0 0 auto !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-
-html body #cartOpen,
-html body #filterBtn,
-html body .nav-page-btn{
-  position:static !important;
-  flex:0 0 auto !important;
-  width:auto !important;
-  max-width:none !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  background:transparent !important;
-  appearance:none !important;
-  -webkit-appearance:none !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif !important;
-  font-weight:500 !important;
-  font-size:12px !important;
-  letter-spacing:0.02em !important;
-  line-height:24px !important;
-  text-transform:uppercase !important;
-  color:#000 !important;
-  white-space:nowrap !important;
-  text-align:left !important;
-  cursor:pointer !important;
-  transform:none !important;
-}
-
-html body #cartOpen span,
-html body #filterBtn span,
-html body .nav-page-btn span{
-  display:inline-flex !important;
-  align-items:center !important;
-  height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  white-space:nowrap !important;
-}
-
-html body #filterBtn svg{
-  width:13px !important;
-  height:13px !important;
-  margin-left:4px !important;
-  display:block !important;
-  flex:0 0 13px !important;
-  transform:none !important;
-}
-
-html body .filter-menu{
-  position:absolute !important;
-  top:calc(100% + 7px) !important;
-  left:0 !important;
-  right:auto !important;
-  width:min(260px, calc(100vw - 24px)) !important;
-  max-width:calc(100vw - 24px) !important;
-  box-sizing:border-box !important;
-  z-index:5000 !important;
-}
-
-html body .nav-right{
-  grid-column:2 !important;
-  justify-self:end !important;
-  align-self:start !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  transform:none !important;
-  text-align:right !important;
-}
-
-html body .nav-right .uk-time{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif !important;
-  font-size:12px !important;
-  font-weight:500 !important;
-  letter-spacing:0.02em !important;
-  text-transform:uppercase !important;
-  white-space:nowrap !important;
-}
-
-html body.sell-active .filter-wrap-inline,
-html body.info-active .filter-wrap-inline{
-  display:flex !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-
-html body.sell-active .filter-custom,
-html body.info-active .filter-custom,
-html body.sell-active #filterMenu,
-html body.info-active #filterMenu{
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
-
-@media (max-width:520px){
-  html body .nav{
-    grid-template-columns:1fr !important;
-    row-gap:0 !important;
-  }
-  html body .nav-right{
-    grid-column:1 !important;
-    grid-row:1 !important;
-    justify-self:end !important;
-  }
-  html body .nav-left{
-    grid-column:1 !important;
-    grid-row:1 / span 2 !important;
-    max-width:calc(100vw - 12px) !important;
-  }
-  html body .nav-pages{ gap:12px !important; }
-  html body .filter-wrap-inline{ gap:12px !important; }
-  html body #cartOpen,
-  html body #filterBtn,
-  html body .nav-page-btn,
-  html body #cartOpen span,
-  html body #filterBtn span,
-  html body .nav-page-btn span,
-  html body .nav-right .uk-time{
-    font-size:12px !important;
-    line-height:24px !important;
-    height:24px !important;
-  }
-}
-
-@media (max-width:360px){
-  html body .nav-pages{ gap:10px !important; }
-  html body .filter-wrap-inline{ gap:10px !important; }
-  html body #filterBtn svg{
-    width:12px !important;
-    height:12px !important;
-    flex-basis:12px !important;
-    margin-left:3px !important;
-  }
-}
-</style>
-
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -5050,7 +4283,6 @@ html body.info-active #filterMenu{
 <button aria-current="false" class="nav-page-btn" id="infoNav" type="button"><span>INFO</span></button>
 </nav>
 <div class="filter-wrap-inline">
-<button id="cartOpen" class="cart-open" type="button" aria-controls="cartDrawer" aria-expanded="false">CART (<span id="cartCount">0</span>)</button>
 <div class="filter-custom">
 <button aria-label="Sort watches" id="filterBtn" type="button">
 <span>SORT</span>
@@ -5210,37 +4442,9 @@ html body.info-active #filterMenu{
 </div>
 <button aria-label="Next image" class="lightbox-next" type="button">Next</button>
 <div class="lightbox-meta" id="lightboxMeta"></div>
-<aside aria-live="polite" class="lightbox-detail-panel" id="lightboxDetails">
-<div class="lightbox-detail-kicker">DETAILS</div>
-<div class="lightbox-detail-title" id="lightboxDetailTitle"></div>
-<div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
-<div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
-<dl class="lightbox-detail-specs" id="lightboxDetailSpecs"></dl>
-</aside>
 </div>
 </div>
 </div>
-
-<div id="cartBackdrop" class="cart-backdrop" hidden></div>
-<aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
-  <div class="cart-head">
-    <div>CART</div>
-    <button id="cartClose" class="cart-close" type="button">CLOSE</button>
-  </div>
-  <div id="cartItems" class="cart-items"></div>
-  <div class="cart-foot">
-    <div>
-      <div>TOTAL</div>
-      <div>£<span id="cartTotal">0</span></div>
-    </div>
-    <div class="cart-actions">
-      <button id="cartCheckout" class="cart-checkout" type="button">CHECKOUT</button>
-      <button id="cartContinue" class="cart-continue" type="button">CONTINUE SHOPPING</button>
-    </div>
-  </div>
-  <div id="cartError" class="cart-error" hidden></div>
-</aside>
-
 <script>
 function updateUkTime(){
   const el = document.getElementById('ukTimeDigits');
@@ -5261,37 +4465,431 @@ function updateUkTime(){
 updateUkTime();
 setInterval(updateUkTime, 1000);
 
-let watches = [];
-let watchesLoaded = false;
+const watches=[
+/* SIMPLE IMAGE SETUP PER WATCH
 
-async function loadWatchesFromAirtable(){
-  const galleryEl = document.getElementById("gallery");
-  if(galleryEl){
-    galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:InterEmbedded, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">LOADING WATCHES…</div>';
-  }
+Use:
+- image   = the main grid image
+- gallery = the images shown in the popup viewer
 
-  try{
-    const response = await fetch("/api/watches", { headers: { "Accept": "application/json" } });
-    const data = await response.json();
+Examples:
 
-    if(!response.ok){
-      throw new Error(data.error || "Could not load watches from Airtable");
-    }
-
-    watches = Array.isArray(data.watches) ? data.watches : [];
-    prepareWatches();
-    updateProductStructuredData();
-    watchesLoaded = true;
-    renderCart();
-    render();
-  } catch(error){
-    console.error(error);
-    if(galleryEl){
-      galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:InterEmbedded, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">COULD NOT LOAD WATCHES. CHECK AIRTABLE SETTINGS.</div>';
-    }
-  }
+{
+  id:"rolex-submariner",
+  brand:"ROLEX",
+  title:"Submariner",
+  image:"sub-cover.jpg",
+  gallery:[
+    "sub-cover.jpg",
+    "sub-detail-1.jpg",
+    "sub-detail-2.jpg"
+  ]
 }
 
+If a watch only has one image, just use:
+{
+  id:"cartier-tank",
+  brand:"CARTIER",
+  title:"Tank",
+  image:"tank-cover.jpg"
+}
+
+If a watch has lots of images, just add more lines in gallery:[ ... ].
+You can add, remove, or reorder them whenever needed.
+*/
+
+       {id:"panerai-luminor-1",
+ image:"Images/Watches/PL1/1.webp",
+ gallery:[
+   "Images/Watches/PL1/1.webp",
+   "Images/Watches/PL1/2.webp",
+   "Images/Watches/PL1/3.webp",
+   "Images/Watches/PL1/4.webp",
+   "Images/Watches/PL1/5.webp",
+   "Images/Watches/PL1/6.webp",
+   "Images/Watches/PL1/7.webp",
+   "Images/Watches/PL1/8.webp",
+ ],
+ title:"Luminor Base 44 8 Days PAM00560",
+ brand:"PANERAI",
+ price:3395,
+ status:"available",
+ specs:{reference:"PAM00560",year:"2021",caseSize:"44MM",condition:"EXCELLENT",contents:"FULL SET"}},
+  
+       {id:"panerai-radiomir-210",
+ image:"Images/Watches/PR1/1.webp",
+ gallery:[
+   "Images/Watches/PR1/1.webp",
+   "Images/Watches/PR1/2.webp",
+   "Images/Watches/PR1/3.webp",
+   "Images/Watches/PR1/4.webp",
+   "Images/Watches/PR1/5.webp",
+   "Images/Watches/PR1/6.webp",
+   "Images/Watches/PR1/7.webp",
+   "Images/Watches/PR1/8.webp",
+ ],
+ title:"Radiomir Base PAM00210",
+ brand:"PANERAI",
+ price:3395,
+ status:"available",
+ specs:{reference:"PAM00210",year:"2010",caseSize:"45MM",condition:"GREAT",contents:"BOX AND PAPERS"}},
+  
+  {id:"omega-aqua-terra-green-2",
+ image:"Images/Watches/OAT1/1.webp",
+ gallery:[
+   "Images/Watches/OAT1/1.webp",
+   "Images/Watches/OAT1/2.webp",
+   "Images/Watches/OAT1/3.webp",
+   "Images/Watches/OAT1/4.webp",
+   "Images/Watches/OAT1/5.webp",
+   "Images/Watches/OAT1/6.webp",
+   "Images/Watches/OAT1/7.webp",
+   "Images/Watches/OAT1/8.webp",
+
+ ],
+ title:"Seamaster Aqua Terra 41MM Green",
+ brand:"OMEGA",
+ price:3350,
+ status:"available",
+ specs:{reference:"220.13.41.21.10.001",year:"2022",caseSize:"41MM",condition:"EXCELLENT",contents:"FULL SET"}},
+
+{id:"zenith-elite-port-royal",
+ image:"Images/Watches/Z3/1.webp",
+ gallery:[
+   "Images/Watches/Z3/1.webp",
+   "Images/Watches/Z3/2.webp",
+   "Images/Watches/Z3/3.webp",
+   "Images/Watches/Z3/4.webp",
+   "Images/Watches/Z3/5.webp",
+   "Images/Watches/Z3/6.webp",
+ ],
+ title:"Elite Port Royal V",
+ brand:"ZENITH",
+ price:1350,
+ status:"available",
+ specs:{reference:"02.0251.684",year:"c. 2005",caseSize:"31MM x 44MM",condition:"GREAT",contents:"WATCH ONLY"}},
+
+      {id:"omega-speedmaster-moonphase",
+ image:"Images/Watches/OSP1/1.webp",
+ gallery:[
+   "Images/Watches/OSP1/1.webp",
+   "Images/Watches/OSP1/2.webp",
+   "Images/Watches/OSP1/3.webp",
+   "Images/Watches/OSP1/4.webp",
+   "Images/Watches/OSP1/5.webp",
+   "Images/Watches/OSP1/6.webp",
+   "Images/Watches/OSP1/7.webp",
+ ],
+ title:"Speedmaster Professional Moonphase",
+ brand:"OMEGA",
+ price:4295,
+ status:"available",
+ specs:{reference:"3575.20.00",year:"2005",caseSize:"42MM",condition:"GREAT",contents:"WARRANTY CARD AND BOX"}},
+
+    {id:"panerai-radiomir-green",
+ image:"Images/Watches/P2/1.webp",
+ gallery:[
+   "Images/Watches/P2/1.webp",
+   "Images/Watches/P2/2.webp",
+   "Images/Watches/P2/3.webp",
+   "Images/Watches/P2/4.webp",
+   "Images/Watches/P2/5.webp",
+   "Images/Watches/P2/6.webp",
+   "Images/Watches/P2/7.webp",
+   "Images/Watches/P2/8.webp",
+ ],
+ title:"Radiomir PAM01384",
+ brand:"PANERAI",
+ price:3295,
+ status:"available",
+ specs:{reference:"PAM001384",year:"2026",caseSize:"45MM",condition:"AS NEW",contents:"FULL SET"}},
+
+  {id:"zenith-tank",
+ image:"Images/Watches/Z2/1.webp",
+ gallery:[
+   "Images/Watches/Z2/1.webp",
+   "Images/Watches/Z2/2.webp",
+   "Images/Watches/Z2/3.webp",
+   "Images/Watches/Z2/4.webp",
+   "Images/Watches/Z2/5.webp",
+   "Images/Watches/Z2/6.webp",
+   "Images/Watches/Z2/7.webp",
+ ],
+ title:"Tank Art Deco c. 1939",
+ brand:"ZENITH",
+ price:995,
+ status:"available",
+ specs:{reference:"564581",year:"c. 1939",caseSize:"30MM (41MM inc. lugs) x 22MM",condition:"GOOD",contents:"WATCH ONLY"}},
+
+  {id:"jlc-reverso-calendar",
+ image:"Images/Watches/JLC2/1.webp",
+ gallery:[
+   "Images/Watches/JLC2/1.webp",
+   "Images/Watches/JLC2/2.webp",
+   "Images/Watches/JLC2/3.webp",
+   "Images/Watches/JLC2/4.webp",
+   "Images/Watches/JLC2/5.webp",
+   "Images/Watches/JLC2/6.webp",
+   "Images/Watches/JLC2/7.webp",
+   "Images/Watches/JLC2/8.webp",
+   "Images/Watches/JLC2/9.webp",
+   "Images/Watches/JLC2/10.webp",
+   "Images/Watches/JLC2/11.webp",
+ ],
+ title:"Reverso Tribute Duoface Calendar",
+ brand:"JAEGER-LECOULTRE",
+ price:10495,
+ status:"sold",
+ specs:{reference:"Q3918420",year:"2023",caseSize:"49.4MM x 29.9MM",condition:"EXCELLENT",contents:"FULL SET"}},
+
+       {id:"panerai-radiomir-210",
+ image:"Images/Watches/P1/1.webp",
+ gallery:[
+   "Images/Watches/P1/1.webp",
+   "Images/Watches/P1/2.webp",
+   "Images/Watches/P1/3.webp",
+   "Images/Watches/P1/4.webp",
+   "Images/Watches/P1/5.webp",
+   "Images/Watches/P1/6.webp",
+   "Images/Watches/P1/7.webp",
+   "Images/Watches/P1/8.webp",
+ ],
+ title:"Radiomir Base PAM00210",
+ brand:"PANERAI",
+ price:3295,
+ status:"sold",
+ specs:{reference:"PAM00210",year:"2006",caseSize:"45MM",condition:"EXCELLENT",contents:"FULL SET"}},
+
+
+     {id:"heuer-carrera-first-execution",
+ image:"Images/Watches/H1/1.webp",
+ gallery:[
+   "Images/Watches/H1/1.webp",
+   "Images/Watches/H1/2.webp",
+   "Images/Watches/H1/3.webp",
+   "Images/Watches/H1/4.webp",
+   "Images/Watches/H1/5.webp",
+   "Images/Watches/H1/6.webp",
+   "Images/Watches/H1/7.webp",
+   "Images/Watches/H1/8.webp",
+ ],
+ title:"Carrera First Execution Chronograph",
+ brand:"Heuer",
+ price:2395,
+ status:"available",
+ specs:{reference:"73353 N",year:"1970s",caseSize:"38MM",condition:"GOOD",contents:"WATCH ONLY"}},
+
+   {id:"tudor-black-bay-bronze",
+ image:"Images/Watches/BBB1/1.webp",
+ gallery:[
+   "Images/Watches/BBB1/1.webp",
+   "Images/Watches/BBB1/2.webp",
+   "Images/Watches/BBB1/3.webp",
+   "Images/Watches/BBB1/4.webp",
+   "Images/Watches/BBB1/5.webp",
+   "Images/Watches/BBB1/6.webp",
+ ],
+ title:"Black Bay Bronze",
+ brand:"TUDOR",
+ price:1995,
+ status:"sold",
+ specs:{reference:"M79250BA-0001",year:"2021",caseSize:"43MM",condition:"EXCELLENT",contents:"FULL SET"}},
+
+  {id:"jlc-reverso-small",
+ image:"Images/Watches/JLC1/cover.webp",
+ gallery:[
+   "Images/Watches/JLC1/cover.webp",
+ ],
+ title:"Reverso Classic Small",
+ brand:"JAEGER-LECOULTRE",
+ price:3795,
+ status:"sold",
+ specs:{reference:"Q2608440",year:"2022",caseSize:"21MM",condition:"EXCELLENT",contents:"FULL SET"}},
+
+    {id:"tag-heuer-formula-one",
+ image:"Images/Watches/TH2/cover.webp",
+ gallery:[
+   "Images/Watches/TH2/1.webp",
+   "Images/Watches/TH2/2.webp",
+   "Images/Watches/TH2/3.webp",
+   "Images/Watches/TH2/4.webp",
+   "Images/Watches/TH2/5.webp",
+   "Images/Watches/TH2/6.webp",
+ ],
+ title:"Formula One Solargraph Green",
+ brand:"TAG HEUER",
+ price:1295,
+ status:"sold",
+ specs:{reference:"WBY111E.BA0042",year:"2026",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
+
+{id:"omega-seamaster",
+ image:"Images/Watches/OS1/cover.webp",
+ gallery:[
+   "Images/Watches/OS1/1.webp",
+   "Images/Watches/OS1/2.webp",
+   "Images/Watches/OS1/3.webp",
+   "Images/Watches/OS1/4.webp",
+   "Images/Watches/OS1/5.webp",
+   "Images/Watches/OS1/6.webp"
+ ],
+ title:"Seamaster Blue Jedi ST 176.005",
+ brand:"OMEGA",
+ price:2295,
+ status:"available",
+ specs:{reference:"176.005",year:"1970s",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
+
+{id:"tudor-black bay",
+ image:"Images/Watches/TBB1/cover.webp",
+ gallery:[
+   "Images/Watches/TBB1/1.webp",
+   "Images/Watches/TBB1/2.webp",
+   "Images/Watches/TBB1/3.webp",
+   "Images/Watches/TBB1/4.webp",
+   "Images/Watches/TBB1/5.webp",
+   "Images/Watches/TBB1/6.webp",
+   "Images/Watches/TBB1/7.webp",
+ ],
+ title:"Black Bay 41 Monochrome",
+ brand:"TUDOR",
+ price:3095,
+ status:"sold",
+ specs:{reference:"M7941A1A0NU-0003",year:"2024",caseSize:"41MM",condition:"EXCELLENT",contents:"FULL SET"}},
+
+{id:"omega-seamaster-aqua-terra",
+ image:"Images/Watches/OS2/cover.webp",
+ gallery:[
+   "Images/Watches/OS2/1.webp",
+   "Images/Watches/OS2/2.webp",
+   "Images/Watches/OS2/3.webp",
+   "Images/Watches/OS2/4.webp",
+   "Images/Watches/OS2/5.webp",
+   "Images/Watches/OS2/6.webp",
+   "Images/Watches/OS2/7.webp",
+   "Images/Watches/OS2/8.webp",
+ ],
+ title:"Seamaster Aqua Terra 41MM Green",
+ brand:"OMEGA",
+ price:3495,
+ status:"sold",
+ specs:{reference:"",year:"2021",caseSize:"41MM",condition:"VERY GOOD",contents:"FULL SET"}},
+
+{id:"omega-seamaster-planet-ocean",
+ image:"Images/Watches/OS3/cover.webp",
+ gallery:[
+   "Images/Watches/OS3/1.webp",
+   "Images/Watches/OS3/2.webp",
+   "Images/Watches/OS3/3.webp",
+   "Images/Watches/OS3/4.webp",
+   "Images/Watches/OS3/5.webp",
+   "Images/Watches/OS3/6.webp",
+   "Images/Watches/OS3/7.webp",
+ ],
+ title:"Seamaster Planet Ocean 600M",
+ brand:"OMEGA",
+ price:3195,
+ status:"sold",
+ specs:{reference:"215.33.44.21.01.001",year:"2018",caseSize:"43.5MM",condition:"VERY GOOD",contents:"FULL SET"}},
+
+  {id:"zenith-moonphase-quartz",
+ image:"Images/Watches/Z1/cover.webp",
+ gallery:[
+   "Images/Watches/Z1/cover.webp",
+   "Images/Watches/Z1/2.webp",
+   "Images/Watches/Z1/3.webp",
+   "Images/Watches/Z1/4.webp",
+   "Images/Watches/Z1/5.webp",
+ ],
+ title:"Moonphase Quartz",
+ brand:"ZENITH",
+ price:390,
+ status:"available",
+ specs:{reference:"27.0040.727",year:"1980s",caseSize:"27MM",condition:"GOOD",contents:"WATCH ONLY"}},
+
+  {id:"tag-heuer-formula-one",
+ image:"Images/Watches/TH1/cover.webp",
+ gallery:[
+   "Images/Watches/TH1/cover.webp",
+   "Images/Watches/TH1/2.webp",
+   "Images/Watches/TH1/3.webp",
+   "Images/Watches/TH1/4.webp",
+   "Images/Watches/TH1/5.webp",
+   "Images/Watches/TH1/6.webp",
+   "Images/Watches/TH1/7.webp",
+ ],
+ title:"Formula One Solargraph Ltd Edn",
+ brand:"TAG HEUER",
+ price:1350,
+ status:"sold",
+ specs:{reference:"",year:"2025",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
+
+  {id:"omega-seamaster-diver",
+ image:"Images/Watches/OS4/cover.webp",
+ gallery:[
+   "Images/Watches/OS4/1.webp",
+   "Images/Watches/OS4/2.webp",
+   "Images/Watches/OS4/3.webp",
+   "Images/Watches/OS4/4.webp",
+   "Images/Watches/OS4/5.webp",
+   "Images/Watches/OS4/6.webp",
+   "Images/Watches/OS4/7.webp",
+ ],
+ title:"Seamaster Diver 300M",
+ brand:"OMEGA",
+ price:3145,
+ status:"sold",
+ specs:{reference:"210.30.42.20.04.001",year:"2021 (Approx)",caseSize:"42MM",condition:"VERY GOOD",contents:"BOX ONLY"}},
+
+  {id:"noah-timex",
+ image:"Images/Watches/TX1/cover.webp",
+ gallery:[
+   "Images/Watches/TX1/1.webp",
+   "Images/Watches/TX1/2.webp",
+   "Images/Watches/TX1/3.webp",
+   "Images/Watches/TX1/4.webp",
+   "Images/Watches/TX1/5.webp",
+   "Images/Watches/TX1/6.webp",
+   "Images/Watches/TX1/7.webp",
+ ],
+ title:"Waterbury Ghost Nets Suck",
+ brand:"NOAH x TIMEX",
+ price:420,
+ status:"available",
+ specs:{reference:"TW2V30700",year:"2020",caseSize:"38MM",condition:"NEW",contents:"FULL SET"}},
+
+  {id:"omega-seamaster-diver-2",
+ image:"Images/Watches/OS5/1.webp",
+ gallery:[
+   "Images/Watches/OS5/1.webp",
+   "Images/Watches/OS5/2.webp",
+   "Images/Watches/OS5/3.webp",
+   "Images/Watches/OS5/4.webp",
+   "Images/Watches/OS5/5.webp",
+   "Images/Watches/OS5/6.webp",
+   "Images/Watches/OS5/7.webp",
+ ],
+ title:"Seamaster Diver 300M",
+ brand:"OMEGA",
+ price:3050,
+ status:"sold",
+ specs:{reference:"",year:"2021 (Approx)",caseSize:"42MM",condition:"GOOD",contents:"BOX ONLY"}},
+
+  {id:"omega-seamaster-aqua-terra-black",
+ image:"Images/Watches/OS6/cover.webp",
+ gallery:[
+   "Images/Watches/OS6/cover.webp",
+   "Images/Watches/OS6/2.webp",
+   "Images/Watches/OS6/3.webp",
+   "Images/Watches/OS6/4.webp",
+   "Images/Watches/OS6/5.webp",
+   "Images/Watches/OS6/6.webp",
+   "Images/Watches/OS6/7.webp",
+ ],
+ title:"Seamaster Aqua Terra 41MM Black",
+ brand:"OMEGA",
+ price:3695,
+ status:"sold",
+ specs:{reference:"220.12.41.21.01.001",year:"2025",caseSize:"41MM",condition:"EXCELLENT",contents:"FULL SET"}},
+];
 
 const SITE_ORIGIN = "https://staplefordwatches.co.uk";
 
@@ -5323,7 +4921,7 @@ function getStructuredProductData(w){
     "name": `${w.brand} ${w.title}`.trim(),
     "brand": { "@type": "Brand", "name": w.brand },
     "sku": w.listingId,
-    "description": w.description || getWatchDescription(w),
+    "description": getWatchDescription(w),
     "image": getImageLink(w),
     "url": getProductLink(w),
     "offers": {
@@ -5337,28 +4935,14 @@ function getStructuredProductData(w){
   };
 }
 
-function prepareWatches(){
-  watches.forEach((watch, index) => {
-    const listingId = watch.listingId || watch.id || `SW${String(index + 1).padStart(3, "0")}`;
-    watch.listingId = listingId;
-    watch.id = watch.id || listingId;
-    watch.specs = { ...watch.specs, listingId };
-    watch.productLink = getProductLink(watch);
-    watch.imageLink = getImageLink(watch);
-    const airtableDescription = String(watch.description || watch.watchDescription || watch.longDescription || "").trim();
-    watch.description = airtableDescription || getWatchDescription(watch);
-    watch.seoDescription = getWatchDescription(watch);
-  });
-}
-
-function updateProductStructuredData(){
-  if(productStructuredDataScript){
-    productStructuredDataScript.textContent = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": []
+watches.forEach((watch, index) => {
+  const listingId = watch.listingId || `SW${String(index + 1).padStart(3, "0")}`;
+  watch.listingId = listingId;
+  watch.specs = { ...watch.specs, listingId };
+  watch.productLink = getProductLink(watch);
+  watch.imageLink = getImageLink(watch);
+  watch.description = getWatchDescription(watch);
 });
-  }
-}
 
 
 const productStructuredDataScript = document.createElement("script");
@@ -5723,56 +5307,16 @@ const lightboxEnquireOverlay = document.getElementById("lightboxEnquireOverlay")
 const lightboxEnquireHide = document.getElementById("lightboxEnquireHide");
 const lightboxWhatsapp = document.getElementById("lightboxWhatsapp");
 const lightboxEmail = document.getElementById("lightboxEmail");
-const lightboxDetails = document.getElementById("lightboxDetails");
-const lightboxDetailTitle = document.getElementById("lightboxDetailTitle");
-const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
-const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
-const lightboxDetailSpecs = document.getElementById("lightboxDetailSpecs");
 let lightboxImages = [];
 let lightboxIndex = 0;
 let lightboxTitle = "";
 let lightboxWatch = null;
-
-function setText(el, value){
-  if(el) el.textContent = value || "";
-}
-
-function renderLightboxDetails(){
-  if(!lightboxWatch || !lightboxDetails) return;
-  const specs = lightboxWatch.specs || {};
-  const title = `${lightboxWatch.brand || ""} ${lightboxWatch.title || ""}`.trim();
-  setText(lightboxDetailTitle, title);
-  setText(lightboxDetailPrice, lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST");
-  setText(lightboxDetailDescription, lightboxWatch.description || getWatchDescription(lightboxWatch));
-
-  const specRows = [
-    ["REF", specs.reference],
-    ["YEAR", specs.year],
-    ["SIZE", specs.caseSize],
-    ["CONDITION", specs.condition],
-    ["CONTENTS", specs.contents],
-    ["LISTING", lightboxWatch.listingId]
-  ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== "");
-
-  if(lightboxDetailSpecs){
-    lightboxDetailSpecs.innerHTML = "";
-    specRows.forEach(([label, value]) => {
-      const dt = document.createElement("dt");
-      dt.textContent = label;
-      const dd = document.createElement("dd");
-      dd.textContent = String(value);
-      lightboxDetailSpecs.append(dt, dd);
-    });
-    lightboxDetailSpecs.hidden = specRows.length === 0;
-  }
-}
 
 function renderLightbox(){
   if(!lightboxImages.length) return;
   lightboxImage.src = lightboxImages[lightboxIndex];
   lightboxImage.alt = `${lightboxTitle} image ${lightboxIndex + 1}`;
   lightboxMeta.textContent = `${lightboxTitle} · ${lightboxIndex + 1}/${lightboxImages.length}`;
-  renderLightboxDetails();
   if(lightboxStatusBadge){
     const isReserved = lightboxWatch && lightboxWatch.status === "reserved";
     lightboxStatusBadge.hidden = !isReserved;
@@ -5858,7 +5402,7 @@ document.querySelector(".lightbox-next")?.addEventListener("click", (e) => {
 });
 
 document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) => {
-  if(e.target.closest("#lightboxEnquire, #lightboxDetails")) return;
+  if(e.target.closest("#lightboxEnquire")) return;
   stepLightbox(1);
 });
 
@@ -5877,10 +5421,6 @@ lightboxEnquireHide?.addEventListener("click", (e) => {
 });
 
 lightboxEnquireOverlay?.addEventListener("click", (e) => {
-  e.stopPropagation();
-});
-
-lightboxDetails?.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
@@ -5991,7 +5531,6 @@ function render(){
       <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${w.title}</div></div>
       <div class="info-right">
         <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
-        ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${w.brand} ${w.title} now">BUY</button>` : ""}
       </div>
     </div>
   `;
@@ -6042,173 +5581,7 @@ document.addEventListener('click', (event) => {
   });
 });
 
-
-/* ===== CART / SQUARE CHECKOUT ===== */
-const STAPLEFORD_CART_KEY = "stapleford_cart";
-
-function getCart(){
-  try { return JSON.parse(localStorage.getItem(STAPLEFORD_CART_KEY) || "[]"); }
-  catch { return []; }
-}
-
-function saveCart(cart){
-  localStorage.setItem(STAPLEFORD_CART_KEY, JSON.stringify(cart));
-  renderCart();
-}
-
-function findWatchByCartId(cartId){
-  return watches.find(w => w.listingId === cartId);
-}
-
-function formatPounds(value){
-  return Number(value || 0).toLocaleString();
-}
-
-function openCart(){
-  const drawer = document.getElementById("cartDrawer");
-  const backdrop = document.getElementById("cartBackdrop");
-  const opener = document.getElementById("cartOpen");
-  if(!drawer) return;
-  drawer.classList.add("open");
-  drawer.setAttribute("aria-hidden", "false");
-  opener?.setAttribute("aria-expanded", "true");
-  if(backdrop){
-    backdrop.hidden = false;
-    requestAnimationFrame(() => backdrop.classList.add("open"));
-  }
-}
-
-function closeCart(){
-  const drawer = document.getElementById("cartDrawer");
-  const backdrop = document.getElementById("cartBackdrop");
-  const opener = document.getElementById("cartOpen");
-  drawer?.classList.remove("open");
-  drawer?.setAttribute("aria-hidden", "true");
-  opener?.setAttribute("aria-expanded", "false");
-  if(backdrop){
-    backdrop.classList.remove("open");
-    setTimeout(() => { if(!backdrop.classList.contains("open")) backdrop.hidden = true; }, 250);
-  }
-}
-
-function addToCart(cartId){
-  const watch = findWatchByCartId(cartId);
-  const error = document.getElementById("cartError");
-  if(error){ error.hidden = true; error.textContent = ""; }
-
-  if(!watch || watch.status !== "available"){
-    if(error){ error.hidden = false; error.textContent = "This watch is no longer available."; }
-    openCart();
-    return;
-  }
-
-  const cart = getCart();
-  if(!cart.some(item => item.id === cartId)){
-    cart.push({ id: cartId });
-    saveCart(cart);
-  } else {
-    renderCart();
-  }
-  openCart();
-}
-
-function removeFromCart(cartId){
-  saveCart(getCart().filter(item => item.id !== cartId));
-}
-
-function getAvailableCartWatches(){
-  return getCart()
-    .map(item => findWatchByCartId(item.id))
-    .filter(w => w && w.status === "available");
-}
-
-function renderCart(){
-  const cartItems = document.getElementById("cartItems");
-  const cartCount = document.getElementById("cartCount");
-  const cartTotal = document.getElementById("cartTotal");
-  if(!cartItems || !cartCount || !cartTotal) return;
-
-  const validItems = getAvailableCartWatches();
-  cartCount.textContent = validItems.length;
-  cartTotal.textContent = formatPounds(validItems.reduce((sum, w) => sum + Number(w.price || 0), 0));
-
-  if(!validItems.length){
-    cartItems.innerHTML = `<div class="cart-empty">Your cart is empty.</div>`;
-    return;
-  }
-
-  cartItems.innerHTML = validItems.map(w => `
-    <div class="cart-item">
-      <img src="${w.image}" alt="${w.brand} ${w.title}">
-      <div>
-        <div class="cart-item-title">${w.brand}<br>${w.title}</div>
-        <div class="cart-item-price">£${formatPounds(w.price)}</div>
-        <button class="cart-remove" type="button" data-remove-id="${w.listingId}">REMOVE</button>
-      </div>
-    </div>
-  `).join("");
-
-  cartItems.querySelectorAll("[data-remove-id]").forEach(button => {
-    button.addEventListener("click", event => {
-      event.stopPropagation();
-      removeFromCart(button.dataset.removeId);
-    });
-  });
-}
-
-document.getElementById("cartOpen")?.addEventListener("click", openCart);
-document.getElementById("cartClose")?.addEventListener("click", closeCart);
-document.getElementById("cartContinue")?.addEventListener("click", closeCart);
-document.getElementById("cartBackdrop")?.addEventListener("click", closeCart);
-
-document.addEventListener("click", event => {
-  const cartButton = event.target.closest(".cart-trigger");
-  if(!cartButton) return;
-  event.preventDefault();
-  event.stopPropagation();
-  addToCart(cartButton.dataset.watchId);
-});
-
-document.getElementById("cartCheckout")?.addEventListener("click", async () => {
-  const checkoutButton = document.getElementById("cartCheckout");
-  const error = document.getElementById("cartError");
-  const items = getAvailableCartWatches().map(w => ({ id: w.listingId }));
-
-  if(error){ error.hidden = true; error.textContent = ""; }
-
-  if(!items.length){
-    if(error){ error.hidden = false; error.textContent = "Your cart is empty."; }
-    return;
-  }
-
-  checkoutButton.disabled = true;
-  checkoutButton.textContent = "LOADING";
-
-  try{
-    const response = await fetch("/create-stripe-checkout", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({ items })
-    });
-    const data = await response.json();
-    if(!response.ok || !data.checkoutUrl){
-      throw new Error(data.error || "Checkout unavailable");
-    }
-    window.location.href = data.checkoutUrl;
-  } catch(err){
-    console.error(err);
-    if(error){ error.hidden = false; error.textContent = err.message || "Checkout unavailable. Please enquire directly."; }
-  } finally {
-    checkoutButton.disabled = false;
-    checkoutButton.textContent = "CHECKOUT";
-  }
-});
-
-document.addEventListener("keydown", event => {
-  if(event.key === "Escape") closeCart();
-});
-
-loadWatchesFromAirtable();
+render();
 </script>
 <footer>
 <div class="footer-inner">
