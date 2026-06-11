@@ -2957,6 +2957,30 @@ body.sell-active #filterMenu{
   }
 }
 
+
+
+/* Update: make BUY buttons on the main product listing page a black rectangular box */
+.image .cart-trigger{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#000 !important;
+  color:#fff !important;
+  border:1px solid #000 !important;
+  padding:7px 12px !important;
+  min-height:28px !important;
+  line-height:1 !important;
+  letter-spacing:0.08em !important;
+  text-transform:uppercase !important;
+  margin-top:6px !important;
+  border-radius:0 !important;
+}
+.image .cart-trigger:hover{
+  opacity:1 !important;
+  background:#fff !important;
+  color:#000 !important;
+}
+
 </style>
 <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/>
 <link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/>
@@ -7535,6 +7559,205 @@ html body.info-active #filterMenu{
   }
 }
 </style>
+
+<style id="stapleford-final-arrow-size-balance">
+/* FINAL OVERRIDE: balanced gallery arrows across desktop, tablet, mobile portrait and mobile landscape. */
+.lightbox-thumbs,
+.lightbox-thumb{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+.lightbox-prev,
+.lightbox-next{
+  pointer-events:auto !important;
+  position:absolute !important;
+  top:0 !important;
+  bottom:0 !important;
+  width:24% !important;
+  height:100% !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:none !important;
+  color:rgba(0,0,0,.34) !important;
+  opacity:.50 !important;
+  font-size:clamp(86px, 10vw, 158px) !important;
+  font-weight:200 !important;
+  line-height:1 !important;
+  text-shadow:0 1px 18px rgba(255,255,255,.96) !important;
+  z-index:22 !important;
+  padding:0 18px !important;
+  display:flex !important;
+  align-items:center !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+.lightbox-prev{
+  left:0 !important;
+  justify-content:flex-start !important;
+}
+.lightbox-next{
+  right:0 !important;
+  justify-content:flex-end !important;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover,
+.lightbox-prev:focus,
+.lightbox-next:focus,
+.lightbox-prev:active,
+.lightbox-next:active{
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:none !important;
+  color:rgba(0,0,0,.46) !important;
+  opacity:.68 !important;
+}
+
+/* Tablet / smaller desktop */
+@media (max-width: 1024px){
+  .lightbox-prev,
+  .lightbox-next{
+    width:25% !important;
+    font-size:clamp(78px, 12vw, 126px) !important;
+    padding:0 14px !important;
+  }
+}
+
+/* Mobile portrait: bigger than before, but still not dominating the watch. */
+@media (max-width: 767px) and (orientation: portrait){
+  .lightbox-prev,
+  .lightbox-next{
+    width:28% !important;
+    font-size:clamp(76px, 22vw, 112px) !important;
+    padding:0 10px !important;
+    opacity:.48 !important;
+  }
+}
+
+/* Mobile landscape / short screens: keep visible and usable without becoming huge. */
+@media (max-height: 520px), (max-width: 900px) and (orientation: landscape){
+  .lightbox-prev,
+  .lightbox-next{
+    width:24% !important;
+    font-size:clamp(62px, 16vh, 92px) !important;
+    padding:0 10px !important;
+    opacity:.46 !important;
+  }
+}
+</style>
+
+<style id="final-forced-gallery-arrow-sizing">
+/* FINAL OVERRIDE: force gallery arrows to be visibly larger and responsive in every view. */
+html body .lightbox .lightbox-prev,
+html body .lightbox .lightbox-next,
+html body .lightbox-prev,
+html body .lightbox-next{
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18vw !important;
+  min-width: 84px !important;
+  max-width: 190px !important;
+  height: 74vh !important;
+  min-height: 180px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  font-size: clamp(110px, 12vw, 190px) !important;
+  line-height: .72 !important;
+  font-weight: 200 !important;
+  color: rgba(0,0,0,.52) !important;
+  opacity: .58 !important;
+  text-shadow: 0 2px 20px rgba(255,255,255,.98), 0 0 4px rgba(255,255,255,.9) !important;
+  -webkit-tap-highlight-color: transparent !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  user-select: none !important;
+}
+
+html body .lightbox .lightbox-prev,
+html body .lightbox-prev{
+  left: 0 !important;
+}
+
+html body .lightbox .lightbox-next,
+html body .lightbox-next{
+  right: 0 !important;
+}
+
+html body .lightbox .lightbox-prev:hover,
+html body .lightbox .lightbox-next:hover,
+html body .lightbox .lightbox-prev:active,
+html body .lightbox .lightbox-next:active,
+html body .lightbox-prev:hover,
+html body .lightbox-next:hover,
+html body .lightbox-prev:active,
+html body .lightbox-next:active{
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  opacity: .72 !important;
+  color: rgba(0,0,0,.64) !important;
+}
+
+@media (max-width: 900px){
+  html body .lightbox .lightbox-prev,
+  html body .lightbox .lightbox-next,
+  html body .lightbox-prev,
+  html body .lightbox-next{
+    width: 22vw !important;
+    min-width: 78px !important;
+    max-width: 150px !important;
+    height: 70vh !important;
+    min-height: 150px !important;
+    font-size: clamp(96px, 20vw, 150px) !important;
+    opacity: .54 !important;
+  }
+}
+
+@media (max-width: 520px){
+  html body .lightbox .lightbox-prev,
+  html body .lightbox .lightbox-next,
+  html body .lightbox-prev,
+  html body .lightbox-next{
+    width: 24vw !important;
+    min-width: 70px !important;
+    height: 64vh !important;
+    min-height: 130px !important;
+    font-size: clamp(88px, 25vw, 128px) !important;
+    opacity: .52 !important;
+  }
+}
+
+/* Mobile landscape / short screens: keep arrows strong but stop them dominating. */
+@media (max-height: 520px) and (orientation: landscape){
+  html body .lightbox .lightbox-prev,
+  html body .lightbox .lightbox-next,
+  html body .lightbox-prev,
+  html body .lightbox-next{
+    width: 16vw !important;
+    min-width: 70px !important;
+    max-width: 120px !important;
+    height: 76vh !important;
+    min-height: 120px !important;
+    font-size: clamp(82px, 18vh, 118px) !important;
+    opacity: .50 !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
