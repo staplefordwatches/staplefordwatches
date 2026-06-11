@@ -173,6 +173,7 @@ body{
 
 .image{
   aspect-ratio:4/5;
+  cursor:pointer;
   overflow:hidden;
   position:relative;
 }
@@ -1213,16 +1214,28 @@ a, button{
   position:absolute;
   right:18px;
   bottom:18px;
-  width:min(340px, 30vw);
-  max-height:48vh;
+  width:min(380px, 32vw);
+  max-height:min(58vh, 520px);
   overflow:auto;
   background:rgba(255,255,255,0.96);
   border:1px solid rgba(0,0,0,0.12);
-  padding:16px 16px 14px;
-  z-index:6;
+  padding:14px 16px 14px;
+  z-index:8;
   font-family:'InterEmbedded', Arial, sans-serif !important;
   color:#000;
   box-shadow:0 12px 32px rgba(0,0,0,0.08);
+}
+
+.lightbox-detail-panel[hidden]{
+  display:none !important;
+}
+
+.lightbox-detail-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:8px;
 }
 
 .lightbox-detail-kicker{
@@ -1230,7 +1243,36 @@ a, button{
   letter-spacing:0.12em;
   text-transform:uppercase;
   opacity:0.62;
-  margin-bottom:8px;
+}
+
+.lightbox-detail-hide,
+.lightbox-detail-reopen,
+.lightbox-detail-spec-toggle,
+.lightbox-detail-buy,
+.lightbox-detail-enquire{
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  color:#000;
+  cursor:pointer;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  font-size:10px;
+  line-height:1.2;
+}
+
+.lightbox-detail-reopen{
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  background:rgba(255,255,255,0.96);
+  border:1px solid rgba(0,0,0,0.12);
+  padding:10px 12px;
+  z-index:9;
+  box-shadow:0 12px 32px rgba(0,0,0,0.08);
 }
 
 .lightbox-detail-title{
@@ -1245,7 +1287,7 @@ a, button{
   font-size:12px;
   letter-spacing:0.06em;
   text-transform:uppercase;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .lightbox-detail-description{
@@ -1257,15 +1299,45 @@ a, button{
   white-space:pre-line;
 }
 
+.lightbox-detail-actions{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  border-top:1px solid rgba(0,0,0,0.12);
+  padding-top:10px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+.lightbox-detail-buy[hidden],
+.lightbox-detail-enquire[hidden]{
+  display:none !important;
+}
+
+.lightbox-detail-spec-toggle{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  border-top:1px solid rgba(0,0,0,0.12);
+  padding-top:10px;
+  margin-top:10px;
+  text-align:left;
+}
+
 .lightbox-detail-specs{
   display:grid;
   grid-template-columns:auto 1fr;
   gap:6px 14px;
   border-top:1px solid rgba(0,0,0,0.12);
   padding-top:10px;
+  margin-top:10px;
   font-size:10px;
   letter-spacing:0.08em;
   text-transform:uppercase;
+}
+
+.lightbox-detail-specs[hidden]{
+  display:none !important;
 }
 
 .lightbox-detail-specs dt{
@@ -1283,17 +1355,38 @@ a, button{
     right:12px;
     bottom:12px;
     width:auto;
-    max-height:34vh;
+    max-height:42vh;
     padding:13px 14px 12px;
+  }
+  .lightbox-detail-reopen{
+    right:12px;
+    bottom:12px;
   }
   .lightbox-meta{
     left:12px;
-    bottom:calc(34vh + 28px);
+    bottom:calc(42vh + 28px);
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape){
+  .lightbox-detail-panel{
+    left:auto;
+    right:12px;
+    bottom:12px;
+    width:min(330px, 38vw);
+    max-height:70vh;
+  }
+  .lightbox-detail-reopen{
+    right:12px;
+    bottom:12px;
+  }
+  .lightbox-meta{
+    bottom:12px;
   }
 }
 
 .image.available{
-  cursor:default;
+  cursor:pointer;
 }
 
 
@@ -1432,7 +1525,7 @@ a, button{
 
 /* ===== CLEANER PRODUCT IMAGE INTERACTION ===== */
 .image.available:hover{
-  cursor:default;
+  cursor:pointer;
 }
 
 
@@ -5220,12 +5313,21 @@ html body.info-active #filterMenu{
 </div>
 <button aria-label="Next image" class="lightbox-next" type="button">Next</button>
 <div class="lightbox-meta" id="lightboxMeta"></div>
+<button class="lightbox-detail-reopen" hidden="" id="lightboxDetailsReopen" type="button">DETAILS ↑</button>
 <aside aria-live="polite" class="lightbox-detail-panel" id="lightboxDetails">
-<div class="lightbox-detail-kicker">DETAILS</div>
+<div class="lightbox-detail-header">
+  <div class="lightbox-detail-kicker">DETAILS</div>
+  <button aria-label="Hide product details" class="lightbox-detail-hide" id="lightboxDetailsHide" type="button">HIDE ↓</button>
+</div>
 <div class="lightbox-detail-title" id="lightboxDetailTitle"></div>
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
-<dl class="lightbox-detail-specs" id="lightboxDetailSpecs"></dl>
+<div class="lightbox-detail-actions">
+  <button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY</button>
+  <a class="lightbox-detail-enquire" href="#" id="lightboxDetailEnquire" rel="noopener" target="_blank">ENQUIRE</a>
+</div>
+<button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
+<dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
 </aside>
 </div>
 </div>
@@ -5734,9 +5836,14 @@ const lightboxEnquireHide = document.getElementById("lightboxEnquireHide");
 const lightboxWhatsapp = document.getElementById("lightboxWhatsapp");
 const lightboxEmail = document.getElementById("lightboxEmail");
 const lightboxDetails = document.getElementById("lightboxDetails");
+const lightboxDetailsHide = document.getElementById("lightboxDetailsHide");
+const lightboxDetailsReopen = document.getElementById("lightboxDetailsReopen");
 const lightboxDetailTitle = document.getElementById("lightboxDetailTitle");
 const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
+const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
+const lightboxDetailEnquire = document.getElementById("lightboxDetailEnquire");
+const lightboxDetailSpecToggle = document.getElementById("lightboxDetailSpecToggle");
 const lightboxDetailSpecs = document.getElementById("lightboxDetailSpecs");
 let lightboxImages = [];
 let lightboxIndex = 0;
@@ -5747,21 +5854,48 @@ function setText(el, value){
   if(el) el.textContent = value || "";
 }
 
+function setLightboxDetailsOpen(isOpen){
+  if(lightboxDetails) lightboxDetails.hidden = !isOpen;
+  if(lightboxDetailsReopen) lightboxDetailsReopen.hidden = isOpen;
+}
+
+function setLightboxSpecsOpen(isOpen){
+  if(lightboxDetailSpecs) lightboxDetailSpecs.hidden = !isOpen;
+  if(lightboxDetailSpecToggle){
+    lightboxDetailSpecToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    lightboxDetailSpecToggle.innerHTML = `<span>${isOpen ? "HIDE SPEC ↓" : "SPEC ↑"}</span>`;
+  }
+}
+
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
   const specs = lightboxWatch.specs || {};
   const title = `${lightboxWatch.brand || ""} ${lightboxWatch.title || ""}`.trim();
+  const isAvailable = lightboxWatch.status === "available";
+  const isSold = ["sold", "reserved"].includes(lightboxWatch.status);
+  const enquiryData = getEnquiryData(lightboxWatch);
+
   setText(lightboxDetailTitle, title);
-  setText(lightboxDetailPrice, lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST");
+  setText(lightboxDetailPrice, isSold ? String(lightboxWatch.status || "sold").toUpperCase() : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
   setText(lightboxDetailDescription, lightboxWatch.description || getWatchDescription(lightboxWatch));
 
+  if(lightboxDetailBuy){
+    lightboxDetailBuy.hidden = !isAvailable;
+    lightboxDetailBuy.dataset.watchId = lightboxWatch.listingId || "";
+  }
+
+  if(lightboxDetailEnquire){
+    lightboxDetailEnquire.hidden = false;
+    lightboxDetailEnquire.href = enquiryData.whatsapp;
+  }
+
   const specRows = [
-    ["REF", specs.reference],
+    ["REFERENCE", specs.reference],
     ["YEAR", specs.year],
-    ["SIZE", specs.caseSize],
+    ["CASE SIZE", specs.caseSize],
     ["CONDITION", specs.condition],
     ["CONTENTS", specs.contents],
-    ["LISTING", lightboxWatch.listingId]
+    ["LISTING ID", lightboxWatch.listingId]
   ].filter(([, value]) => value !== undefined && value !== null && String(value).trim() !== "");
 
   if(lightboxDetailSpecs){
@@ -5770,11 +5904,14 @@ function renderLightboxDetails(){
       const dt = document.createElement("dt");
       dt.textContent = label;
       const dd = document.createElement("dd");
-      dd.textContent = String(value);
+      dd.textContent = String(value).toUpperCase();
       lightboxDetailSpecs.append(dt, dd);
     });
-    lightboxDetailSpecs.hidden = specRows.length === 0;
   }
+
+  if(lightboxDetailSpecToggle) lightboxDetailSpecToggle.hidden = specRows.length === 0;
+  setLightboxSpecsOpen(false);
+  setLightboxDetailsOpen(true);
 }
 
 function renderLightbox(){
@@ -5792,18 +5929,14 @@ function renderLightbox(){
     `<img class="lightbox-thumb ${idx===lightboxIndex ? 'active' : ''}" src="${src}" alt="${lightboxTitle} thumbnail ${idx + 1}" data-index="${idx}" onclick="event.stopPropagation();">`
   ).join("");
 
-  if(lightboxWatch && lightboxWatch.status === "available") {
+  if(lightboxWatch) {
     const enquiryData = getEnquiryData(lightboxWatch);
     if(lightboxWhatsapp) lightboxWhatsapp.href = enquiryData.whatsapp;
     if(lightboxEmail) lightboxEmail.href = enquiryData.email;
-    if(lightboxEnquire) {
-      lightboxEnquire.hidden = false;
-      lightboxEnquire.classList.remove("show-enquire");
-    }
-    if(lightboxEnquireTrigger) lightboxEnquireTrigger.setAttribute("aria-expanded", "false");
-    if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
-  } else if(lightboxEnquire) {
+  }
+  if(lightboxEnquire) {
     lightboxEnquire.hidden = true;
+    lightboxEnquire.classList.remove("show-enquire");
   }
 }
 
@@ -5834,6 +5967,8 @@ function closeLightbox(){
   }
   if(lightboxEnquireTrigger) lightboxEnquireTrigger.setAttribute("aria-expanded", "false");
   if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
+  setLightboxDetailsOpen(true);
+  setLightboxSpecsOpen(false);
 }
 
 function stepLightbox(direction){
@@ -5868,7 +6003,7 @@ document.querySelector(".lightbox-next")?.addEventListener("click", (e) => {
 });
 
 document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) => {
-  if(e.target.closest("#lightboxEnquire, #lightboxDetails")) return;
+  if(e.target.closest("#lightboxEnquire, #lightboxDetails, #lightboxDetailsReopen")) return;
   stepLightbox(1);
 });
 
@@ -5891,6 +6026,35 @@ lightboxEnquireOverlay?.addEventListener("click", (e) => {
 });
 
 lightboxDetails?.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
+lightboxDetailsHide?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  setLightboxDetailsOpen(false);
+});
+
+lightboxDetailsReopen?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  setLightboxDetailsOpen(true);
+});
+
+lightboxDetailSpecToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = lightboxDetailSpecs && !lightboxDetailSpecs.hidden;
+  setLightboxSpecsOpen(!isOpen);
+});
+
+lightboxDetailBuy?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const watchId = lightboxDetailBuy.dataset.watchId;
+  if(!watchId) return;
+  addToCart(watchId);
+  closeLightbox();
+  openCart();
+});
+
+lightboxDetailEnquire?.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
@@ -6006,11 +6170,11 @@ function render(){
     </div>
   `;
 
+  const image = div.querySelector('.image');
   if(isAvailable){
-    const image = div.querySelector('.image.available');
     const trigger = div.querySelector('.spec-trigger');
     const hideBtn = div.querySelector('.spec-overlay .spec-hide');
-    trigger.addEventListener('click', (event) => {
+    trigger?.addEventListener('click', (event) => {
       event.stopPropagation();
       const isOpen = image.classList.contains('show-spec');
       if(isOpen){
@@ -6022,19 +6186,18 @@ function render(){
       }
     });
 
-    hideBtn.addEventListener('click', (event) => {
+    hideBtn?.addEventListener('click', (event) => {
       event.stopPropagation();
       image.classList.remove('show-spec');
-      trigger.setAttribute('aria-expanded', 'false');
+      trigger?.setAttribute('aria-expanded', 'false');
     });
-
-    image.addEventListener('click', (event) => {
-      const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button');
-      if(clickedControl) return;
-      openLightbox(w, 0);
-    });
-
   }
+
+  image?.addEventListener('click', (event) => {
+    const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button');
+    if(clickedControl) return;
+    openLightbox(w, 0);
+  });
 
   gallery.appendChild(div);
  });

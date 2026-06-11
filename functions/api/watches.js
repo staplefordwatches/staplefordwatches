@@ -28,14 +28,22 @@ function normaliseStatus(fields) {
   const stock = Number(fields["Stock Quantity"] ?? 1);
   if (raw === "hidden") return "hidden";
   if (raw === "sold" || stock <= 0) return "sold";
+  if (raw === "reserved") return "reserved";
   return "available";
 }
 
 function normaliseWatch(record) {
   const fields = record.fields || {};
+
+  // Key Photo is the single main image for the product listing card.
+  // Product Photos and Gallery Photos are extra images for the click-open product/gallery view.
+  const keyPhotos = attachmentUrls(fields["Key Photo"] || fields["Key photo"] || fields["Main Photo"] || fields["Main Image"]);
   const productPhotos = attachmentUrls(fields["Product Photos"]);
   const galleryPhotos = attachmentUrls(fields["Gallery Photos"]);
-  const gallery = [...productPhotos, ...galleryPhotos];
+
+  const mainImage = keyPhotos[0] || productPhotos[0] || galleryPhotos[0] || "";
+  const gallery = [...keyPhotos, ...productPhotos, ...galleryPhotos].filter((url, index, arr) => url && arr.indexOf(url) === index);
+
   const id = clean(fields["Listing ID"] || fields["SKU"] || record.id);
   const brand = clean(fields["Brand"]).toUpperCase();
   const model = clean(fields["Model"] || fields["Title"] || fields["Name"]);
@@ -49,7 +57,7 @@ function normaliseWatch(record) {
     title: model,
     price: moneyToNumber(fields["Selling Price"] || fields["Price"]),
     status: normaliseStatus(fields),
-    image: gallery[0] || "",
+    image: mainImage,
     gallery,
     specs: {
       reference: clean(fields["Reference"] || fields["SKU"]),
@@ -105,7 +113,9 @@ export async function onRequestGet({ env }) {
     const records = await fetchAirtable(env);
     const watches = records
       .map(normaliseWatch)
-      .filter(watch => watch.status !== "hidden")
+      // Show Available, Sold and Reserved. Only Hidden is removed.
+      // A sold watch will still appear on the main listing page if it has a Key Photo/main image.
+      .filter(watch => watch.status !== "hidden" && watch.image)
       .sort((a, b) => Number(b.featured) - Number(a.featured));
 
     return json({ watches });
