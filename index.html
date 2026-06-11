@@ -1134,6 +1134,10 @@ a, button{
   border-color:#000;
 }
 
+.lightbox-thumbs::-webkit-scrollbar{
+  height:0;
+}
+
 .lightbox-stage{
   position:relative;
   display:flex;
@@ -1149,7 +1153,7 @@ a, button{
   align-items:center;
   justify-content:center;
   max-width:100%;
-  max-height:80vh;
+  max-height:72vh;
   cursor:pointer;
   z-index:1;
 }
@@ -1157,7 +1161,7 @@ a, button{
 .lightbox-stage img{
   display:block;
   max-width:100%;
-  max-height:80vh;
+  max-height:72vh;
   object-fit:contain;
   pointer-events:auto !important;
   position:relative;
@@ -1540,14 +1544,19 @@ a, button{
 }
 
   .lightbox-thumbs{
-  position:absolute;
-  left:24px;
-  top:50%;
-  transform:translateY(-50%);
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+    left:50%;
+    bottom:14px;
+    top:auto;
+    transform:translateX(-50%);
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    max-width:calc(100vw - 24px);
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:4px 2px;
+  }
 
   .lightbox-thumb{
     width:58px;
@@ -1556,7 +1565,7 @@ a, button{
   }
 
   .lightbox-stage img{
-    max-height:72vh;
+    max-height:64vh;
   }
 
   .lightbox-close{
