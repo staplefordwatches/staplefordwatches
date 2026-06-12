@@ -1089,6 +1089,7 @@ a, button{
 }
 
 
+
 /* Minimal product-view fix: keep original gallery style, but make it a true opaque layer. */
 .lightbox.open{
   background:#fff !important;
@@ -2666,6 +2667,7 @@ input[list]{
 }
 
 
+
 /* === BUY-ONLY SORT NAV POSITION === */
 .nav{
   align-items:flex-start !important;
@@ -2696,6 +2698,7 @@ body.sell-active .filter-wrap-inline,
 body.sell-active #filterMenu{
   display:none !important;
 }
+
 
 
 /* ===== CART / SQUARE CHECKOUT ===== */
@@ -2850,6 +2853,7 @@ body.sell-active #filterMenu{
   .cart-open{ font-size:10px; }
   .cart-drawer{ padding:18px; }
 }
+
 
 
 /* Force all specification labels and values to display in capitals */
@@ -3019,6 +3023,7 @@ body.sell-active #filterMenu{
 }
 
 
+
 /* === CLOSE BUTTON: MATCH REFERENCE FILE (index-13) === */
 .lightbox-close{
   position:absolute !important;
@@ -3059,6 +3064,7 @@ body.sell-active #filterMenu{
 }
 
 
+
 /* Update: make BUY buttons on the main product listing page a black rectangular box */
 .image .cart-trigger{
   display:inline-flex !important;
@@ -3080,6 +3086,7 @@ body.sell-active #filterMenu{
   background:#fff !important;
   color:#000 !important;
 }
+
 
 
 /* ===== PRODUCT PAGE MODE - ORIGINAL GALLERY, DETAILS BELOW ===== */
@@ -7178,6 +7185,7 @@ html body.info-active #filterMenu{
 </style>
 
 
+
 <style id="stapleford-responsive-cart-sort-final">
 /* Responsive CART / SORT controls: one stable row, no fragile offsets. */
 html body .nav{
@@ -8005,6 +8013,7 @@ html body .lightbox-next:active{
 </style>
 
 
+
 <style id="stapleford-final-arrow-close-correction">
 /* FINAL: clean balanced gallery arrows + close button layered behind details panel. */
 .lightbox,
@@ -8183,6 +8192,7 @@ html body .lightbox-next{
   background:transparent !important;
 }
 </style>
+
 
 
 <style id="stapleford-mobile-cart-drawer-world-class-fix">
@@ -8787,6 +8797,7 @@ html body .lightbox.open .lightbox-next{
 </style>
 
 
+
 <style id="stapleford-main-image-match-gallery-width-v5">
 /* V5: keep the previous product layout, but make ONLY the main image size match the thumbnail-gallery width.
    The earlier square/height-based rules made portrait photos sit centered with white space at the sides.
@@ -8847,6 +8858,7 @@ html body .lightbox.open .lightbox-thumb{
 </style>
 
 
+
 <style id="stapleford-swipe-carousel-no-thumbnails-v6">
 /* V6 FINAL: remove the thumbnail gallery completely and keep the product images as a clean swipe/click carousel. */
 html body .lightbox.open .lightbox-thumbs,
@@ -8898,6 +8910,7 @@ html body .lightbox.open .lightbox-image-wrap{
   }
 }
 </style>
+
 
 
 <style id="stapleford-cole-style-preview-carousel-v7">
@@ -8964,6 +8977,232 @@ html body .lightbox.open .stapleford-preview-slide img{
   html body .lightbox.open .lightbox-detail-panel{
     padding-left:0 !important;
     padding-right:0 !important;
+  }
+}
+</style>
+
+
+<style id="stapleford-you-might-also-like-gallery-v1">
+/* Product view only: related watches gallery. */
+html body .lightbox-related{
+  margin:28px 0 0 !important;
+  padding:22px 0 0 !important;
+  border-top:1px solid rgba(0,0,0,.18) !important;
+}
+html body .lightbox-related-title{
+  margin:0 0 14px !important;
+  font-family:InterEmbedded, InterRegularEmbedded, Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:400 !important;
+  letter-spacing:.12em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+}
+html body .lightbox-related-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  gap:14px !important;
+}
+html body .lightbox-related-card{
+  appearance:none !important;
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  color:inherit !important;
+  text-align:left !important;
+  cursor:pointer !important;
+  display:block !important;
+  box-shadow:none !important;
+}
+html body .lightbox-related-image{
+  display:block !important;
+  width:100% !important;
+  aspect-ratio:1 / 1 !important;
+  overflow:hidden !important;
+  background:#f6f4ef !important;
+  margin:0 0 8px !important;
+}
+html body .lightbox-related-image img,
+html body .lightbox-related-card img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  aspect-ratio:1 / 1 !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  background:#f6f4ef !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  transform:scale(1.08) !important;
+  transform-origin:center center !important;
+  margin:0 !important;
+}
+html body .lightbox-related-meta{
+  display:block !important;
+}
+html body .lightbox-related-brand,
+html body .lightbox-related-name,
+html body .lightbox-related-price{
+  display:block !important;
+  font-family:InterEmbedded, InterRegularEmbedded, Arial, sans-serif !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+}
+html body .lightbox-related-brand{
+  font-size:10px !important;
+  letter-spacing:.12em !important;
+  line-height:1.25 !important;
+  margin:0 0 3px !important;
+}
+html body .lightbox-related-name{
+  font-size:10px !important;
+  letter-spacing:.06em !important;
+  line-height:1.35 !important;
+  margin:0 0 5px !important;
+}
+html body .lightbox-related-price{
+  font-size:10px !important;
+  letter-spacing:.08em !important;
+  line-height:1.25 !important;
+}
+@media (max-width: 767px){
+  html body .lightbox-related{
+    margin-top:24px !important;
+    padding-top:18px !important;
+  }
+  html body .lightbox-related-grid{
+    gap:12px !important;
+  }
+}
+</style>
+
+
+<style id="stapleford-related-heading-spacing-v20">
+/* Product view only: make You Might Also Like match the other subheadings and add breathing room before the gallery. */
+html body.product-page-open .lightbox-related-title,
+html body .lightbox.open .lightbox-related-title{
+  margin:0 0 20px !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+
+html body.product-page-open .lightbox-related-grid,
+html body .lightbox.open .lightbox-related-grid{
+  margin-top:0 !important;
+}
+</style>
+
+
+
+<style id="stapleford-related-section-final-alignment-v21">
+/* Product view only: align You Might Also Like with the other expandable subheadings. */
+html body.product-page-open .lightbox-related,
+html body .lightbox.open .lightbox-related{
+  margin:10px 0 0 !important;
+  padding:10px 0 0 !important;
+  border-top:1px solid rgba(0,0,0,0.12) !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-left:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  background:transparent !important;
+  width:100% !important;
+}
+
+html body.product-page-open .lightbox-related-title,
+html body .lightbox.open .lightbox-related-title{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  margin:0 0 10px 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  background:transparent !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  font-weight:500 !important;
+  line-height:1.2 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  opacity:1 !important;
+}
+
+html body.product-page-open .lightbox-related-grid,
+html body .lightbox.open .lightbox-related-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  gap:14px !important;
+  margin:0 !important;
+  padding:0 !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+html body.product-page-open .lightbox-related-card,
+html body .lightbox.open .lightbox-related-card{
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+
+html body.product-page-open .lightbox-related-image,
+html body .lightbox.open .lightbox-related-image{
+  width:100% !important;
+  aspect-ratio:1 / 1 !important;
+  margin:0 0 8px 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  overflow:hidden !important;
+  background:transparent !important;
+}
+
+html body.product-page-open .lightbox-related-image img,
+html body.product-page-open .lightbox-related-card img,
+html body .lightbox.open .lightbox-related-image img,
+html body .lightbox.open .lightbox-related-card img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:scale(1.16) !important;
+  transform-origin:center center !important;
+  background:transparent !important;
+}
+
+@media (max-width: 767px){
+  html body.product-page-open .lightbox-related,
+  html body .lightbox.open .lightbox-related{
+    margin-top:10px !important;
+    padding-top:10px !important;
+  }
+  html body.product-page-open .lightbox-related-grid,
+  html body .lightbox.open .lightbox-related-grid{
+    gap:12px !important;
   }
 }
 </style>
@@ -10140,7 +10379,7 @@ function renderRelatedWatches(currentWatch){
     });
   }
 
-  const related = sameBrand.concat(otherAvailable, otherFallback).slice(0, 8);
+  const related = sameBrand.concat(otherAvailable, otherFallback).slice(0, 4);
 
   if(!related.length){
     lightboxRelated.hidden = true;
@@ -11009,6 +11248,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 
 
+
 <script id="stapleford-swipe-carousel-no-thumbnails-v6-js">
 (function(){
   function removeThumbGallery(){
@@ -11073,6 +11313,7 @@ document.addEventListener("DOMContentLoaded", function(){
   }, true);
 })();
 </script>
+
 
 
 <style id="stapleford-remove-preview-peek-v8">
@@ -11158,6 +11399,7 @@ html body .lightbox.open .stapleford-preview-slide img{
   document.addEventListener('click', function(){ setTimeout(function(){ removeThumbGallery(); applyNoPeekSizing(); }, 0); }, true);
 })();
 </script>
+
 
 
 <style id="stapleford-single-slide-swipe-v9">
@@ -11280,6 +11522,7 @@ html body .lightbox.open .stapleford-preview-slide img{
   window.addEventListener('orientationchange', function(){ setTimeout(setSingleSlideSizing, 100); }, { passive:true });
 })();
 </script>
+
 
 
 <!-- V10 final: use ONLY the native single main image. Remove stacked/duplicate preview carousel. -->
@@ -11417,6 +11660,7 @@ html body .lightbox.open .lightbox-detail-panel{
 </script>
 
 
+
 <style id="stapleford-requested-product-page-and-details-v2">
 /* User correction: leave BUY listing cards alone. Only individual product view is changed. */
 html body.product-page-open{
@@ -11521,6 +11765,7 @@ html body.product-page-open .lightbox-detail-policy-copy{
 </style>
 
 
+
 <style id="stapleford-product-view-year-description-cleanup-v11">
 /* Product view only: make Year match Reference/Contents and remove any border from description text area. */
 html body .lightbox-detail-reference,
@@ -11611,6 +11856,7 @@ html body .lightbox.open .lightbox-detail-buy:active{
 </style>
 
 
+
 <style id="stapleford-final-product-view-fix-v13">
 /* Final correction: product view only. Year uses the exact same class, spacing and typography as Reference and Contents. */
 html body.product-page-open .lightbox-detail-meta-line,
@@ -11692,6 +11938,7 @@ html body .lightbox.open .lightbox-detail-buy:active{
 </style>
 
 
+
 <style id="stapleford-product-view-capitals-single-lines-v14">
 /* Product view only: capital meta labels and one clean separator line above each expandable heading. */
 html body.product-page-open .lightbox-detail-meta-line,
@@ -11729,6 +11976,7 @@ html body .lightbox.open .lightbox-detail-policy-copy{
 </style>
 
 
+
 <style id="stapleford-product-view-spec-magnifier-v15">
 /* Product view only: magnifying glass icon beside SPECIFICATION heading. */
 html body.product-page-open .lightbox-detail-spec-toggle .spec-heading-label,
@@ -11761,6 +12009,7 @@ html body .lightbox.open .lightbox-detail-spec-toggle .spec-heading-icon svg{
   stroke-linejoin:round !important;
 }
 </style>
+
 
 
 <style id="stapleford-back-button-scrolls-with-product-page-v16">
@@ -11800,6 +12049,7 @@ html body .lightbox.open .lightbox-close{
   }
 }
 </style>
+
 
 
 <style id="stapleford-independent-product-page-v17">
@@ -11885,6 +12135,199 @@ body.product-page-open #lightbox .lightbox-inner{
 })();
 </script>
 
+
+<style id="stapleford-you-might-also-like-final-fix-v22">
+/* Product view only: make You Might Also Like use the exact same heading rhythm as Specification / Delivery / Returns. */
+html body.product-page-open .lightbox-related,
+html body .lightbox.open .lightbox-related{
+  display:block !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:10px 0 0 0 !important;
+  padding:10px 0 0 0 !important;
+  border:0 !important;
+  border-top:1px solid rgba(0,0,0,0.12) !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-left:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+
+html body.product-page-open .lightbox-related-title,
+html body .lightbox.open .lightbox-related-title{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  font-weight:500 !important;
+  line-height:1.2 !important;
+  letter-spacing:0.06em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  opacity:1 !important;
+}
+
+html body.product-page-open .lightbox-related-grid,
+html body .lightbox.open .lightbox-related-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  gap:12px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:10px 0 0 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+
+html body.product-page-open .lightbox-related-card,
+html body .lightbox.open .lightbox-related-card{
+  display:block !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  overflow:hidden !important;
+}
+
+html body.product-page-open .lightbox-related-image,
+html body .lightbox.open .lightbox-related-image{
+  display:block !important;
+  position:relative !important;
+  width:100% !important;
+  aspect-ratio:1 / 1 !important;
+  margin:0 0 8px 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  overflow:hidden !important;
+}
+
+html body.product-page-open .lightbox-related-image img,
+html body.product-page-open .lightbox-related-card img,
+html body .lightbox.open .lightbox-related-image img,
+html body .lightbox.open .lightbox-related-card img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:scale(1.26) !important;
+  transform-origin:center center !important;
+}
+
+@media (max-width: 767px){
+  html body.product-page-open .lightbox-related,
+  html body .lightbox.open .lightbox-related{
+    margin-top:10px !important;
+    padding-top:10px !important;
+  }
+
+  html body.product-page-open .lightbox-related-grid,
+  html body .lightbox.open .lightbox-related-grid{
+    gap:12px !important;
+    margin-top:10px !important;
+  }
+}
+</style>
+
+
+
+<style id="stapleford-related-gallery-title-alignment-v23">
+/* Product view only: keep related-card images aligned by giving titles a consistent reserved area and truncating long names. */
+html body.product-page-open .lightbox-related-card,
+html body .lightbox.open .lightbox-related-card{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+}
+
+html body.product-page-open .lightbox-related-image,
+html body .lightbox.open .lightbox-related-image{
+  flex:0 0 auto !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+
+html body.product-page-open .lightbox-related-image img,
+html body.product-page-open .lightbox-related-card img,
+html body .lightbox.open .lightbox-related-image img,
+html body .lightbox.open .lightbox-related-card img{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+}
+
+html body.product-page-open .lightbox-related-meta,
+html body .lightbox.open .lightbox-related-meta{
+  display:grid !important;
+  grid-template-rows:14px 28px 14px !important;
+  row-gap:3px !important;
+  min-height:65px !important;
+  align-content:start !important;
+}
+
+html body.product-page-open .lightbox-related-brand,
+html body .lightbox.open .lightbox-related-brand,
+html body.product-page-open .lightbox-related-price,
+html body .lightbox.open .lightbox-related-price{
+  height:14px !important;
+  line-height:14px !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  text-overflow:ellipsis !important;
+}
+
+html body.product-page-open .lightbox-related-name,
+html body .lightbox.open .lightbox-related-name{
+  display:-webkit-box !important;
+  -webkit-box-orient:vertical !important;
+  -webkit-line-clamp:2 !important;
+  height:28px !important;
+  min-height:28px !important;
+  max-height:28px !important;
+  line-height:14px !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  margin:0 !important;
+}
+</style>
+
+
 <style id="stapleford-description-text-size-match-v24">
 /* Product view only: make Description body text match Delivery / Returns body copy size. */
 html body.product-page-open .lightbox-detail-description,
@@ -11907,6 +12350,7 @@ html body .lightbox.open .lightbox-detail-description *{
   font-weight:400 !important;
 }
 </style>
+
 
 
 <style id="stapleford-responsive-product-page-polish-v25">
@@ -12865,6 +13309,7 @@ html body .lightbox-site-footer .footer-copy{
 </script>
 
 
+
 <style id="stapleford-product-copy-weight-match-v35">
 /* Product view only: soften Description / Delivery / Returns body copy to match the lighter info text. */
 html body.product-page-open #lightbox.open .lightbox-detail-description,
@@ -12920,6 +13365,7 @@ html body .lightbox.open .lightbox-detail-policy-copy strong{
   }
 }
 </style>
+
 
 
 <style id="stapleford-image-reset-v36">
@@ -13042,6 +13488,7 @@ html body .lightbox.open .lightbox-related-image img{
   }
 }
 </style>
+
 
 
 <style id="stapleford-subdial-style-image-flush-v37">
@@ -13327,6 +13774,7 @@ html body .lightbox.open img#lightboxImage{
 </style>
 
 
+
 <style id="stapleford-landscape-grid-and-product-actions-v41">
 /* V41: horizontal/landscape views show 3 products per row, and product contact boxes match BUY NOW height. */
 @media (orientation: landscape) and (min-width: 560px) and (max-width: 1023px){
@@ -13432,6 +13880,142 @@ html body .lightbox.open .lightbox-detail-contact-link svg{
   }
 }
 </style>
+
+<style id="stapleford-related-spacing-v44">
+/* V44: make YOU MIGHT ALSO LIKE match the product accordion rhythm.
+   Desktop: reduce the gap after RETURNS before the related separator line.
+   Mobile/tablet: add breathing room between the related separator line and heading text. */
+html body.product-page-open #lightbox .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-related,
+html body .lightbox.open .lightbox-related{
+  border-top:1px solid rgba(0,0,0,.14) !important;
+  padding-top:13px !important;
+  margin-top:16px !important;
+}
+
+html body.product-page-open #lightbox .lightbox-related-title,
+html body.product-page-open #lightbox.open .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-related-title,
+html body .lightbox.open .lightbox-related-title{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related,
+  html body .lightbox.open .lightbox-related{
+    padding-top:14px !important;
+    margin-top:16px !important;
+  }
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related,
+  html body .lightbox.open .lightbox-related{
+    margin-top:16px !important;
+    padding-top:13px !important;
+  }
+}
+</style>
+
+<style id="stapleford-desktop-related-under-photo-v26">
+/* Product page desktop: move 'You might also like' under the main photo stack and show it horizontally. */
+@media (min-width: 1024px){
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-areas:
+      "product-image product-details"
+      "product-related product-details" !important;
+    grid-template-rows:auto auto !important;
+    row-gap:clamp(18px, 2.2vw, 30px) !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related,
+  html body .lightbox.open .lightbox-stage > .lightbox-related{
+    grid-area:product-related !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:10px 0 0 !important;
+    border:0 !important;
+    border-top:1px solid rgba(0,0,0,.14) !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    outline:0 !important;
+  }
+
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-title,
+  html body .lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-title{
+    margin:0 !important;
+    padding:0 !important;
+    font-family:'InterEmbedded', Arial, sans-serif !important;
+    font-size:10px !important;
+    line-height:1.2 !important;
+    font-weight:500 !important;
+    letter-spacing:.06em !important;
+    text-transform:uppercase !important;
+  }
+
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-grid,
+  html body .lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-grid{
+    display:grid !important;
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:clamp(10px, 1.4vw, 16px) !important;
+    width:100% !important;
+    margin:12px 0 0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+}
+
+@media (max-width: 1023px){
+  html body.product-page-open .lightbox-related,
+  html body .lightbox.open .lightbox-related{
+    grid-area:auto !important;
+  }
+}
+</style>
+
+<script id="stapleford-desktop-related-under-photo-v26-js">
+(function(){
+  function moveRelatedGallery(){
+    var related = document.getElementById('lightboxRelated');
+    var detail = document.getElementById('lightboxDetails');
+    var stage = document.querySelector('#lightbox .lightbox-stage');
+    if(!related || !detail || !stage) return;
+
+    var desktop = window.matchMedia && window.matchMedia('(min-width: 1024px)').matches;
+    if(desktop){
+      if(related.parentElement !== stage){
+        stage.appendChild(related);
+      }
+    }else if(related.parentElement !== detail){
+      detail.appendChild(related);
+    }
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', moveRelatedGallery);
+  }else{
+    moveRelatedGallery();
+  }
+  window.addEventListener('resize', moveRelatedGallery, {passive:true});
+  window.addEventListener('orientationchange', moveRelatedGallery, {passive:true});
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.closest && e.target.closest('.watch-card, .lightbox-related-card')){
+      window.setTimeout(moveRelatedGallery, 0);
+      window.setTimeout(moveRelatedGallery, 80);
+    }
+  }, true);
+})();
+</script>
+
 
 <style id="stapleford-product-page-global-premium-v27">
 /* V27: final product-page structure + premium desktop scale.
@@ -13752,6 +14336,42 @@ html body .lightbox.open .lightbox-site-footer .footer-links a{
   }
 }
 </style>
+
+
+<style id="stapleford-related-heading-spacing-v32">
+/* V32: match the spacing between the separator line and YOU MIGHT ALSO LIKE to the other product-view section headings. */
+html body.product-page-open #lightbox .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-related,
+html body .lightbox.open .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related,
+html body .lightbox.open .lightbox-stage > .lightbox-related{
+  padding-top:10px !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+}
+
+html body.product-page-open #lightbox .lightbox-related-title,
+html body.product-page-open #lightbox.open .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-related-title,
+html body .lightbox.open .lightbox-related-title{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related,
+  html body .lightbox.open .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related,
+  html body .lightbox.open .lightbox-stage > .lightbox-related{
+    padding-top:15px !important;
+  }
+}
+</style>
+
 
 <style id="stapleford-master-alignment-v34">
 /* V34: master alignment pass. One shared content edge across header, nav, listings, product page, related gallery and footer. */
@@ -14140,6 +14760,200 @@ html body .lightbox.open .lightbox-related-card img{
 }
 </style>
 
+<style id="stapleford-related-under-returns-v43">
+/* V43: desktop product page - keep YOU MIGHT ALSO LIKE under Returns in the product details column. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-areas:"product-image product-details" !important;
+    grid-template-rows:auto !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related,
+  html body .lightbox.open .lightbox-related{
+    grid-area:auto !important;
+    grid-column:auto !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:clamp(28px, 2.4vw, 40px) 0 0 !important;
+    padding:clamp(14px, 1.2vw, 18px) 0 0 !important;
+    border-top:1px solid rgba(0,0,0,.14) !important;
+    border-left:0 !important;
+    border-right:0 !important;
+    border-bottom:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    outline:0 !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-related-title,
+  html body.product-page-open #lightbox.open .lightbox-related-title,
+  html body.product-page-open .lightbox.open .lightbox-related-title,
+  html body .lightbox.open .lightbox-related-title{
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-related-grid,
+  html body.product-page-open #lightbox.open .lightbox-related-grid,
+  html body.product-page-open .lightbox.open .lightbox-related-grid,
+  html body .lightbox.open .lightbox-related-grid{
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:clamp(10px, 1vw, 14px) !important;
+    margin-top:clamp(16px, 1.4vw, 22px) !important;
+    padding:0 !important;
+    width:100% !important;
+  }
+}
+</style>
+
+<script id="stapleford-related-under-returns-v43-js">
+(function(){
+  function moveRelatedUnderReturns(){
+    var related = document.getElementById('lightboxRelated');
+    var detail = document.getElementById('lightboxDetails') || document.querySelector('#lightbox .lightbox-detail-panel');
+    if(!related || !detail) return;
+    if(related.parentElement !== detail){
+      detail.appendChild(related);
+    }
+  }
+
+  function run(){
+    moveRelatedUnderReturns();
+    window.setTimeout(moveRelatedUnderReturns, 80);
+    window.setTimeout(moveRelatedUnderReturns, 240);
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', run);
+  }else{
+    run();
+  }
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.closest && e.target.closest('.watch-card, .lightbox-related-card, #lightboxBack')){
+      run();
+    }
+  }, true);
+})();
+</script>
+
+<style id="stapleford-related-rhythm-final-v46">
+/* V46: final rhythm fix for individual product view only.
+   Match YOU MIGHT ALSO LIKE spacing to the other product-view section rows. */
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+  margin-top:12px !important;
+  padding-top:10px !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+}
+
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title{
+  margin:0 !important;
+  padding:0 !important;
+  line-height:1.2 !important;
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:10px !important;
+  }
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:10px !important;
+  }
+}
+</style>
+
+
+<style id="stapleford-related-and-mobile-brand-rhythm-v47">
+/* V47: individual product view only.
+   1) Move YOU MIGHT ALSO LIKE heading down from its separator line on desktop and mobile.
+   2) Add mobile breathing room between the full-bleed product image and the brand/title block. */
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+  margin-top:12px !important;
+  padding-top:20px !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+}
+
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title{
+  margin:0 !important;
+  padding:0 !important;
+  transform:none !important;
+}
+
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related .lightbox-related-grid,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-grid,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-grid,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-grid{
+  margin-top:16px !important;
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox .lightbox-detail-panel,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel,
+  html body .lightbox.open .lightbox-detail-panel{
+    padding-top:clamp(26px, 6vw, 42px) !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-kicker,
+  html body.product-page-open #lightbox.open .lightbox-detail-kicker,
+  html body.product-page-open .lightbox.open .lightbox-detail-kicker,
+  html body .lightbox.open .lightbox-detail-kicker,
+  html body.product-page-open #lightbox .lightbox-brand,
+  html body.product-page-open #lightbox.open .lightbox-brand,
+  html body.product-page-open .lightbox.open .lightbox-brand,
+  html body .lightbox.open .lightbox-brand{
+    margin-top:0 !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:20px !important;
+  }
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:20px !important;
+  }
+}
+</style>
+
 <style id="sw-v54-buy-grid-edge-flush">
 /* v54 — BUY listings only: flush outside image edges with a small centre divider/gutter. */
 html body:not(.product-page-open) #gallery.grid{
@@ -14232,8 +15046,10 @@ html body:not(.product-page-open) #gallery.grid{
   html body.product-page-open .lightbox.open .lightbox-stage{
     display:grid !important;
     grid-template-columns:minmax(0,50vw) minmax(420px,560px) !important;
-    grid-template-areas:"product-image product-details" !important;
-    grid-template-rows:auto !important;
+    grid-template-areas:
+      "product-image product-details"
+      "product-related product-details" !important;
+    grid-template-rows:auto auto !important;
     column-gap:clamp(48px,5vw,88px) !important;
     row-gap:clamp(18px,2.2vw,30px) !important;
     align-items:start !important;
@@ -14299,6 +15115,18 @@ html body:not(.product-page-open) #gallery.grid{
     padding:clamp(64px,5vw,92px) 0 clamp(48px,5vw,80px) !important;
     box-sizing:border-box !important;
   }
+
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related{
+    grid-area:product-related !important;
+    width:50vw !important;
+    max-width:50vw !important;
+    margin:0 !important;
+    padding:10px 0 0 !important;
+    border:0 !important;
+    border-top:1px solid rgba(0,0,0,.14) !important;
+    box-sizing:border-box !important;
+  }
 }
 
 @media (max-width:1023px){
@@ -14338,275 +15166,5 @@ html body:not(.product-page-open) #gallery.grid{
   }
 }
 </style>
-
-
-<style id="sw-v57-related-drag-rail">
-/* Product click view — premium hidden-scrollbar drag rail for YOU MIGHT ALSO LIKE.
-   The section remains in the detail column under Returns; only the card rail scrolls. */
-html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
-html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related{
-  display:block !important;
-  width:100% !important;
-  max-width:100% !important;
-  box-sizing:border-box !important;
-  margin:12px 0 0 !important;
-  padding:20px 0 0 !important;
-  border:0 !important;
-  border-top:1px solid rgba(0,0,0,.14) !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-  overflow:hidden !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-title,
-html body.product-page-open .lightbox.open .lightbox-related-title{
-  display:block !important;
-  width:100% !important;
-  margin:0 !important;
-  padding:0 !important;
-  font-family:InterEmbedded, InterRegularEmbedded, Arial, sans-serif !important;
-  font-size:10px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  letter-spacing:.06em !important;
-  text-transform:uppercase !important;
-  color:#000 !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-grid,
-html body.product-page-open .lightbox.open .lightbox-related-grid{
-  display:grid !important;
-  grid-auto-flow:column !important;
-  grid-auto-columns:minmax(150px, calc((100% - 24px) / 3)) !important;
-  grid-template-columns:none !important;
-  gap:12px !important;
-  width:100% !important;
-  max-width:100% !important;
-  box-sizing:border-box !important;
-  margin:14px 0 0 !important;
-  padding:0 1px 2px 0 !important;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  overscroll-behavior-x:contain !important;
-  -webkit-overflow-scrolling:touch !important;
-  scroll-snap-type:x proximity !important;
-  scrollbar-width:none !important;
-  -ms-overflow-style:none !important;
-  cursor:grab !important;
-  user-select:none !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-grid::-webkit-scrollbar,
-html body.product-page-open .lightbox.open .lightbox-related-grid::-webkit-scrollbar{
-  display:none !important;
-  width:0 !important;
-  height:0 !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-grid.is-dragging,
-html body.product-page-open .lightbox.open .lightbox-related-grid.is-dragging{
-  cursor:grabbing !important;
-  scroll-snap-type:none !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-card,
-html body.product-page-open .lightbox.open .lightbox-related-card{
-  appearance:none !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:stretch !important;
-  justify-content:flex-start !important;
-  width:100% !important;
-  min-width:0 !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-  color:inherit !important;
-  text-align:left !important;
-  cursor:pointer !important;
-  scroll-snap-align:start !important;
-  user-select:none !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-image,
-html body.product-page-open .lightbox.open .lightbox-related-image{
-  display:block !important;
-  width:100% !important;
-  aspect-ratio:1 / 1 !important;
-  margin:0 0 8px !important;
-  overflow:hidden !important;
-  background:#f6f4ef !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-image img,
-html body.product-page-open #lightbox.open .lightbox-related-card img,
-html body.product-page-open .lightbox.open .lightbox-related-image img,
-html body.product-page-open .lightbox.open .lightbox-related-card img{
-  display:block !important;
-  width:100% !important;
-  height:100% !important;
-  max-width:none !important;
-  max-height:none !important;
-  aspect-ratio:1 / 1 !important;
-  object-fit:cover !important;
-  object-position:center center !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:#f6f4ef !important;
-  transform:scale(1.08) !important;
-  transform-origin:center center !important;
-  pointer-events:none !important;
-  -webkit-user-drag:none !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-meta,
-html body.product-page-open .lightbox.open .lightbox-related-meta{
-  display:block !important;
-  min-width:0 !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-brand,
-html body.product-page-open #lightbox.open .lightbox-related-name,
-html body.product-page-open #lightbox.open .lightbox-related-price,
-html body.product-page-open .lightbox.open .lightbox-related-brand,
-html body.product-page-open .lightbox.open .lightbox-related-name,
-html body.product-page-open .lightbox.open .lightbox-related-price{
-  display:block !important;
-  font-family:InterEmbedded, InterRegularEmbedded, Arial, sans-serif !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-brand,
-html body.product-page-open .lightbox.open .lightbox-related-brand{
-  margin:0 0 3px !important;
-  font-size:10px !important;
-  line-height:1.25 !important;
-  letter-spacing:.12em !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-name,
-html body.product-page-open .lightbox.open .lightbox-related-name{
-  min-height:28px !important;
-  max-height:28px !important;
-  margin:0 0 5px !important;
-  overflow:hidden !important;
-  font-size:10px !important;
-  line-height:14px !important;
-  letter-spacing:.06em !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-price,
-html body.product-page-open .lightbox.open .lightbox-related-price{
-  font-size:10px !important;
-  line-height:1.25 !important;
-  letter-spacing:.08em !important;
-}
-
-@media (max-width:767px){
-  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related{
-    margin-top:12px !important;
-    padding-top:18px !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-related-grid,
-  html body.product-page-open .lightbox.open .lightbox-related-grid{
-    grid-auto-columns:minmax(138px, calc((100% - 12px) / 2)) !important;
-  }
-}
-</style>
-
-<script id="sw-v57-related-drag-rail-js">
-(function(){
-  function setupRelatedDragRail(rail){
-    if(!rail || rail.dataset.swDragRail === 'ready') return;
-    rail.dataset.swDragRail = 'ready';
-
-    var dragging = false;
-    var moved = false;
-    var startX = 0;
-    var startScrollLeft = 0;
-    var activePointerId = null;
-    var clickThreshold = 6;
-
-    rail.addEventListener('pointerdown', function(e){
-      if(e.pointerType && e.pointerType !== 'mouse') return;
-      if(typeof e.button === 'number' && e.button !== 0) return;
-
-      dragging = true;
-      moved = false;
-      startX = e.clientX;
-      startScrollLeft = rail.scrollLeft;
-      activePointerId = e.pointerId;
-      rail.classList.add('is-dragging');
-
-      if(rail.setPointerCapture){
-        try{ rail.setPointerCapture(activePointerId); }catch(err){}
-      }
-    });
-
-    rail.addEventListener('pointermove', function(e){
-      if(!dragging) return;
-
-      var dx = e.clientX - startX;
-      if(Math.abs(dx) > clickThreshold) moved = true;
-      rail.scrollLeft = startScrollLeft - dx;
-
-      if(moved) e.preventDefault();
-    }, { passive:false });
-
-    function stopDragging(){
-      if(!dragging) return;
-      dragging = false;
-      rail.classList.remove('is-dragging');
-
-      if(activePointerId !== null && rail.releasePointerCapture){
-        try{ rail.releasePointerCapture(activePointerId); }catch(err){}
-      }
-      activePointerId = null;
-    }
-
-    rail.addEventListener('pointerup', stopDragging);
-    rail.addEventListener('pointercancel', stopDragging);
-    rail.addEventListener('lostpointercapture', stopDragging);
-
-    rail.addEventListener('click', function(e){
-      if(!moved) return;
-      e.preventDefault();
-      e.stopPropagation();
-      moved = false;
-    }, true);
-
-    rail.addEventListener('dragstart', function(e){
-      e.preventDefault();
-    });
-  }
-
-  function initRelatedDragRails(){
-    document.querySelectorAll('.lightbox-related-grid').forEach(setupRelatedDragRail);
-  }
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', initRelatedDragRails);
-  }else{
-    initRelatedDragRails();
-  }
-
-  document.addEventListener('click', function(e){
-    if(e.target && e.target.closest && e.target.closest('.watch-card, .lightbox-related-card')){
-      window.setTimeout(initRelatedDragRails, 0);
-    }
-  }, true);
-})();
-</script>
-
 </body>
 </html>
