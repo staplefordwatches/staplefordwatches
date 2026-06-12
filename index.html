@@ -14983,3 +14983,87 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   document.addEventListener('click', run, true);
 })();
 </script>
+
+
+<style id="stapleford-related-under-returns-v43">
+/* V43: desktop product page - keep YOU MIGHT ALSO LIKE under Returns in the product details column. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-areas:"product-image product-details" !important;
+    grid-template-rows:auto !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related,
+  html body .lightbox.open .lightbox-related{
+    grid-area:auto !important;
+    grid-column:auto !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:clamp(28px, 2.4vw, 40px) 0 0 !important;
+    padding:clamp(14px, 1.2vw, 18px) 0 0 !important;
+    border-top:1px solid rgba(0,0,0,.14) !important;
+    border-left:0 !important;
+    border-right:0 !important;
+    border-bottom:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    outline:0 !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-related-title,
+  html body.product-page-open #lightbox.open .lightbox-related-title,
+  html body.product-page-open .lightbox.open .lightbox-related-title,
+  html body .lightbox.open .lightbox-related-title{
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-related-grid,
+  html body.product-page-open #lightbox.open .lightbox-related-grid,
+  html body.product-page-open .lightbox.open .lightbox-related-grid,
+  html body .lightbox.open .lightbox-related-grid{
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:clamp(10px, 1vw, 14px) !important;
+    margin-top:clamp(16px, 1.4vw, 22px) !important;
+    padding:0 !important;
+    width:100% !important;
+  }
+}
+</style>
+
+<script id="stapleford-related-under-returns-v43-js">
+(function(){
+  function moveRelatedUnderReturns(){
+    var related = document.getElementById('lightboxRelated');
+    var detail = document.getElementById('lightboxDetails') || document.querySelector('#lightbox .lightbox-detail-panel');
+    if(!related || !detail) return;
+    if(related.parentElement !== detail){
+      detail.appendChild(related);
+    }
+  }
+
+  function run(){
+    moveRelatedUnderReturns();
+    window.setTimeout(moveRelatedUnderReturns, 80);
+    window.setTimeout(moveRelatedUnderReturns, 240);
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', run);
+  }else{
+    run();
+  }
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.closest && e.target.closest('.watch-card, .lightbox-related-card, #lightboxBack')){
+      run();
+    }
+  }, true);
+})();
+</script>
