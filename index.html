@@ -14337,6 +14337,96 @@ html body .lightbox.open .lightbox-related-title{
 })();
 </script>
 
+
+
+<!-- v59: no-visual-change product click recovery -->
+<script id="sw-v59-product-click-recovery-js">
+(function(){
+  function getCardFromEventTarget(target){
+    if(!target || !target.closest) return null;
+    return target.closest('.card');
+  }
+
+  function isControlClick(target){
+    if(!target || !target.closest) return false;
+    return !!target.closest('.spec-trigger, .spec-overlay, .spec-hide, .cart-trigger, #cartOpen, #cartDrawer, #cartBackdrop, button:not(.merchant-product-link), input, select, textarea, label, .filter-custom, .status-filter-option, .sort-option');
+  }
+
+  function openCardProduct(card, event){
+    if(!card) return false;
+    var image = card.querySelector('.image');
+    if(image && !image.classList.contains('available')) return false;
+
+    var listingId = card.getAttribute('data-listing-id') || card.id || '';
+    var watch = null;
+
+    try{
+      if(typeof window.findWatchByCartId === 'function') watch = window.findWatchByCartId(listingId);
+    }catch(e){}
+
+    if(!watch){
+      try{
+        if(typeof window.findWatchFromProductToken === 'function'){
+          var link = card.getAttribute('data-product-link') || '';
+          watch = window.findWatchFromProductToken(link) || window.findWatchFromProductToken(listingId);
+        }
+      }catch(e){}
+    }
+
+    if(!watch || typeof window.openLightbox !== 'function') return false;
+
+    if(event){
+      event.preventDefault();
+      event.stopPropagation();
+      if(typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+    }
+
+    window.openLightbox(watch, 0, true);
+    return true;
+  }
+
+  function shouldHandle(target){
+    if(!target || !target.closest) return false;
+    if(isControlClick(target)) return false;
+    return !!target.closest('.merchant-product-link, .card .image img, .card .image.available');
+  }
+
+  document.addEventListener('click', function(event){
+    if(!shouldHandle(event.target)) return;
+    var card = getCardFromEventTarget(event.target);
+    openCardProduct(card, event);
+  }, true);
+
+  document.addEventListener('keydown', function(event){
+    if(event.key !== 'Enter' && event.key !== ' ') return;
+    var card = getCardFromEventTarget(event.target);
+    if(!card) return;
+    openCardProduct(card, event);
+  }, true);
+
+  function makeCardsFocusable(){
+    document.querySelectorAll('.card .image.available').forEach(function(image){
+      var card = image.closest('.card');
+      if(!card) return;
+      image.style.cursor = 'pointer';
+      image.setAttribute('role','button');
+      image.setAttribute('tabindex','0');
+      if(!image.getAttribute('aria-label')){
+        var brand = (card.querySelector('.brand') && card.querySelector('.brand').textContent || '').trim();
+        var title = (card.querySelector('.title') && card.querySelector('.title').textContent || '').trim();
+        image.setAttribute('aria-label', 'View ' + (brand ? brand + ' ' : '') + title);
+      }
+    });
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', makeCardsFocusable); else makeCardsFocusable();
+  var gallery = document.getElementById('gallery');
+  if(gallery){
+    new MutationObserver(makeCardsFocusable).observe(gallery, {childList:true, subtree:true});
+  }
+})();
+</script>
+
 </body>
 </html>
 
