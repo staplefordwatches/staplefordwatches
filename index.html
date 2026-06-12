@@ -9412,7 +9412,7 @@ html body .lightbox.open .lightbox-related-card img{
 
 <footer class="lightbox-site-footer" aria-label="Product page footer">
   <div class="footer-inner lightbox-site-footer-inner">
-    <div class="footer-copy"><span aria-hidden="true" class="footer-monogram">SW</span><span>© 2026 STAPLEFORD WATCHES</span></div>
+    <div class="footer-copy"><span>© 2026 STAPLEFORD WATCHES</span></div>
     <div class="footer-links">
       <a href="https://wa.me/447438196047">WHATSAPP</a>
       <a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a>
@@ -11129,7 +11129,7 @@ window.addEventListener("hashchange", handleInitialInfoHash);
 </script>
 <footer>
 <div class="footer-inner">
-<div class="footer-copy"><span aria-hidden="true" class="footer-monogram">SW</span><span>© 2026 STAPLEFORD WATCHES</span></div>
+<div class="footer-copy"><span>© 2026 STAPLEFORD WATCHES</span></div>
 <div class="footer-links">
 <a href="https://wa.me/447438196047">WHATSAPP</a>
 <a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a>
@@ -13125,7 +13125,7 @@ html body.product-page-open .lightbox.open .lightbox-site-footer .footer-links{
       footer = document.createElement('footer');
       footer.className = 'lightbox-site-footer';
       footer.setAttribute('aria-label','Product page footer');
-      footer.innerHTML = '<div class="footer-inner lightbox-site-footer-inner"><div class="footer-copy"><span aria-hidden="true" class="footer-monogram">SW</span><span>© 2026 STAPLEFORD WATCHES</span></div><div class="footer-links"><a href="https://wa.me/447438196047">WHATSAPP</a><a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a><a href="https://instagram.com/staplefordwatches">INSTAGRAM</a></div></div>';
+      footer.innerHTML = '<div class="footer-inner lightbox-site-footer-inner"><div class="footer-copy"><span>© 2026 STAPLEFORD WATCHES</span></div><div class="footer-links"><a href="https://wa.me/447438196047">WHATSAPP</a><a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a><a href="https://instagram.com/staplefordwatches">INSTAGRAM</a></div></div>';
       lightbox.appendChild(footer);
     }else if(footer.parentElement !== lightbox){
       lightbox.appendChild(footer);
@@ -13159,6 +13159,155 @@ html body.product-page-open .lightbox.open .lightbox-site-footer .footer-links{
   }, true);
 })();
 </script>
+
+
+<style id="stapleford-global-width-footer-v33">
+/* V33: widen desktop rhythm, remove footer SW monogram site-wide, and align footer/nav/grid to the same premium content edge. */
+html body footer .footer-monogram,
+html body .lightbox-site-footer .footer-monogram{
+  display:none !important;
+}
+
+html body footer .footer-copy,
+html body .lightbox-site-footer .footer-copy{
+  gap:0 !important;
+}
+
+@media (min-width:1024px){
+  html body{
+    --max-width:1280px;
+  }
+
+  html body .logo,
+  html body .nav,
+  html body .grid,
+  html body footer,
+  html body.product-page-open #lightbox .lightbox-site-footer,
+  html body.product-page-open #lightbox.open .lightbox-site-footer,
+  html body.product-page-open .lightbox.open .lightbox-site-footer,
+  html body .lightbox.open .lightbox-site-footer{
+    width:min(100%, var(--max-width)) !important;
+    max-width:min(100%, var(--max-width)) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+
+  html body .nav,
+  html body footer,
+  html body.product-page-open #lightbox .lightbox-site-footer,
+  html body.product-page-open #lightbox.open .lightbox-site-footer,
+  html body.product-page-open .lightbox.open .lightbox-site-footer,
+  html body .lightbox.open .lightbox-site-footer{
+    padding-left:6px !important;
+    padding-right:6px !important;
+  }
+
+  html body .grid{
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:var(--gap) !important;
+  }
+
+  html body .nav{
+    justify-content:space-between !important;
+    align-items:center !important;
+  }
+
+  html body .nav-left{
+    margin-left:0 !important;
+  }
+
+  html body .nav-right,
+  html body .time-wrap,
+  html body .london-time,
+  html body #londonTime,
+  html body .nav-time{
+    margin-left:auto !important;
+    margin-right:0 !important;
+    padding-right:0 !important;
+    transform:none !important;
+  }
+
+  html body .nav-right{
+    justify-items:end !important;
+    text-align:right !important;
+  }
+
+  html body .nav-right .uk-time,
+  html body .nav-right .cart-open{
+    justify-self:end !important;
+    text-align:right !important;
+    justify-content:flex-end !important;
+  }
+
+  html body footer .footer-inner,
+  html body .lightbox-site-footer .footer-inner,
+  html body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
+  html body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner,
+  html body.product-page-open .lightbox.open .lightbox-site-footer .footer-inner,
+  html body .lightbox.open .lightbox-site-footer .footer-inner{
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:24px !important;
+  }
+
+  html body footer .footer-copy,
+  html body .lightbox-site-footer .footer-copy,
+  html body footer .footer-links,
+  html body .lightbox-site-footer .footer-links{
+    font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif !important;
+    font-size:12px !important;
+    line-height:1 !important;
+    letter-spacing:normal !important;
+    text-transform:uppercase !important;
+  }
+
+  html body footer .footer-links,
+  html body .lightbox-site-footer .footer-links{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:18px !important;
+    flex-wrap:wrap !important;
+  }
+}
+
+@media (min-width:1024px) and (max-width:1180px){
+  html body{
+    --max-width:1120px;
+  }
+}
+
+@media (max-width:1023px){
+  html body footer .footer-monogram,
+  html body .lightbox-site-footer .footer-monogram{
+    display:none !important;
+  }
+}
+</style>
+
+<script id="stapleford-footer-sw-removal-v33">
+(function(){
+  function removeFooterMonograms(){
+    document.querySelectorAll('footer .footer-monogram, .lightbox-site-footer .footer-monogram').forEach(function(node){
+      node.remove();
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', removeFooterMonograms);
+  }else{
+    removeFooterMonograms();
+  }
+  document.addEventListener('click', function(){ window.setTimeout(removeFooterMonograms, 0); }, true);
+  window.addEventListener('resize', removeFooterMonograms, {passive:true});
+})();
+</script>
+
 </body>
 </html>
 
@@ -13576,3 +13725,254 @@ html body .lightbox.open .lightbox-site-footer .footer-links a{
   }
 }
 </style>
+
+
+<style id="stapleford-related-heading-spacing-v32">
+/* V32: match the spacing between the separator line and YOU MIGHT ALSO LIKE to the other product-view section headings. */
+html body.product-page-open #lightbox .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-related,
+html body .lightbox.open .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related,
+html body .lightbox.open .lightbox-stage > .lightbox-related{
+  padding-top:10px !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+}
+
+html body.product-page-open #lightbox .lightbox-related-title,
+html body.product-page-open #lightbox.open .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-related-title,
+html body .lightbox.open .lightbox-related-title{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related,
+  html body .lightbox.open .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related,
+  html body .lightbox.open .lightbox-stage > .lightbox-related{
+    padding-top:15px !important;
+  }
+}
+</style>
+
+
+<style id="stapleford-master-alignment-v34">
+/* V34: master alignment pass. One shared content edge across header, nav, listings, product page, related gallery and footer. */
+:root{
+  --sw-page-max:1360px;
+  --sw-page-edge:clamp(14px, 3vw, 40px);
+  --sw-page-width:min(calc(100vw - (var(--sw-page-edge) * 2)), var(--sw-page-max));
+}
+@media (max-width:767px){
+  :root{ --sw-page-edge:14px; --sw-page-max:100vw; }
+}
+@media (min-width:768px) and (max-width:1023px){
+  :root{ --sw-page-edge:22px; --sw-page-max:980px; }
+}
+@media (min-width:1024px) and (max-width:1279px){
+  :root{ --sw-page-edge:28px; --sw-page-max:1180px; }
+}
+@media (min-width:1280px){
+  :root{ --sw-page-edge:40px; --sw-page-max:1360px; }
+}
+html body .logo,
+html body .nav,
+html body .grid,
+html body > footer,
+html body .sell-page,
+html body .info-page,
+html body #sellPage,
+html body #infoPage{
+  width:var(--sw-page-width) !important;
+  max-width:var(--sw-page-width) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  box-sizing:border-box !important;
+}
+html body .nav,
+html body > footer,
+html body .sell-page,
+html body .info-page,
+html body #sellPage,
+html body #infoPage{
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
+html body .nav{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:clamp(16px, 3vw, 42px) !important;
+}
+html body .nav-left{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  margin:0 !important;
+}
+html body .nav-pages{
+  gap:clamp(12px, 2vw, 28px) !important;
+}
+html body .nav-right{
+  flex:0 0 auto !important;
+  margin-left:auto !important;
+  text-align:right !important;
+  justify-content:flex-end !important;
+}
+html body .nav-right .uk-time,
+html body .uk-time{
+  justify-content:flex-end !important;
+  text-align:right !important;
+  white-space:nowrap !important;
+}
+@media (min-width:1024px){
+  html body .grid{
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    column-gap:clamp(18px, 2vw, 28px) !important;
+    row-gap:clamp(28px, 3vw, 44px) !important;
+  }
+}
+@media (min-width:768px) and (max-width:1023px){
+  html body .grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width:767px){
+  html body .grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+html body footer .footer-monogram,
+html body .lightbox-site-footer .footer-monogram{
+  display:none !important;
+  visibility:hidden !important;
+  width:0 !important;
+  height:0 !important;
+  overflow:hidden !important;
+}
+html body > footer .footer-inner,
+html body .lightbox-site-footer .footer-inner,
+html body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
+html body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner,
+html body.product-page-open .lightbox.open .lightbox-site-footer .footer-inner{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:clamp(14px, 2vw, 28px) !important;
+  box-sizing:border-box !important;
+}
+html body > footer .footer-copy,
+html body > footer .footer-links,
+html body .lightbox-site-footer .footer-copy,
+html body .lightbox-site-footer .footer-links{
+  font-family:'InterEmbedded','InterRegularEmbedded',Arial,sans-serif !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  letter-spacing:normal !important;
+  text-transform:uppercase !important;
+}
+html body > footer .footer-links,
+html body .lightbox-site-footer .footer-links{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  gap:clamp(12px, 1.8vw, 22px) !important;
+  flex-wrap:wrap !important;
+}
+html body.product-page-open #lightbox,
+html body.product-page-open #lightbox.open,
+html body.product-page-open .lightbox.open{
+  width:100vw !important;
+  max-width:100vw !important;
+  padding:0 !important;
+  background:#fff !important;
+  overflow-x:hidden !important;
+}
+html body.product-page-open #lightbox .lightbox-inner,
+html body.product-page-open #lightbox.open .lightbox-inner,
+html body.product-page-open .lightbox.open .lightbox-inner,
+html body.product-page-open #lightbox .lightbox-stage,
+html body.product-page-open #lightbox.open .lightbox-stage,
+html body.product-page-open .lightbox.open .lightbox-stage,
+html body.product-page-open #lightbox .lightbox-site-footer,
+html body.product-page-open #lightbox.open .lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-site-footer{
+  width:var(--sw-page-width) !important;
+  max-width:var(--sw-page-width) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  box-sizing:border-box !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
+html body.product-page-open #lightbox .lightbox-site-footer,
+html body.product-page-open #lightbox.open .lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-site-footer{
+  margin-top:clamp(30px, 4vw, 56px) !important;
+  margin-bottom:clamp(18px, 2.5vw, 34px) !important;
+  border:0 !important;
+  background:#fff !important;
+}
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 1.58fr) minmax(390px, .92fr) !important;
+    column-gap:clamp(34px, 4.4vw, 74px) !important;
+  }
+  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-grid,
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-grid{
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:clamp(12px, 1.3vw, 18px) !important;
+  }
+}
+@media (max-width:767px){
+  html body .nav{
+    width:var(--sw-page-width) !important;
+    max-width:var(--sw-page-width) !important;
+  }
+  html body > footer .footer-inner,
+  html body .lightbox-site-footer .footer-inner,
+  html body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
+  html body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner,
+  html body.product-page-open .lightbox.open .lightbox-site-footer .footer-inner{
+    flex-direction:column-reverse !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:8px !important;
+  }
+  html body > footer .footer-links,
+  html body .lightbox-site-footer .footer-links{
+    justify-content:flex-start !important;
+    gap:8px 12px !important;
+  }
+}
+</style>
+
+<script id="stapleford-master-alignment-v34-js">
+(function(){
+  function removeFooterSW(){
+    document.querySelectorAll('footer .footer-monogram, .lightbox-site-footer .footer-monogram').forEach(function(el){ el.remove(); });
+  }
+  function normaliseProductFooter(){
+    var footer = document.querySelector('#lightbox .lightbox-site-footer');
+    if(!footer) return;
+    var copy = footer.querySelector('.footer-copy');
+    if(copy) copy.innerHTML = '<span>© 2026 STAPLEFORD WATCHES</span>';
+    removeFooterSW();
+  }
+  function run(){ removeFooterSW(); normaliseProductFooter(); }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', function(){ setTimeout(run, 0); setTimeout(run, 80); }, true);
+})();
+</script>
