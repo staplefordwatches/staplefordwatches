@@ -10117,9 +10117,9 @@ function renderLightboxDetails(){
 
   setText(lightboxDetailBrand, String(lightboxWatch.brand || "").toUpperCase());
   setText(lightboxDetailTitle, title);
-  setText(lightboxDetailReference, reference ? `Reference: ${String(reference).toUpperCase()}` : "");
-  setText(lightboxDetailYear, year ? `Year: ${String(year).toUpperCase()}` : "");
-  setText(lightboxDetailContents, contents ? `Contents: ${String(contents).toUpperCase()}` : "");
+  setText(lightboxDetailReference, reference ? `REFERENCE: ${String(reference).toUpperCase()}` : "");
+  setText(lightboxDetailYear, year ? `YEAR: ${String(year).toUpperCase()}` : "");
+  setText(lightboxDetailContents, contents ? `CONTENTS: ${String(contents).toUpperCase()}` : "");
   setText(lightboxDetailPrice, isSold ? String(lightboxWatch.status || "sold").toUpperCase() : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
   const descriptionText = String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
   setText(lightboxDetailDescription, descriptionText);
@@ -11590,6 +11590,44 @@ html body .lightbox.open .lightbox-detail-buy,
 html body .lightbox.open .lightbox-detail-buy:hover,
 html body .lightbox.open .lightbox-detail-buy:active{
   box-shadow:none !important;
+}
+</style>
+
+
+
+<style id="stapleford-product-view-capitals-single-lines-v14">
+/* Product view only: capital meta labels and one clean separator line above each expandable heading. */
+html body.product-page-open .lightbox-detail-meta-line,
+html body .lightbox.open .lightbox-detail-meta-line{
+  text-transform:uppercase !important;
+}
+
+html body.product-page-open .lightbox-detail-description-toggle,
+html body.product-page-open .lightbox-detail-spec-toggle,
+html body.product-page-open .lightbox-detail-policy-toggle,
+html body .lightbox.open .lightbox-detail-description-toggle,
+html body .lightbox.open .lightbox-detail-spec-toggle,
+html body .lightbox.open .lightbox-detail-policy-toggle{
+  border:0 !important;
+  border-top:1px solid rgba(0,0,0,0.12) !important;
+  border-bottom:0 !important;
+  box-shadow:none !important;
+  padding-top:10px !important;
+  padding-bottom:0 !important;
+  margin-top:10px !important;
+}
+
+html body.product-page-open .lightbox-detail-description,
+html body.product-page-open .lightbox-detail-specs,
+html body.product-page-open .lightbox-detail-policy-copy,
+html body .lightbox.open .lightbox-detail-description,
+html body .lightbox.open .lightbox-detail-specs,
+html body .lightbox.open .lightbox-detail-policy-copy{
+  border:0 !important;
+  border-top:0 !important;
+  border-bottom:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
 }
 </style>
 
