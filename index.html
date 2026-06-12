@@ -13881,82 +13881,6 @@ html body .lightbox.open .lightbox-detail-contact-link svg{
 }
 </style>
 
-
-<style id="stapleford-desktop-image-balance-v42">
-/* V42: desktop product imagery balance. Keep image edge-flush, but reduce the oversized desktop image column and give the product text more breathing room. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40)) !important;
-    column-gap:clamp(56px, 5vw, 104px) !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap{
-    width:48vw !important;
-    min-width:48vw !important;
-    max-width:48vw !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-related,
-  html body.product-page-open #lightbox.open .lightbox-related,
-  html body.product-page-open .lightbox.open .lightbox-related{
-    width:48vw !important;
-    max-width:48vw !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-detail-panel,
-  html body.product-page-open #lightbox.open .lightbox-detail-panel,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel{
-    padding-top:clamp(18px, 2.2vw, 34px) !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-brand,
-  html body.product-page-open #lightbox.open .lightbox-brand,
-  html body.product-page-open .lightbox.open .lightbox-brand{
-    margin-top:0 !important;
-    margin-bottom:clamp(10px, 1vw, 16px) !important;
-  }
-}
-</style>
-
-<script id="stapleford-desktop-image-balance-v42-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function balanceDesktopProductImage(){
-    if(!window.matchMedia('(min-width: 1024px)').matches) return;
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open');
-    if(!root) return;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var related = root.querySelector('.lightbox-related');
-    var detail = root.querySelector('.lightbox-detail-panel');
-    setImportant(stage, 'grid-template-columns', 'minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40))');
-    setImportant(stage, 'column-gap', 'clamp(56px, 5vw, 104px)');
-    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '48vw'); });
-    if(related){
-      setImportant(related, 'width', '48vw');
-      setImportant(related, 'max-width', '48vw');
-    }
-    setImportant(detail, 'padding-top', 'clamp(18px, 2.2vw, 34px)');
-  }
-  function run(){
-    balanceDesktopProductImage();
-    setTimeout(balanceDesktopProductImage, 80);
-    setTimeout(balanceDesktopProductImage, 220);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-})();
-</script>
-
-
-
 <style id="stapleford-related-spacing-v44">
 /* V44: make YOU MIGHT ALSO LIKE match the product accordion rhythm.
    Desktop: reduce the gap after RETURNS before the related separator line.
@@ -13998,218 +13922,6 @@ html body .lightbox.open .lightbox-related-title{
   }
 }
 </style>
-
-
-<style id="stapleford-desktop-image-gallery-alignment-v48">
-/* V48: desktop individual product view only — make the left hero image a touch taller so its bottom edge aligns more naturally with the You Might Also Like image row. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40)) !important;
-    column-gap:clamp(64px, 5.4vw, 112px) !important;
-    align-items:start !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    width:48vw !important;
-    min-width:48vw !important;
-    max-width:48vw !important;
-    height:clamp(430px, 22.5vw, 500px) !important;
-    min-height:clamp(430px, 22.5vw, 500px) !important;
-    max-height:500px !important;
-    aspect-ratio:auto !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-
-  html body.product-page-open #lightbox img#lightboxImage,
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    width:100% !important;
-    height:100% !important;
-    min-width:100% !important;
-    min-height:100% !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-}
-</style>
-
-<script id="stapleford-desktop-image-gallery-alignment-v48-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function tuneDesktopHeroImage(){
-    if(!window.matchMedia('(min-width: 1024px)').matches) return;
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
-    if(!root) return;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var img = root.querySelector('img#lightboxImage');
-    setImportant(stage, 'grid-template-columns', 'minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40))');
-    setImportant(stage, 'column-gap', 'clamp(64px, 5.4vw, 112px)');
-    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '48vw'); });
-    setImportant(wrap, 'height', 'clamp(430px, 22.5vw, 500px)');
-    setImportant(wrap, 'min-height', 'clamp(430px, 22.5vw, 500px)');
-    setImportant(wrap, 'max-height', '500px');
-    setImportant(wrap, 'aspect-ratio', 'auto');
-    setImportant(wrap, 'padding', '0');
-    setImportant(wrap, 'overflow', 'hidden');
-    setImportant(wrap, 'border', '0');
-    setImportant(wrap, 'box-shadow', 'none');
-    setImportant(wrap, 'background', 'transparent');
-    setImportant(img, 'height', '100%');
-    setImportant(img, 'width', '100%');
-    setImportant(img, 'object-fit', 'cover');
-    setImportant(img, 'object-position', 'center center');
-  }
-  function run(){
-    tuneDesktopHeroImage();
-    setTimeout(tuneDesktopHeroImage, 80);
-    setTimeout(tuneDesktopHeroImage, 240);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-})();
-</script>
-
-
-
-<style id="stapleford-desktop-edge-bottom-hero-v53">
-/* V53: desktop product page — stop trying to align the hero to variable content.
-   The left image now fills the viewport from top edge to bottom edge, so there is
-   no awkward white space beneath it. Mobile/tablet remain unchanged. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
-    column-gap:clamp(82px, 6vw, 128px) !important;
-    align-items:start !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    width:45vw !important;
-    min-width:45vw !important;
-    max-width:45vw !important;
-    height:100vh !important;
-    min-height:100vh !important;
-    max-height:none !important;
-    aspect-ratio:auto !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    border:0 !important;
-    border-radius:0 !important;
-    outline:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-    align-self:start !important;
-  }
-
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    width:100% !important;
-    height:100% !important;
-    min-height:100% !important;
-    display:block !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-}
-</style>
-
-<script id="stapleford-desktop-edge-bottom-hero-v53-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function fillDesktopHeroToViewportV53(){
-    if(!window.matchMedia || !window.matchMedia('(min-width: 1024px)').matches) return;
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
-    if(!root) return;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var img = root.querySelector('img#lightboxImage');
-    if(!stage || !wrap || !img) return;
-
-    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
-    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
-    setImportant(stage, 'align-items', 'start');
-
-    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
-    setImportant(wrap, 'height', '100vh');
-    setImportant(wrap, 'min-height', '100vh');
-    setImportant(wrap, 'max-height', 'none');
-    setImportant(wrap, 'aspect-ratio', 'auto');
-    setImportant(wrap, 'margin', '0');
-    setImportant(wrap, 'padding', '0');
-    setImportant(wrap, 'overflow', 'hidden');
-    setImportant(wrap, 'border', '0');
-    setImportant(wrap, 'border-radius', '0');
-    setImportant(wrap, 'outline', '0');
-    setImportant(wrap, 'box-shadow', 'none');
-    setImportant(wrap, 'background', 'transparent');
-    setImportant(wrap, 'align-self', 'start');
-
-    setImportant(img, 'width', '100%');
-    setImportant(img, 'height', '100%');
-    setImportant(img, 'min-height', '100%');
-    setImportant(img, 'display', 'block');
-    setImportant(img, 'object-fit', 'cover');
-    setImportant(img, 'object-position', 'center center');
-    setImportant(img, 'margin', '0');
-    setImportant(img, 'padding', '0');
-    setImportant(img, 'border', '0');
-    setImportant(img, 'border-radius', '0');
-    setImportant(img, 'box-shadow', 'none');
-    setImportant(img, 'background', 'transparent');
-  }
-  function run(){
-    requestAnimationFrame(fillDesktopHeroToViewportV53);
-    setTimeout(fillDesktopHeroToViewportV53, 50);
-    setTimeout(fillDesktopHeroToViewportV53, 160);
-    setTimeout(fillDesktopHeroToViewportV53, 360);
-    setTimeout(fillDesktopHeroToViewportV53, 760);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('load', run, {passive:true});
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-})();
-</script>
-</body>
-</html>
-
 
 <style id="stapleford-desktop-related-under-photo-v26">
 /* Product page desktop: move 'You might also like' under the main photo stack and show it horizontally. */
@@ -15048,195 +14760,6 @@ html body .lightbox.open .lightbox-related-card img{
 }
 </style>
 
-
-<style id="stapleford-edge-to-edge-all-views-v40">
-/* V40: force product-view imagery to touch the viewport edge in every view/orientation. */
-html body.product-page-open #lightbox,
-html body.product-page-open #lightbox.open,
-html body.product-page-open .lightbox.open{
-  overflow-x:hidden !important;
-}
-
-html body.product-page-open #lightbox .lightbox-image-wrap,
-html body.product-page-open #lightbox.open .lightbox-image-wrap,
-html body.product-page-open .lightbox.open .lightbox-image-wrap{
-  width:100vw !important;
-  max-width:none !important;
-  min-width:100vw !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-  overflow:hidden !important;
-}
-
-html body.product-page-open #lightbox .stapleford-preview-track,
-html body.product-page-open #lightbox.open .stapleford-preview-track,
-html body.product-page-open .lightbox.open .stapleford-preview-track,
-html body.product-page-open #lightbox .stapleford-preview-slide,
-html body.product-page-open #lightbox.open .stapleford-preview-slide,
-html body.product-page-open .lightbox.open .stapleford-preview-slide{
-  width:100% !important;
-  max-width:none !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-  overflow:hidden !important;
-}
-
-html body.product-page-open #lightbox img#lightboxImage,
-html body.product-page-open #lightbox.open img#lightboxImage,
-html body.product-page-open .lightbox.open img#lightboxImage,
-html body.product-page-open #lightbox .stapleford-preview-slide img,
-html body.product-page-open #lightbox.open .stapleford-preview-slide img,
-html body.product-page-open .lightbox.open .stapleford-preview-slide img{
-  display:block !important;
-  width:100% !important;
-  height:100% !important;
-  min-width:100% !important;
-  min-height:100% !important;
-  max-width:none !important;
-  max-height:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-  object-fit:cover !important;
-  object-position:center center !important;
-  transform:none !important;
-}
-
-/* Keep the non-image product content on the premium site grid. */
-html body.product-page-open #lightbox .lightbox-detail-panel,
-html body.product-page-open #lightbox.open .lightbox-detail-panel,
-html body.product-page-open .lightbox.open .lightbox-detail-panel,
-html body.product-page-open #lightbox .lightbox-related,
-html body.product-page-open #lightbox.open .lightbox-related,
-html body.product-page-open .lightbox.open .lightbox-related,
-html body.product-page-open #lightbox .lightbox-site-footer,
-html body.product-page-open #lightbox.open .lightbox-site-footer,
-html body.product-page-open .lightbox.open .lightbox-site-footer{
-  width:var(--sw-page-width) !important;
-  max-width:var(--sw-page-width) !important;
-  margin-left:auto !important;
-  margin-right:auto !important;
-}
-
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage{
-    width:100vw !important;
-    max-width:100vw !important;
-    margin-left:calc(50% - 50vw) !important;
-    margin-right:calc(50% - 50vw) !important;
-    display:grid !important;
-    grid-template-columns:minmax(0, 58vw) minmax(380px, calc(var(--sw-page-width) * .36)) !important;
-    column-gap:clamp(28px, 3.5vw, 64px) !important;
-    align-items:start !important;
-  }
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap{
-    grid-column:1 !important;
-    width:58vw !important;
-    min-width:58vw !important;
-    max-width:58vw !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-  }
-  html body.product-page-open #lightbox .lightbox-detail-panel,
-  html body.product-page-open #lightbox.open .lightbox-detail-panel,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel{
-    grid-column:2 !important;
-    width:100% !important;
-    max-width:100% !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-  }
-  html body.product-page-open #lightbox .lightbox-related,
-  html body.product-page-open #lightbox.open .lightbox-related,
-  html body.product-page-open .lightbox.open .lightbox-related{
-    grid-column:1 !important;
-    width:58vw !important;
-    max-width:58vw !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-  }
-}
-
-@media (max-width:1023px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage{
-    width:100vw !important;
-    max-width:100vw !important;
-    margin-left:calc(50% - 50vw) !important;
-    margin-right:calc(50% - 50vw) !important;
-  }
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap{
-    width:100vw !important;
-    min-width:100vw !important;
-    max-width:100vw !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-  }
-}
-</style>
-
-<script id="stapleford-edge-to-edge-all-views-v40-js">
-(function(){
-  function important(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function flushProductImage(){
-    var wrap = document.querySelector('body.product-page-open #lightbox.open .lightbox-image-wrap, body.product-page-open .lightbox.open .lightbox-image-wrap');
-    if(!wrap) return;
-    important(wrap, 'padding', '0');
-    important(wrap, 'border', '0');
-    important(wrap, 'border-radius', '0');
-    important(wrap, 'box-shadow', 'none');
-    important(wrap, 'background', 'transparent');
-
-    if(window.matchMedia('(max-width: 1023px)').matches){
-      important(wrap, 'width', window.innerWidth + 'px');
-      important(wrap, 'min-width', window.innerWidth + 'px');
-      important(wrap, 'max-width', window.innerWidth + 'px');
-      important(wrap, 'margin-left', '0px');
-      important(wrap, 'margin-right', '0px');
-      requestAnimationFrame(function(){
-        var left = wrap.getBoundingClientRect().left;
-        important(wrap, 'margin-left', (-left) + 'px');
-      });
-    }else{
-      important(wrap, 'margin-left', '0px');
-      important(wrap, 'width', '58vw');
-      important(wrap, 'min-width', '58vw');
-      important(wrap, 'max-width', '58vw');
-    }
-  }
-  function run(){
-    flushProductImage();
-    setTimeout(flushProductImage, 60);
-    setTimeout(flushProductImage, 180);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-})();
-</script>
-
-
 <style id="stapleford-related-under-returns-v43">
 /* V43: desktop product page - keep YOU MIGHT ALSO LIKE under Returns in the product details column. */
 @media (min-width:1024px){
@@ -15317,62 +14840,6 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
       run();
     }
   }, true);
-})();
-</script>
-
-<style id="stapleford-product-detail-breathing-room-v45">
-/* V45: individual product view only — add desktop breathing room between edge-flush image and brand/title column. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 46vw) minmax(440px, calc(var(--sw-page-width) * .42)) !important;
-    column-gap:clamp(78px, 6.2vw, 132px) !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap{
-    width:46vw !important;
-    min-width:46vw !important;
-    max-width:46vw !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-detail-panel,
-  html body.product-page-open #lightbox.open .lightbox-detail-panel,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel{
-    padding-left:0 !important;
-    margin-left:0 !important;
-  }
-}
-</style>
-
-<script id="stapleford-product-detail-breathing-room-v45-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function tuneProductDetailSpacing(){
-    if(!window.matchMedia('(min-width: 1024px)').matches) return;
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open');
-    if(!root) return;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var detail = root.querySelector('.lightbox-detail-panel');
-    setImportant(stage, 'grid-template-columns', 'minmax(0, 46vw) minmax(440px, calc(var(--sw-page-width) * .42))');
-    setImportant(stage, 'column-gap', 'clamp(78px, 6.2vw, 132px)');
-    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '46vw'); });
-    setImportant(detail, 'padding-left', '0');
-    setImportant(detail, 'margin-left', '0');
-  }
-  function run(){
-    tuneProductDetailSpacing();
-    setTimeout(tuneProductDetailSpacing, 80);
-    setTimeout(tuneProductDetailSpacing, 240);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -15487,481 +14954,6 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
 }
 </style>
 
-<style id="stapleford-product-view-balance-v49">
-/* V49: correct the V48 desktop image treatment and normalise landscape product-title sizing.
-   Individual product view only; BUY listings untouched. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
-    column-gap:clamp(82px, 6vw, 128px) !important;
-    align-items:start !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    width:45vw !important;
-    min-width:45vw !important;
-    max-width:45vw !important;
-    height:clamp(560px, 68vh, 760px) !important;
-    min-height:560px !important;
-    max-height:760px !important;
-    aspect-ratio:auto !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-
-  html body.product-page-open #lightbox img#lightboxImage,
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    width:100% !important;
-    height:100% !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-detail-kicker,
-  html body.product-page-open .lightbox.open .lightbox-detail-kicker,
-  html body .lightbox.open .lightbox-detail-kicker{
-    font-size:12px !important;
-    line-height:1.35 !important;
-    letter-spacing:.095em !important;
-    margin:0 0 10px !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-detail-title,
-  html body.product-page-open .lightbox.open .lightbox-detail-title,
-  html body .lightbox.open .lightbox-detail-title{
-    font-size:clamp(28px, 2.25vw, 38px) !important;
-    line-height:1.06 !important;
-    letter-spacing:.008em !important;
-    margin:0 0 18px !important;
-    max-width:12.5em !important;
-  }
-}
-
-@media (max-width:1023px) and (orientation:landscape){
-  html body.product-page-open #lightbox.open .lightbox-detail-panel,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel,
-  html body .lightbox.open .lightbox-detail-panel{
-    padding-top:clamp(20px, 4vw, 34px) !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-detail-kicker,
-  html body.product-page-open .lightbox.open .lightbox-detail-kicker,
-  html body .lightbox.open .lightbox-detail-kicker{
-    font-size:10px !important;
-    line-height:1.35 !important;
-    letter-spacing:.1em !important;
-    margin:0 0 8px !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-detail-title,
-  html body.product-page-open .lightbox.open .lightbox-detail-title,
-  html body .lightbox.open .lightbox-detail-title{
-    font-size:clamp(22px, 3.6vw, 30px) !important;
-    line-height:1.08 !important;
-    letter-spacing:.008em !important;
-    margin:0 0 14px !important;
-    max-width:13.5em !important;
-  }
-}
-</style>
-
-<script id="stapleford-product-view-balance-v49-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function tuneProductViewV49(){
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
-    if(!root) return;
-    var isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-    var isLandscape = window.matchMedia('(max-width: 1023px) and (orientation: landscape)').matches;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var img = root.querySelector('img#lightboxImage');
-    var kicker = root.querySelector('.lightbox-detail-kicker');
-    var title = root.querySelector('.lightbox-detail-title');
-    if(isDesktop){
-      setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
-      setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
-      ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
-      setImportant(wrap, 'height', 'clamp(560px, 68vh, 760px)');
-      setImportant(wrap, 'min-height', '560px');
-      setImportant(wrap, 'max-height', '760px');
-      setImportant(wrap, 'aspect-ratio', 'auto');
-      setImportant(wrap, 'padding', '0');
-      setImportant(wrap, 'overflow', 'hidden');
-      setImportant(wrap, 'border', '0');
-      setImportant(wrap, 'border-radius', '0');
-      setImportant(wrap, 'box-shadow', 'none');
-      setImportant(wrap, 'background', 'transparent');
-      setImportant(img, 'width', '100%');
-      setImportant(img, 'height', '100%');
-      setImportant(img, 'object-fit', 'cover');
-      setImportant(img, 'object-position', 'center center');
-      setImportant(title, 'font-size', 'clamp(28px, 2.25vw, 38px)');
-      setImportant(title, 'line-height', '1.06');
-      setImportant(title, 'margin-bottom', '18px');
-      setImportant(title, 'max-width', '12.5em');
-      setImportant(kicker, 'font-size', '12px');
-      setImportant(kicker, 'margin-bottom', '10px');
-    }else if(isLandscape){
-      setImportant(title, 'font-size', 'clamp(22px, 3.6vw, 30px)');
-      setImportant(title, 'line-height', '1.08');
-      setImportant(title, 'margin-bottom', '14px');
-      setImportant(title, 'max-width', '13.5em');
-      setImportant(kicker, 'font-size', '10px');
-      setImportant(kicker, 'margin-bottom', '8px');
-    }
-  }
-  function run(){
-    tuneProductViewV49();
-    setTimeout(tuneProductViewV49, 80);
-    setTimeout(tuneProductViewV49, 240);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-})();
-</script>
-
-<style id="stapleford-desktop-left-image-ratio-v50">
-/* V50: individual product view desktop only — fix the left hero image proportions.
-   The previous clamp height made the image too short, leaving the left column visually unfinished.
-   Use a proper portrait product-photo ratio so the left image carries down the page cleanly. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
-    column-gap:clamp(82px, 6vw, 128px) !important;
-    align-items:start !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    width:45vw !important;
-    min-width:45vw !important;
-    max-width:45vw !important;
-    aspect-ratio:4 / 5 !important;
-    height:auto !important;
-    min-height:0 !important;
-    max-height:none !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    border:0 !important;
-    border-radius:0 !important;
-    outline:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-
-  html body.product-page-open #lightbox img#lightboxImage,
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    width:100% !important;
-    height:100% !important;
-    display:block !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-}
-</style>
-
-<script id="stapleford-desktop-left-image-ratio-v50-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function fixDesktopHeroImageV50(){
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
-    if(!root || !window.matchMedia('(min-width: 1024px)').matches) return;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var img = root.querySelector('img#lightboxImage');
-    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
-    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
-    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
-    setImportant(wrap, 'aspect-ratio', '4 / 5');
-    setImportant(wrap, 'height', 'auto');
-    setImportant(wrap, 'min-height', '0');
-    setImportant(wrap, 'max-height', 'none');
-    setImportant(wrap, 'padding', '0');
-    setImportant(wrap, 'margin', '0');
-    setImportant(wrap, 'overflow', 'hidden');
-    setImportant(wrap, 'border', '0');
-    setImportant(wrap, 'border-radius', '0');
-    setImportant(wrap, 'box-shadow', 'none');
-    setImportant(wrap, 'background', 'transparent');
-    setImportant(img, 'width', '100%');
-    setImportant(img, 'height', '100%');
-    setImportant(img, 'object-fit', 'cover');
-    setImportant(img, 'object-position', 'center center');
-  }
-  function run(){
-    fixDesktopHeroImageV50();
-    setTimeout(fixDesktopHeroImageV50, 80);
-    setTimeout(fixDesktopHeroImageV50, 240);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-})();
-</script>
-
-<style id="stapleford-desktop-hero-align-v51">
-/* V51: desktop individual product view — align the left hero photo with the right-hand product block.
-   The hero should not be a full 4:5 viewport slab. It should land around the start of the related gallery,
-   giving the left and right columns the same visual rhythm. Mobile/tablet remain unchanged. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
-    column-gap:clamp(82px, 6vw, 128px) !important;
-    align-items:start !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    width:45vw !important;
-    min-width:45vw !important;
-    max-width:45vw !important;
-    height:clamp(650px, 80vh, 760px) !important;
-    min-height:650px !important;
-    max-height:760px !important;
-    aspect-ratio:auto !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    border:0 !important;
-    border-radius:0 !important;
-    outline:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-
-  html body.product-page-open #lightbox img#lightboxImage,
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    width:100% !important;
-    height:100% !important;
-    display:block !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-}
-</style>
-
-<script id="stapleford-desktop-hero-align-v51-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function alignDesktopHeroV51(){
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
-    if(!root || !window.matchMedia('(min-width: 1024px)').matches) return;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var img = root.querySelector('img#lightboxImage');
-    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
-    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
-    setImportant(stage, 'align-items', 'start');
-    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
-    setImportant(wrap, 'height', 'clamp(650px, 80vh, 760px)');
-    setImportant(wrap, 'min-height', '650px');
-    setImportant(wrap, 'max-height', '760px');
-    setImportant(wrap, 'aspect-ratio', 'auto');
-    setImportant(wrap, 'padding', '0');
-    setImportant(wrap, 'margin', '0');
-    setImportant(wrap, 'overflow', 'hidden');
-    setImportant(wrap, 'border', '0');
-    setImportant(wrap, 'border-radius', '0');
-    setImportant(wrap, 'box-shadow', 'none');
-    setImportant(wrap, 'background', 'transparent');
-    setImportant(img, 'width', '100%');
-    setImportant(img, 'height', '100%');
-    setImportant(img, 'object-fit', 'cover');
-    setImportant(img, 'object-position', 'center center');
-  }
-  function run(){
-    alignDesktopHeroV51();
-    setTimeout(alignDesktopHeroV51, 80);
-    setTimeout(alignDesktopHeroV51, 240);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-})();
-</script>
-
-<style id="stapleford-exact-desktop-hero-yml-align-v52">
-/* V52: desktop product page — exact visual alignment.
-   The left hero image height is controlled by JS so its bottom edge lands on the
-   bottom edge of the You Might Also Like image row. Mobile/tablet are untouched. */
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
-    column-gap:clamp(82px, 6vw, 128px) !important;
-    align-items:start !important;
-  }
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    width:45vw !important;
-    min-width:45vw !important;
-    max-width:45vw !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    border:0 !important;
-    border-radius:0 !important;
-    outline:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-    aspect-ratio:auto !important;
-  }
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    width:100% !important;
-    height:100% !important;
-    display:block !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-  }
-}
-</style>
-
-<script id="stapleford-exact-desktop-hero-yml-align-v52-js">
-(function(){
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-  function firstVisible(nodes){
-    for(var i=0;i<nodes.length;i++){
-      var r = nodes[i].getBoundingClientRect();
-      if(r.width > 0 && r.height > 0) return nodes[i];
-    }
-    return null;
-  }
-  function alignHeroToRelatedImagesV52(){
-    if(!window.matchMedia || !window.matchMedia('(min-width: 1024px)').matches) return;
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
-    if(!root) return;
-
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var img = root.querySelector('img#lightboxImage');
-    var relatedGrid = root.querySelector('.lightbox-detail-panel .lightbox-related-grid, .lightbox-related-grid');
-    if(!stage || !wrap || !img || !relatedGrid) return;
-
-    var relatedImage = firstVisible(relatedGrid.querySelectorAll('img, .lightbox-related-image, .related-image'));
-    if(!relatedImage) return;
-
-    var stageRect = stage.getBoundingClientRect();
-    var relatedRect = relatedImage.getBoundingClientRect();
-    var viewportH = window.innerHeight || document.documentElement.clientHeight || 800;
-
-    /* Exact target: bottom of hero image = bottom of first row of You Might Also Like images. */
-    var targetHeight = Math.round(relatedRect.bottom - stageRect.top);
-
-    /* Keep the result professional on very short/tall screens, while still matching the related image line. */
-    var minH = Math.max(620, Math.round(viewportH * 0.72));
-    var maxH = Math.max(minH, Math.round(viewportH * 1.12));
-    var finalH = Math.max(minH, Math.min(targetHeight, maxH));
-
-    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
-    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
-    setImportant(stage, 'align-items', 'start');
-
-    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
-    setImportant(wrap, 'height', finalH + 'px');
-    setImportant(wrap, 'min-height', finalH + 'px');
-    setImportant(wrap, 'max-height', finalH + 'px');
-    setImportant(wrap, 'aspect-ratio', 'auto');
-    setImportant(wrap, 'margin', '0');
-    setImportant(wrap, 'padding', '0');
-    setImportant(wrap, 'overflow', 'hidden');
-    setImportant(wrap, 'border', '0');
-    setImportant(wrap, 'border-radius', '0');
-    setImportant(wrap, 'box-shadow', 'none');
-    setImportant(wrap, 'background', 'transparent');
-
-    setImportant(img, 'width', '100%');
-    setImportant(img, 'height', '100%');
-    setImportant(img, 'display', 'block');
-    setImportant(img, 'object-fit', 'cover');
-    setImportant(img, 'object-position', 'center center');
-    setImportant(img, 'margin', '0');
-    setImportant(img, 'padding', '0');
-    setImportant(img, 'border', '0');
-    setImportant(img, 'border-radius', '0');
-    setImportant(img, 'box-shadow', 'none');
-    setImportant(img, 'background', 'transparent');
-  }
-  function run(){
-    requestAnimationFrame(alignHeroToRelatedImagesV52);
-    setTimeout(alignHeroToRelatedImagesV52, 60);
-    setTimeout(alignHeroToRelatedImagesV52, 180);
-    setTimeout(alignHeroToRelatedImagesV52, 360);
-    setTimeout(alignHeroToRelatedImagesV52, 720);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('resize', run, {passive:true});
-  window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
-  window.addEventListener('load', run, {passive:true});
-})();
-</script>
-
 <style id="sw-v54-buy-grid-edge-flush">
 /* v54 — BUY listings only: flush outside image edges with a small centre divider/gutter. */
 html body:not(.product-page-open) #gallery.grid{
@@ -16027,3 +15019,152 @@ html body:not(.product-page-open) #gallery.grid{
   }
 }
 </style>
+
+
+<style id="sw-v56-product-left-fill">
+/* Product click view — single authoritative image layout.
+   Desktop: the product image fills the left half of the viewport.
+   Mobile/tablet: the image remains full-bleed across the page.
+   No JavaScript writes width/height values, so the view cannot flicker between competing measurements. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open,
+  html body.product-page-open .lightbox.open{
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    background:#fff !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-inner,
+  html body.product-page-open .lightbox.open .lightbox-inner{
+    width:100vw !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    display:grid !important;
+    grid-template-columns:minmax(0,50vw) minmax(420px,560px) !important;
+    grid-template-areas:
+      "product-image product-details"
+      "product-related product-details" !important;
+    grid-template-rows:auto auto !important;
+    column-gap:clamp(48px,5vw,88px) !important;
+    row-gap:clamp(18px,2.2vw,30px) !important;
+    align-items:start !important;
+    justify-content:start !important;
+    width:100vw !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 clamp(28px,4vw,64px) clamp(48px,5vw,80px) 0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    grid-area:product-image !important;
+    width:50vw !important;
+    min-width:50vw !important;
+    max-width:50vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+    position:sticky !important;
+    top:0 !important;
+    align-self:start !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    min-width:100% !important;
+    min-height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+    transform:none !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    grid-area:product-details !important;
+    width:100% !important;
+    max-width:560px !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:clamp(64px,5vw,92px) 0 clamp(48px,5vw,80px) !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related{
+    grid-area:product-related !important;
+    width:50vw !important;
+    max-width:50vw !important;
+    margin:0 !important;
+    padding:10px 0 0 !important;
+    border:0 !important;
+    border-top:1px solid rgba(0,0,0,.14) !important;
+    box-sizing:border-box !important;
+  }
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    width:100vw !important;
+    max-width:100vw !important;
+    margin-left:calc(50% - 50vw) !important;
+    margin-right:calc(50% - 50vw) !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    width:100vw !important;
+    min-width:100vw !important;
+    max-width:100vw !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:none !important;
+  }
+}
+</style>
+</body>
+</html>
