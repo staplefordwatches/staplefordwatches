@@ -3073,6 +3073,235 @@ body.sell-active #filterMenu{
   color:#000 !important;
 }
 
+
+
+/* ===== SOLID PRODUCT DETAIL PAGE LAYOUT =====
+   Converts the old floating lightbox detail view into a full white product page.
+   Product listings are fully covered while a product is open, and details sit below the gallery. */
+.lightbox{
+  background:#fff !important;
+  padding:0 !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch;
+}
+
+.lightbox.open{
+  display:block !important;
+}
+
+.lightbox-inner{
+  width:min(1180px, 100%) !important;
+  min-height:100vh !important;
+  height:auto !important;
+  margin:0 auto !important;
+  padding:76px 22px 90px !important;
+  display:block !important;
+  position:relative !important;
+  box-sizing:border-box !important;
+}
+
+.lightbox-stage{
+  width:100% !important;
+  height:auto !important;
+  min-height:auto !important;
+  display:block !important;
+  position:relative !important;
+}
+
+.lightbox-image-wrap{
+  width:100% !important;
+  max-width:100% !important;
+  max-height:none !important;
+  min-height:min(68vh, 720px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 auto !important;
+  cursor:default !important;
+}
+
+.lightbox-stage img{
+  max-width:100% !important;
+  max-height:min(72vh, 760px) !important;
+  width:auto !important;
+  height:auto !important;
+  object-fit:contain !important;
+}
+
+.lightbox-close{
+  position:fixed !important;
+  top:18px !important;
+  right:18px !important;
+  z-index:10020 !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,0.16) !important;
+}
+
+.lightbox-prev,
+.lightbox-next{
+  position:absolute !important;
+  top:0 !important;
+  height:100% !important;
+  max-height:min(72vh, 760px) !important;
+  transform:none !important;
+  z-index:4 !important;
+}
+
+.lightbox-detail-panel{
+  position:static !important;
+  width:min(860px, 100%) !important;
+  max-height:none !important;
+  overflow:visible !important;
+  margin:34px auto 0 !important;
+  padding:28px 0 0 !important;
+  background:transparent !important;
+  border:0 !important;
+  border-top:1px solid rgba(0,0,0,0.14) !important;
+  box-shadow:none !important;
+  color:#000 !important;
+}
+
+.lightbox-detail-panel[hidden]{
+  display:block !important;
+}
+
+.lightbox-detail-header{
+  margin-bottom:14px !important;
+}
+
+.lightbox-detail-kicker{
+  font-size:11px !important;
+}
+
+.lightbox-detail-hide,
+.lightbox-detail-reopen{
+  display:none !important;
+}
+
+.lightbox-detail-title{
+  font-size:22px !important;
+  line-height:1.22 !important;
+  letter-spacing:0.035em !important;
+  margin-bottom:8px !important;
+}
+
+.lightbox-detail-price{
+  font-size:15px !important;
+  margin-bottom:18px !important;
+}
+
+.lightbox-detail-description{
+  max-height:none !important;
+  overflow:visible !important;
+  font-size:14px !important;
+  line-height:1.65 !important;
+  margin:18px 0 20px !important;
+  white-space:pre-line !important;
+}
+
+.lightbox-detail-actions{
+  margin:18px 0 24px !important;
+}
+
+.lightbox-detail-spec-toggle{
+  display:none !important;
+}
+
+.lightbox-detail-specs{
+  display:grid !important;
+  grid-template-columns:minmax(140px, 0.42fr) minmax(0, 1fr) !important;
+  gap:0 !important;
+  margin:24px 0 !important;
+  border-top:1px solid rgba(0,0,0,0.12) !important;
+}
+
+.lightbox-detail-specs[hidden]{
+  display:grid !important;
+}
+
+.lightbox-detail-specs dt,
+.lightbox-detail-specs dd{
+  padding:12px 0 !important;
+  border-bottom:1px solid rgba(0,0,0,0.12) !important;
+  font-size:12px !important;
+  letter-spacing:0.05em !important;
+}
+
+.lightbox-detail-policy-toggle{
+  border-top:1px solid rgba(0,0,0,0.12) !important;
+  padding:15px 0 !important;
+}
+
+.lightbox-detail-policy-copy{
+  padding:0 0 18px !important;
+}
+
+.lightbox-detail-policy-copy p{
+  font-size:13px !important;
+  line-height:1.55 !important;
+}
+
+.lightbox-thumbs{
+  position:static !important;
+  transform:none !important;
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:10px !important;
+  margin:20px auto 0 !important;
+  max-width:100% !important;
+  overflow-x:auto !important;
+  padding:6px 0 !important;
+}
+
+.lightbox-thumb{
+  flex:0 0 auto !important;
+}
+
+@media (max-width: 767px){
+  .lightbox-inner{
+    padding:62px 16px 70px !important;
+  }
+
+  .lightbox-image-wrap{
+    min-height:54vh !important;
+  }
+
+  .lightbox-stage img{
+    max-height:58vh !important;
+  }
+
+  .lightbox-detail-panel{
+    margin-top:24px !important;
+    padding-top:22px !important;
+  }
+
+  .lightbox-detail-title{
+    font-size:18px !important;
+  }
+
+  .lightbox-detail-description{
+    font-size:13px !important;
+  }
+
+  .lightbox-detail-specs{
+    grid-template-columns:1fr !important;
+  }
+
+  .lightbox-detail-specs dt{
+    border-bottom:0 !important;
+    padding-bottom:4px !important;
+    opacity:.62 !important;
+  }
+
+  .lightbox-detail-specs dd{
+    padding-top:0 !important;
+  }
+}
+
 </style>
 <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/>
 <link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/>
@@ -8413,7 +8642,7 @@ html body #cartDrawer .cart-error{
 </div>
 </section>
 <div aria-hidden="true" class="lightbox" id="lightbox">
-<button aria-label="Close gallery" class="lightbox-close" type="button">Close</button>
+<button aria-label="Back to watches" class="lightbox-close" type="button">Back to watches</button>
 <div class="lightbox-inner">
 <div class="lightbox-stage">
 <div class="lightbox-image-wrap">
@@ -8655,22 +8884,7 @@ function getWatchReference(w){
 
 function getProductDisplayName(w){
   const reference = getWatchReference(w);
-  const baseName = `${w.brand || ""} ${w.title || ""}`.trim();
-
-  if(!reference) return baseName;
-
-  const normaliseReferenceText = value => String(value || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "");
-
-  const normalisedBase = normaliseReferenceText(baseName);
-  const normalisedReference = normaliseReferenceText(reference);
-
-  if(normalisedReference && normalisedBase.includes(normalisedReference)){
-    return baseName;
-  }
-
-  return `${baseName} ${reference}`.trim();
+  return `${w.brand || ""} ${w.title || ""}${reference ? ` ${reference}` : ""}`.trim();
 }
 
 function getProductSlug(w){
@@ -9389,7 +9603,7 @@ function renderLightboxDetails(){
   }
 
   if(lightboxDetailSpecToggle) lightboxDetailSpecToggle.hidden = specRows.length === 0;
-  setLightboxSpecsOpen(false);
+  setLightboxSpecsOpen(true, true);
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
   setLightboxDetailsOpen(!lightboxDetailsManuallyHidden, false);
@@ -9418,13 +9632,14 @@ function openLightbox(w, startIndex = 0, updateUrl = true){
   lightboxWatch = w;
   lightboxImages = getWatchImages(w);
   if(!lightboxImages.length) return;
-  lightboxTitle = `${w.brand} ${w.title}`.trim();
+  lightboxTitle = getProductDisplayName(w);
   lightboxIndex = Math.max(0, Math.min(startIndex, lightboxImages.length - 1));
   lightboxDetailsManuallyHidden = false;
   renderLightbox();
   lightbox.classList.add("open");
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+  lightbox.scrollTop = 0;
   if(updateUrl) setProductBrowserUrl(w, false);
 }
 
@@ -9446,7 +9661,7 @@ function closeLightbox(updateUrl = true){
   if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
   lightboxDetailsManuallyHidden = false;
   setLightboxDetailsOpen(true, false);
-  setLightboxSpecsOpen(false);
+  setLightboxSpecsOpen(true, true);
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
   setLightboxDetailEnquiryOpen(false);
@@ -9460,10 +9675,8 @@ function stepLightbox(direction){
 
 lightbox?.addEventListener("click", (e) => {
   if(!lightbox?.classList.contains("open")) return;
-  if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen, .lightbox-close, .lightbox-prev, .lightbox-next, .lightbox-thumbs")) return;
-  if(lightboxDetails && !lightboxDetails.hidden){
-    setLightboxDetailsOpen(false);
-  }
+  // Product detail pages should behave like normal pages, not pop-ups.
+  // Do not hide the details panel when the user clicks whitespace or the gallery.
 });
 
 document.addEventListener("click", (e) => {
@@ -9499,10 +9712,6 @@ document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) =>
   if(!lightbox?.classList.contains("open")) return;
   if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen")) return;
   e.stopPropagation();
-
-  if(lightboxDetails && !lightboxDetails.hidden){
-    setLightboxDetailsOpen(false);
-  }
 
   const wrap = e.currentTarget;
   const rect = wrap.getBoundingClientRect();
