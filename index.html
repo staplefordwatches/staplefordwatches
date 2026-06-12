@@ -8727,22 +8727,23 @@ function prepareWatches(){
   });
 }
 
+function getStructuredDataGraph(){
+  return {
+    "@context": "https://schema.org",
+    "@graph": Array.isArray(watches) ? watches.map(getStructuredProductData) : []
+  };
+}
+
 function updateProductStructuredData(){
   if(productStructuredDataScript){
-    productStructuredDataScript.textContent = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": []
-});
+    productStructuredDataScript.textContent = JSON.stringify(getStructuredDataGraph());
   }
 }
 
 
 const productStructuredDataScript = document.createElement("script");
 productStructuredDataScript.type = "application/ld+json";
-productStructuredDataScript.textContent = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": watches.map(getStructuredProductData)
-});
+productStructuredDataScript.textContent = JSON.stringify(getStructuredDataGraph());
 document.head.appendChild(productStructuredDataScript);
 
 const gallery=document.getElementById("gallery");
