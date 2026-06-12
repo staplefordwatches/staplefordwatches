@@ -11145,5 +11145,141 @@ html body .lightbox.open .stapleford-preview-slide img{
 })();
 </script>
 
+
+
+<!-- V10 final: use ONLY the native single main image. Remove stacked/duplicate preview carousel. -->
+<style id="stapleford-single-native-image-v10">
+/* Hide every generated gallery/preview/arrow element so only one main image shows. */
+html body .lightbox .stapleford-preview-track,
+html body .lightbox.open .stapleford-preview-track,
+html body .lightbox .stapleford-preview-slide,
+html body .lightbox.open .stapleford-preview-slide,
+html body .lightbox .lightbox-thumbs,
+html body .lightbox.open .lightbox-thumbs,
+html body .lightbox #lightboxThumbs,
+html body .lightbox.open #lightboxThumbs,
+html body .lightbox .lightbox-thumb,
+html body .lightbox.open .lightbox-thumb,
+html body .lightbox .lightbox-prev,
+html body .lightbox.open .lightbox-prev,
+html body .lightbox .lightbox-next,
+html body .lightbox.open .lightbox-next{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+/* Re-enable the original single image, overriding the earlier v9 rule that hid it. */
+html body .lightbox img#lightboxImage,
+html body .lightbox.open img#lightboxImage,
+html body .lightbox .lightbox-stage img#lightboxImage,
+html body .lightbox.open .lightbox-stage img#lightboxImage{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  width:100% !important;
+  max-width:100% !important;
+  height:auto !important;
+  margin:0 auto !important;
+  object-fit:contain !important;
+  object-position:center top !important;
+}
+
+html body .lightbox .lightbox-image-wrap,
+html body .lightbox.open .lightbox-image-wrap{
+  overflow:hidden !important;
+  background:transparent !important;
+}
+
+html body .lightbox .lightbox-detail-panel,
+html body .lightbox.open .lightbox-detail-panel{
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  background:transparent !important;
+}
+</style>
+
+<script id="stapleford-single-native-image-v10-js">
+(function(){
+  function cleanupProductGallery(){
+    document.querySelectorAll('#staplefordPreviewTrack, .stapleford-preview-track, #lightboxThumbs, .lightbox-thumbs, .lightbox-thumb').forEach(function(el){
+      if(el.id === 'lightboxThumbs' || el.classList.contains('lightbox-thumbs')){
+        el.innerHTML = '';
+        el.setAttribute('hidden', 'hidden');
+        el.setAttribute('aria-hidden', 'true');
+        el.style.display = 'none';
+      }else{
+        el.remove();
+      }
+    });
+
+    document.querySelectorAll('.lightbox-prev, .lightbox-next').forEach(function(el){
+      el.setAttribute('hidden', 'hidden');
+      el.setAttribute('aria-hidden', 'true');
+      el.style.display = 'none';
+    });
+
+    var img = document.getElementById('lightboxImage');
+    if(img){
+      img.style.display = 'block';
+      img.style.visibility = 'visible';
+      img.style.opacity = '1';
+    }
+  }
+
+  /* Stop the earlier preview-carousel code from rebuilding a second stacked image rail. */
+  window.renderSwipePreviewTrack = cleanupProductGallery;
+  window.positionSwipePreviewTrack = cleanupProductGallery;
+
+  function swipe(direction){
+    if(typeof stepLightbox === 'function'){
+      stepLightbox(direction);
+      setTimeout(cleanupProductGallery, 0);
+      return;
+    }
+    var selector = direction > 0 ? '.lightbox-next' : '.lightbox-prev';
+    var btn = document.querySelector(selector);
+    if(btn) btn.click();
+    setTimeout(cleanupProductGallery, 0);
+  }
+
+  var startX = 0;
+  var startY = 0;
+  var active = false;
+
+  document.addEventListener('touchstart', function(e){
+    var wrap = e.target.closest && e.target.closest('.lightbox-image-wrap');
+    if(!wrap || !document.querySelector('.lightbox.open')) return;
+    var t = e.changedTouches && e.changedTouches[0];
+    if(!t) return;
+    startX = t.clientX;
+    startY = t.clientY;
+    active = true;
+  }, { passive:true });
+
+  document.addEventListener('touchend', function(e){
+    if(!active || !document.querySelector('.lightbox.open')) return;
+    var wrap = e.target.closest && e.target.closest('.lightbox-image-wrap');
+    if(!wrap) return;
+    var t = e.changedTouches && e.changedTouches[0];
+    if(!t) return;
+    var dx = t.clientX - startX;
+    var dy = t.clientY - startY;
+    active = false;
+    if(Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.25){
+      e.preventDefault();
+      e.stopPropagation();
+      swipe(dx < 0 ? 1 : -1);
+    }
+  }, { passive:false });
+
+  cleanupProductGallery();
+  document.addEventListener('click', function(){ setTimeout(cleanupProductGallery, 0); }, true);
+  window.addEventListener('resize', cleanupProductGallery, { passive:true });
+  window.addEventListener('load', cleanupProductGallery, { passive:true });
+})();
+</script>
+
 </body>
 </html>
