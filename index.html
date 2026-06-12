@@ -8857,6 +8857,60 @@ html body .lightbox.open .lightbox-thumb{
 }
 </style>
 
+
+
+<style id="stapleford-swipe-carousel-no-thumbnails-v6">
+/* V6 FINAL: remove the thumbnail gallery completely and keep the product images as a clean swipe/click carousel. */
+html body .lightbox.open .lightbox-thumbs,
+html body .lightbox.open #lightboxThumbs,
+html body .lightbox .lightbox-thumbs,
+html body .lightbox #lightboxThumbs,
+html body .lightbox-thumb{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  width:0 !important;
+  height:0 !important;
+  min-width:0 !important;
+  max-width:0 !important;
+  min-height:0 !important;
+  max-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+}
+
+/* Keep the previous two-column product layout, but remove the gallery row from the grid. */
+html body .lightbox.open .lightbox-stage{
+  grid-template-areas:
+    "product-image product-details" !important;
+  row-gap:0 !important;
+}
+
+html body .lightbox.open .lightbox-image-wrap{
+  grid-area:product-image !important;
+  touch-action:pan-y !important;
+}
+
+@media (max-width: 767px){
+  html body .lightbox.open .lightbox-stage{
+    display:flex !important;
+    flex-direction:column !important;
+  }
+
+  html body .lightbox.open .lightbox-image-wrap{
+    order:1 !important;
+  }
+
+  html body .lightbox.open .lightbox-detail-panel,
+  html body .lightbox.open .lightbox-detail-reopen{
+    order:2 !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -10693,6 +10747,73 @@ document.addEventListener("DOMContentLoaded", function(){
     window.visualViewport.addEventListener('resize', setCartViewportVars, { passive:true });
     window.visualViewport.addEventListener('scroll', setCartViewportVars, { passive:true });
   }
+})();
+</script>
+
+
+
+<script id="stapleford-swipe-carousel-no-thumbnails-v6-js">
+(function(){
+  function removeThumbGallery(){
+    document.querySelectorAll('#lightboxThumbs, .lightbox-thumbs').forEach(function(el){
+      el.innerHTML = '';
+      el.setAttribute('hidden', 'hidden');
+      el.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  removeThumbGallery();
+
+  var observer = new MutationObserver(removeThumbGallery);
+  observer.observe(document.documentElement, { childList:true, subtree:true });
+
+  var startX = 0;
+  var startY = 0;
+  var swiping = false;
+
+  function move(direction){
+    if(typeof stepLightbox === 'function'){
+      stepLightbox(direction);
+      removeThumbGallery();
+      return;
+    }
+    var selector = direction > 0 ? '.lightbox-next' : '.lightbox-prev';
+    var btn = document.querySelector(selector);
+    if(btn) btn.click();
+    removeThumbGallery();
+  }
+
+  document.addEventListener('touchstart', function(e){
+    var wrap = e.target.closest && e.target.closest('.lightbox-image-wrap');
+    if(!wrap || !document.querySelector('.lightbox.open')) return;
+    var t = e.changedTouches && e.changedTouches[0];
+    if(!t) return;
+    startX = t.clientX;
+    startY = t.clientY;
+    swiping = true;
+  }, { passive:true });
+
+  document.addEventListener('touchend', function(e){
+    if(!swiping || !document.querySelector('.lightbox.open')) return;
+    var wrap = e.target.closest && e.target.closest('.lightbox-image-wrap');
+    if(!wrap) return;
+    var t = e.changedTouches && e.changedTouches[0];
+    if(!t) return;
+    var dx = t.clientX - startX;
+    var dy = t.clientY - startY;
+    swiping = false;
+    if(Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3){
+      e.preventDefault();
+      e.stopPropagation();
+      move(dx < 0 ? 1 : -1);
+    }
+  }, { passive:false });
+
+  document.addEventListener('click', function(){
+    if(document.querySelector('.lightbox.open')){
+      window.setTimeout(removeThumbGallery, 0);
+    }
+  }, true);
 })();
 </script>
 
