@@ -4,7 +4,14 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Stapleford Watches</title>
+<title>Stapleford Watches | Luxury Watches For Sale UK</title>
+<meta name="description" content="Buy and sell luxury watches with Stapleford Watches. Curated Rolex, Patek Philippe, Audemars Piguet, Cartier, Omega and other premium watches in the UK."/>
+<link rel="canonical" href="https://staplefordwatches.co.uk/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Stapleford Watches | Luxury Watches For Sale UK"/>
+<meta property="og:description" content="Buy and sell luxury watches with Stapleford Watches. Curated Rolex, Patek Philippe, Audemars Piguet, Cartier, Omega and other premium watches in the UK."/>
+<meta property="og:url" content="https://staplefordwatches.co.uk/"/>
+<meta name="twitter:card" content="summary_large_image"/>
 <style>
 
 @font-face{
@@ -8360,6 +8367,7 @@ function renderLoadedWatches(nextWatches){
   watchesLoaded = true;
   renderCart();
   render();
+  openProductFromCurrentUrl(true);
 }
 
 function getCachedWatches(){
@@ -8422,8 +8430,108 @@ function getAbsoluteUrl(path){
   return new URL(path, SITE_ORIGIN + "/").href;
 }
 
+function getProductSlug(w){
+  const name = `${w.brand || ""} ${w.title || ""}`
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `${name || "watch"}-${String(w.listingId || w.id || "").toLowerCase()}`;
+}
+
 function getProductLink(w){
-  return `${SITE_ORIGIN}/#${w.listingId}`;
+  return `${SITE_ORIGIN}/watches/${encodeURIComponent(getProductSlug(w))}/`;
+}
+
+function getRequestedProductToken(){
+  const pathMatch = window.location.pathname.match(/\/watches\/([^\/]+)\/?$/i);
+  if(pathMatch && pathMatch[1]) return decodeURIComponent(pathMatch[1]);
+  const params = new URLSearchParams(window.location.search);
+  const queryToken = params.get("watch") || params.get("product") || params.get("listing");
+  if(queryToken) return queryToken;
+  if(window.location.hash && window.location.hash.length > 1){
+    return decodeURIComponent(window.location.hash.slice(1));
+  }
+  return "";
+}
+
+function getProductCanonicalUrl(w){
+  return getProductLink(w);
+}
+
+function findWatchFromProductToken(token){
+  const raw = String(token || "").trim();
+  if(!raw) return null;
+  const lower = raw.toLowerCase();
+  return watches.find(w => {
+    const listingId = String(w.listingId || w.id || "");
+    return lower === listingId.toLowerCase() ||
+      lower.endsWith(`-${listingId.toLowerCase()}`) ||
+      lower === getProductSlug(w);
+  }) || null;
+}
+
+function ensureHeadLink(rel){
+  let el = document.head.querySelector(`link[rel="${rel}"]`);
+  if(!el){
+    el = document.createElement("link");
+    el.rel = rel;
+    document.head.appendChild(el);
+  }
+  return el;
+}
+
+function ensureMeta(selector, attrs){
+  let el = document.head.querySelector(selector);
+  if(!el){
+    el = document.createElement("meta");
+    Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+    document.head.appendChild(el);
+  }
+  return el;
+}
+
+function updateProductSeoHead(w){
+  const title = w ? `${w.brand} ${w.title} | Stapleford Watches`.trim() : "Stapleford Watches";
+  const description = w ? (w.description || getWatchDescription(w)) : "Stapleford Watches";
+  const url = w ? getProductCanonicalUrl(w) : SITE_ORIGIN + "/";
+  const image = w ? getImageLink(w) : "";
+
+  document.title = title;
+  ensureHeadLink("canonical").href = url;
+  ensureMeta('meta[name="description"]', { name:"description" }).setAttribute("content", description);
+  ensureMeta('meta[property="og:title"]', { property:"og:title" }).setAttribute("content", title);
+  ensureMeta('meta[property="og:description"]', { property:"og:description" }).setAttribute("content", description);
+  ensureMeta('meta[property="og:url"]', { property:"og:url" }).setAttribute("content", url);
+  if(image) ensureMeta('meta[property="og:image"]', { property:"og:image" }).setAttribute("content", image);
+}
+
+function setProductBrowserUrl(w, replace = false){
+  if(!w || !window.history?.pushState) return;
+  const method = replace ? "replaceState" : "pushState";
+  const slug = getProductSlug(w);
+  window.history[method]({ productToken:slug }, "", `/watches/${encodeURIComponent(slug)}/`);
+  updateProductSeoHead(w);
+}
+
+function clearProductBrowserUrl(replace = false){
+  if(!window.history?.pushState) return;
+  const hadProductUrl = Boolean(getRequestedProductToken());
+  if(!hadProductUrl) return;
+  const method = replace ? "replaceState" : "pushState";
+  window.history[method]({ page:"buy" }, "", "/");
+  updateProductSeoHead(null);
+}
+
+function openProductFromCurrentUrl(replaceUrl = true){
+  const token = getRequestedProductToken();
+  if(!token || !watchesLoaded) return false;
+  const watch = findWatchFromProductToken(token);
+  if(!watch) return false;
+  setPage("buy");
+  openLightbox(watch, 0, false);
+  setProductBrowserUrl(watch, replaceUrl);
+  return true;
 }
 
 function getImageLink(w){
@@ -8608,7 +8716,9 @@ function setPage(page){
   buyNav?.setAttribute("aria-current", isBuy ? "page" : "false");
   sellNav?.setAttribute("aria-current", isSell ? "page" : "false");
   infoNav?.setAttribute("aria-current", isInfo ? "page" : "false");
-  document.title = isSell ? "Sell a watch" : isInfo ? "Info" : "Stapleford Watches";
+  if(!getRequestedProductToken()){
+    document.title = isSell ? "Sell a watch | Stapleford Watches" : isInfo ? "Info | Stapleford Watches" : "Stapleford Watches | Luxury Watches For Sale UK";
+  }
   if(filterMenu) filterMenu.style.display = "none";
   if(isBuy) render();
 }
@@ -8970,7 +9080,7 @@ function renderLightbox(){
 
 }
 
-function openLightbox(w, startIndex = 0){
+function openLightbox(w, startIndex = 0, updateUrl = true){
   lightboxWatch = w;
   lightboxImages = getWatchImages(w);
   if(!lightboxImages.length) return;
@@ -8981,13 +9091,15 @@ function openLightbox(w, startIndex = 0){
   lightbox.classList.add("open");
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+  if(updateUrl) setProductBrowserUrl(w, false);
 }
 
-function closeLightbox(){
+function closeLightbox(updateUrl = true){
   lightbox.classList.remove("open");
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
   lightboxWatch = null;
+  if(updateUrl) clearProductBrowserUrl(false);
   if(lightboxStatusBadge){
     lightboxStatusBadge.hidden = true;
     lightboxStatusBadge.textContent = "";
@@ -9028,6 +9140,16 @@ document.addEventListener("click", (e) => {
 });
 
 document.querySelector(".lightbox-close")?.addEventListener("click", closeLightbox);
+
+window.addEventListener("popstate", () => {
+  if(getRequestedProductToken()){
+    openProductFromCurrentUrl(true);
+  } else if(lightbox?.classList.contains("open")){
+    closeLightbox(false);
+  } else {
+    updateProductSeoHead(null);
+  }
+});
 document.querySelector(".lightbox-prev")?.addEventListener("click", (e) => {
   e.stopPropagation();
   stepLightbox(-1);
