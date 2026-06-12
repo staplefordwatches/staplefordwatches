@@ -3087,6 +3087,150 @@ body.sell-active #filterMenu{
   color:#000 !important;
 }
 
+
+
+/* ===== PRODUCT PAGE MODE - ORIGINAL GALLERY, DETAILS BELOW ===== */
+/* Keeps the original product/gallery aesthetic, but turns the product view into its own page state. */
+body.product-page-open{
+  overflow:hidden !important;
+}
+
+.lightbox.open{
+  display:block !important;
+  position:fixed !important;
+  inset:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  background:#fff !important;
+  padding:0 18px 70px !important;
+  z-index:999999 !important;
+  align-items:initial !important;
+  justify-content:initial !important;
+}
+
+.lightbox.open .lightbox-inner{
+  width:100% !important;
+  max-width:1180px !important;
+  height:auto !important;
+  min-height:100vh !important;
+  margin:0 auto !important;
+  padding:74px 0 64px !important;
+  display:block !important;
+  position:relative !important;
+}
+
+.lightbox.open .lightbox-stage{
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  display:block !important;
+  position:relative !important;
+}
+
+.lightbox.open .lightbox-image-wrap{
+  width:100% !important;
+  height:min(72vh, 760px) !important;
+  max-width:100% !important;
+  max-height:none !important;
+  margin:0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  cursor:default !important;
+  position:relative !important;
+}
+
+.lightbox.open .lightbox-stage img{
+  display:block !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  width:auto !important;
+  height:auto !important;
+  object-fit:contain !important;
+  margin:0 auto !important;
+}
+
+.lightbox.open .lightbox-prev,
+.lightbox.open .lightbox-next{
+  height:100% !important;
+  top:0 !important;
+  transform:none !important;
+}
+
+.lightbox.open .lightbox-close{
+  position:fixed !important;
+  top:18px !important;
+  left:18px !important;
+  right:auto !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,0.12) !important;
+  z-index:30 !important;
+}
+
+.lightbox.open .lightbox-status-badge{
+  z-index:12 !important;
+}
+
+.lightbox.open .lightbox-detail-panel{
+  position:static !important;
+  width:min(760px, 100%) !important;
+  max-width:760px !important;
+  max-height:none !important;
+  overflow:visible !important;
+  margin:26px auto 0 !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,0.12) !important;
+  box-shadow:none !important;
+  padding:16px 18px 18px !important;
+  z-index:1 !important;
+}
+
+.lightbox.open .lightbox-detail-reopen{
+  position:static !important;
+  display:block !important;
+  width:max-content !important;
+  margin:22px auto 0 !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,0.12) !important;
+  box-shadow:none !important;
+  padding:10px 12px !important;
+}
+
+.lightbox.open .lightbox-detail-reopen[hidden],
+.lightbox.open .lightbox-detail-panel[hidden]{
+  display:none !important;
+}
+
+.lightbox.open .lightbox-detail-description{
+  max-height:none !important;
+  overflow:visible !important;
+}
+
+.lightbox.open .lightbox-detail-specs dd{
+  text-align:right !important;
+}
+
+@media (max-width: 767px){
+  .lightbox.open{
+    padding:0 12px 56px !important;
+  }
+  .lightbox.open .lightbox-inner{
+    padding:62px 0 48px !important;
+  }
+  .lightbox.open .lightbox-image-wrap{
+    height:62vh !important;
+  }
+  .lightbox.open .lightbox-close{
+    top:12px !important;
+    left:12px !important;
+  }
+  .lightbox.open .lightbox-detail-panel{
+    width:100% !important;
+    margin-top:18px !important;
+    padding:14px !important;
+  }
+}
+
 </style>
 <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/>
 <link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/>
@@ -8427,7 +8571,7 @@ html body #cartDrawer .cart-error{
 </div>
 </section>
 <div aria-hidden="true" class="lightbox" id="lightbox">
-<button aria-label="Close gallery" class="lightbox-close" type="button">Close</button>
+<button aria-label="Back to watches" class="lightbox-close" type="button">Back to watches</button>
 <div class="lightbox-inner">
 <div class="lightbox-stage">
 <div class="lightbox-image-wrap">
@@ -8687,6 +8831,17 @@ function getProductDisplayName(w){
   return `${baseName} ${reference}`.trim();
 }
 
+function getProductDisplayTitleWithoutBrand(w){
+  const fullName = getProductDisplayName(w);
+  const brand = String(w?.brand || "").trim();
+  if(!brand) return fullName;
+  const normalise = value => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  if(normalise(fullName).startsWith(normalise(brand))){
+    return fullName.replace(new RegExp("^" + brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*", "i"), "").trim();
+  }
+  return fullName;
+}
+
 function getProductSlug(w){
   const name = getProductDisplayName(w)
     .toLowerCase()
@@ -8827,6 +8982,7 @@ function getStructuredProductData(w){
   const reference = getWatchReference(w);
   const productUrl = getProductLink(w);
   const productName = getProductDisplayName(w);
+   const productDisplayTitle = getProductDisplayTitleWithoutBrand(w);
 
   return cleanStructuredData({
     "@context": "https://schema.org",
@@ -9364,7 +9520,7 @@ function setLightboxDetailEnquiryOpen(isOpen){
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
   const specs = lightboxWatch.specs || {};
-  const title = `${lightboxWatch.brand || ""} ${lightboxWatch.title || ""}`.trim();
+  const title = getProductDisplayName(lightboxWatch);
   const isAvailable = lightboxWatch.status === "available";
   const isSold = ["sold", "reserved"].includes(lightboxWatch.status);
   const enquiryData = getEnquiryData(lightboxWatch);
@@ -9432,11 +9588,12 @@ function openLightbox(w, startIndex = 0, updateUrl = true){
   lightboxWatch = w;
   lightboxImages = getWatchImages(w);
   if(!lightboxImages.length) return;
-  lightboxTitle = `${w.brand} ${w.title}`.trim();
+  lightboxTitle = getProductDisplayName(w);
   lightboxIndex = Math.max(0, Math.min(startIndex, lightboxImages.length - 1));
   lightboxDetailsManuallyHidden = false;
   renderLightbox();
   lightbox.classList.add("open");
+  document.body.classList.add("product-page-open");
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
   if(updateUrl) setProductBrowserUrl(w, false);
@@ -9444,6 +9601,7 @@ function openLightbox(w, startIndex = 0, updateUrl = true){
 
 function closeLightbox(updateUrl = true){
   lightbox.classList.remove("open");
+  document.body.classList.remove("product-page-open");
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
   lightboxWatch = null;
@@ -9474,10 +9632,8 @@ function stepLightbox(direction){
 
 lightbox?.addEventListener("click", (e) => {
   if(!lightbox?.classList.contains("open")) return;
+  // Product view is now a page. Only the explicit HIDE button minimises details.
   if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen, .lightbox-close, .lightbox-prev, .lightbox-next, .lightbox-thumbs")) return;
-  if(lightboxDetails && !lightboxDetails.hidden){
-    setLightboxDetailsOpen(false);
-  }
 });
 
 document.addEventListener("click", (e) => {
@@ -9511,13 +9667,9 @@ document.querySelector(".lightbox-next")?.addEventListener("click", (e) => {
 
 document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) => {
   if(!lightbox?.classList.contains("open")) return;
-  if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen")) return;
+  if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen, .lightbox-prev, .lightbox-next")) return;
   e.stopPropagation();
-
-  if(lightboxDetails && !lightboxDetails.hidden){
-    setLightboxDetailsOpen(false);
-  }
-
+  // Keep the original image-click navigation, but do not hide the details panel.
   const wrap = e.currentTarget;
   const rect = wrap.getBoundingClientRect();
   const clickX = e.clientX - rect.left;
@@ -9682,6 +9834,7 @@ function render(){
   const isReserved = w.status === "reserved";
   const reference = getWatchReference(w);
   const productName = getProductDisplayName(w);
+   const productDisplayTitle = getProductDisplayTitleWithoutBrand(w);
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
@@ -9709,7 +9862,7 @@ function render(){
       </div>` : ""}
     </div>
     <div class="info">
-      <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${w.title}${reference ? ` <span class="watch-reference">${reference}</span>` : ""}</div></div>
+      <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${productDisplayTitle}</div></div>
       <div class="info-right">
         <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
         ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${productName} now">BUY</button>` : ""}
