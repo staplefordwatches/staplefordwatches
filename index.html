@@ -16027,3 +16027,285 @@ html body:not(.product-page-open) #gallery.grid{
   }
 }
 </style>
+
+<style id="sw-v56-stability-performance-fixes">
+/* v56 — stability/performance pass: logo fallback, stable product imagery, smoother media loading. */
+.logo{
+  min-height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.logo img{
+  display:block;
+  object-fit:contain;
+}
+.logo img.logo-failed,
+.logo.logo-image-failed img{
+  display:none !important;
+}
+.logo .sw-logo-fallback{
+  display:none;
+  font-family:'Pea Virginia','PeaVirginia',Georgia,serif;
+  font-size:34px;
+  line-height:1;
+  letter-spacing:.02em;
+  color:#000;
+  background:transparent;
+  border:0;
+}
+.logo.logo-image-failed .sw-logo-fallback{
+  display:block !important;
+}
+
+/* Stop product-specific imagery from resizing/reflowing when accordion headings are clicked. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0,45vw) minmax(440px,560px) !important;
+    column-gap:clamp(82px,6vw,128px) !important;
+    align-items:start !important;
+  }
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:45vw !important;
+    min-width:45vw !important;
+    max-width:45vw !important;
+    height:100svh !important;
+    min-height:100svh !important;
+    max-height:100svh !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+    contain:layout paint size !important;
+  }
+}
+@supports not (height:100svh){
+  @media (min-width:1024px){
+    html body.product-page-open #lightbox.open .lightbox-image-wrap,
+    html body.product-page-open .lightbox.open .lightbox-image-wrap,
+    html body .lightbox.open .lightbox-image-wrap{
+      height:100vh !important;
+      min-height:100vh !important;
+      max-height:100vh !important;
+    }
+  }
+}
+
+html body.product-page-open #lightbox.open img#lightboxImage,
+html body.product-page-open .lightbox.open img#lightboxImage,
+html body .lightbox.open img#lightboxImage,
+html body.product-page-open #lightbox.open .stapleford-preview-slide img,
+html body.product-page-open .lightbox.open .stapleford-preview-slide img,
+html body .lightbox.open .stapleford-preview-slide img{
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  display:block !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  transform:none !important;
+  backface-visibility:hidden !important;
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    contain:layout paint !important;
+  }
+}
+
+/* Make accordion content changes affect only the right text column, not the image column. */
+html body.product-page-open #lightbox.open .lightbox-detail-panel,
+html body.product-page-open .lightbox.open .lightbox-detail-panel,
+html body .lightbox.open .lightbox-detail-panel{
+  overflow-anchor:none !important;
+}
+</style>
+
+<script id="sw-v56-stability-performance-fixes-js">
+(function(){
+  function q(sel, root){ return (root || document).querySelector(sel); }
+  function qa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function important(el, prop, value){ if(el) el.style.setProperty(prop, value, 'important'); }
+
+  function installLogoFallback(){
+    var logo = document.getElementById('logoHome') || q('.logo');
+    if(!logo) return;
+    var img = logo.querySelector('img');
+    if(!img) return;
+
+    if(!logo.querySelector('.sw-logo-fallback')){
+      var fallback = document.createElement('span');
+      fallback.className = 'sw-logo-fallback';
+      fallback.setAttribute('aria-hidden','true');
+      fallback.textContent = 'SW';
+      logo.appendChild(fallback);
+    }
+
+    function fail(){
+      img.classList.add('logo-failed');
+      logo.classList.add('logo-image-failed');
+    }
+    function pass(){
+      if(img.naturalWidth > 0){
+        img.classList.remove('logo-failed');
+        logo.classList.remove('logo-image-failed');
+      }
+    }
+
+    img.addEventListener('error', fail, { once:false });
+    img.addEventListener('load', pass, { once:false });
+
+    /* Try encoded/relative versions before falling back, because spaces in local asset names can be flaky. */
+    if(!img.complete || img.naturalWidth === 0){
+      var original = img.getAttribute('src') || '';
+      var tried = false;
+      setTimeout(function(){
+        if(img.naturalWidth > 0) return;
+        if(!tried && original && original.indexOf('%20') === -1){
+          tried = true;
+          img.src = original.replace(/ /g, '%20');
+          setTimeout(function(){ if(img.naturalWidth === 0) fail(); }, 900);
+        }else{
+          fail();
+        }
+      }, 450);
+    }
+  }
+
+  function stableHero(){
+    var root = q('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+    if(!root) return;
+    var stage = q('.lightbox-stage', root);
+    var wrap = q('.lightbox-image-wrap', root);
+    var img = q('img#lightboxImage', root);
+    if(!wrap || !img) return;
+
+    if(window.matchMedia && window.matchMedia('(min-width: 1024px)').matches){
+      important(stage, 'grid-template-columns', 'minmax(0,45vw) minmax(440px,560px)');
+      important(stage, 'column-gap', 'clamp(82px,6vw,128px)');
+      important(stage, 'align-items', 'start');
+      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, '45vw'); });
+      var vh = (window.visualViewport && window.visualViewport.height ? window.visualViewport.height : window.innerHeight) || 800;
+      var h = Math.max(520, Math.round(vh));
+      important(wrap, 'height', h + 'px');
+      important(wrap, 'min-height', h + 'px');
+      important(wrap, 'max-height', h + 'px');
+      important(wrap, 'aspect-ratio', 'auto');
+    }else{
+      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, window.innerWidth + 'px'); });
+      important(wrap, 'max-height', 'none');
+    }
+
+    ['padding','border','border-radius','box-shadow','background'].forEach(function(p){
+      important(wrap, p, p === 'background' ? 'transparent' : '0');
+    });
+    important(wrap, 'overflow', 'hidden');
+
+    ['width','height','min-width','min-height'].forEach(function(p){ important(img, p, '100%'); });
+    important(img, 'display', 'block');
+    important(img, 'object-fit', 'cover');
+    important(img, 'object-position', 'center center');
+    ['margin','padding','border','border-radius','box-shadow'].forEach(function(p){ important(img, p, '0'); });
+    important(img, 'background', 'transparent');
+    important(img, 'transform', 'none');
+  }
+
+  function settleHero(){
+    stableHero();
+    requestAnimationFrame(stableHero);
+    setTimeout(stableHero, 80);
+    setTimeout(stableHero, 220);
+    setTimeout(stableHero, 520);
+  }
+
+  function preload(src){
+    if(!src) return;
+    var link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = src;
+    document.head.appendChild(link);
+    var im = new Image();
+    im.decoding = 'async';
+    im.src = src;
+  }
+
+  function optimiseImages(){
+    qa('img').forEach(function(img, i){
+      img.decoding = 'async';
+      if(i < 8){
+        img.loading = 'eager';
+        try{ img.fetchPriority = 'high'; }catch(e){}
+      }else if(!img.closest('#lightbox')){
+        img.loading = img.loading || 'lazy';
+      }
+    });
+    var active = q('#lightbox.open img#lightboxImage');
+    if(active && active.src) preload(active.src);
+    qa('#staplefordPreviewTrack img, .stapleford-preview-track img, .lightbox-related-grid img').slice(0,6).forEach(function(img){
+      if(img.src) preload(img.src);
+    });
+  }
+
+  function wrapLightboxFunctions(){
+    if(window.__swV56Wrapped) return;
+    window.__swV56Wrapped = true;
+    ['openLightbox','renderLightbox','stepLightbox'].forEach(function(name){
+      var fn = window[name];
+      if(typeof fn !== 'function') return;
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        settleHero();
+        optimiseImages();
+        return result;
+      };
+    });
+  }
+
+  function init(){
+    installLogoFallback();
+    wrapLightboxFunctions();
+    optimiseImages();
+    settleHero();
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  window.addEventListener('load', init, {passive:true});
+  window.addEventListener('resize', settleHero, {passive:true});
+  window.addEventListener('orientationchange', settleHero, {passive:true});
+
+  /* Accordion/header clicks used to trigger older height scripts. Stabilise right after them. */
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.closest && e.target.closest('.lightbox-detail-description-toggle,.lightbox-detail-spec-toggle,.lightbox-detail-policy-toggle,[data-info-target]')){
+      settleHero();
+    }
+  }, true);
+
+  var mo = new MutationObserver(function(muts){
+    var relevant = muts.some(function(m){
+      return m.target && (m.target.id === 'lightbox' || (m.target.closest && m.target.closest('#lightbox')));
+    });
+    if(relevant){ settleHero(); optimiseImages(); }
+  });
+  if(document.body) mo.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class','hidden','style','src']});
+})();
+</script>
