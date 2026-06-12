@@ -13773,6 +13773,188 @@ html body .lightbox.open img#lightboxImage{
 }
 </style>
 
+
+
+<style id="stapleford-landscape-grid-and-product-actions-v41">
+/* V41: horizontal/landscape views show 3 products per row, and product contact boxes match BUY NOW height. */
+@media (orientation: landscape) and (min-width: 560px) and (max-width: 1023px){
+  html body .grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-related-grid,
+  html body.product-page-open .lightbox.open .lightbox-related-grid,
+  html body .lightbox.open .lightbox-related-grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-actions,
+html body.product-page-open .lightbox.open .lightbox-detail-actions,
+html body .lightbox.open .lightbox-detail-actions{
+  display:grid !important;
+  grid-template-columns:minmax(0, 1fr) auto !important;
+  align-items:stretch !important;
+  gap:10px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-buy,
+html body.product-page-open .lightbox.open .lightbox-detail-buy,
+html body .lightbox.open .lightbox-detail-buy{
+  width:100% !important;
+  min-width:0 !important;
+  height:42px !important;
+  min-height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  padding:0 18px !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-contact-options,
+html body.product-page-open .lightbox.open .lightbox-detail-contact-options,
+html body .lightbox.open .lightbox-detail-contact-options{
+  display:grid !important;
+  grid-template-columns:repeat(2, 42px) !important;
+  align-items:stretch !important;
+  gap:10px !important;
+  width:auto !important;
+  height:42px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-sizing:border-box !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link,
+html body.product-page-open .lightbox.open .lightbox-detail-contact-link,
+html body .lightbox.open .lightbox-detail-contact-link{
+  width:42px !important;
+  min-width:42px !important;
+  height:42px !important;
+  min-height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link svg,
+html body.product-page-open .lightbox.open .lightbox-detail-contact-link svg,
+html body .lightbox.open .lightbox-detail-contact-link svg{
+  width:17px !important;
+  height:17px !important;
+}
+
+@media (max-width: 360px){
+  html body.product-page-open #lightbox.open .lightbox-detail-actions,
+  html body.product-page-open .lightbox.open .lightbox-detail-actions,
+  html body .lightbox.open .lightbox-detail-actions{
+    gap:8px !important;
+  }
+  html body.product-page-open #lightbox.open .lightbox-detail-contact-options,
+  html body.product-page-open .lightbox.open .lightbox-detail-contact-options,
+  html body .lightbox.open .lightbox-detail-contact-options{
+    grid-template-columns:repeat(2, 40px) !important;
+    gap:8px !important;
+    height:40px !important;
+  }
+  html body.product-page-open #lightbox.open .lightbox-detail-buy,
+  html body.product-page-open .lightbox.open .lightbox-detail-buy,
+  html body .lightbox.open .lightbox-detail-buy,
+  html body.product-page-open #lightbox.open .lightbox-detail-contact-link,
+  html body.product-page-open .lightbox.open .lightbox-detail-contact-link,
+  html body .lightbox.open .lightbox-detail-contact-link{
+    height:40px !important;
+    min-height:40px !important;
+  }
+  html body.product-page-open #lightbox.open .lightbox-detail-contact-link,
+  html body.product-page-open .lightbox.open .lightbox-detail-contact-link,
+  html body .lightbox.open .lightbox-detail-contact-link{
+    width:40px !important;
+    min-width:40px !important;
+  }
+}
+</style>
+
+
+<style id="stapleford-desktop-image-balance-v42">
+/* V42: desktop product imagery balance. Keep image edge-flush, but reduce the oversized desktop image column and give the product text more breathing room. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40)) !important;
+    column-gap:clamp(56px, 5vw, 104px) !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    width:48vw !important;
+    min-width:48vw !important;
+    max-width:48vw !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related{
+    width:48vw !important;
+    max-width:48vw !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-panel,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    padding-top:clamp(18px, 2.2vw, 34px) !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-brand,
+  html body.product-page-open #lightbox.open .lightbox-brand,
+  html body.product-page-open .lightbox.open .lightbox-brand{
+    margin-top:0 !important;
+    margin-bottom:clamp(10px, 1vw, 16px) !important;
+  }
+}
+</style>
+
+<script id="stapleford-desktop-image-balance-v42-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function balanceDesktopProductImage(){
+    if(!window.matchMedia('(min-width: 1024px)').matches) return;
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open');
+    if(!root) return;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var related = root.querySelector('.lightbox-related');
+    var detail = root.querySelector('.lightbox-detail-panel');
+    setImportant(stage, 'grid-template-columns', 'minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40))');
+    setImportant(stage, 'column-gap', 'clamp(56px, 5vw, 104px)');
+    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '48vw'); });
+    if(related){
+      setImportant(related, 'width', '48vw');
+      setImportant(related, 'max-width', '48vw');
+    }
+    setImportant(detail, 'padding-top', 'clamp(18px, 2.2vw, 34px)');
+  }
+  function run(){
+    balanceDesktopProductImage();
+    setTimeout(balanceDesktopProductImage, 80);
+    setTimeout(balanceDesktopProductImage, 220);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
+
 </body>
 </html>
 
