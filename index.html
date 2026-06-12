@@ -14092,6 +14092,121 @@ html body .lightbox.open .lightbox-related-title{
 })();
 </script>
 
+
+
+<style id="stapleford-desktop-edge-bottom-hero-v53">
+/* V53: desktop product page — stop trying to align the hero to variable content.
+   The left image now fills the viewport from top edge to bottom edge, so there is
+   no awkward white space beneath it. Mobile/tablet remain unchanged. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
+    column-gap:clamp(82px, 6vw, 128px) !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:45vw !important;
+    min-width:45vw !important;
+    max-width:45vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+    align-self:start !important;
+  }
+
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    width:100% !important;
+    height:100% !important;
+    min-height:100% !important;
+    display:block !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+}
+</style>
+
+<script id="stapleford-desktop-edge-bottom-hero-v53-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function fillDesktopHeroToViewportV53(){
+    if(!window.matchMedia || !window.matchMedia('(min-width: 1024px)').matches) return;
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+    if(!root) return;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var img = root.querySelector('img#lightboxImage');
+    if(!stage || !wrap || !img) return;
+
+    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
+    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
+    setImportant(stage, 'align-items', 'start');
+
+    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
+    setImportant(wrap, 'height', '100vh');
+    setImportant(wrap, 'min-height', '100vh');
+    setImportant(wrap, 'max-height', 'none');
+    setImportant(wrap, 'aspect-ratio', 'auto');
+    setImportant(wrap, 'margin', '0');
+    setImportant(wrap, 'padding', '0');
+    setImportant(wrap, 'overflow', 'hidden');
+    setImportant(wrap, 'border', '0');
+    setImportant(wrap, 'border-radius', '0');
+    setImportant(wrap, 'outline', '0');
+    setImportant(wrap, 'box-shadow', 'none');
+    setImportant(wrap, 'background', 'transparent');
+    setImportant(wrap, 'align-self', 'start');
+
+    setImportant(img, 'width', '100%');
+    setImportant(img, 'height', '100%');
+    setImportant(img, 'min-height', '100%');
+    setImportant(img, 'display', 'block');
+    setImportant(img, 'object-fit', 'cover');
+    setImportant(img, 'object-position', 'center center');
+    setImportant(img, 'margin', '0');
+    setImportant(img, 'padding', '0');
+    setImportant(img, 'border', '0');
+    setImportant(img, 'border-radius', '0');
+    setImportant(img, 'box-shadow', 'none');
+    setImportant(img, 'background', 'transparent');
+  }
+  function run(){
+    requestAnimationFrame(fillDesktopHeroToViewportV53);
+    setTimeout(fillDesktopHeroToViewportV53, 50);
+    setTimeout(fillDesktopHeroToViewportV53, 160);
+    setTimeout(fillDesktopHeroToViewportV53, 360);
+    setTimeout(fillDesktopHeroToViewportV53, 760);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('load', run, {passive:true});
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
 </body>
 </html>
 
@@ -15620,5 +15735,229 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
   document.addEventListener('click', run, true);
+})();
+</script>
+
+<style id="stapleford-desktop-hero-align-v51">
+/* V51: desktop individual product view — align the left hero photo with the right-hand product block.
+   The hero should not be a full 4:5 viewport slab. It should land around the start of the related gallery,
+   giving the left and right columns the same visual rhythm. Mobile/tablet remain unchanged. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
+    column-gap:clamp(82px, 6vw, 128px) !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:45vw !important;
+    min-width:45vw !important;
+    max-width:45vw !important;
+    height:clamp(650px, 80vh, 760px) !important;
+    min-height:650px !important;
+    max-height:760px !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+
+  html body.product-page-open #lightbox img#lightboxImage,
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    width:100% !important;
+    height:100% !important;
+    display:block !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+}
+</style>
+
+<script id="stapleford-desktop-hero-align-v51-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function alignDesktopHeroV51(){
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+    if(!root || !window.matchMedia('(min-width: 1024px)').matches) return;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var img = root.querySelector('img#lightboxImage');
+    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
+    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
+    setImportant(stage, 'align-items', 'start');
+    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
+    setImportant(wrap, 'height', 'clamp(650px, 80vh, 760px)');
+    setImportant(wrap, 'min-height', '650px');
+    setImportant(wrap, 'max-height', '760px');
+    setImportant(wrap, 'aspect-ratio', 'auto');
+    setImportant(wrap, 'padding', '0');
+    setImportant(wrap, 'margin', '0');
+    setImportant(wrap, 'overflow', 'hidden');
+    setImportant(wrap, 'border', '0');
+    setImportant(wrap, 'border-radius', '0');
+    setImportant(wrap, 'box-shadow', 'none');
+    setImportant(wrap, 'background', 'transparent');
+    setImportant(img, 'width', '100%');
+    setImportant(img, 'height', '100%');
+    setImportant(img, 'object-fit', 'cover');
+    setImportant(img, 'object-position', 'center center');
+  }
+  function run(){
+    alignDesktopHeroV51();
+    setTimeout(alignDesktopHeroV51, 80);
+    setTimeout(alignDesktopHeroV51, 240);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
+
+<style id="stapleford-exact-desktop-hero-yml-align-v52">
+/* V52: desktop product page — exact visual alignment.
+   The left hero image height is controlled by JS so its bottom edge lands on the
+   bottom edge of the You Might Also Like image row. Mobile/tablet are untouched. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
+    column-gap:clamp(82px, 6vw, 128px) !important;
+    align-items:start !important;
+  }
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:45vw !important;
+    min-width:45vw !important;
+    max-width:45vw !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+    aspect-ratio:auto !important;
+  }
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    width:100% !important;
+    height:100% !important;
+    display:block !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+}
+</style>
+
+<script id="stapleford-exact-desktop-hero-yml-align-v52-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function firstVisible(nodes){
+    for(var i=0;i<nodes.length;i++){
+      var r = nodes[i].getBoundingClientRect();
+      if(r.width > 0 && r.height > 0) return nodes[i];
+    }
+    return null;
+  }
+  function alignHeroToRelatedImagesV52(){
+    if(!window.matchMedia || !window.matchMedia('(min-width: 1024px)').matches) return;
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+    if(!root) return;
+
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var img = root.querySelector('img#lightboxImage');
+    var relatedGrid = root.querySelector('.lightbox-detail-panel .lightbox-related-grid, .lightbox-related-grid');
+    if(!stage || !wrap || !img || !relatedGrid) return;
+
+    var relatedImage = firstVisible(relatedGrid.querySelectorAll('img, .lightbox-related-image, .related-image'));
+    if(!relatedImage) return;
+
+    var stageRect = stage.getBoundingClientRect();
+    var relatedRect = relatedImage.getBoundingClientRect();
+    var viewportH = window.innerHeight || document.documentElement.clientHeight || 800;
+
+    /* Exact target: bottom of hero image = bottom of first row of You Might Also Like images. */
+    var targetHeight = Math.round(relatedRect.bottom - stageRect.top);
+
+    /* Keep the result professional on very short/tall screens, while still matching the related image line. */
+    var minH = Math.max(620, Math.round(viewportH * 0.72));
+    var maxH = Math.max(minH, Math.round(viewportH * 1.12));
+    var finalH = Math.max(minH, Math.min(targetHeight, maxH));
+
+    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
+    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
+    setImportant(stage, 'align-items', 'start');
+
+    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
+    setImportant(wrap, 'height', finalH + 'px');
+    setImportant(wrap, 'min-height', finalH + 'px');
+    setImportant(wrap, 'max-height', finalH + 'px');
+    setImportant(wrap, 'aspect-ratio', 'auto');
+    setImportant(wrap, 'margin', '0');
+    setImportant(wrap, 'padding', '0');
+    setImportant(wrap, 'overflow', 'hidden');
+    setImportant(wrap, 'border', '0');
+    setImportant(wrap, 'border-radius', '0');
+    setImportant(wrap, 'box-shadow', 'none');
+    setImportant(wrap, 'background', 'transparent');
+
+    setImportant(img, 'width', '100%');
+    setImportant(img, 'height', '100%');
+    setImportant(img, 'display', 'block');
+    setImportant(img, 'object-fit', 'cover');
+    setImportant(img, 'object-position', 'center center');
+    setImportant(img, 'margin', '0');
+    setImportant(img, 'padding', '0');
+    setImportant(img, 'border', '0');
+    setImportant(img, 'border-radius', '0');
+    setImportant(img, 'box-shadow', 'none');
+    setImportant(img, 'background', 'transparent');
+  }
+  function run(){
+    requestAnimationFrame(alignHeroToRelatedImagesV52);
+    setTimeout(alignHeroToRelatedImagesV52, 60);
+    setTimeout(alignHeroToRelatedImagesV52, 180);
+    setTimeout(alignHeroToRelatedImagesV52, 360);
+    setTimeout(alignHeroToRelatedImagesV52, 720);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+  window.addEventListener('load', run, {passive:true});
 })();
 </script>
