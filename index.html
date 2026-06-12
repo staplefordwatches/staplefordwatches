@@ -14280,3 +14280,175 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   document.addEventListener('click', function(){ setTimeout(run, 0); setTimeout(run, 80); }, true);
 })();
 </script>
+
+
+<style id="stapleford-image-edge-flush-v38">
+/* V38: make product-view imagery genuinely edge-flush. No padded image frame; photos bleed to the page edge and crop inside the image itself. */
+html body.product-page-open #lightbox .lightbox-image-wrap,
+html body.product-page-open #lightbox.open .lightbox-image-wrap,
+html body.product-page-open .lightbox.open .lightbox-image-wrap,
+html body .lightbox.open .lightbox-image-wrap,
+html body.product-page-open #lightbox .stapleford-preview-track,
+html body.product-page-open #lightbox.open .stapleford-preview-track,
+html body.product-page-open .lightbox.open .stapleford-preview-track,
+html body .lightbox.open .stapleford-preview-track,
+html body.product-page-open #lightbox .stapleford-preview-slide,
+html body.product-page-open #lightbox.open .stapleford-preview-slide,
+html body.product-page-open .lightbox.open .stapleford-preview-slide,
+html body .lightbox.open .stapleford-preview-slide{
+  padding:0 !important;
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  overflow:hidden !important;
+}
+
+html body.product-page-open #lightbox img#lightboxImage,
+html body.product-page-open #lightbox.open img#lightboxImage,
+html body.product-page-open .lightbox.open img#lightboxImage,
+html body .lightbox.open img#lightboxImage,
+html body.product-page-open #lightbox .stapleford-preview-slide img,
+html body.product-page-open #lightbox.open .stapleford-preview-slide img,
+html body.product-page-open .lightbox.open .stapleford-preview-slide img,
+html body .lightbox.open .stapleford-preview-slide img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:scale(1.18) !important;
+  transform-origin:center center !important;
+}
+
+/* Mobile/tablet product page: main image goes full-bleed to the screen edges. */
+@media (max-width:1023px){
+  html body.product-page-open #lightbox .lightbox-stage,
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    width:100vw !important;
+    max-width:100vw !important;
+    margin-left:calc((100vw - var(--sw-page-width)) / -2) !important;
+    margin-right:calc((100vw - var(--sw-page-width)) / -2) !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:100vw !important;
+    max-width:100vw !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  html body.product-page-open #lightbox .lightbox-detail-panel,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel,
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related{
+    width:var(--sw-page-width) !important;
+    max-width:var(--sw-page-width) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+}
+
+/* Desktop: keep text aligned to the shared site grid, but let the photo column bleed left so the image touches the browser edge. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    overflow:visible !important;
+  }
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    margin-left:calc((100vw - var(--sw-page-width)) / -2) !important;
+    width:calc(100% + ((100vw - var(--sw-page-width)) / 2)) !important;
+    max-width:none !important;
+  }
+}
+
+/* Related gallery: square crops with zero visual frame/padding. */
+html body.product-page-open #lightbox .lightbox-related-grid,
+html body.product-page-open #lightbox.open .lightbox-related-grid,
+html body.product-page-open .lightbox.open .lightbox-related-grid,
+html body .lightbox.open .lightbox-related-grid{
+  padding:0 !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+html body.product-page-open #lightbox .lightbox-related-card,
+html body.product-page-open #lightbox.open .lightbox-related-card,
+html body.product-page-open .lightbox.open .lightbox-related-card,
+html body .lightbox.open .lightbox-related-card{
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+html body.product-page-open #lightbox .lightbox-related-image,
+html body.product-page-open #lightbox.open .lightbox-related-image,
+html body.product-page-open .lightbox.open .lightbox-related-image,
+html body .lightbox.open .lightbox-related-image{
+  display:block !important;
+  width:100% !important;
+  aspect-ratio:1 / 1 !important;
+  margin:0 0 8px 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  overflow:hidden !important;
+}
+html body.product-page-open #lightbox .lightbox-related-image img,
+html body.product-page-open #lightbox.open .lightbox-related-image img,
+html body.product-page-open .lightbox.open .lightbox-related-image img,
+html body .lightbox.open .lightbox-related-image img,
+html body.product-page-open #lightbox .lightbox-related-card img,
+html body.product-page-open #lightbox.open .lightbox-related-card img,
+html body.product-page-open .lightbox.open .lightbox-related-card img,
+html body .lightbox.open .lightbox-related-card img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:scale(1.24) !important;
+  transform-origin:center center !important;
+}
+</style>
