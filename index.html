@@ -8879,7 +8879,7 @@ html body .lightbox.open .lightbox-stage{
 
 html body .lightbox.open .lightbox-image-wrap{
   grid-area:product-image !important;
-  touch-action:pan-y !important;
+  touch-action:pan-x pan-y !important;
 }
 
 @media (max-width: 767px){
@@ -12113,126 +12113,12 @@ html body .lightbox.open .lightbox-detail-policy-copy{
   letter-spacing:.02em !important;
 }
 
-html body.product-page-open .lightbox-related,
-html body .lightbox.open .lightbox-related{
-  margin:12px 0 0 !important;
-  padding:10px 0 0 !important;
-  border:0 !important;
-  border-top:1px solid rgba(0,0,0,.14) !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-}
 
-html body.product-page-open .lightbox-related-title,
-html body .lightbox.open .lightbox-related-title{
-  margin:0 !important;
-  padding:0 !important;
-  font-family:'InterEmbedded', Arial, sans-serif !important;
-  font-size:10px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  letter-spacing:.06em !important;
-  text-transform:uppercase !important;
-  color:#000 !important;
-}
 
-html body.product-page-open .lightbox-related-grid,
-html body .lightbox.open .lightbox-related-grid{
-  display:grid !important;
-  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-  gap:14px !important;
-  width:100% !important;
-  margin:10px 0 0 !important;
-  padding:0 !important;
-  box-sizing:border-box !important;
-}
 
-html body.product-page-open .lightbox-related-card,
-html body .lightbox.open .lightbox-related-card{
-  display:flex !important;
-  flex-direction:column !important;
-  min-width:0 !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  outline:0 !important;
-  overflow:visible !important;
-}
 
-html body.product-page-open .lightbox-related-image,
-html body .lightbox.open .lightbox-related-image{
-  order:1 !important;
-  width:100% !important;
-  aspect-ratio:1 / 1 !important;
-  margin:0 0 8px !important;
-  padding:0 !important;
-  border:0 !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  outline:0 !important;
-  overflow:hidden !important;
-}
 
-html body.product-page-open .lightbox-related-image img,
-html body.product-page-open .lightbox-related-card img,
-html body .lightbox.open .lightbox-related-image img,
-html body .lightbox.open .lightbox-related-card img{
-  display:block !important;
-  width:100% !important;
-  height:100% !important;
-  min-width:100% !important;
-  min-height:100% !important;
-  max-width:none !important;
-  max-height:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-  object-fit:cover !important;
-  object-position:center center !important;
-  transform:scale(1.18) !important;
-  transform-origin:center center !important;
-}
 
-html body.product-page-open .lightbox-related-meta,
-html body .lightbox.open .lightbox-related-meta{
-  order:2 !important;
-  display:grid !important;
-  grid-template-rows:14px 28px 14px !important;
-  row-gap:3px !important;
-  min-height:65px !important;
-  align-content:start !important;
-}
-
-html body.product-page-open .lightbox-related-brand,
-html body.product-page-open .lightbox-related-price,
-html body .lightbox.open .lightbox-related-brand,
-html body .lightbox.open .lightbox-related-price{
-  height:14px !important;
-  line-height:14px !important;
-  overflow:hidden !important;
-  white-space:nowrap !important;
-  text-overflow:ellipsis !important;
-}
-
-html body.product-page-open .lightbox-related-name,
-html body .lightbox.open .lightbox-related-name{
-  display:-webkit-box !important;
-  -webkit-box-orient:vertical !important;
-  -webkit-line-clamp:2 !important;
-  height:28px !important;
-  min-height:28px !important;
-  max-height:28px !important;
-  line-height:14px !important;
-  overflow:hidden !important;
-  text-overflow:ellipsis !important;
-  margin:0 !important;
-}
 
 @media (min-width: 1180px){
   html body.product-page-open .lightbox.open .lightbox-stage,
@@ -12276,11 +12162,6 @@ html body .lightbox.open .lightbox-related-name{
   html body .lightbox.open .lightbox-detail-panel{
     width:100% !important;
     max-width:100% !important;
-  }
-  html body.product-page-open .lightbox-related-grid,
-  html body .lightbox.open .lightbox-related-grid{
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    gap:12px !important;
   }
 }
 
@@ -12506,7 +12387,8 @@ html body.product-page-open .lightbox.open .lightbox-site-footer .footer-links{
   html body.product-page-open .lightbox.open .lightbox-stage{
     display:grid !important;
     grid-template-columns:minmax(0, 800px) minmax(440px, 560px) !important;
-    grid-template-areas:"product-image product-details" !important;
+    grid-template-areas:
+      "product-image product-details" !important;
     column-gap:clamp(52px, 5.8vw, 96px) !important;
     row-gap:28px !important;
     align-items:start !important;
@@ -12606,48 +12488,9 @@ body.product-page-open #lightbox.open .lightbox-detail-kicker,
     letter-spacing:.085em !important;
     margin-top:12px !important;
   }
-
-  body.product-page-open #lightbox.open .lightbox-related-title,
-  html body.product-page-open .lightbox.open .lightbox-related-title{
-    font-size:12px !important;
-    line-height:1.25 !important;
-    font-weight:500 !important;
-    letter-spacing:.085em !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-related-grid,
-  html body.product-page-open .lightbox.open .lightbox-related-grid{
-    display:grid !important;
-    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
-    gap:clamp(12px, 1.35vw, 18px) !important;
-    width:100% !important;
-    margin:14px 0 0 !important;
-    padding:0 !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-related-image,
-  html body.product-page-open .lightbox.open .lightbox-related-image{
-    background:transparent !important;
-    border:0 !important;
-    outline:0 !important;
-    box-shadow:none !important;
-    overflow:hidden !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-related-image img,
-  body.product-page-open #lightbox.open .lightbox-related-card img,
-  html body.product-page-open .lightbox.open .lightbox-related-image img,
-  html body.product-page-open .lightbox.open .lightbox-related-card img{
-    width:100% !important;
-    height:100% !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    border:0 !important;
-    outline:0 !important;
-    box-shadow:none !important;
-    background:transparent !important;
-    transform:scale(1.18) !important;
-  }
+body.product-page-open #lightbox.open .lightbox-related-grid,
+body.product-page-open #lightbox.open .lightbox-related-image,
+body.product-page-open #lightbox.open .lightbox-related-image img,
 }
 
 @media (max-width:767px){
@@ -13200,7 +13043,9 @@ html body .lightbox.open img#lightboxImage{
     grid-template-columns:
       minmax(0, calc(((100vw - var(--sw-page-width)) / 2) + (var(--sw-page-width) * .60)))
       minmax(360px, calc(var(--sw-page-width) * .40)) !important;
-    grid-template-areas:"product-image product-details" !important;
+    grid-template-areas:
+      "product-image product-details"
+      "product-related product-details" !important;
     column-gap:clamp(32px, 4vw, 72px) !important;
     row-gap:28px !important;
     align-items:start !important;
@@ -13222,6 +13067,18 @@ html body .lightbox.open img#lightboxImage{
     max-width:none !important;
     margin:0 !important;
     padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related{
+    grid-area:product-related !important;
+    width:calc(100% - ((100vw - var(--sw-page-width)) / 2)) !important;
+    max-width:none !important;
+    margin-left:calc((100vw - var(--sw-page-width)) / 2) !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
     box-sizing:border-box !important;
   }
 }
@@ -13511,41 +13368,6 @@ body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner{
   html body.product-page-open .lightbox.open .lightbox-detail-specs dd{
     font-size:11px !important;
     line-height:1.55 !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-related,
-  html body.product-page-open .lightbox.open .lightbox-related{
-    margin-top:0 !important;
-    padding-top:14px !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-related-title,
-  html body.product-page-open .lightbox.open .lightbox-related-title{
-    font-size:11px !important;
-    line-height:1.25 !important;
-    letter-spacing:.075em !important;
-    font-weight:500 !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-related-grid,
-  html body.product-page-open .lightbox.open .lightbox-related-grid{
-    margin-top:14px !important;
-    gap:clamp(12px, 1.3vw, 18px) !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-related-brand,
-  body.product-page-open #lightbox.open .lightbox-related-name,
-  body.product-page-open #lightbox.open .lightbox-related-price,
-  html body.product-page-open .lightbox.open .lightbox-related-brand,
-  html body.product-page-open .lightbox.open .lightbox-related-name,
-  html body.product-page-open .lightbox.open .lightbox-related-price{
-    font-size:10.5px !important;
-  }
-
-  body.product-page-open #lightbox.open .lightbox-site-footer .footer-copy,
-  body.product-page-open #lightbox.open .lightbox-site-footer .footer-links{
-    font-size:11px !important;
-    letter-spacing:.09em !important;
   }
 }
 
@@ -13852,6 +13674,11 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   html body.product-page-open .lightbox.open .lightbox-stage{
     grid-template-columns:minmax(0, 1.58fr) minmax(390px, .92fr) !important;
     column-gap:clamp(34px, 4.4vw, 74px) !important;
+  }
+  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-grid,
+  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-related .lightbox-related-grid{
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:clamp(12px, 1.3vw, 18px) !important;
   }
 }
 @media (max-width:767px){
@@ -14161,7 +13988,8 @@ html body:not(.product-page-open) #gallery.grid{
   html body.product-page-open .lightbox.open .lightbox-stage{
     display:grid !important;
     grid-template-columns:minmax(0,50vw) minmax(420px,560px) !important;
-    grid-template-areas:"product-image product-details" !important;
+    grid-template-areas:
+      "product-image product-details" !important;
     grid-template-rows:auto auto !important;
     column-gap:clamp(48px,5vw,88px) !important;
     row-gap:clamp(18px,2.2vw,30px) !important;
@@ -14228,17 +14056,6 @@ html body:not(.product-page-open) #gallery.grid{
     padding:clamp(64px,5vw,92px) 0 clamp(48px,5vw,80px) !important;
     box-sizing:border-box !important;
   }
-
-  html body.product-page-open #lightbox.open .lightbox-related,
-  html body.product-page-open .lightbox.open .lightbox-related{
-width:50vw !important;
-    max-width:50vw !important;
-    margin:0 !important;
-    padding:10px 0 0 !important;
-    border:0 !important;
-    border-top:1px solid rgba(0,0,0,.14) !important;
-    box-sizing:border-box !important;
-  }
 }
 
 @media (max-width:1023px){
@@ -14280,9 +14097,9 @@ width:50vw !important;
 </style>
 
 
-<style id="sw-v58-related-under-returns-premium">
+<style id="sw-v59-related-under-returns-autoscroll">
 /* Product click view only: You Might Also Like sits directly after Returns in the detail column.
-   Compact premium rail, hidden scrollbar, drag/swipe support, visible product details. */
+   Premium recommendation rail: hidden scrollbar, drag/swipe support, visible product details, and restrained auto-scroll that stops on customer interaction. */
 html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
 html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related{
   display:block !important;
@@ -14344,9 +14161,15 @@ html body.product-page-open .lightbox.open .lightbox-related-grid::-webkit-scrol
 }
 
 html body.product-page-open #lightbox.open .lightbox-related-grid.is-dragging,
+html body.product-page-open #lightbox.open .lightbox-related-grid.is-autoscrolling,
+html body.product-page-open .lightbox.open .lightbox-related-grid.is-dragging,
+html body.product-page-open .lightbox.open .lightbox-related-grid.is-autoscrolling{
+  scroll-snap-type:none !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-related-grid.is-dragging,
 html body.product-page-open .lightbox.open .lightbox-related-grid.is-dragging{
   cursor:grabbing !important;
-  scroll-snap-type:none !important;
 }
 
 html body.product-page-open #lightbox.open .lightbox-related-card,
@@ -14462,85 +14285,287 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
 }
 </style>
 
-<script id="sw-v58-related-under-returns-premium-js">
+<script id="sw-v59-related-under-returns-autoscroll-js">
 (function(){
-  function enhanceRelatedRail(rail){
-    if(!rail || rail.dataset.swRelatedRail === 'ready') return;
-    rail.dataset.swRelatedRail = 'ready';
+  var REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+  var AUTO_SCROLL_SPEED = 12; // px per second: deliberately slow and premium.
+  var AUTO_SCROLL_EDGE_PAUSE = 950;
+  var DRAG_THRESHOLD = 6;
 
-    var active = false;
-    var moved = false;
-    var suppressClick = false;
-    var startX = 0;
-    var startScrollLeft = 0;
-    var pointerId = null;
-    var threshold = 6;
+  var reduceMotion = false;
+  var reduceMotionQuery = null;
 
-    rail.addEventListener('pointerdown', function(event){
-      if(event.pointerType && event.pointerType !== 'mouse') return;
-      if(typeof event.button === 'number' && event.button !== 0) return;
+  if(window.matchMedia){
+    reduceMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+    reduceMotion = !!reduceMotionQuery.matches;
+  }
 
-      active = true;
-      moved = false;
-      suppressClick = false;
-      startX = event.clientX;
-      startScrollLeft = rail.scrollLeft;
-      pointerId = event.pointerId;
-      rail.classList.add('is-dragging');
+  var railState = new WeakMap();
 
-      if(rail.setPointerCapture){
-        try{ rail.setPointerCapture(pointerId); }catch(error){}
-      }
-    });
+  function getState(rail){
+    var state = railState.get(rail);
+    if(state) return state;
 
-    rail.addEventListener('pointermove', function(event){
-      if(!active) return;
-      var deltaX = event.clientX - startX;
+    state = {
+      prepared:false,
+      dragging:false,
+      hoverPaused:false,
+      interactionStopped:false,
+      moved:false,
+      suppressClick:false,
+      startX:0,
+      startScrollLeft:0,
+      pointerId:null,
+      rafId:0,
+      lastFrame:0,
+      direction:1,
+      edgePausedUntil:0,
+      observed:false,
+      mutationObserver:null
+    };
 
-      if(Math.abs(deltaX) > threshold){
-        moved = true;
-        suppressClick = true;
-      }
+    railState.set(rail, state);
+    return state;
+  }
 
-      rail.scrollLeft = startScrollLeft - deltaX;
-      if(moved) event.preventDefault();
-    }, { passive:false });
+  function canAutoScroll(rail, state){
+    if(!rail || !state) return false;
+    if(reduceMotion) return false;
+    if(state.dragging || state.hoverPaused || state.interactionStopped) return false;
+    if(document.hidden) return false;
+    if(!document.body.classList.contains('product-page-open')) return false;
+    if(!rail.closest || !rail.closest('#lightbox.open')) return false;
+    if(rail.scrollWidth <= rail.clientWidth + 4) return false;
+    return rail.children.length > 2;
+  }
 
-    function finish(){
-      if(!active) return;
-      active = false;
-      rail.classList.remove('is-dragging');
+  function cancelAutoScroll(rail, state){
+    if(state.rafId){
+      window.cancelAnimationFrame(state.rafId);
+      state.rafId = 0;
+    }
+    state.lastFrame = 0;
+    state.edgePausedUntil = 0;
+    rail.classList.remove('is-autoscrolling');
+  }
 
-      if(pointerId !== null && rail.releasePointerCapture){
-        try{ rail.releasePointerCapture(pointerId); }catch(error){}
-      }
-      pointerId = null;
+  function scheduleAutoScroll(rail, state){
+    if(state.rafId || !canAutoScroll(rail, state)){
+      if(!canAutoScroll(rail, state)) cancelAutoScroll(rail, state);
+      return;
     }
 
-    rail.addEventListener('pointerup', finish);
-    rail.addEventListener('pointercancel', finish);
-    rail.addEventListener('lostpointercapture', finish);
-
-    rail.addEventListener('click', function(event){
-      if(!suppressClick) return;
-      event.preventDefault();
-      event.stopPropagation();
-      suppressClick = false;
-    }, true);
-
-    rail.addEventListener('dragstart', function(event){
-      event.preventDefault();
+    rail.classList.add('is-autoscrolling');
+    state.rafId = window.requestAnimationFrame(function(timestamp){
+      autoScrollFrame(rail, state, timestamp);
     });
   }
 
+  function autoScrollFrame(rail, state, timestamp){
+    state.rafId = 0;
+
+    if(!canAutoScroll(rail, state)){
+      cancelAutoScroll(rail, state);
+      return;
+    }
+
+    var maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    if(maxScrollLeft <= 4){
+      cancelAutoScroll(rail, state);
+      return;
+    }
+
+    if(!state.lastFrame) state.lastFrame = timestamp;
+
+    if(state.edgePausedUntil && timestamp < state.edgePausedUntil){
+      state.rafId = window.requestAnimationFrame(function(nextTimestamp){
+        autoScrollFrame(rail, state, nextTimestamp);
+      });
+      return;
+    }
+
+    state.edgePausedUntil = 0;
+    var elapsed = Math.min(64, Math.max(0, timestamp - state.lastFrame));
+    state.lastFrame = timestamp;
+    rail.scrollLeft += (AUTO_SCROLL_SPEED * elapsed / 1000) * state.direction;
+
+    if(rail.scrollLeft >= maxScrollLeft - 1){
+      rail.scrollLeft = maxScrollLeft;
+      state.direction = -1;
+      state.edgePausedUntil = timestamp + AUTO_SCROLL_EDGE_PAUSE;
+    }else if(rail.scrollLeft <= 1){
+      rail.scrollLeft = 0;
+      state.direction = 1;
+      state.edgePausedUntil = timestamp + AUTO_SCROLL_EDGE_PAUSE;
+    }
+
+    state.rafId = window.requestAnimationFrame(function(nextTimestamp){
+      autoScrollFrame(rail, state, nextTimestamp);
+    });
+  }
+
+  function stopForCustomerInteraction(rail, state){
+    state.interactionStopped = true;
+    cancelAutoScroll(rail, state);
+  }
+
+  function resetForNewProducts(rail, state){
+    cancelAutoScroll(rail, state);
+    state.dragging = false;
+    state.hoverPaused = false;
+    state.interactionStopped = false;
+    state.moved = false;
+    state.suppressClick = false;
+    state.startX = 0;
+    state.startScrollLeft = 0;
+    state.pointerId = null;
+    state.direction = 1;
+    state.edgePausedUntil = 0;
+    rail.classList.remove('is-dragging');
+    rail.scrollLeft = 0;
+    window.setTimeout(function(){
+      scheduleAutoScroll(rail, state);
+    }, 650);
+  }
+
+  function prepareRelatedRail(rail){
+    if(!rail) return;
+
+    var state = getState(rail);
+    if(!state.prepared){
+      state.prepared = true;
+      rail.dataset.swRelatedRail = 'ready';
+
+      rail.addEventListener('pointerenter', function(event){
+        if(event.pointerType && event.pointerType !== 'mouse') return;
+        state.hoverPaused = true;
+        cancelAutoScroll(rail, state);
+      });
+
+      rail.addEventListener('pointerleave', function(event){
+        if(event.pointerType && event.pointerType !== 'mouse') return;
+        state.hoverPaused = false;
+        scheduleAutoScroll(rail, state);
+      });
+
+      rail.addEventListener('pointerdown', function(event){
+        stopForCustomerInteraction(rail, state);
+
+        if(event.pointerType && event.pointerType !== 'mouse') return;
+        if(typeof event.button === 'number' && event.button !== 0) return;
+
+        state.dragging = true;
+        state.moved = false;
+        state.suppressClick = false;
+        state.startX = event.clientX;
+        state.startScrollLeft = rail.scrollLeft;
+        state.pointerId = event.pointerId;
+        rail.classList.add('is-dragging');
+
+        if(rail.setPointerCapture){
+          try{ rail.setPointerCapture(state.pointerId); }catch(error){}
+        }
+      });
+
+      rail.addEventListener('pointermove', function(event){
+        if(!state.dragging) return;
+        var deltaX = event.clientX - state.startX;
+
+        if(Math.abs(deltaX) > DRAG_THRESHOLD){
+          state.moved = true;
+          state.suppressClick = true;
+        }
+
+        rail.scrollLeft = state.startScrollLeft - deltaX;
+        if(state.moved) event.preventDefault();
+      }, { passive:false });
+
+      function finishDrag(){
+        if(!state.dragging) return;
+        state.dragging = false;
+        rail.classList.remove('is-dragging');
+
+        if(state.pointerId !== null && rail.releasePointerCapture){
+          try{ rail.releasePointerCapture(state.pointerId); }catch(error){}
+        }
+        state.pointerId = null;
+      }
+
+      rail.addEventListener('pointerup', finishDrag);
+      rail.addEventListener('pointercancel', finishDrag);
+      rail.addEventListener('lostpointercapture', finishDrag);
+
+      rail.addEventListener('focusin', function(){
+        stopForCustomerInteraction(rail, state);
+      });
+
+      rail.addEventListener('touchstart', function(){
+        stopForCustomerInteraction(rail, state);
+      }, { passive:true });
+
+      rail.addEventListener('wheel', function(){
+        stopForCustomerInteraction(rail, state);
+      }, { passive:true });
+
+      rail.addEventListener('click', function(event){
+        stopForCustomerInteraction(rail, state);
+        if(!state.suppressClick) return;
+        event.preventDefault();
+        event.stopPropagation();
+        state.suppressClick = false;
+      }, true);
+
+      rail.addEventListener('dragstart', function(event){
+        event.preventDefault();
+      });
+    }
+
+    if(!state.observed){
+      state.observed = true;
+      if(window.MutationObserver){
+        state.mutationObserver = new MutationObserver(function(){
+          resetForNewProducts(rail, state);
+        });
+        state.mutationObserver.observe(rail, { childList:true });
+      }
+    }
+
+    resetForNewProducts(rail, state);
+  }
+
   function initRelatedRail(){
-    enhanceRelatedRail(document.getElementById('lightboxRelatedGrid'));
+    prepareRelatedRail(document.getElementById('lightboxRelatedGrid'));
   }
 
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', initRelatedRail);
   }else{
     initRelatedRail();
+  }
+
+  document.addEventListener('visibilitychange', function(){
+    var rail = document.getElementById('lightboxRelatedGrid');
+    var state = rail ? getState(rail) : null;
+    if(!rail || !state) return;
+    if(document.hidden) cancelAutoScroll(rail, state);
+    else scheduleAutoScroll(rail, state);
+  });
+
+  if(reduceMotionQuery){
+    var onMotionChange = function(event){
+      reduceMotion = !!event.matches;
+      var rail = document.getElementById('lightboxRelatedGrid');
+      var state = rail ? getState(rail) : null;
+      if(!rail || !state) return;
+      if(reduceMotion) cancelAutoScroll(rail, state);
+      else scheduleAutoScroll(rail, state);
+    };
+
+    if(reduceMotionQuery.addEventListener){
+      reduceMotionQuery.addEventListener('change', onMotionChange);
+    }else if(reduceMotionQuery.addListener){
+      reduceMotionQuery.addListener(onMotionChange);
+    }
   }
 
   document.addEventListener('click', function(event){
