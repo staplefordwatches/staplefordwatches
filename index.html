@@ -1409,6 +1409,54 @@ a, button{
   text-align:right;
 }
 
+.lightbox-detail-policy-toggle{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  border:0;
+  border-top:1px solid rgba(0,0,0,0.12);
+  background:transparent;
+  padding:10px 0 0;
+  margin:10px 0 0;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  color:#000;
+  cursor:pointer;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  font-size:10px;
+  line-height:1.2;
+  text-align:left;
+}
+
+.lightbox-detail-policy-copy{
+  border-top:1px solid rgba(0,0,0,0.12);
+  padding-top:10px;
+  margin-top:10px;
+  font-size:11px;
+  line-height:1.55;
+  letter-spacing:0.02em;
+  text-transform:none;
+}
+
+.lightbox-detail-policy-copy[hidden]{
+  display:none !important;
+}
+
+.lightbox-detail-policy-copy p{
+  margin:0 0 8px;
+}
+
+.lightbox-detail-policy-copy p:last-child{
+  margin-bottom:0;
+}
+
+.lightbox-detail-policy-link{
+  color:#000;
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+
 @media (max-width: 760px){
   .lightbox-detail-panel{
     left:12px;
@@ -8260,13 +8308,13 @@ html body #cartDrawer .cart-error{
 <summary>PAYMENT</summary>
 <p>We accept bank transfers, PayPal and credit cards through our platform.</p>
 </details>
-<details class="info-item">
+<details class="info-item" id="delivery">
 <summary>DELIVERY</summary>
 <p><strong>UK:</strong> We offer complimentary next-day delivery within the UK. We aim to dispatch all orders on the same day that cleared funds are received. Parcels will require a signature upon delivery, and tracking information will be provided on the date of dispatch.</p>
 <p>Collection is also available upon request. Please contact us for more information.</p>
 <p><strong>International:</strong> For international delivery, please contact us for a shipping quote. International shipments may be subject to customs duties, taxes and import fees levied by the destination country. These charges are the responsibility of the buyer.</p>
 </details>
-<details class="info-item">
+<details class="info-item" id="returns">
 <summary>RETURNS</summary>
 <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
 <p>To be eligible for a return, your item must be unused and in the same condition in which you received it, including the original packaging and any additional accessories where applicable.</p>
@@ -8309,6 +8357,18 @@ html body #cartDrawer .cart-error{
 </div>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
+<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span>DELIVERY ↑</span></button>
+<div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailDelivery">
+  <p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
+  <p>Collection is also available upon request.</p>
+  <p>For international delivery, please contact us for a shipping quote.</p>
+  <p>For more details, please refer to <a class="lightbox-detail-policy-link" href="/#delivery" data-info-target="delivery">Delivery</a>.</p>
+</div>
+<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span>RETURNS ↑</span></button>
+<div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
+  <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
+  <p>For more details, please refer to <a class="lightbox-detail-policy-link" href="/#returns" data-info-target="returns">Returns</a>.</p>
+</div>
 </aside>
 </div>
 </div>
@@ -8450,7 +8510,9 @@ function getRequestedProductToken(){
   const queryToken = params.get("watch") || params.get("product") || params.get("listing");
   if(queryToken) return queryToken;
   if(window.location.hash && window.location.hash.length > 1){
-    return decodeURIComponent(window.location.hash.slice(1));
+    const hashToken = decodeURIComponent(window.location.hash.slice(1));
+    if(["buy", "sell", "info", "delivery", "returns"].includes(hashToken.toLowerCase())) return "";
+    return hashToken;
   }
   return "";
 }
@@ -8968,6 +9030,10 @@ const lightboxDetailWhatsapp = document.getElementById("lightboxDetailWhatsapp")
 const lightboxDetailEmail = document.getElementById("lightboxDetailEmail");
 const lightboxDetailSpecToggle = document.getElementById("lightboxDetailSpecToggle");
 const lightboxDetailSpecs = document.getElementById("lightboxDetailSpecs");
+const lightboxDetailDeliveryToggle = document.getElementById("lightboxDetailDeliveryToggle");
+const lightboxDetailDelivery = document.getElementById("lightboxDetailDelivery");
+const lightboxDetailReturnsToggle = document.getElementById("lightboxDetailReturnsToggle");
+const lightboxDetailReturns = document.getElementById("lightboxDetailReturns");
 let lightboxImages = [];
 let lightboxIndex = 0;
 let lightboxTitle = "";
@@ -9011,6 +9077,32 @@ function setLightboxSpecsOpen(isOpen, scrollToSpecs = false){
   if(isOpen && scrollToSpecs){
     scrollLightboxSpecsIntoView();
   }
+}
+
+function setLightboxPolicyOpen(section, isOpen){
+  const panel = section === "returns" ? lightboxDetailReturns : lightboxDetailDelivery;
+  const toggle = section === "returns" ? lightboxDetailReturnsToggle : lightboxDetailDeliveryToggle;
+  const label = section === "returns" ? "RETURNS" : "DELIVERY";
+  if(panel) panel.hidden = !isOpen;
+  if(toggle){
+    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    toggle.innerHTML = `<span>${isOpen ? `HIDE ${label} ↓` : `${label} ↑`}</span>`;
+  }
+}
+
+function openInfoSection(targetId){
+  const target = document.getElementById(targetId);
+  if(!target) return;
+  if(lightbox?.classList.contains("open")) closeLightbox(false);
+  if(window.history?.pushState) window.history.pushState({ page:"info", section:targetId }, "", `/#${targetId}`);
+  setPage("info");
+  if(target.tagName === "DETAILS") target.open = true;
+  requestAnimationFrame(() => target.scrollIntoView({ behavior:"smooth", block:"start" }));
+}
+
+function handleInitialInfoHash(){
+  const hash = (window.location.hash || "").replace(/^#/, "");
+  if(hash === "delivery" || hash === "returns") openInfoSection(hash);
 }
 
 function setLightboxDetailEnquiryOpen(isOpen){
@@ -9061,6 +9153,8 @@ function renderLightboxDetails(){
 
   if(lightboxDetailSpecToggle) lightboxDetailSpecToggle.hidden = specRows.length === 0;
   setLightboxSpecsOpen(false);
+  setLightboxPolicyOpen("delivery", false);
+  setLightboxPolicyOpen("returns", false);
   setLightboxDetailsOpen(!lightboxDetailsManuallyHidden, false);
 }
 
@@ -9113,6 +9207,8 @@ function closeLightbox(updateUrl = true){
   lightboxDetailsManuallyHidden = false;
   setLightboxDetailsOpen(true, false);
   setLightboxSpecsOpen(false);
+  setLightboxPolicyOpen("delivery", false);
+  setLightboxPolicyOpen("returns", false);
   setLightboxDetailEnquiryOpen(false);
 }
 
@@ -9211,6 +9307,26 @@ lightboxDetailSpecToggle?.addEventListener("click", (e) => {
   e.stopPropagation();
   const isOpen = lightboxDetailSpecs && !lightboxDetailSpecs.hidden;
   setLightboxSpecsOpen(!isOpen, !isOpen);
+});
+
+lightboxDetailDeliveryToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = lightboxDetailDelivery && !lightboxDetailDelivery.hidden;
+  setLightboxPolicyOpen("delivery", !isOpen);
+});
+
+lightboxDetailReturnsToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = lightboxDetailReturns && !lightboxDetailReturns.hidden;
+  setLightboxPolicyOpen("returns", !isOpen);
+});
+
+lightboxDetails?.addEventListener("click", (e) => {
+  const link = e.target.closest("[data-info-target]");
+  if(!link) return;
+  e.preventDefault();
+  e.stopPropagation();
+  openInfoSection(link.dataset.infoTarget);
 });
 
 lightboxDetailBuy?.addEventListener("click", (e) => {
@@ -9562,6 +9678,8 @@ document.addEventListener("keydown", event => {
 });
 
 loadWatchesFromAirtable();
+handleInitialInfoHash();
+window.addEventListener("hashchange", handleInitialInfoHash);
 </script>
 <footer>
 <div class="footer-inner">

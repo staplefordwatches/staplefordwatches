@@ -6,6 +6,9 @@ const WATCHES_API_URL = process.env.WATCHES_API_URL || `${SITE_ORIGIN}/api/watch
 const OUT_DIR = process.env.OUT_DIR || "dist";
 const SOURCE_INDEX = process.env.SOURCE_INDEX || "index.html";
 
+const DELIVERY_POLICY_URL = `${SITE_ORIGIN}/#delivery`;
+const RETURNS_POLICY_URL = `${SITE_ORIGIN}/#returns`;
+
 function escapeHtml(value = ""){
   return String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
 }
@@ -94,7 +97,26 @@ function productSchema(w, url, images){
           "price": String(w.price || ""),
           "availability": w.status === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
           "itemCondition": "https://schema.org/UsedCondition",
-          "seller": { "@type": "Organization", "name": "Stapleford Watches" }
+          "seller": { "@type": "Organization", "name": "Stapleford Watches" },
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "GB" },
+            "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "GBP" },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" },
+              "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 1, "unitCode": "DAY" }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "GB",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/ReturnShippingFees",
+            "merchantReturnLink": RETURNS_POLICY_URL
+          }
         }
       },
       {
@@ -162,7 +184,7 @@ ${hero ? `<meta property="og:image" content="${escapeAttr(hero)}">` : ""}
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">${JSON.stringify(schema)}</script>
 <style>
-:root{--ink:#111;--muted:#666;--line:#e8e2dc;--paper:#fffaf5;--accent:#111}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;letter-spacing:.02em}.top{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line)}.brandmark{font-size:22px;text-decoration:none;color:inherit}.nav{display:flex;gap:18px;font-size:12px;text-transform:uppercase}.nav a{color:inherit;text-decoration:none}.wrap{max-width:1180px;margin:0 auto;padding:40px 22px 70px}.crumbs{font-size:12px;text-transform:uppercase;margin-bottom:24px;color:var(--muted)}.crumbs a{color:inherit}.product{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:48px;align-items:start}.gallery{display:grid;gap:14px}.gallery img{width:100%;display:block;background:#eee;object-fit:cover}.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.thumbs img{aspect-ratio:1;object-fit:cover}.kicker{font-size:12px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}.title{font-size:38px;line-height:1.05;margin:0 0 16px}.price{font-size:22px;margin:0 0 18px}.status{display:inline-block;border:1px solid var(--ink);padding:6px 10px;font-size:12px;text-transform:uppercase;margin-bottom:22px}.desc{line-height:1.65;color:#222;margin:0 0 26px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0}.button{appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;padding:14px 18px;font-size:12px;text-transform:uppercase;letter-spacing:.12em}.button.secondary{background:transparent;color:var(--ink)}.specs{border-top:1px solid var(--line);margin-top:30px}.row{display:grid;grid-template-columns:145px 1fr;gap:18px;border-bottom:1px solid var(--line);padding:14px 0;font-size:13px}.row dt{text-transform:uppercase;color:var(--muted)}.row dd{margin:0}.footer{border-top:1px solid var(--line);padding:26px 24px;color:var(--muted);font-size:12px;text-align:center}@media(max-width:800px){.product{grid-template-columns:1fr}.title{font-size:30px}.top{padding:16px}.nav{gap:10px}.row{grid-template-columns:120px 1fr}}
+:root{--ink:#111;--muted:#666;--line:#e8e2dc;--paper:#fffaf5;--accent:#111}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;letter-spacing:.02em}.top{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line)}.brandmark{font-size:22px;text-decoration:none;color:inherit}.nav{display:flex;gap:18px;font-size:12px;text-transform:uppercase}.nav a{color:inherit;text-decoration:none}.wrap{max-width:1180px;margin:0 auto;padding:40px 22px 70px}.crumbs{font-size:12px;text-transform:uppercase;margin-bottom:24px;color:var(--muted)}.crumbs a{color:inherit}.product{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:48px;align-items:start}.gallery{display:grid;gap:14px}.gallery img{width:100%;display:block;background:#eee;object-fit:cover}.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.thumbs img{aspect-ratio:1;object-fit:cover}.kicker{font-size:12px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}.title{font-size:38px;line-height:1.05;margin:0 0 16px}.price{font-size:22px;margin:0 0 18px}.status{display:inline-block;border:1px solid var(--ink);padding:6px 10px;font-size:12px;text-transform:uppercase;margin-bottom:22px}.desc{line-height:1.65;color:#222;margin:0 0 26px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0}.button{appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;padding:14px 18px;font-size:12px;text-transform:uppercase;letter-spacing:.12em}.button.secondary{background:transparent;color:var(--ink)}.specs{border-top:1px solid var(--line);margin-top:30px}.row{display:grid;grid-template-columns:145px 1fr;gap:18px;border-bottom:1px solid var(--line);padding:14px 0;font-size:13px}.row dt{text-transform:uppercase;color:var(--muted)}.row dd{margin:0}.policy{border-top:1px solid var(--line);margin-top:18px;padding-top:6px}.policy details{border-bottom:1px solid var(--line);padding:13px 0}.policy summary{cursor:pointer;text-transform:uppercase;font-size:13px;letter-spacing:.1em}.policy p{line-height:1.65;margin:12px 0 0;color:#222}.policy a{color:inherit;text-decoration:underline;text-underline-offset:2px}.footer{border-top:1px solid var(--line);padding:26px 24px;color:var(--muted);font-size:12px;text-align:center}@media(max-width:800px){.product{grid-template-columns:1fr}.title{font-size:30px}.top{padding:16px}.nav{gap:10px}.row{grid-template-columns:120px 1fr}}
 </style>
 </head>
 <body>
@@ -194,6 +216,20 @@ ${available ? `<a class="button" href="/?watch=${escapeAttr(slug)}">Buy on site<
 </div>
 <h2>Specification</h2>
 <dl class="specs">${rows.map(([label, value]) => `<div class="row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>
+<div class="policy" aria-label="Delivery and returns information">
+<details>
+<summary>Delivery</summary>
+<p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
+<p>Collection is also available upon request.</p>
+<p>For international delivery, please contact us for a shipping quote.</p>
+<p>For more details, please refer to <a href="${escapeAttr(DELIVERY_POLICY_URL)}">Delivery</a>.</p>
+</details>
+<details>
+<summary>Returns</summary>
+<p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
+<p>For more details, please refer to <a href="${escapeAttr(RETURNS_POLICY_URL)}">Returns</a>.</p>
+</details>
+</div>
 </section>
 </article>
 </main>
