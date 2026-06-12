@@ -1,0 +1,1 @@
+{"type":"module","scripts":{"build:seo":"node scripts/generate-seo-pages.mjs"},"engines":{"node":">=18"}}
