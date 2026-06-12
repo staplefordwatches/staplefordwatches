@@ -15961,3 +15961,52 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   window.addEventListener('load', run, {passive:true});
 })();
 </script>
+
+<style id="sw-v54-buy-grid-edge-flush">
+/* v54 — BUY listings only: flush outside image edges with a small centre divider/gutter. */
+html body:not(.product-page-open) #gallery.grid{
+  width:100vw !important;
+  max-width:none !important;
+  margin-left:calc(50% - 50vw) !important;
+  margin-right:calc(50% - 50vw) !important;
+  gap:1px !important;
+  column-gap:1px !important;
+  row-gap:24px !important;
+  background:#fff !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+}
+html body:not(.product-page-open) #gallery.grid .card,
+html body:not(.product-page-open) #gallery.grid .image{
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+html body:not(.product-page-open) #gallery.grid .image img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+@media (min-width:1200px){
+  html body:not(.product-page-open) #gallery.grid{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+}
+@media (orientation:landscape) and (max-width:1199px){
+  html body:not(.product-page-open) #gallery.grid{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  }
+}
+@media (orientation:portrait) and (max-width:767px){
+  html body:not(.product-page-open) #gallery.grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+</style>
