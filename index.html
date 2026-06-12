@@ -15371,3 +15371,159 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   }
 }
 </style>
+
+<style id="stapleford-product-view-balance-v49">
+/* V49: correct the V48 desktop image treatment and normalise landscape product-title sizing.
+   Individual product view only; BUY listings untouched. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
+    column-gap:clamp(82px, 6vw, 128px) !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:45vw !important;
+    min-width:45vw !important;
+    max-width:45vw !important;
+    height:clamp(560px, 68vh, 760px) !important;
+    min-height:560px !important;
+    max-height:760px !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+
+  html body.product-page-open #lightbox img#lightboxImage,
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-kicker,
+  html body.product-page-open .lightbox.open .lightbox-detail-kicker,
+  html body .lightbox.open .lightbox-detail-kicker{
+    font-size:12px !important;
+    line-height:1.35 !important;
+    letter-spacing:.095em !important;
+    margin:0 0 10px !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-title,
+  html body.product-page-open .lightbox.open .lightbox-detail-title,
+  html body .lightbox.open .lightbox-detail-title{
+    font-size:clamp(28px, 2.25vw, 38px) !important;
+    line-height:1.06 !important;
+    letter-spacing:.008em !important;
+    margin:0 0 18px !important;
+    max-width:12.5em !important;
+  }
+}
+
+@media (max-width:1023px) and (orientation:landscape){
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel,
+  html body .lightbox.open .lightbox-detail-panel{
+    padding-top:clamp(20px, 4vw, 34px) !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-kicker,
+  html body.product-page-open .lightbox.open .lightbox-detail-kicker,
+  html body .lightbox.open .lightbox-detail-kicker{
+    font-size:10px !important;
+    line-height:1.35 !important;
+    letter-spacing:.1em !important;
+    margin:0 0 8px !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-title,
+  html body.product-page-open .lightbox.open .lightbox-detail-title,
+  html body .lightbox.open .lightbox-detail-title{
+    font-size:clamp(22px, 3.6vw, 30px) !important;
+    line-height:1.08 !important;
+    letter-spacing:.008em !important;
+    margin:0 0 14px !important;
+    max-width:13.5em !important;
+  }
+}
+</style>
+
+<script id="stapleford-product-view-balance-v49-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function tuneProductViewV49(){
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+    if(!root) return;
+    var isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+    var isLandscape = window.matchMedia('(max-width: 1023px) and (orientation: landscape)').matches;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var img = root.querySelector('img#lightboxImage');
+    var kicker = root.querySelector('.lightbox-detail-kicker');
+    var title = root.querySelector('.lightbox-detail-title');
+    if(isDesktop){
+      setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
+      setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
+      ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
+      setImportant(wrap, 'height', 'clamp(560px, 68vh, 760px)');
+      setImportant(wrap, 'min-height', '560px');
+      setImportant(wrap, 'max-height', '760px');
+      setImportant(wrap, 'aspect-ratio', 'auto');
+      setImportant(wrap, 'padding', '0');
+      setImportant(wrap, 'overflow', 'hidden');
+      setImportant(wrap, 'border', '0');
+      setImportant(wrap, 'border-radius', '0');
+      setImportant(wrap, 'box-shadow', 'none');
+      setImportant(wrap, 'background', 'transparent');
+      setImportant(img, 'width', '100%');
+      setImportant(img, 'height', '100%');
+      setImportant(img, 'object-fit', 'cover');
+      setImportant(img, 'object-position', 'center center');
+      setImportant(title, 'font-size', 'clamp(28px, 2.25vw, 38px)');
+      setImportant(title, 'line-height', '1.06');
+      setImportant(title, 'margin-bottom', '18px');
+      setImportant(title, 'max-width', '12.5em');
+      setImportant(kicker, 'font-size', '12px');
+      setImportant(kicker, 'margin-bottom', '10px');
+    }else if(isLandscape){
+      setImportant(title, 'font-size', 'clamp(22px, 3.6vw, 30px)');
+      setImportant(title, 'line-height', '1.08');
+      setImportant(title, 'margin-bottom', '14px');
+      setImportant(title, 'max-width', '13.5em');
+      setImportant(kicker, 'font-size', '10px');
+      setImportant(kicker, 'margin-bottom', '8px');
+    }
+  }
+  function run(){
+    tuneProductViewV49();
+    setTimeout(tuneProductViewV49, 80);
+    setTimeout(tuneProductViewV49, 240);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
