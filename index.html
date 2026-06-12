@@ -13998,6 +13998,100 @@ html body .lightbox.open .lightbox-related-title{
   }
 }
 </style>
+
+
+<style id="stapleford-desktop-image-gallery-alignment-v48">
+/* V48: desktop individual product view only — make the left hero image a touch taller so its bottom edge aligns more naturally with the You Might Also Like image row. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40)) !important;
+    column-gap:clamp(64px, 5.4vw, 112px) !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:48vw !important;
+    min-width:48vw !important;
+    max-width:48vw !important;
+    height:clamp(430px, 22.5vw, 500px) !important;
+    min-height:clamp(430px, 22.5vw, 500px) !important;
+    max-height:500px !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+
+  html body.product-page-open #lightbox img#lightboxImage,
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    width:100% !important;
+    height:100% !important;
+    min-width:100% !important;
+    min-height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+}
+</style>
+
+<script id="stapleford-desktop-image-gallery-alignment-v48-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function tuneDesktopHeroImage(){
+    if(!window.matchMedia('(min-width: 1024px)').matches) return;
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+    if(!root) return;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var img = root.querySelector('img#lightboxImage');
+    setImportant(stage, 'grid-template-columns', 'minmax(0, 48vw) minmax(420px, calc(var(--sw-page-width) * .40))');
+    setImportant(stage, 'column-gap', 'clamp(64px, 5.4vw, 112px)');
+    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '48vw'); });
+    setImportant(wrap, 'height', 'clamp(430px, 22.5vw, 500px)');
+    setImportant(wrap, 'min-height', 'clamp(430px, 22.5vw, 500px)');
+    setImportant(wrap, 'max-height', '500px');
+    setImportant(wrap, 'aspect-ratio', 'auto');
+    setImportant(wrap, 'padding', '0');
+    setImportant(wrap, 'overflow', 'hidden');
+    setImportant(wrap, 'border', '0');
+    setImportant(wrap, 'box-shadow', 'none');
+    setImportant(wrap, 'background', 'transparent');
+    setImportant(img, 'height', '100%');
+    setImportant(img, 'width', '100%');
+    setImportant(img, 'object-fit', 'cover');
+    setImportant(img, 'object-position', 'center center');
+  }
+  function run(){
+    tuneDesktopHeroImage();
+    setTimeout(tuneDesktopHeroImage, 80);
+    setTimeout(tuneDesktopHeroImage, 240);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
+
 </body>
 </html>
 
