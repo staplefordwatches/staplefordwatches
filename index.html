@@ -9145,9 +9145,9 @@ html body .lightbox.open .stapleford-preview-slide img{
   <div class="lightbox-detail-kicker" id="lightboxDetailBrand"></div>
 </div>
 <div class="lightbox-detail-title" id="lightboxDetailTitle"></div>
-<div class="lightbox-detail-reference" id="lightboxDetailReference"></div>
-<div class="lightbox-detail-year" id="lightboxDetailYear"></div>
-<div class="lightbox-detail-contents" id="lightboxDetailContents"></div>
+<div class="lightbox-detail-reference lightbox-detail-meta-line" id="lightboxDetailReference"></div>
+<div class="lightbox-detail-year lightbox-detail-meta-line" id="lightboxDetailYear"></div>
+<div class="lightbox-detail-contents lightbox-detail-meta-line" id="lightboxDetailContents"></div>
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
 <div class="lightbox-detail-actions">
   <button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY NOW</button>
@@ -11420,5 +11420,179 @@ html body.product-page-open .lightbox-detail-policy-copy{
 }
 </style>
 
+
+
+<style id="stapleford-product-view-year-description-cleanup-v11">
+/* Product view only: make Year match Reference/Contents and remove any border from description text area. */
+html body .lightbox-detail-reference,
+html body .lightbox-detail-year,
+html body .lightbox-detail-contents{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1.35 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  opacity:.66 !important;
+  margin:0 0 3px !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+}
+html body.product-page-open .lightbox-detail-description{
+  border:0 !important;
+  border-top:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-left:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  padding:0 !important;
+}
+html body.product-page-open .lightbox-detail-description *,
+html body.product-page-open .lightbox-detail-description::before,
+html body.product-page-open .lightbox-detail-description::after{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+</style>
+
+
+<style id="stapleford-product-view-corrections-v12">
+/* Corrections: Year line matches Reference/Contents; remove the added horizontal underlines from expandable headings. */
+html body.product-page-open .lightbox-detail-reference,
+html body.product-page-open .lightbox-detail-year,
+html body.product-page-open .lightbox-detail-contents,
+html body .lightbox.open .lightbox-detail-reference,
+html body .lightbox.open .lightbox-detail-year,
+html body .lightbox.open .lightbox-detail-contents{
+  display:block !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  font-weight:400 !important;
+  line-height:1.35 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  opacity:.66 !important;
+  margin:0 0 3px 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#000 !important;
+}
+
+html body.product-page-open .lightbox-detail-description-toggle,
+html body.product-page-open .lightbox-detail-spec-toggle,
+html body.product-page-open .lightbox-detail-policy-toggle,
+html body .lightbox.open .lightbox-detail-description-toggle,
+html body .lightbox.open .lightbox-detail-spec-toggle,
+html body .lightbox.open .lightbox-detail-policy-toggle{
+  border-bottom:0 !important;
+  padding-bottom:0 !important;
+}
+
+html body.product-page-open .lightbox-detail-description,
+html body .lightbox.open .lightbox-detail-description,
+html body.product-page-open .lightbox-detail-description *,
+html body .lightbox.open .lightbox-detail-description *{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+html body.product-page-open .lightbox-detail-buy,
+html body.product-page-open .lightbox-detail-buy:hover,
+html body.product-page-open .lightbox-detail-buy:active,
+html body .lightbox.open .lightbox-detail-buy,
+html body .lightbox.open .lightbox-detail-buy:hover,
+html body .lightbox.open .lightbox-detail-buy:active{
+  box-shadow:none !important;
+}
+</style>
+
+
+
+<style id="stapleford-final-product-view-fix-v13">
+/* Final correction: product view only. Year uses the exact same class, spacing and typography as Reference and Contents. */
+html body.product-page-open .lightbox-detail-meta-line,
+html body .lightbox.open .lightbox-detail-meta-line,
+html body.product-page-open .lightbox-detail-reference,
+html body.product-page-open .lightbox-detail-year,
+html body.product-page-open .lightbox-detail-contents,
+html body .lightbox.open .lightbox-detail-reference,
+html body .lightbox.open .lightbox-detail-year,
+html body .lightbox.open .lightbox-detail-contents{
+  display:block !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  font-weight:400 !important;
+  line-height:1.35 !important;
+  letter-spacing:.08em !important;
+  text-transform:none !important;
+  opacity:.66 !important;
+  margin:0 0 3px 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  color:#000 !important;
+}
+
+/* Remove the horizontal lines I previously added and also the older built-in top rules on product-view accordion headings. */
+html body.product-page-open .lightbox-detail-description-toggle,
+html body.product-page-open .lightbox-detail-spec-toggle,
+html body.product-page-open .lightbox-detail-policy-toggle,
+html body .lightbox.open .lightbox-detail-description-toggle,
+html body .lightbox.open .lightbox-detail-spec-toggle,
+html body .lightbox.open .lightbox-detail-policy-toggle{
+  border:0 !important;
+  border-top:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-left:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  padding-top:10px !important;
+  padding-bottom:0 !important;
+}
+
+html body.product-page-open .lightbox-detail-description,
+html body.product-page-open .lightbox-detail-specs,
+html body.product-page-open .lightbox-detail-policy-copy,
+html body .lightbox.open .lightbox-detail-description,
+html body .lightbox.open .lightbox-detail-specs,
+html body .lightbox.open .lightbox-detail-policy-copy{
+  border:0 !important;
+  border-top:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-left:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+html body.product-page-open .lightbox-detail-description,
+html body .lightbox.open .lightbox-detail-description,
+html body.product-page-open .lightbox-detail-description *,
+html body .lightbox.open .lightbox-detail-description *{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+
+html body.product-page-open .lightbox-detail-buy,
+html body.product-page-open .lightbox-detail-buy:hover,
+html body.product-page-open .lightbox-detail-buy:active,
+html body .lightbox.open .lightbox-detail-buy,
+html body .lightbox.open .lightbox-detail-buy:hover,
+html body .lightbox.open .lightbox-detail-buy:active{
+  box-shadow:none !important;
+}
+</style>
+
 </body>
 </html>
+
