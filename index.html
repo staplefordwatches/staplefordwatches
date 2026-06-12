@@ -14613,3 +14613,191 @@ html body .lightbox.open .lightbox-related-card img{
   transform-origin:center center !important;
 }
 </style>
+
+
+<style id="stapleford-edge-to-edge-all-views-v40">
+/* V40: force product-view imagery to touch the viewport edge in every view/orientation. */
+html body.product-page-open #lightbox,
+html body.product-page-open #lightbox.open,
+html body.product-page-open .lightbox.open{
+  overflow-x:hidden !important;
+}
+
+html body.product-page-open #lightbox .lightbox-image-wrap,
+html body.product-page-open #lightbox.open .lightbox-image-wrap,
+html body.product-page-open .lightbox.open .lightbox-image-wrap{
+  width:100vw !important;
+  max-width:none !important;
+  min-width:100vw !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  overflow:hidden !important;
+}
+
+html body.product-page-open #lightbox .stapleford-preview-track,
+html body.product-page-open #lightbox.open .stapleford-preview-track,
+html body.product-page-open .lightbox.open .stapleford-preview-track,
+html body.product-page-open #lightbox .stapleford-preview-slide,
+html body.product-page-open #lightbox.open .stapleford-preview-slide,
+html body.product-page-open .lightbox.open .stapleford-preview-slide{
+  width:100% !important;
+  max-width:none !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  overflow:hidden !important;
+}
+
+html body.product-page-open #lightbox img#lightboxImage,
+html body.product-page-open #lightbox.open img#lightboxImage,
+html body.product-page-open .lightbox.open img#lightboxImage,
+html body.product-page-open #lightbox .stapleford-preview-slide img,
+html body.product-page-open #lightbox.open .stapleford-preview-slide img,
+html body.product-page-open .lightbox.open .stapleford-preview-slide img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  transform:none !important;
+}
+
+/* Keep the non-image product content on the premium site grid. */
+html body.product-page-open #lightbox .lightbox-detail-panel,
+html body.product-page-open #lightbox.open .lightbox-detail-panel,
+html body.product-page-open .lightbox.open .lightbox-detail-panel,
+html body.product-page-open #lightbox .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-related,
+html body.product-page-open #lightbox .lightbox-site-footer,
+html body.product-page-open #lightbox.open .lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-site-footer{
+  width:var(--sw-page-width) !important;
+  max-width:var(--sw-page-width) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    width:100vw !important;
+    max-width:100vw !important;
+    margin-left:calc(50% - 50vw) !important;
+    margin-right:calc(50% - 50vw) !important;
+    display:grid !important;
+    grid-template-columns:minmax(0, 58vw) minmax(380px, calc(var(--sw-page-width) * .36)) !important;
+    column-gap:clamp(28px, 3.5vw, 64px) !important;
+    align-items:start !important;
+  }
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    grid-column:1 !important;
+    width:58vw !important;
+    min-width:58vw !important;
+    max-width:58vw !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  html body.product-page-open #lightbox .lightbox-detail-panel,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    grid-column:2 !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  html body.product-page-open #lightbox .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-related{
+    grid-column:1 !important;
+    width:58vw !important;
+    max-width:58vw !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    width:100vw !important;
+    max-width:100vw !important;
+    margin-left:calc(50% - 50vw) !important;
+    margin-right:calc(50% - 50vw) !important;
+  }
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    width:100vw !important;
+    min-width:100vw !important;
+    max-width:100vw !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+}
+</style>
+
+<script id="stapleford-edge-to-edge-all-views-v40-js">
+(function(){
+  function important(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function flushProductImage(){
+    var wrap = document.querySelector('body.product-page-open #lightbox.open .lightbox-image-wrap, body.product-page-open .lightbox.open .lightbox-image-wrap');
+    if(!wrap) return;
+    important(wrap, 'padding', '0');
+    important(wrap, 'border', '0');
+    important(wrap, 'border-radius', '0');
+    important(wrap, 'box-shadow', 'none');
+    important(wrap, 'background', 'transparent');
+
+    if(window.matchMedia('(max-width: 1023px)').matches){
+      important(wrap, 'width', window.innerWidth + 'px');
+      important(wrap, 'min-width', window.innerWidth + 'px');
+      important(wrap, 'max-width', window.innerWidth + 'px');
+      important(wrap, 'margin-left', '0px');
+      important(wrap, 'margin-right', '0px');
+      requestAnimationFrame(function(){
+        var left = wrap.getBoundingClientRect().left;
+        important(wrap, 'margin-left', (-left) + 'px');
+      });
+    }else{
+      important(wrap, 'margin-left', '0px');
+      important(wrap, 'width', '58vw');
+      important(wrap, 'min-width', '58vw');
+      important(wrap, 'max-width', '58vw');
+    }
+  }
+  function run(){
+    flushProductImage();
+    setTimeout(flushProductImage, 60);
+    setTimeout(flushProductImage, 180);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
