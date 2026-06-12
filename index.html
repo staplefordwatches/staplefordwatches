@@ -8624,7 +8624,27 @@ function getStructuredProductData(w){
       "priceCurrency": "GBP",
       "price": String(w.price),
       "availability": w.status === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      "itemCondition": "https://schema.org/UsedCondition"
+      "itemCondition": "https://schema.org/UsedCondition",
+      "seller": { "@type": "Organization", "name": "Stapleford Watches" },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "GB" },
+        "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "GBP" },
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" },
+          "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 1, "unitCode": "DAY" }
+        }
+      },
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "GB",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 14,
+        "returnMethod": "https://schema.org/ReturnByMail",
+        "returnFees": "https://schema.org/ReturnShippingFees",
+        "merchantReturnLink": `${SITE_ORIGIN}/#returns`
+      }
     }
   };
 }
