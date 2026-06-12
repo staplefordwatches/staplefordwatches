@@ -10936,5 +10936,91 @@ document.addEventListener("DOMContentLoaded", function(){
 })();
 </script>
 
+
+
+<style id="stapleford-remove-preview-peek-v8">
+/* V8: remove the next-image preview/sliver. Keep no thumbnails, no arrows, and no description border. */
+html body .lightbox.open .lightbox-prev,
+html body .lightbox.open .lightbox-next,
+html body .lightbox .lightbox-prev,
+html body .lightbox .lightbox-next{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+html body .lightbox.open .lightbox-detail-panel{
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  background:transparent !important;
+}
+
+html body .lightbox.open .lightbox-image-wrap{
+  overflow:hidden !important;
+  background:transparent !important;
+}
+
+html body .lightbox.open .stapleford-preview-track{
+  gap:0 !important;
+}
+
+html body .lightbox.open .stapleford-preview-slide{
+  flex-basis:100% !important;
+  width:100% !important;
+}
+
+html body .lightbox.open .stapleford-preview-slide img{
+  width:100% !important;
+  height:auto !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center top !important;
+}
+</style>
+
+<script id="stapleford-remove-preview-peek-v8-js">
+(function(){
+  function removeThumbGallery(){
+    document.querySelectorAll('#lightboxThumbs, .lightbox-thumbs').forEach(function(el){
+      el.innerHTML = '';
+      el.setAttribute('hidden', 'hidden');
+      el.setAttribute('aria-hidden', 'true');
+      el.style.display = 'none';
+    });
+  }
+
+  function applyNoPeekSizing(){
+    var wrap = document.querySelector('.lightbox-image-wrap');
+    var track = document.getElementById('staplefordPreviewTrack');
+    if(!wrap || !track) return;
+    var slideWidth = wrap.clientWidth;
+    track.style.gap = '0px';
+    track.querySelectorAll('.stapleford-preview-slide').forEach(function(slide){
+      slide.style.flexBasis = slideWidth + 'px';
+      slide.style.width = slideWidth + 'px';
+    });
+    if(typeof lightboxIndex !== 'undefined'){
+      track.style.transform = 'translate3d(' + (-lightboxIndex * slideWidth) + 'px, 0, 0)';
+    }
+  }
+
+  window.positionSwipePreviewTrack = applyNoPeekSizing;
+
+  var oldRender = window.renderSwipePreviewTrack;
+  window.renderSwipePreviewTrack = function(){
+    if(typeof oldRender === 'function') oldRender();
+    applyNoPeekSizing();
+    removeThumbGallery();
+  };
+
+  removeThumbGallery();
+  applyNoPeekSizing();
+  window.addEventListener('resize', applyNoPeekSizing, { passive:true });
+  window.addEventListener('orientationchange', function(){ setTimeout(applyNoPeekSizing, 100); }, { passive:true });
+  document.addEventListener('click', function(){ setTimeout(function(){ removeThumbGallery(); applyNoPeekSizing(); }, 0); }, true);
+})();
+</script>
+
 </body>
 </html>
