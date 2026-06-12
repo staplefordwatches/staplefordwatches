@@ -9146,6 +9146,7 @@ html body .lightbox.open .stapleford-preview-slide img{
 </div>
 <div class="lightbox-detail-title" id="lightboxDetailTitle"></div>
 <div class="lightbox-detail-reference" id="lightboxDetailReference"></div>
+<div class="lightbox-detail-year" id="lightboxDetailYear"></div>
 <div class="lightbox-detail-contents" id="lightboxDetailContents"></div>
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
 <div class="lightbox-detail-actions">
@@ -9982,6 +9983,7 @@ const lightboxDetailsReopen = document.getElementById("lightboxDetailsReopen");
 const lightboxDetailBrand = document.getElementById("lightboxDetailBrand");
 const lightboxDetailTitle = document.getElementById("lightboxDetailTitle");
 const lightboxDetailReference = document.getElementById("lightboxDetailReference");
+const lightboxDetailYear = document.getElementById("lightboxDetailYear");
 const lightboxDetailContents = document.getElementById("lightboxDetailContents");
 const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
 const lightboxDetailDescriptionToggle = document.getElementById("lightboxDetailDescriptionToggle");
@@ -10107,6 +10109,7 @@ function renderLightboxDetails(){
   const specs = lightboxWatch.specs || {};
   const title = getProductDisplayTitleWithoutBrand(lightboxWatch);
   const reference = getWatchReference(lightboxWatch) || specs.reference || "";
+  const year = specs.year || "";
   const contents = specs.contents || "";
   const isAvailable = lightboxWatch.status === "available";
   const isSold = ["sold", "reserved"].includes(lightboxWatch.status);
@@ -10114,8 +10117,9 @@ function renderLightboxDetails(){
 
   setText(lightboxDetailBrand, String(lightboxWatch.brand || "").toUpperCase());
   setText(lightboxDetailTitle, title);
-  setText(lightboxDetailReference, reference ? `REFERENCE ${String(reference).toUpperCase()}` : "");
-  setText(lightboxDetailContents, contents ? `CONTENTS ${String(contents).toUpperCase()}` : "");
+  setText(lightboxDetailReference, reference ? `Reference: ${String(reference).toUpperCase()}` : "");
+  setText(lightboxDetailYear, year ? `Year: ${String(year).toUpperCase()}` : "");
+  setText(lightboxDetailContents, contents ? `Contents: ${String(contents).toUpperCase()}` : "");
   setText(lightboxDetailPrice, isSold ? String(lightboxWatch.status || "sold").toUpperCase() : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
   setText(lightboxDetailDescription, lightboxWatch.description || getWatchDescription(lightboxWatch));
   if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
