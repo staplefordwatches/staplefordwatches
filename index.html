@@ -8911,6 +8911,76 @@ html body .lightbox.open .lightbox-image-wrap{
 }
 </style>
 
+
+
+<style id="stapleford-cole-style-preview-carousel-v7">
+/* V7: no thumbnail gallery, no arrow controls, clean unboxed description, and a Cole-Buxton-style image rail with a peek of the next image. */
+html body .lightbox.open .lightbox-prev,
+html body .lightbox.open .lightbox-next,
+html body .lightbox .lightbox-prev,
+html body .lightbox .lightbox-next{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+html body .lightbox.open .lightbox-detail-panel{
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  background:transparent !important;
+}
+
+html body .lightbox.open .lightbox-image-wrap{
+  position:relative !important;
+  overflow:hidden !important;
+  background:transparent !important;
+  cursor:grab;
+}
+
+html body .lightbox.open .lightbox-image-wrap:active{
+  cursor:grabbing;
+}
+
+html body .lightbox.open img#lightboxImage{
+  display:none !important;
+}
+
+html body .lightbox.open .stapleford-preview-track{
+  display:flex !important;
+  width:100% !important;
+  height:auto !important;
+  transition:transform 320ms ease !important;
+  will-change:transform !important;
+  align-items:stretch !important;
+}
+
+html body .lightbox.open .stapleford-preview-slide{
+  flex:0 0 auto !important;
+  min-width:0 !important;
+  background:transparent !important;
+}
+
+html body .lightbox.open .stapleford-preview-slide img{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  object-position:center top !important;
+  margin:0 !important;
+  background:transparent !important;
+}
+
+@media (max-width: 767px){
+  html body .lightbox.open .lightbox-detail-panel{
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -10069,10 +10139,59 @@ function renderLightboxDetails(){
   }
 }
 
+
+function renderSwipePreviewTrack(){
+  const wrap = document.querySelector(".lightbox-image-wrap");
+  if(!wrap || !lightboxImages.length) return;
+
+  let track = document.getElementById("staplefordPreviewTrack");
+  if(!track){
+    track = document.createElement("div");
+    track.id = "staplefordPreviewTrack";
+    track.className = "stapleford-preview-track";
+    wrap.appendChild(track);
+  }
+
+  const sources = lightboxImages.length > 1 ? lightboxImages.concat(lightboxImages[0]) : lightboxImages.slice();
+  track.innerHTML = "";
+  sources.forEach((src, index) => {
+    const slide = document.createElement("div");
+    slide.className = "stapleford-preview-slide";
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = `${lightboxTitle} image ${((index % lightboxImages.length) + 1)}`;
+    img.loading = index < 2 ? "eager" : "lazy";
+    img.decoding = "async";
+    slide.appendChild(img);
+    track.appendChild(slide);
+  });
+
+  positionSwipePreviewTrack();
+}
+
+function positionSwipePreviewTrack(){
+  const wrap = document.querySelector(".lightbox-image-wrap");
+  const track = document.getElementById("staplefordPreviewTrack");
+  if(!wrap || !track || !lightboxImages.length) return;
+  const gap = window.matchMedia("(max-width: 767px)").matches ? 8 : 10;
+  const preview = lightboxImages.length > 1 ? (window.matchMedia("(max-width: 767px)").matches ? 38 : 72) : 0;
+  const slideWidth = Math.max(120, wrap.clientWidth - preview - (preview ? gap : 0));
+  track.style.gap = gap + "px";
+  track.querySelectorAll(".stapleford-preview-slide").forEach(slide => {
+    slide.style.flexBasis = slideWidth + "px";
+  });
+  track.style.transform = `translate3d(${-lightboxIndex * (slideWidth + gap)}px, 0, 0)`;
+}
+
+window.addEventListener("resize", () => {
+  if(document.querySelector(".lightbox.open")) positionSwipePreviewTrack();
+}, { passive:true });
+
 function renderLightbox(){
   if(!lightboxImages.length) return;
   lightboxImage.src = lightboxImages[lightboxIndex];
   lightboxImage.alt = `${lightboxTitle} image ${lightboxIndex + 1}`;
+  renderSwipePreviewTrack();
   if(lightboxMeta) lightboxMeta.textContent = "";
   renderLightboxDetails();
   if(lightboxStatusBadge){
