@@ -8376,6 +8376,69 @@ html body #cartDrawer .cart-error{
 }
 </style>
 
+<style id="stapleford-product-detail-main-image-width-v3">
+/* Product detail v3: make the main product image itself fill the same left-column width as the gallery, removing the square-frame padding. */
+html body .lightbox.open .lightbox-stage{
+  grid-template-columns:minmax(0, 590px) minmax(300px, 370px) !important;
+  align-items:start !important;
+}
+
+html body .lightbox.open .lightbox-image-wrap{
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  aspect-ratio:auto !important;
+  padding:0 !important;
+  margin:0 !important;
+  overflow:visible !important;
+  display:block !important;
+}
+
+html body .lightbox.open .lightbox-stage img#lightboxImage{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  object-position:center top !important;
+  margin:0 !important;
+}
+
+html body .lightbox.open .lightbox-thumbs{
+  width:100% !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+}
+
+html body .lightbox.open .lightbox-detail-panel{
+  box-sizing:border-box !important;
+}
+
+html body .lightbox.open .lightbox-prev,
+html body .lightbox.open .lightbox-next{
+  top:0 !important;
+  bottom:0 !important;
+  height:100% !important;
+}
+
+@media (max-width: 767px){
+  html body .lightbox.open .lightbox-image-wrap{
+    width:100% !important;
+    height:auto !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+  }
+
+  html body .lightbox.open .lightbox-stage img#lightboxImage{
+    width:100% !important;
+    height:auto !important;
+    max-height:none !important;
+  }
+}
+</style>
+
 
 <script type="application/ld+json" id="stapleford-merchant-policy-jsonld">
 {
