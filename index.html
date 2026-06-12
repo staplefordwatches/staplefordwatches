@@ -16010,3 +16010,20 @@ html body:not(.product-page-open) #gallery.grid .image img{
   }
 }
 </style>
+
+
+<style id="sw-v55-buy-grid-slight-divider">
+/* v55 — BUY listings only: a tiny bit more internal divider between product images, while outer edges stay flush. */
+html body:not(.product-page-open) #gallery.grid{
+  column-gap:3px !important;
+  gap:3px !important;
+  row-gap:24px !important;
+}
+@media (max-width:767px){
+  html body:not(.product-page-open) #gallery.grid{
+    column-gap:3px !important;
+    gap:3px !important;
+    row-gap:22px !important;
+  }
+}
+</style>
