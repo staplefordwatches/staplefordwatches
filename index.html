@@ -8879,7 +8879,7 @@ html body .lightbox.open .lightbox-stage{
 
 html body .lightbox.open .lightbox-image-wrap{
   grid-area:product-image !important;
-  touch-action:pan-x pan-y !important;
+  touch-action:pan-y !important;
 }
 
 @media (max-width: 767px){
@@ -10193,7 +10193,13 @@ function renderRelatedWatches(currentWatch){
 
   // Keep the premium rail predictable when moving between product pages.
   lightboxRelatedGrid.scrollLeft = 0;
+
+  if(window.StaplefordRelatedRail && typeof window.StaplefordRelatedRail.refresh === "function"){
+    window.StaplefordRelatedRail.refresh();
+  }
+  document.dispatchEvent(new CustomEvent("stapleford:product-opened"));
 }
+
 
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
@@ -10352,6 +10358,10 @@ function openLightbox(w, startIndex = 0, updateUrl = true){
   lightbox.classList.add("open");
   document.body.classList.add("product-page-open");
   lightbox.setAttribute("aria-hidden", "false");
+  if(window.StaplefordRelatedRail && typeof window.StaplefordRelatedRail.refresh === "function"){
+    window.StaplefordRelatedRail.refresh();
+  }
+  document.dispatchEvent(new CustomEvent("stapleford:product-opened"));
   document.body.style.overflow = "hidden";
   if(updateUrl) setProductBrowserUrl(w, false);
 }
@@ -14097,9 +14107,10 @@ html body:not(.product-page-open) #gallery.grid{
 </style>
 
 
-<style id="sw-v59-related-under-returns-autoscroll">
-/* Product click view only: You Might Also Like sits directly after Returns in the detail column.
-   Premium recommendation rail: hidden scrollbar, drag/swipe support, visible product details, and restrained auto-scroll that stops on customer interaction. */
+
+
+<style id="sw-v60-related-rail-premium-autoscroll">
+/* Product page recommendation rail: clean detail-column placement, premium hidden-scroll drag, and visible but restrained auto-scroll. */
 html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
 html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related{
   display:block !important;
@@ -14151,8 +14162,9 @@ html body.product-page-open .lightbox.open .lightbox-related-grid{
   -ms-overflow-style:none !important;
   cursor:grab !important;
   user-select:none !important;
-  touch-action:pan-y !important;
+  touch-action:pan-x pan-y !important;
   box-sizing:border-box !important;
+  scroll-behavior:auto !important;
 }
 
 html body.product-page-open #lightbox.open .lightbox-related-grid::-webkit-scrollbar,
@@ -14285,294 +14297,318 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
 }
 </style>
 
-<script id="sw-v59-related-under-returns-autoscroll-js">
+<script id="sw-v60-related-rail-premium-autoscroll-js">
 (function(){
+  var RAIL_SELECTOR = '#lightboxRelatedGrid';
+  var LIGHTBOX_SELECTOR = '#lightbox.open';
   var REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-  var AUTO_SCROLL_SPEED = 12; // px per second: deliberately slow and premium.
-  var AUTO_SCROLL_EDGE_PAUSE = 950;
-  var DRAG_THRESHOLD = 6;
+  var AUTO_SCROLL_SPEED = 34; // px/second: visible enough to notice, slow enough to feel premium.
+  var EDGE_PAUSE_MS = 900;
+  var START_DELAY_MS = 450;
+  var DRAG_THRESHOLD = 5;
+  var RETRY_LIMIT = 24;
 
-  var reduceMotion = false;
-  var reduceMotionQuery = null;
+  var reduceMotionQuery = window.matchMedia ? window.matchMedia(REDUCED_MOTION_QUERY) : null;
+  var reduceMotion = reduceMotionQuery ? reduceMotionQuery.matches : false;
+  var state = {
+    rail:null,
+    rafId:0,
+    startTimer:0,
+    retryCount:0,
+    lastFrame:0,
+    direction:1,
+    edgePausedUntil:0,
+    hoverPaused:false,
+    stoppedByCustomer:false,
+    dragging:false,
+    moved:false,
+    suppressClick:false,
+    pointerId:null,
+    startX:0,
+    startScrollLeft:0,
+    inView:true,
+    preparedRail:null,
+    mutationObserver:null,
+    intersectionObserver:null
+  };
 
-  if(window.matchMedia){
-    reduceMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
-    reduceMotion = !!reduceMotionQuery.matches;
+  function rail(){
+    return document.querySelector(RAIL_SELECTOR);
   }
 
-  var railState = new WeakMap();
-
-  function getState(rail){
-    var state = railState.get(rail);
-    if(state) return state;
-
-    state = {
-      prepared:false,
-      dragging:false,
-      hoverPaused:false,
-      interactionStopped:false,
-      moved:false,
-      suppressClick:false,
-      startX:0,
-      startScrollLeft:0,
-      pointerId:null,
-      rafId:0,
-      lastFrame:0,
-      direction:1,
-      edgePausedUntil:0,
-      observed:false,
-      mutationObserver:null
-    };
-
-    railState.set(rail, state);
-    return state;
+  function lightboxIsOpen(){
+    return Boolean(document.querySelector(LIGHTBOX_SELECTOR)) && document.body.classList.contains('product-page-open');
   }
 
-  function canAutoScroll(rail, state){
-    if(!rail || !state) return false;
+  function hasRoomToScroll(el){
+    return Boolean(el && el.children.length > 2 && el.scrollWidth > el.clientWidth + 6);
+  }
+
+  function customerCanSeeRail(el){
+    if(!el) return false;
+    if(el.offsetParent === null) return false;
+    return true;
+  }
+
+  function canRun(el){
+    if(!el) return false;
     if(reduceMotion) return false;
-    if(state.dragging || state.hoverPaused || state.interactionStopped) return false;
     if(document.hidden) return false;
-    if(!document.body.classList.contains('product-page-open')) return false;
-    if(!rail.closest || !rail.closest('#lightbox.open')) return false;
-    if(rail.scrollWidth <= rail.clientWidth + 4) return false;
-    return rail.children.length > 2;
+    if(!lightboxIsOpen()) return false;
+    if(!customerCanSeeRail(el)) return false;
+    if(!hasRoomToScroll(el)) return false;
+    if(!state.inView) return false;
+    if(state.hoverPaused || state.stoppedByCustomer || state.dragging) return false;
+    return true;
   }
 
-  function cancelAutoScroll(rail, state){
+  function cancel(){
     if(state.rafId){
       window.cancelAnimationFrame(state.rafId);
       state.rafId = 0;
     }
+    if(state.startTimer){
+      window.clearTimeout(state.startTimer);
+      state.startTimer = 0;
+    }
     state.lastFrame = 0;
     state.edgePausedUntil = 0;
-    rail.classList.remove('is-autoscrolling');
+    if(state.rail) state.rail.classList.remove('is-autoscrolling');
   }
 
-  function scheduleAutoScroll(rail, state){
-    if(state.rafId || !canAutoScroll(rail, state)){
-      if(!canAutoScroll(rail, state)) cancelAutoScroll(rail, state);
-      return;
-    }
-
-    rail.classList.add('is-autoscrolling');
-    state.rafId = window.requestAnimationFrame(function(timestamp){
-      autoScrollFrame(rail, state, timestamp);
-    });
-  }
-
-  function autoScrollFrame(rail, state, timestamp){
+  function tick(timestamp){
     state.rafId = 0;
+    var el = state.rail || rail();
+    state.rail = el;
 
-    if(!canAutoScroll(rail, state)){
-      cancelAutoScroll(rail, state);
+    if(!canRun(el)){
+      cancel();
       return;
     }
 
-    var maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
-    if(maxScrollLeft <= 4){
-      cancelAutoScroll(rail, state);
+    var maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
+    if(maxScrollLeft <= 6){
+      cancel();
       return;
     }
 
     if(!state.lastFrame) state.lastFrame = timestamp;
 
     if(state.edgePausedUntil && timestamp < state.edgePausedUntil){
-      state.rafId = window.requestAnimationFrame(function(nextTimestamp){
-        autoScrollFrame(rail, state, nextTimestamp);
-      });
+      state.rafId = window.requestAnimationFrame(tick);
       return;
     }
 
     state.edgePausedUntil = 0;
-    var elapsed = Math.min(64, Math.max(0, timestamp - state.lastFrame));
+    var elapsed = Math.min(80, Math.max(0, timestamp - state.lastFrame));
     state.lastFrame = timestamp;
-    rail.scrollLeft += (AUTO_SCROLL_SPEED * elapsed / 1000) * state.direction;
 
-    if(rail.scrollLeft >= maxScrollLeft - 1){
-      rail.scrollLeft = maxScrollLeft;
+    el.scrollLeft += (AUTO_SCROLL_SPEED * elapsed / 1000) * state.direction;
+
+    if(el.scrollLeft >= maxScrollLeft - 1){
+      el.scrollLeft = maxScrollLeft;
       state.direction = -1;
-      state.edgePausedUntil = timestamp + AUTO_SCROLL_EDGE_PAUSE;
-    }else if(rail.scrollLeft <= 1){
-      rail.scrollLeft = 0;
+      state.edgePausedUntil = timestamp + EDGE_PAUSE_MS;
+    }else if(el.scrollLeft <= 1){
+      el.scrollLeft = 0;
       state.direction = 1;
-      state.edgePausedUntil = timestamp + AUTO_SCROLL_EDGE_PAUSE;
+      state.edgePausedUntil = timestamp + EDGE_PAUSE_MS;
     }
 
-    state.rafId = window.requestAnimationFrame(function(nextTimestamp){
-      autoScrollFrame(rail, state, nextTimestamp);
+    state.rafId = window.requestAnimationFrame(tick);
+  }
+
+  function startSoon(){
+    cancel();
+    state.startTimer = window.setTimeout(function(){
+      state.startTimer = 0;
+      var el = state.rail || rail();
+      state.rail = el;
+
+      if(canRun(el)){
+        state.retryCount = 0;
+        el.classList.add('is-autoscrolling');
+        state.rafId = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      if(lightboxIsOpen() && !state.stoppedByCustomer && state.retryCount < RETRY_LIMIT){
+        state.retryCount += 1;
+        state.startTimer = window.setTimeout(startSoon, 250);
+      }
+    }, START_DELAY_MS);
+  }
+
+  function stopForCustomer(){
+    state.stoppedByCustomer = true;
+    cancel();
+  }
+
+  function resetForProduct(){
+    cancel();
+    state.rail = rail();
+    state.retryCount = 0;
+    state.lastFrame = 0;
+    state.direction = 1;
+    state.edgePausedUntil = 0;
+    state.hoverPaused = false;
+    state.stoppedByCustomer = false;
+    state.dragging = false;
+    state.moved = false;
+    state.suppressClick = false;
+    state.pointerId = null;
+
+    if(state.rail){
+      state.rail.classList.remove('is-dragging', 'is-autoscrolling');
+      state.rail.scrollLeft = 0;
+      prepareRail(state.rail);
+    }
+
+    startSoon();
+  }
+
+  function prepareRail(el){
+    if(!el || state.preparedRail === el) return;
+    state.preparedRail = el;
+    el.dataset.swRelatedRail = 'premium-autoscroll-ready';
+
+    el.addEventListener('pointerenter', function(event){
+      if(event.pointerType && event.pointerType !== 'mouse') return;
+      state.hoverPaused = true;
+      cancel();
+    });
+
+    el.addEventListener('pointerleave', function(event){
+      if(event.pointerType && event.pointerType !== 'mouse') return;
+      state.hoverPaused = false;
+      if(!state.stoppedByCustomer) startSoon();
+    });
+
+    el.addEventListener('pointerdown', function(event){
+      if(event.pointerType && event.pointerType !== 'mouse'){
+        stopForCustomer();
+        return;
+      }
+      if(typeof event.button === 'number' && event.button !== 0) return;
+
+      stopForCustomer();
+      state.dragging = true;
+      state.moved = false;
+      state.suppressClick = false;
+      state.startX = event.clientX;
+      state.startScrollLeft = el.scrollLeft;
+      state.pointerId = event.pointerId;
+      el.classList.add('is-dragging');
+
+      if(el.setPointerCapture){
+        try{ el.setPointerCapture(state.pointerId); }catch(error){}
+      }
+    });
+
+    el.addEventListener('pointermove', function(event){
+      if(!state.dragging) return;
+      var deltaX = event.clientX - state.startX;
+      if(Math.abs(deltaX) > DRAG_THRESHOLD){
+        state.moved = true;
+        state.suppressClick = true;
+      }
+      el.scrollLeft = state.startScrollLeft - deltaX;
+      if(state.moved) event.preventDefault();
+    }, { passive:false });
+
+    function finishDrag(){
+      if(!state.dragging) return;
+      state.dragging = false;
+      el.classList.remove('is-dragging');
+      if(state.pointerId !== null && el.releasePointerCapture){
+        try{ el.releasePointerCapture(state.pointerId); }catch(error){}
+      }
+      state.pointerId = null;
+    }
+
+    el.addEventListener('pointerup', finishDrag);
+    el.addEventListener('pointercancel', finishDrag);
+    el.addEventListener('lostpointercapture', finishDrag);
+
+    el.addEventListener('touchstart', stopForCustomer, { passive:true });
+    el.addEventListener('wheel', stopForCustomer, { passive:true });
+    el.addEventListener('focusin', stopForCustomer);
+    el.addEventListener('dragstart', function(event){ event.preventDefault(); });
+
+    el.addEventListener('click', function(event){
+      stopForCustomer();
+      if(!state.suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      state.suppressClick = false;
+    }, true);
+
+    if(window.IntersectionObserver){
+      if(state.intersectionObserver) state.intersectionObserver.disconnect();
+      state.intersectionObserver = new IntersectionObserver(function(entries){
+        var entry = entries[0];
+        state.inView = !entry || entry.isIntersecting;
+        if(state.inView && !state.stoppedByCustomer) startSoon();
+        else cancel();
+      }, { threshold:0.12 });
+      state.intersectionObserver.observe(el);
+    }
+  }
+
+  function observeRailContent(){
+    var el = rail();
+    if(!el) return;
+    state.rail = el;
+    prepareRail(el);
+
+    if(state.mutationObserver) state.mutationObserver.disconnect();
+    if(window.MutationObserver){
+      state.mutationObserver = new MutationObserver(function(){
+        resetForProduct();
+      });
+      state.mutationObserver.observe(el, { childList:true });
+    }
+  }
+
+  function refresh(){
+    observeRailContent();
+    window.requestAnimationFrame(function(){
+      window.requestAnimationFrame(resetForProduct);
     });
   }
 
-  function stopForCustomerInteraction(rail, state){
-    state.interactionStopped = true;
-    cancelAutoScroll(rail, state);
-  }
-
-  function resetForNewProducts(rail, state){
-    cancelAutoScroll(rail, state);
-    state.dragging = false;
-    state.hoverPaused = false;
-    state.interactionStopped = false;
-    state.moved = false;
-    state.suppressClick = false;
-    state.startX = 0;
-    state.startScrollLeft = 0;
-    state.pointerId = null;
-    state.direction = 1;
-    state.edgePausedUntil = 0;
-    rail.classList.remove('is-dragging');
-    rail.scrollLeft = 0;
-    window.setTimeout(function(){
-      scheduleAutoScroll(rail, state);
-    }, 650);
-  }
-
-  function prepareRelatedRail(rail){
-    if(!rail) return;
-
-    var state = getState(rail);
-    if(!state.prepared){
-      state.prepared = true;
-      rail.dataset.swRelatedRail = 'ready';
-
-      rail.addEventListener('pointerenter', function(event){
-        if(event.pointerType && event.pointerType !== 'mouse') return;
-        state.hoverPaused = true;
-        cancelAutoScroll(rail, state);
-      });
-
-      rail.addEventListener('pointerleave', function(event){
-        if(event.pointerType && event.pointerType !== 'mouse') return;
-        state.hoverPaused = false;
-        scheduleAutoScroll(rail, state);
-      });
-
-      rail.addEventListener('pointerdown', function(event){
-        stopForCustomerInteraction(rail, state);
-
-        if(event.pointerType && event.pointerType !== 'mouse') return;
-        if(typeof event.button === 'number' && event.button !== 0) return;
-
-        state.dragging = true;
-        state.moved = false;
-        state.suppressClick = false;
-        state.startX = event.clientX;
-        state.startScrollLeft = rail.scrollLeft;
-        state.pointerId = event.pointerId;
-        rail.classList.add('is-dragging');
-
-        if(rail.setPointerCapture){
-          try{ rail.setPointerCapture(state.pointerId); }catch(error){}
-        }
-      });
-
-      rail.addEventListener('pointermove', function(event){
-        if(!state.dragging) return;
-        var deltaX = event.clientX - state.startX;
-
-        if(Math.abs(deltaX) > DRAG_THRESHOLD){
-          state.moved = true;
-          state.suppressClick = true;
-        }
-
-        rail.scrollLeft = state.startScrollLeft - deltaX;
-        if(state.moved) event.preventDefault();
-      }, { passive:false });
-
-      function finishDrag(){
-        if(!state.dragging) return;
-        state.dragging = false;
-        rail.classList.remove('is-dragging');
-
-        if(state.pointerId !== null && rail.releasePointerCapture){
-          try{ rail.releasePointerCapture(state.pointerId); }catch(error){}
-        }
-        state.pointerId = null;
-      }
-
-      rail.addEventListener('pointerup', finishDrag);
-      rail.addEventListener('pointercancel', finishDrag);
-      rail.addEventListener('lostpointercapture', finishDrag);
-
-      rail.addEventListener('focusin', function(){
-        stopForCustomerInteraction(rail, state);
-      });
-
-      rail.addEventListener('touchstart', function(){
-        stopForCustomerInteraction(rail, state);
-      }, { passive:true });
-
-      rail.addEventListener('wheel', function(){
-        stopForCustomerInteraction(rail, state);
-      }, { passive:true });
-
-      rail.addEventListener('click', function(event){
-        stopForCustomerInteraction(rail, state);
-        if(!state.suppressClick) return;
-        event.preventDefault();
-        event.stopPropagation();
-        state.suppressClick = false;
-      }, true);
-
-      rail.addEventListener('dragstart', function(event){
-        event.preventDefault();
-      });
-    }
-
-    if(!state.observed){
-      state.observed = true;
-      if(window.MutationObserver){
-        state.mutationObserver = new MutationObserver(function(){
-          resetForNewProducts(rail, state);
-        });
-        state.mutationObserver.observe(rail, { childList:true });
-      }
-    }
-
-    resetForNewProducts(rail, state);
-  }
-
-  function initRelatedRail(){
-    prepareRelatedRail(document.getElementById('lightboxRelatedGrid'));
-  }
+  window.StaplefordRelatedRail = { refresh:refresh, stop:stopForCustomer };
 
   if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', initRelatedRail);
+    document.addEventListener('DOMContentLoaded', refresh);
   }else{
-    initRelatedRail();
+    refresh();
   }
 
   document.addEventListener('visibilitychange', function(){
-    var rail = document.getElementById('lightboxRelatedGrid');
-    var state = rail ? getState(rail) : null;
-    if(!rail || !state) return;
-    if(document.hidden) cancelAutoScroll(rail, state);
-    else scheduleAutoScroll(rail, state);
+    if(document.hidden) cancel();
+    else if(!state.stoppedByCustomer) startSoon();
   });
+
+  document.addEventListener('stapleford:product-opened', refresh);
+
+  document.addEventListener('click', function(event){
+    if(event.target && event.target.closest && event.target.closest('.watch-card, .lightbox-related-card')){
+      window.setTimeout(refresh, 0);
+      window.setTimeout(refresh, 350);
+    }
+  }, true);
 
   if(reduceMotionQuery){
     var onMotionChange = function(event){
       reduceMotion = !!event.matches;
-      var rail = document.getElementById('lightboxRelatedGrid');
-      var state = rail ? getState(rail) : null;
-      if(!rail || !state) return;
-      if(reduceMotion) cancelAutoScroll(rail, state);
-      else scheduleAutoScroll(rail, state);
+      if(reduceMotion) cancel();
+      else if(!state.stoppedByCustomer) startSoon();
     };
 
-    if(reduceMotionQuery.addEventListener){
-      reduceMotionQuery.addEventListener('change', onMotionChange);
-    }else if(reduceMotionQuery.addListener){
-      reduceMotionQuery.addListener(onMotionChange);
-    }
+    if(reduceMotionQuery.addEventListener) reduceMotionQuery.addEventListener('change', onMotionChange);
+    else if(reduceMotionQuery.addListener) reduceMotionQuery.addListener(onMotionChange);
   }
-
-  document.addEventListener('click', function(event){
-    if(event.target && event.target.closest && event.target.closest('.watch-card, .lightbox-related-card')){
-      window.setTimeout(initRelatedRail, 0);
-    }
-  }, true);
 })();
 </script>
 
