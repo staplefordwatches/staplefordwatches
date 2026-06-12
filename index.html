@@ -1429,6 +1429,34 @@ a, button{
   text-align:left;
 }
 
+
+.lightbox-detail-policy-toggle .policy-heading-label{
+  display:inline-flex;
+  align-items:center;
+}
+
+.lightbox-detail-policy-toggle .policy-heading-icon{
+  width:17px;
+  height:17px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:12px;
+  flex:0 0 auto;
+  opacity:0.82;
+}
+
+.lightbox-detail-policy-toggle .policy-heading-icon svg{
+  width:17px;
+  height:17px;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
 .lightbox-detail-policy-copy{
   border-top:1px solid rgba(0,0,0,0.12);
   padding-top:10px;
@@ -8357,14 +8385,14 @@ html body #cartDrawer .cart-error{
 </div>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
-<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span>DELIVERY ↑</span></button>
+<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY ↑</span><span class="policy-heading-icon policy-heading-icon-delivery" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailDelivery">
   <p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
   <p>Collection is also available upon request.</p>
   <p><strong>International:</strong> Please contact us for a shipping quote.</p>
   <p>For more details, please refer to <a class="lightbox-detail-policy-link" href="/#delivery" data-info-target="delivery">Delivery</a>.</p>
 </div>
-<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span>RETURNS ↑</span></button>
+<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span class="policy-heading-icon policy-heading-icon-returns" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a5 5 0 1 1 0 10h-2"></path><path d="M15 3h5v5"></path><path d="M20 3 13 10"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
   <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
   <p>For more details, please refer to <a class="lightbox-detail-policy-link" href="/#returns" data-info-target="returns">Returns</a>.</p>
@@ -9099,6 +9127,13 @@ function setLightboxSpecsOpen(isOpen, scrollToSpecs = false){
   }
 }
 
+function getLightboxPolicyIcon(section){
+  if(section === "returns"){
+    return `<span class="policy-heading-icon policy-heading-icon-returns" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a5 5 0 1 1 0 10h-2"></path><path d="M15 3h5v5"></path><path d="M20 3 13 10"></path></svg></span>`;
+  }
+  return `<span class="policy-heading-icon policy-heading-icon-delivery" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span>`;
+}
+
 function setLightboxPolicyOpen(section, isOpen){
   const panel = section === "returns" ? lightboxDetailReturns : lightboxDetailDelivery;
   const toggle = section === "returns" ? lightboxDetailReturnsToggle : lightboxDetailDeliveryToggle;
@@ -9106,7 +9141,8 @@ function setLightboxPolicyOpen(section, isOpen){
   if(panel) panel.hidden = !isOpen;
   if(toggle){
     toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    toggle.innerHTML = `<span>${isOpen ? `HIDE ${label} ↓` : `${label} ↑`}</span>`;
+    const text = isOpen ? `HIDE ${label} ↓` : `${label} ↑`;
+    toggle.innerHTML = `<span class="policy-heading-label">${text}</span>${getLightboxPolicyIcon(section)}`;
   }
 }
 
