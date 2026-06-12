@@ -9016,13 +9016,29 @@ html body .lightbox-related-card{
   display:block !important;
   box-shadow:none !important;
 }
-html body .lightbox-related-card img{
+html body .lightbox-related-image{
   display:block !important;
   width:100% !important;
   aspect-ratio:1 / 1 !important;
-  object-fit:cover !important;
+  overflow:hidden !important;
   background:#f6f4ef !important;
   margin:0 0 8px !important;
+}
+html body .lightbox-related-image img,
+html body .lightbox-related-card img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  aspect-ratio:1 / 1 !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  background:#f6f4ef !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  transform:scale(1.08) !important;
+  transform-origin:center center !important;
+  margin:0 !important;
 }
 html body .lightbox-related-meta{
   display:block !important;
@@ -10247,6 +10263,10 @@ function renderRelatedWatches(currentWatch){
     img.decoding = "async";
     img.draggable = false;
 
+    const imageWrap = document.createElement("span");
+    imageWrap.className = "lightbox-related-image";
+    imageWrap.appendChild(img);
+
     const meta = document.createElement("span");
     meta.className = "lightbox-related-meta";
 
@@ -10263,7 +10283,7 @@ function renderRelatedWatches(currentWatch){
     price.textContent = ["sold", "reserved"].includes(w.status) ? String(w.status || "sold").toUpperCase() : (w.price ? `£${formatPounds(w.price)}` : "PRICE ON REQUEST");
 
     meta.append(brand, title, price);
-    button.append(img, meta);
+    button.append(imageWrap, meta);
     lightboxRelatedGrid.appendChild(button);
   });
 }
