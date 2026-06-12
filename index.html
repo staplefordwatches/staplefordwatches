@@ -7595,6 +7595,10 @@ html body.info-active #filterMenu{
     max-height:76vh !important;
   }
 }
+.watch-reference{
+  white-space:nowrap;
+}
+
 </style>
 
 <style id="stapleford-close-small-final-fix">
@@ -8527,8 +8531,26 @@ function getAbsoluteUrl(path){
   return new URL(path, SITE_ORIGIN + "/").href;
 }
 
+function getWatchReference(w){
+  return String(
+    w?.specs?.reference ||
+    w?.reference ||
+    w?.referenceNumber ||
+    w?.modelReference ||
+    w?.modelRef ||
+    w?.ref ||
+    w?.mpn ||
+    ""
+  ).trim();
+}
+
+function getProductDisplayName(w){
+  const reference = getWatchReference(w);
+  return `${w.brand || ""} ${w.title || ""}${reference ? ` ${reference}` : ""}`.trim();
+}
+
 function getProductSlug(w){
-  const name = `${w.brand || ""} ${w.title || ""}`
+  const name = getProductDisplayName(w)
     .toLowerCase()
     .replace(/&/g, " and ")
     .replace(/[^a-z0-9]+/g, "-")
@@ -8639,18 +8661,22 @@ function getImageLink(w){
 
 function getWatchDescription(w){
   const condition = w.specs?.condition ? String(w.specs.condition).toLowerCase() : "pre-owned";
+  const reference = getWatchReference(w);
+  const referenceText = reference ? ` reference ${reference}` : "";
   const caseSize = w.specs?.caseSize ? ` ${w.specs.caseSize}` : "";
   const year = w.specs?.year ? ` from ${w.specs.year}` : "";
   const contents = w.specs?.contents ? ` Includes ${String(w.specs.contents).toLowerCase()}.` : "";
-  return `${condition} ${w.brand} ${w.title}${caseSize}${year}, listed by Stapleford Watches.${contents} Contact us for current availability and further images.`;
+  return `${condition} ${w.brand} ${w.title}${referenceText}${caseSize}${year}, listed by Stapleford Watches.${contents} Contact us for current availability and further images.`;
 }
 
 function getStructuredProductData(w){
   return {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": `${w.brand} ${w.title}`.trim(),
+    "name": getProductDisplayName(w),
     "brand": { "@type": "Brand", "name": w.brand },
+    "mpn": getWatchReference(w) || undefined,
+    "model": getWatchReference(w) || undefined,
     "sku": w.listingId,
     "description": w.description || getWatchDescription(w),
     "image": getImageLink(w),
@@ -8691,7 +8717,8 @@ function prepareWatches(){
     const listingId = watch.listingId || watch.id || `SW${String(index + 1).padStart(3, "0")}`;
     watch.listingId = listingId;
     watch.id = watch.id || listingId;
-    watch.specs = { ...watch.specs, listingId };
+    const reference = getWatchReference(watch);
+    watch.specs = { ...watch.specs, listingId, reference: reference || watch.specs?.reference || "" };
     watch.productLink = getProductLink(watch);
     watch.imageLink = getImageLink(watch);
     const airtableDescription = String(watch.description || watch.watchDescription || watch.longDescription || "").trim();
@@ -9456,7 +9483,9 @@ function render(){
   items = items.filter(w => {
     const brand = (w.brand || "").toLowerCase();
     const title = (w.title || "").toLowerCase();
-    return brand.includes(searchQuery) || title.includes(searchQuery);
+    const reference = getWatchReference(w).toLowerCase();
+    const listingId = String(w.listingId || "").toLowerCase();
+    return brand.includes(searchQuery) || title.includes(searchQuery) || reference.includes(searchQuery) || listingId.includes(searchQuery);
   });
  }
 
@@ -9493,11 +9522,15 @@ function render(){
   div.dataset.imageLink = w.imageLink;
   const isAvailable = w.status === "available";
   const isReserved = w.status === "reserved";
+  const reference = getWatchReference(w);
+  const productName = getProductDisplayName(w);
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${w.image}" alt="${w.brand} ${w.title} (${w.listingId})" loading="${i<2?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
-      ${isAvailable ? `<a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${w.brand} ${w.title}"></a>` : ""}
+      <img src="${w.image}" alt="${productName} (${w.listingId})" loading="${i<2?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      ${isAvailable ? `<a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${productName}"></a>` : ""}
+      <meta itemprop="name" content="${productName}">
+      ${reference ? `<meta itemprop="mpn" content="${reference}">` : ""}
       <link itemprop="image" href="${w.imageLink}">
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
@@ -9521,10 +9554,10 @@ function render(){
       </div>` : ""}
     </div>
     <div class="info">
-      <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${w.title}</div></div>
+      <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${w.title}${reference ? ` <span class="watch-reference">${reference}</span>` : ""}</div></div>
       <div class="info-right">
         <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
-        ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${w.brand} ${w.title} now">BUY</button>` : ""}
+        ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${productName} now">BUY</button>` : ""}
       </div>
     </div>
   `;
