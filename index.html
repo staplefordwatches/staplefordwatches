@@ -9210,7 +9210,7 @@ html body .lightbox.open .lightbox-related-card img{
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
-<img alt="Stapleford Watches" decoding="async" fetchpriority="high" draggable="false" oncontextmenu="return false;" ondragstart="return false;" src="SW HIGH RES.png" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20420%20120%27%3E%3Crect%20width%3D%27420%27%20height%3D%27120%27%20fill%3D%27white%27%2F%3E%3Ctext%20x%3D%27210%27%20y%3D%2750%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%2C%20Helvetica%2C%20sans-serif%27%20font-size%3D%2734%27%20letter-spacing%3D%278%27%20fill%3D%27black%27%3ESW%3C%2Ftext%3E%3Ctext%20x%3D%27210%27%20y%3D%2786%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%2C%20Helvetica%2C%20sans-serif%27%20font-size%3D%2716%27%20letter-spacing%3D%274%27%20fill%3D%27black%27%3ESTAPLEFORD%20WATCHES%3C%2Ftext%3E%3C%2Fsvg%3E';this.classList.add('logo-fallback-image');"/>
+<img alt="Stapleford Watches" draggable="false" oncontextmenu="return false;" ondragstart="return false;" src="SW HIGH RES.png"/>
 </button>
 <div class="nav">
 <div class="nav-left">
@@ -10875,7 +10875,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${w.image}" alt="${productName} (${w.listingId})" loading="${i<6?'eager':'lazy'}" fetchpriority="${i<4?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${w.image}" alt="${productName} (${w.listingId})" loading="${i<2?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${productName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
@@ -13951,12 +13951,7 @@ html body .lightbox.open .lightbox-detail-contact-link svg{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -14093,12 +14088,7 @@ html body .lightbox.open .lightbox-related-title{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -14214,12 +14204,7 @@ html body .lightbox.open .lightbox-related-title{
   window.addEventListener('load', run, {passive:true});
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 </body>
@@ -15247,12 +15232,7 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -15392,12 +15372,7 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -15664,12 +15639,7 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -15764,12 +15734,7 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -15865,12 +15830,7 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
 })();
 </script>
 
@@ -15997,12 +15957,7 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', function(event){
-    var t = event.target;
-    if(!t || !t.closest) return;
-    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
-    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
-  }, true);
+  document.addEventListener('click', run, true);
   window.addEventListener('load', run, {passive:true});
 })();
 </script>
@@ -16072,389 +16027,3 @@ html body:not(.product-page-open) #gallery.grid{
   }
 }
 </style>
-
-
-<!-- V56 stabilisation: logo fallback, product-page anti-spasm, desktop text containment, faster product image warming. -->
-<style id="sw-v56-stability-and-performance">
-.logo img{
-  display:block !important;
-  width:auto !important;
-  max-width:118px !important;
-  height:auto !important;
-  min-height:32px !important;
-  object-fit:contain !important;
-}
-.logo img.logo-fallback-image{
-  width:118px !important;
-  max-width:118px !important;
-}
-
-/* Product view: one stable layout. This intentionally overrides the older v26-v55 click-time layout experiments. */
-html body.product-page-open #lightbox.open,
-html body.product-page-open .lightbox.open,
-html body .lightbox.open{
-  align-items:flex-start !important;
-  justify-content:center !important;
-  overflow:auto !important;
-  overscroll-behavior:contain !important;
-  padding:0 !important;
-  background:#fff !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-inner,
-html body.product-page-open .lightbox.open .lightbox-inner,
-html body .lightbox.open .lightbox-inner{
-  display:block !important;
-  width:100% !important;
-  height:auto !important;
-  min-height:100vh !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-
-html body.product-page-open #lightbox .stapleford-preview-track,
-html body.product-page-open #lightbox.open .stapleford-preview-track,
-html body.product-page-open .lightbox.open .stapleford-preview-track,
-html body .lightbox.open .stapleford-preview-track,
-html body.product-page-open #lightbox .lightbox-thumbs,
-html body.product-page-open #lightbox.open .lightbox-thumbs,
-html body.product-page-open .lightbox.open .lightbox-thumbs,
-html body .lightbox.open .lightbox-thumbs,
-html body.product-page-open #lightbox .lightbox-prev,
-html body.product-page-open #lightbox .lightbox-next,
-html body.product-page-open .lightbox.open .lightbox-prev,
-html body.product-page-open .lightbox.open .lightbox-next{
-  display:none !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-
-@media (min-width:1024px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    display:grid !important;
-    grid-template-columns:minmax(0, 1fr) minmax(380px, 500px) !important;
-    grid-template-areas:"product-image product-details" !important;
-    column-gap:clamp(44px, 5.2vw, 86px) !important;
-    row-gap:0 !important;
-    align-items:start !important;
-    width:min(100vw, 1280px) !important;
-    max-width:1280px !important;
-    min-height:100vh !important;
-    height:auto !important;
-    margin:0 auto !important;
-    padding:0 6px !important;
-    overflow:visible !important;
-    transform:none !important;
-    contain:layout paint !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    grid-area:product-image !important;
-    position:relative !important;
-    z-index:1 !important;
-    width:100% !important;
-    min-width:0 !important;
-    max-width:100% !important;
-    height:clamp(620px, 86vh, 820px) !important;
-    min-height:0 !important;
-    max-height:none !important;
-    aspect-ratio:auto !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    transform:none !important;
-    background:#fff !important;
-    border:0 !important;
-    box-shadow:none !important;
-  }
-
-  html body.product-page-open #lightbox img#lightboxImage,
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    display:block !important;
-    width:100% !important;
-    height:100% !important;
-    min-height:0 !important;
-    max-height:none !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    transform:none !important;
-    transition:none !important;
-    opacity:1 !important;
-    background:#fff !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-detail-panel,
-  html body.product-page-open #lightbox.open .lightbox-detail-panel,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel,
-  html body .lightbox.open .lightbox-detail-panel{
-    grid-area:product-details !important;
-    position:relative !important;
-    z-index:2 !important;
-    width:100% !important;
-    min-width:0 !important;
-    max-width:500px !important;
-    height:auto !important;
-    max-height:none !important;
-    overflow:visible !important;
-    margin:0 !important;
-    padding:clamp(30px, 4vh, 56px) 0 40px !important;
-    background:#fff !important;
-    transform:none !important;
-    contain:layout paint !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-detail-description,
-  html body.product-page-open #lightbox.open .lightbox-detail-description,
-  html body.product-page-open .lightbox.open .lightbox-detail-description,
-  html body .lightbox.open .lightbox-detail-description,
-  html body.product-page-open #lightbox .lightbox-detail-specs,
-  html body.product-page-open #lightbox.open .lightbox-detail-specs,
-  html body.product-page-open .lightbox.open .lightbox-detail-specs,
-  html body .lightbox.open .lightbox-detail-specs,
-  html body.product-page-open #lightbox .lightbox-detail-policy-copy,
-  html body.product-page-open #lightbox.open .lightbox-detail-policy-copy,
-  html body.product-page-open .lightbox.open .lightbox-detail-policy-copy,
-  html body .lightbox.open .lightbox-detail-policy-copy{
-    position:static !important;
-    left:auto !important;
-    right:auto !important;
-    top:auto !important;
-    width:100% !important;
-    max-width:100% !important;
-    min-width:0 !important;
-    clear:both !important;
-    transform:none !important;
-    overflow:visible !important;
-    word-break:normal !important;
-    overflow-wrap:anywhere !important;
-  }
-
-  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
-  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
-  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
-    position:static !important;
-    width:100% !important;
-    max-width:100% !important;
-    margin:12px 0 0 !important;
-    padding:10px 0 0 !important;
-  }
-}
-
-@media (max-width:1023px){
-  html body.product-page-open #lightbox.open .lightbox-stage,
-  html body.product-page-open .lightbox.open .lightbox-stage,
-  html body .lightbox.open .lightbox-stage{
-    display:block !important;
-    width:100% !important;
-    height:auto !important;
-    min-height:100vh !important;
-    overflow:visible !important;
-    transform:none !important;
-  }
-  html body.product-page-open #lightbox .lightbox-image-wrap,
-  html body.product-page-open #lightbox.open .lightbox-image-wrap,
-  html body.product-page-open .lightbox.open .lightbox-image-wrap,
-  html body .lightbox.open .lightbox-image-wrap{
-    width:100% !important;
-    max-width:100% !important;
-    height:auto !important;
-    min-height:0 !important;
-    max-height:none !important;
-    margin:0 !important;
-    overflow:hidden !important;
-    transform:none !important;
-  }
-  html body.product-page-open #lightbox img#lightboxImage,
-  html body.product-page-open #lightbox.open img#lightboxImage,
-  html body.product-page-open .lightbox.open img#lightboxImage,
-  html body .lightbox.open img#lightboxImage{
-    width:100% !important;
-    height:auto !important;
-    max-height:none !important;
-    object-fit:contain !important;
-    transform:none !important;
-    transition:none !important;
-  }
-}
-
-html body.product-page-open #lightbox .lightbox-detail-description-toggle,
-html body.product-page-open #lightbox .lightbox-detail-spec-toggle,
-html body.product-page-open #lightbox .lightbox-detail-policy-toggle,
-html body.product-page-open .lightbox.open .lightbox-detail-description-toggle,
-html body.product-page-open .lightbox.open .lightbox-detail-spec-toggle,
-html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
-  transform:none !important;
-  transition:none !important;
-  will-change:auto !important;
-}
-</style>
-
-<script id="sw-v56-stability-and-performance-js">
-(function(){
-  var toggleSelector = '.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle';
-
-  function setImportant(el, prop, value){
-    if(el) el.style.setProperty(prop, value, 'important');
-  }
-
-  function stabiliseProductLayout(){
-    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
-    if(!root) return;
-    var stage = root.querySelector('.lightbox-stage');
-    var wrap = root.querySelector('.lightbox-image-wrap');
-    var img = root.querySelector('img#lightboxImage');
-    var detail = root.querySelector('.lightbox-detail-panel');
-    var related = root.querySelector('#lightboxRelated');
-    if(related && detail && related.parentElement !== detail) detail.appendChild(related);
-
-    root.querySelectorAll('.stapleford-preview-track, .lightbox-thumbs, .lightbox-thumb, .lightbox-prev, .lightbox-next').forEach(function(el){
-      el.setAttribute('hidden','hidden');
-      setImportant(el, 'display', 'none');
-      setImportant(el, 'visibility', 'hidden');
-      setImportant(el, 'pointer-events', 'none');
-    });
-
-    if(window.matchMedia && window.matchMedia('(min-width: 1024px)').matches){
-      setImportant(stage, 'display', 'grid');
-      setImportant(stage, 'grid-template-columns', 'minmax(0, 1fr) minmax(380px, 500px)');
-      setImportant(stage, 'column-gap', 'clamp(44px, 5.2vw, 86px)');
-      setImportant(stage, 'width', 'min(100vw, 1280px)');
-      setImportant(stage, 'height', 'auto');
-      setImportant(stage, 'min-height', '100vh');
-      setImportant(stage, 'margin-left', 'auto');
-      setImportant(stage, 'margin-right', 'auto');
-      setImportant(stage, 'padding', '0 6px');
-      setImportant(stage, 'overflow', 'visible');
-      setImportant(stage, 'transform', 'none');
-      setImportant(wrap, 'width', '100%');
-      setImportant(wrap, 'min-width', '0');
-      setImportant(wrap, 'max-width', '100%');
-      setImportant(wrap, 'height', 'clamp(620px, 86vh, 820px)');
-      setImportant(wrap, 'min-height', '0');
-      setImportant(wrap, 'margin', '0');
-      setImportant(wrap, 'overflow', 'hidden');
-      setImportant(wrap, 'transform', 'none');
-      setImportant(img, 'width', '100%');
-      setImportant(img, 'height', '100%');
-      setImportant(img, 'object-fit', 'cover');
-      setImportant(img, 'transform', 'none');
-      setImportant(img, 'transition', 'none');
-      setImportant(detail, 'width', '100%');
-      setImportant(detail, 'max-width', '500px');
-      setImportant(detail, 'margin', '0');
-      setImportant(detail, 'padding', 'clamp(30px, 4vh, 56px) 0 40px');
-      setImportant(detail, 'position', 'relative');
-      setImportant(detail, 'z-index', '2');
-      setImportant(detail, 'overflow', 'visible');
-      setImportant(detail, 'transform', 'none');
-    }
-  }
-
-  var queued = false;
-  function queueStabilise(){
-    if(queued) return;
-    queued = true;
-    requestAnimationFrame(function(){
-      queued = false;
-      stabiliseProductLayout();
-    });
-  }
-
-  function setPanelOpen(panel, toggle, open, openLabel, closedLabel){
-    if(panel) panel.hidden = !open;
-    if(toggle){
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      var span = toggle.querySelector('span');
-      if(span) span.textContent = open ? openLabel : closedLabel;
-    }
-  }
-
-  /* Handle accordion headings before the older document-level click layout listeners fire. */
-  window.addEventListener('click', function(event){
-    var target = event.target && event.target.closest && event.target.closest(toggleSelector);
-    if(!target || !document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open')) return;
-    event.preventDefault();
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-
-    if(target.id === 'lightboxDetailDescriptionToggle'){
-      var desc = document.getElementById('lightboxDetailDescription');
-      setPanelOpen(desc, target, !!(desc && desc.hidden), 'HIDE DESCRIPTION ↓', 'DESCRIPTION ↑');
-    }else if(target.id === 'lightboxDetailSpecToggle'){
-      var specs = document.getElementById('lightboxDetailSpecs');
-      var nextSpec = !!(specs && specs.hidden);
-      if(typeof window.setLightboxSpecsOpen === 'function') window.setLightboxSpecsOpen(nextSpec, false);
-      else setPanelOpen(specs, target, nextSpec, 'HIDE SPECIFICATION ↓', 'SPECIFICATION ↑');
-    }else if(target.id === 'lightboxDetailDeliveryToggle'){
-      var delivery = document.getElementById('lightboxDetailDelivery');
-      var nextDelivery = !!(delivery && delivery.hidden);
-      if(typeof window.setLightboxPolicyOpen === 'function') window.setLightboxPolicyOpen('delivery', nextDelivery);
-      else setPanelOpen(delivery, target, nextDelivery, 'HIDE DELIVERY ↓', 'DELIVERY ↑');
-    }else if(target.id === 'lightboxDetailReturnsToggle'){
-      var returns = document.getElementById('lightboxDetailReturns');
-      var nextReturns = !!(returns && returns.hidden);
-      if(typeof window.setLightboxPolicyOpen === 'function') window.setLightboxPolicyOpen('returns', nextReturns);
-      else setPanelOpen(returns, target, nextReturns, 'HIDE RETURNS ↓', 'RETURNS ↑');
-    }
-    queueStabilise();
-  }, true);
-
-  function warm(src){
-    if(!src) return;
-    try{
-      var im = new Image();
-      im.decoding = 'async';
-      im.fetchPriority = 'high';
-      im.src = src;
-      if(im.decode) im.decode().catch(function(){});
-    }catch(e){}
-  }
-
-  function warmCurrentProductImages(){
-    var root = document.querySelector('#lightbox.open');
-    if(!root) return;
-    var current = root.querySelector('img#lightboxImage');
-    if(current && current.currentSrc) warm(current.currentSrc);
-    root.querySelectorAll('.lightbox-related-grid img').forEach(function(img, index){ if(index < 4) warm(img.currentSrc || img.src); });
-  }
-
-  var oldOpen = window.openLightbox;
-  if(typeof oldOpen === 'function'){
-    window.openLightbox = function(w, startIndex, updateUrl){
-      try{
-        if(typeof window.getWatchImages === 'function'){
-          window.getWatchImages(w).slice(0, 4).forEach(warm);
-        }else if(w && w.image){
-          warm(w.image);
-        }
-      }catch(e){}
-      var result = oldOpen.apply(this, arguments);
-      queueStabilise();
-      setTimeout(queueStabilise, 80);
-      setTimeout(warmCurrentProductImages, 120);
-      return result;
-    };
-  }
-
-  document.addEventListener('mouseover', function(event){
-    var card = event.target && event.target.closest && event.target.closest('.card, .watch-card, .lightbox-related-card');
-    if(!card) return;
-    var img = card.querySelector && card.querySelector('img');
-    if(img) warm(img.currentSrc || img.src);
-  }, {passive:true});
-
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', queueStabilise); else queueStabilise();
-  window.addEventListener('resize', queueStabilise, {passive:true});
-  window.addEventListener('orientationchange', function(){ setTimeout(queueStabilise, 80); }, {passive:true});
-  window.addEventListener('load', function(){ queueStabilise(); warmCurrentProductImages(); }, {passive:true});
-  new MutationObserver(queueStabilise).observe(document.documentElement, {attributes:true, attributeFilter:['class'], subtree:true, childList:true});
-})();
-</script>
