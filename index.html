@@ -8981,6 +8981,87 @@ html body .lightbox.open .stapleford-preview-slide img{
 }
 </style>
 
+
+<style id="stapleford-you-might-also-like-gallery-v1">
+/* Product view only: related watches gallery. */
+html body .lightbox-related{
+  margin:28px 0 0 !important;
+  padding:22px 0 0 !important;
+  border-top:1px solid rgba(0,0,0,.18) !important;
+}
+html body .lightbox-related-title{
+  margin:0 0 14px !important;
+  font-family:InterEmbedded, InterRegularEmbedded, Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:400 !important;
+  letter-spacing:.12em !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+}
+html body .lightbox-related-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+  gap:14px !important;
+}
+html body .lightbox-related-card{
+  appearance:none !important;
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  color:inherit !important;
+  text-align:left !important;
+  cursor:pointer !important;
+  display:block !important;
+  box-shadow:none !important;
+}
+html body .lightbox-related-card img{
+  display:block !important;
+  width:100% !important;
+  aspect-ratio:1 / 1 !important;
+  object-fit:cover !important;
+  background:#f6f4ef !important;
+  margin:0 0 8px !important;
+}
+html body .lightbox-related-meta{
+  display:block !important;
+}
+html body .lightbox-related-brand,
+html body .lightbox-related-name,
+html body .lightbox-related-price{
+  display:block !important;
+  font-family:InterEmbedded, InterRegularEmbedded, Arial, sans-serif !important;
+  text-transform:uppercase !important;
+  color:#111 !important;
+}
+html body .lightbox-related-brand{
+  font-size:10px !important;
+  letter-spacing:.12em !important;
+  line-height:1.25 !important;
+  margin:0 0 3px !important;
+}
+html body .lightbox-related-name{
+  font-size:10px !important;
+  letter-spacing:.06em !important;
+  line-height:1.35 !important;
+  margin:0 0 5px !important;
+}
+html body .lightbox-related-price{
+  font-size:10px !important;
+  letter-spacing:.08em !important;
+  line-height:1.25 !important;
+}
+@media (max-width: 767px){
+  html body .lightbox-related{
+    margin-top:24px !important;
+    padding-top:18px !important;
+  }
+  html body .lightbox-related-grid{
+    gap:12px !important;
+  }
+}
+</style>
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -9176,6 +9257,10 @@ html body .lightbox.open .stapleford-preview-slide img{
   <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
   <p>For more details, please refer to <a class="lightbox-detail-policy-link" href="/#returns" data-info-target="returns">Returns</a>.</p>
 </div>
+<section class="lightbox-related" id="lightboxRelated" hidden>
+  <h2 class="lightbox-related-title">YOU MIGHT ALSO LIKE</h2>
+  <div class="lightbox-related-grid" id="lightboxRelatedGrid" aria-label="You might also like"></div>
+</section>
 </aside>
 </div>
 </div>
@@ -9999,6 +10084,8 @@ const lightboxDetailDeliveryToggle = document.getElementById("lightboxDetailDeli
 const lightboxDetailDelivery = document.getElementById("lightboxDetailDelivery");
 const lightboxDetailReturnsToggle = document.getElementById("lightboxDetailReturnsToggle");
 const lightboxDetailReturns = document.getElementById("lightboxDetailReturns");
+const lightboxRelated = document.getElementById("lightboxRelated");
+const lightboxRelatedGrid = document.getElementById("lightboxRelatedGrid");
 let lightboxImages = [];
 let lightboxIndex = 0;
 let lightboxTitle = "";
@@ -10104,6 +10191,83 @@ function ensureLightboxThumbs(){
   return lightboxThumbs;
 }
 
+
+function renderRelatedWatches(currentWatch){
+  if(!lightboxRelated || !lightboxRelatedGrid || !currentWatch) return;
+
+  const currentId = String(currentWatch.listingId || currentWatch.id || "");
+  const sameBrand = [];
+  const otherAvailable = [];
+  const otherFallback = [];
+
+  watches.forEach(w => {
+    if(!w) return;
+    const watchId = String(w.listingId || w.id || "");
+    if(watchId && watchId === currentId) return;
+    if(w.status !== "available") return;
+
+    if(String(w.brand || "").toLowerCase() === String(currentWatch.brand || "").toLowerCase()){
+      sameBrand.push(w);
+    } else {
+      otherAvailable.push(w);
+    }
+  });
+
+  if(sameBrand.length + otherAvailable.length < 4){
+    watches.forEach(w => {
+      if(!w) return;
+      const watchId = String(w.listingId || w.id || "");
+      if(watchId && watchId === currentId) return;
+      if(w.status === "available") return;
+      otherFallback.push(w);
+    });
+  }
+
+  const related = sameBrand.concat(otherAvailable, otherFallback).slice(0, 4);
+
+  if(!related.length){
+    lightboxRelated.hidden = true;
+    lightboxRelatedGrid.innerHTML = "";
+    return;
+  }
+
+  lightboxRelated.hidden = false;
+  lightboxRelatedGrid.innerHTML = "";
+
+  related.forEach(w => {
+    const button = document.createElement("button");
+    button.className = "lightbox-related-card";
+    button.type = "button";
+    button.dataset.watchId = String(w.listingId || w.id || "");
+
+    const img = document.createElement("img");
+    img.src = w.image || (getWatchImages(w)[0] || "");
+    img.alt = getProductDisplayName(w);
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.draggable = false;
+
+    const meta = document.createElement("span");
+    meta.className = "lightbox-related-meta";
+
+    const brand = document.createElement("span");
+    brand.className = "lightbox-related-brand";
+    brand.textContent = String(w.brand || "").toUpperCase();
+
+    const title = document.createElement("span");
+    title.className = "lightbox-related-name";
+    title.textContent = getProductDisplayTitleWithoutBrand(w).toUpperCase();
+
+    const price = document.createElement("span");
+    price.className = "lightbox-related-price";
+    price.textContent = ["sold", "reserved"].includes(w.status) ? String(w.status || "sold").toUpperCase() : (w.price ? `£${formatPounds(w.price)}` : "PRICE ON REQUEST");
+
+    meta.append(brand, title, price);
+    button.append(img, meta);
+    lightboxRelatedGrid.appendChild(button);
+  });
+}
+
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
   const specs = lightboxWatch.specs || {};
@@ -10160,6 +10324,7 @@ function renderLightboxDetails(){
   setLightboxSpecsOpen(false);
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
+  renderRelatedWatches(lightboxWatch);
   setLightboxDetailsOpen(!lightboxDetailsManuallyHidden, false);
   if(lightboxDetails){
     requestAnimationFrame(() => { lightboxDetails.scrollTop = 0; });
@@ -10288,6 +10453,10 @@ function closeLightbox(updateUrl = true){
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
   setLightboxDetailEnquiryOpen(false);
+  if(lightboxRelated){
+    lightboxRelated.hidden = true;
+    if(lightboxRelatedGrid) lightboxRelatedGrid.innerHTML = "";
+  }
 }
 
 function stepLightbox(direction){
@@ -10400,6 +10569,19 @@ lightboxDetailReturnsToggle?.addEventListener("click", (e) => {
 });
 
 lightboxDetails?.addEventListener("click", (e) => {
+  const relatedCard = e.target.closest(".lightbox-related-card");
+  if(relatedCard){
+    e.preventDefault();
+    e.stopPropagation();
+    const watchId = relatedCard.dataset.watchId || "";
+    const relatedWatch = watches.find(w => String(w.listingId || w.id || "") === watchId);
+    if(relatedWatch){
+      openLightbox(relatedWatch, 0, true);
+      requestAnimationFrame(() => { lightbox?.scrollTo({ top: 0, behavior: "smooth" }); });
+    }
+    return;
+  }
+
   const link = e.target.closest("[data-info-target]");
   if(!link) return;
   e.preventDefault();
@@ -11705,6 +11887,91 @@ html body .lightbox.open .lightbox-close{
   }
 }
 </style>
+
+
+
+<style id="stapleford-independent-product-page-v17">
+/* Product page must be its own independent view: hide the BUY page and all other page content while a product is open. */
+html.product-page-open,
+html.product-page-open body,
+body.product-page-open{
+  width:100% !important;
+  min-height:100% !important;
+  overflow:hidden !important;
+  background:#fff !important;
+}
+
+body.product-page-open > *:not(#lightbox):not(script):not(style):not(template){
+  display:none !important;
+  visibility:hidden !important;
+}
+
+body.product-page-open #lightbox,
+body.product-page-open #lightbox.open{
+  display:block !important;
+  visibility:visible !important;
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  height:100dvh !important;
+  min-height:100vh !important;
+  min-height:100dvh !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  overscroll-behavior:contain !important;
+  -webkit-overflow-scrolling:touch !important;
+  background:#fff !important;
+  z-index:2147483647 !important;
+}
+
+body.product-page-open #lightbox::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  background:#fff !important;
+  z-index:-1 !important;
+  pointer-events:none !important;
+}
+
+body.product-page-open #lightbox .lightbox-inner{
+  background:#fff !important;
+}
+</style>
+
+<script id="stapleford-independent-product-page-lock-v17">
+(function(){
+  function syncProductPageRootClass(){
+    var isOpen = document.body && document.body.classList.contains('product-page-open');
+    document.documentElement.classList.toggle('product-page-open', !!isOpen);
+  }
+
+  var originalAdd = DOMTokenList.prototype.add;
+  var originalRemove = DOMTokenList.prototype.remove;
+
+  if(!window.__staplefordProductPageRootClassPatch){
+    window.__staplefordProductPageRootClassPatch = true;
+
+    DOMTokenList.prototype.add = function(){
+      var result = originalAdd.apply(this, arguments);
+      for(var i = 0; i < arguments.length; i++){
+        if(arguments[i] === 'product-page-open') syncProductPageRootClass();
+      }
+      return result;
+    };
+
+    DOMTokenList.prototype.remove = function(){
+      var result = originalRemove.apply(this, arguments);
+      for(var i = 0; i < arguments.length; i++){
+        if(arguments[i] === 'product-page-open') syncProductPageRootClass();
+      }
+      return result;
+    };
+  }
+
+  syncProductPageRootClass();
+})();
+</script>
 
 </body>
 </html>
