@@ -8579,6 +8579,160 @@ html body .lightbox.open .lightbox-detail-reopen{
   }
 }
 </style>
+
+
+<style id="stapleford-product-detail-tight-layout-v2">
+/* Product detail v2: top-right Back control, tighter page padding, and aligned image/gallery/details widths. */
+html body .lightbox.open{
+  padding:0 10px 48px !important;
+}
+
+html body .lightbox.open .lightbox-inner{
+  max-width:1040px !important;
+  padding:56px 0 44px !important;
+  margin:0 auto !important;
+}
+
+html body .lightbox.open .lightbox-close,
+html body .lightbox .lightbox-close,
+html body .lightbox-close{
+  position:fixed !important;
+  top:14px !important;
+  right:14px !important;
+  left:auto !important;
+  bottom:auto !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  padding:8px 10px !important;
+  border:1px solid rgba(0,0,0,.12) !important;
+  background:#fff !important;
+  color:#000 !important;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:.05em !important;
+  text-transform:uppercase !important;
+  z-index:9999999 !important;
+  box-shadow:none !important;
+  text-shadow:none !important;
+  border-radius:0 !important;
+}
+
+html body .lightbox.open .lightbox-stage{
+  max-width:1040px !important;
+  margin:0 auto !important;
+  grid-template-columns:minmax(0, 590px) minmax(300px, 370px) !important;
+  column-gap:24px !important;
+  row-gap:10px !important;
+}
+
+html body .lightbox.open .lightbox-image-wrap{
+  width:100% !important;
+  aspect-ratio:1 / 1 !important;
+  height:auto !important;
+  max-height:none !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+html body .lightbox.open .lightbox-stage img#lightboxImage{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  margin:0 !important;
+}
+
+html body .lightbox.open .lightbox-thumbs{
+  width:100% !important;
+  max-width:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  gap:8px !important;
+}
+
+html body .lightbox.open .lightbox-thumb{
+  flex:1 1 0 !important;
+  width:auto !important;
+  min-width:0 !important;
+  max-width:none !important;
+  aspect-ratio:1 / 1 !important;
+}
+
+html body .lightbox.open .lightbox-detail-panel{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:14px 16px 16px !important;
+  box-sizing:border-box !important;
+}
+
+html body .lightbox.open .lightbox-prev,
+html body .lightbox.open .lightbox-next{
+  height:100% !important;
+  top:0 !important;
+  transform:none !important;
+}
+
+@media (max-width: 767px){
+  html body .lightbox.open{
+    padding:0 10px 44px !important;
+  }
+
+  html body .lightbox.open .lightbox-inner{
+    padding:50px 0 36px !important;
+    max-width:100% !important;
+  }
+
+  html body .lightbox.open .lightbox-stage{
+    max-width:100% !important;
+    gap:10px !important;
+  }
+
+  html body .lightbox.open .lightbox-image-wrap{
+    width:100% !important;
+    aspect-ratio:1 / 1 !important;
+    height:auto !important;
+    max-height:none !important;
+  }
+
+  html body .lightbox.open .lightbox-thumbs{
+    order:2 !important;
+    gap:6px !important;
+    overflow-x:auto !important;
+  }
+
+  html body .lightbox.open .lightbox-thumb{
+    flex:0 0 calc((100% - 18px) / 4) !important;
+    min-width:0 !important;
+    max-width:none !important;
+  }
+
+  html body .lightbox.open .lightbox-detail-panel{
+    order:3 !important;
+    margin:2px 0 0 !important;
+    padding:13px 14px 15px !important;
+  }
+
+  html body .lightbox.open .lightbox-close,
+  html body .lightbox .lightbox-close,
+  html body .lightbox-close{
+    top:10px !important;
+    right:10px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -8727,7 +8881,7 @@ html body .lightbox.open .lightbox-detail-reopen{
 </div>
 </section>
 <div aria-hidden="true" class="lightbox" id="lightbox">
-<button aria-label="Back to watches" class="lightbox-close" type="button">Back to watches</button>
+<button aria-label="Back" class="lightbox-close" type="button">Back</button>
 <div class="lightbox-inner">
 <div class="lightbox-stage">
 <div class="lightbox-image-wrap">
