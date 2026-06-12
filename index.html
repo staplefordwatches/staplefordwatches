@@ -12,6 +12,7 @@
 <meta property="og:description" content="Buy and sell pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more."/>
 <meta property="og:url" content="https://staplefordwatches.co.uk/"/>
 <meta name="twitter:card" content="summary_large_image"/>
+<link rel="preload" as="image" href="assets/stapleford-watches-logo.svg" type="image/svg+xml"/>
 <style>
 
 @font-face{
@@ -90,6 +91,29 @@ body{
 .logo img{
   max-width:90px;
   width:100%;
+}
+
+.logo-mark{
+  display:block;
+  height:auto;
+}
+
+.logo-fallback{
+  display:none;
+  font-family:'InterEmbedded', Arial, sans-serif;
+  font-size:14px;
+  letter-spacing:.14em;
+  line-height:1;
+  text-transform:uppercase;
+  color:#000;
+}
+
+.logo.logo--fallback .logo-mark{
+  display:none;
+}
+
+.logo.logo--fallback .logo-fallback{
+  display:block;
 }
 
 /* NAV */
@@ -8972,7 +8996,8 @@ html body .lightbox.open .stapleford-preview-slide img{
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
-<img alt="Stapleford Watches" draggable="false" oncontextmenu="return false;" ondragstart="return false;" src="SW HIGH RES.png"/>
+<img class="logo-mark" alt="Stapleford Watches" src="assets/stapleford-watches-logo.svg" width="90" height="110" decoding="async" fetchpriority="high" draggable="false" onerror="this.hidden=true;this.closest('.logo').classList.add('logo--fallback');"/>
+<span class="logo-fallback" aria-hidden="true">Stapleford Watches</span>
 </button>
 <div class="nav">
 <div class="nav-left">
