@@ -8874,11 +8874,32 @@ function setLightboxDetailsOpen(isOpen, remember = true){
   if(lightboxDetailsReopen) lightboxDetailsReopen.hidden = isOpen;
 }
 
-function setLightboxSpecsOpen(isOpen){
+function scrollLightboxSpecsIntoView(){
+  if(!lightboxDetails || !lightboxDetailSpecs || lightboxDetailSpecs.hidden) return;
+
+  requestAnimationFrame(() => {
+    const panelRect = lightboxDetails.getBoundingClientRect();
+    const specsRect = lightboxDetailSpecs.getBoundingClientRect();
+    const bottomPadding = 16;
+
+    if(specsRect.bottom > panelRect.bottom - bottomPadding || specsRect.top < panelRect.top){
+      lightboxDetails.scrollTo({
+        top: lightboxDetails.scrollTop + specsRect.top - panelRect.top - 12,
+        behavior: "smooth"
+      });
+    }
+  });
+}
+
+function setLightboxSpecsOpen(isOpen, scrollToSpecs = false){
   if(lightboxDetailSpecs) lightboxDetailSpecs.hidden = !isOpen;
   if(lightboxDetailSpecToggle){
     lightboxDetailSpecToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     lightboxDetailSpecToggle.innerHTML = `<span>${isOpen ? "HIDE SPEC ↓" : "SPEC ↑"}</span>`;
+  }
+
+  if(isOpen && scrollToSpecs){
+    scrollLightboxSpecsIntoView();
   }
 }
 
@@ -9067,7 +9088,7 @@ lightboxDetailsReopen?.addEventListener("click", (e) => {
 lightboxDetailSpecToggle?.addEventListener("click", (e) => {
   e.stopPropagation();
   const isOpen = lightboxDetailSpecs && !lightboxDetailSpecs.hidden;
-  setLightboxSpecsOpen(!isOpen);
+  setLightboxSpecsOpen(!isOpen, !isOpen);
 });
 
 lightboxDetailBuy?.addEventListener("click", (e) => {
