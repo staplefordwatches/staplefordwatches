@@ -8279,6 +8279,184 @@ html body #cartDrawer .cart-error{
 }
 </script>
 
+
+<style id="stapleford-true-product-page-final">
+/* True product page mode: keep the original gallery feel, but make it a real page view. */
+body.product-page-open{
+  overflow:hidden !important;
+}
+body.product-page-open > *:not(#lightbox):not(script):not(style){
+  visibility:hidden !important;
+}
+body.product-page-open #lightbox,
+body.product-page-open #lightbox *{
+  visibility:visible !important;
+}
+
+.lightbox{
+  position:fixed !important;
+  inset:0 !important;
+  background:#fff !important;
+  z-index:999999 !important;
+  display:none !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+  padding:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+.lightbox.open{
+  display:block !important;
+}
+.lightbox.open::before{
+  display:none !important;
+}
+.lightbox-inner{
+  width:100% !important;
+  min-height:100vh !important;
+  height:auto !important;
+  display:block !important;
+  position:relative !important;
+  background:#fff !important;
+  padding:0 0 96px !important;
+}
+.lightbox-stage{
+  width:100% !important;
+  min-height:calc(100vh - 148px) !important;
+  height:auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  position:relative !important;
+  padding:78px 84px 34px !important;
+  box-sizing:border-box !important;
+  background:#fff !important;
+}
+.lightbox-image-wrap{
+  position:relative !important;
+  width:100% !important;
+  height:auto !important;
+  max-width:1180px !important;
+  max-height:none !important;
+  min-height:min(72vh, 760px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  cursor:default !important;
+}
+.lightbox-stage img{
+  max-width:100% !important;
+  max-height:min(72vh, 760px) !important;
+  width:auto !important;
+  height:auto !important;
+  object-fit:contain !important;
+}
+.lightbox-close{
+  position:fixed !important;
+  top:22px !important;
+  right:24px !important;
+  z-index:1000001 !important;
+  background:#fff !important;
+}
+.lightbox-prev,
+.lightbox-next{
+  position:absolute !important;
+  top:0 !important;
+  bottom:0 !important;
+  height:100% !important;
+  width:30% !important;
+  z-index:32 !important;
+}
+.lightbox-detail-panel{
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  top:auto !important;
+  width:min(760px, calc(100vw - 48px)) !important;
+  max-height:none !important;
+  overflow:visible !important;
+  margin:0 auto 36px !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,0.12) !important;
+  padding:18px 20px 18px !important;
+  box-shadow:none !important;
+  z-index:4 !important;
+}
+.lightbox-detail-reopen{
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  top:auto !important;
+  display:block !important;
+  width:min(760px, calc(100vw - 48px)) !important;
+  margin:0 auto 36px !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,0.12) !important;
+  padding:14px 16px !important;
+  box-shadow:none !important;
+  z-index:4 !important;
+}
+.lightbox-detail-reopen[hidden]{
+  display:none !important;
+}
+.lightbox-detail-title{
+  font-size:16px !important;
+  line-height:1.35 !important;
+  margin-bottom:8px !important;
+}
+.lightbox-detail-price{
+  font-size:13px !important;
+  margin-bottom:12px !important;
+}
+.lightbox-detail-description{
+  max-height:none !important;
+  overflow:visible !important;
+}
+.lightbox-detail-specs{
+  grid-template-columns:minmax(110px, auto) 1fr !important;
+}
+
+@media (max-width: 767px){
+  .lightbox-inner{
+    padding-bottom:72px !important;
+  }
+  .lightbox-stage{
+    min-height:auto !important;
+    padding:64px 14px 22px !important;
+  }
+  .lightbox-image-wrap{
+    min-height:62vh !important;
+  }
+  .lightbox-stage img{
+    max-height:62vh !important;
+  }
+  .lightbox-prev,
+  .lightbox-next{
+    width:34% !important;
+    font-size:clamp(64px, 19vw, 96px) !important;
+    padding:0 10px !important;
+  }
+  .lightbox-close{
+    position:fixed !important;
+    top:12px !important;
+    right:12px !important;
+  }
+  .lightbox-detail-panel,
+  .lightbox-detail-reopen{
+    width:calc(100vw - 28px) !important;
+    margin-left:14px !important;
+    margin-right:14px !important;
+    margin-bottom:28px !important;
+  }
+  .lightbox-detail-panel{
+    padding:15px 15px 16px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -9364,7 +9542,7 @@ function setLightboxDetailEnquiryOpen(isOpen){
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
   const specs = lightboxWatch.specs || {};
-  const title = `${lightboxWatch.brand || ""} ${lightboxWatch.title || ""}`.trim();
+  const title = getProductDisplayName(lightboxWatch);
   const isAvailable = lightboxWatch.status === "available";
   const isSold = ["sold", "reserved"].includes(lightboxWatch.status);
   const enquiryData = getEnquiryData(lightboxWatch);
@@ -9432,19 +9610,23 @@ function openLightbox(w, startIndex = 0, updateUrl = true){
   lightboxWatch = w;
   lightboxImages = getWatchImages(w);
   if(!lightboxImages.length) return;
-  lightboxTitle = `${w.brand} ${w.title}`.trim();
+  lightboxTitle = getProductDisplayName(w);
   lightboxIndex = Math.max(0, Math.min(startIndex, lightboxImages.length - 1));
   lightboxDetailsManuallyHidden = false;
   renderLightbox();
   lightbox.classList.add("open");
   lightbox.setAttribute("aria-hidden", "false");
+  document.body.classList.add("product-page-open");
   document.body.style.overflow = "hidden";
+  const closeButton = document.querySelector(".lightbox-close");
+  if(closeButton) closeButton.textContent = "Back to watches";
   if(updateUrl) setProductBrowserUrl(w, false);
 }
 
 function closeLightbox(updateUrl = true){
   lightbox.classList.remove("open");
   lightbox.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("product-page-open");
   document.body.style.overflow = "";
   lightboxWatch = null;
   if(updateUrl) clearProductBrowserUrl(false);
@@ -9473,11 +9655,9 @@ function stepLightbox(direction){
 }
 
 lightbox?.addEventListener("click", (e) => {
+  // Product view is now a page, not a click-to-hide modal.
+  // Details are only minimised via the HIDE / DETAILS buttons.
   if(!lightbox?.classList.contains("open")) return;
-  if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen, .lightbox-close, .lightbox-prev, .lightbox-next, .lightbox-thumbs")) return;
-  if(lightboxDetails && !lightboxDetails.hidden){
-    setLightboxDetailsOpen(false);
-  }
 });
 
 document.addEventListener("click", (e) => {
@@ -9511,12 +9691,8 @@ document.querySelector(".lightbox-next")?.addEventListener("click", (e) => {
 
 document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) => {
   if(!lightbox?.classList.contains("open")) return;
-  if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen")) return;
+  if(e.target.closest("#lightboxDetails, #lightboxDetailsReopen, .lightbox-prev, .lightbox-next")) return;
   e.stopPropagation();
-
-  if(lightboxDetails && !lightboxDetails.hidden){
-    setLightboxDetailsOpen(false);
-  }
 
   const wrap = e.currentTarget;
   const rect = wrap.getBoundingClientRect();
