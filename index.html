@@ -10405,7 +10405,9 @@ function renderRelatedWatches(currentWatch){
 
     const title = document.createElement("span");
     title.className = "lightbox-related-name";
-    title.textContent = getProductDisplayTitleWithoutBrand(w).toUpperCase();
+    const relatedTitleText = getProductDisplayTitleWithoutBrand(w).toUpperCase();
+    title.title = relatedTitleText;
+    title.textContent = relatedTitleText.length > 38 ? `${relatedTitleText.slice(0, 38).trim()}...` : relatedTitleText;
 
     const price = document.createElement("span");
     price.className = "lightbox-related-price";
@@ -12246,6 +12248,73 @@ html body .lightbox.open .lightbox-related-card img{
 }
 </style>
 
+
+
+<style id="stapleford-related-gallery-title-alignment-v23">
+/* Product view only: keep related-card images aligned by giving titles a consistent reserved area and truncating long names. */
+html body.product-page-open .lightbox-related-card,
+html body .lightbox.open .lightbox-related-card{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+}
+
+html body.product-page-open .lightbox-related-image,
+html body .lightbox.open .lightbox-related-image{
+  flex:0 0 auto !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+
+html body.product-page-open .lightbox-related-image img,
+html body.product-page-open .lightbox-related-card img,
+html body .lightbox.open .lightbox-related-image img,
+html body .lightbox.open .lightbox-related-card img{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+}
+
+html body.product-page-open .lightbox-related-meta,
+html body .lightbox.open .lightbox-related-meta{
+  display:grid !important;
+  grid-template-rows:14px 28px 14px !important;
+  row-gap:3px !important;
+  min-height:65px !important;
+  align-content:start !important;
+}
+
+html body.product-page-open .lightbox-related-brand,
+html body .lightbox.open .lightbox-related-brand,
+html body.product-page-open .lightbox-related-price,
+html body .lightbox.open .lightbox-related-price{
+  height:14px !important;
+  line-height:14px !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  text-overflow:ellipsis !important;
+}
+
+html body.product-page-open .lightbox-related-name,
+html body .lightbox.open .lightbox-related-name{
+  display:-webkit-box !important;
+  -webkit-box-orient:vertical !important;
+  -webkit-line-clamp:2 !important;
+  height:28px !important;
+  min-height:28px !important;
+  max-height:28px !important;
+  line-height:14px !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  margin:0 !important;
+}
+</style>
 </body>
 </html>
 
