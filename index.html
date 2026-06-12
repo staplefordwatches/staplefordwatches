@@ -8259,7 +8259,7 @@ html body #cartDrawer .cart-error{
     "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
     "merchantReturnDays": 14,
     "returnMethod": "https://schema.org/ReturnByMail",
-    "returnFees": "https://schema.org/ReturnShippingFees",
+    "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
     "merchantReturnLink": "https://staplefordwatches.co.uk/#returns"
   }
 }
@@ -8600,15 +8600,55 @@ function getAbsoluteUrl(path){
   return new URL(path, SITE_ORIGIN + "/").href;
 }
 
+function normalizeFieldName(name){
+  return String(name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+function pickFirstField(source, aliases){
+  if(!source || typeof source !== "object") return "";
+  const wanted = aliases.map(normalizeFieldName);
+
+  for(const alias of aliases){
+    if(source[alias] !== undefined && source[alias] !== null && String(source[alias]).trim()) return String(source[alias]).trim();
+  }
+
+  for(const [key, value] of Object.entries(source)){
+    if(value === undefined || value === null || !String(value).trim()) continue;
+    if(wanted.includes(normalizeFieldName(key))) return String(value).trim();
+  }
+
+  return "";
+}
+
+const WATCH_REFERENCE_FIELDS = [
+  "reference",
+  "ref",
+  "referenceNumber",
+  "referenceNo",
+  "referenceNo.",
+  "reference number",
+  "reference no",
+  "ref number",
+  "ref no",
+  "modelReference",
+  "modelRef",
+  "model reference",
+  "model ref",
+  "watch reference",
+  "manufacturer reference",
+  "manufacturer part number",
+  "mpn",
+  "Reference",
+  "Reference Number",
+  "Reference No",
+  "Model Reference",
+  "MPN"
+];
+
 function getWatchReference(w){
-  return String(
-    w?.specs?.reference ||
-    w?.reference ||
-    w?.referenceNumber ||
-    w?.modelReference ||
-    w?.modelRef ||
-    w?.ref ||
-    w?.mpn ||
+  return (
+    pickFirstField(w?.specs, WATCH_REFERENCE_FIELDS) ||
+    pickFirstField(w, WATCH_REFERENCE_FIELDS) ||
     ""
   ).trim();
 }
@@ -8682,7 +8722,7 @@ function ensureMeta(selector, attrs){
 }
 
 function updateProductSeoHead(w){
-  const title = w ? `${w.brand} ${w.title} | Stapleford Watches`.trim() : "Stapleford Watches";
+  const title = w ? `${getProductDisplayName(w)} | Stapleford Watches`.trim() : "Stapleford Watches | Pre-Owned Luxury Watches";
   const description = w ? (w.description || getWatchDescription(w)) : "Stapleford Watches";
   const url = w ? getProductCanonicalUrl(w) : SITE_ORIGIN + "/";
   const image = w ? getImageLink(w) : "";
@@ -8738,30 +8778,61 @@ function getWatchDescription(w){
   return `${condition} ${w.brand} ${w.title}${referenceText}${caseSize}${year}, listed by Stapleford Watches.${contents} Contact us for current availability and further images.`;
 }
 
+function cleanStructuredData(value){
+  if(Array.isArray(value)){
+    return value.map(cleanStructuredData).filter(item => item !== undefined);
+  }
+  if(value && typeof value === "object"){
+    const cleaned = {};
+    Object.entries(value).forEach(([key, item]) => {
+      const next = cleanStructuredData(item);
+      if(next !== undefined) cleaned[key] = next;
+    });
+    return cleaned;
+  }
+  if(value === undefined || value === null || value === "") return undefined;
+  return value;
+}
+
 function getStructuredProductData(w){
-  return {
+  const reference = getWatchReference(w);
+  const productUrl = getProductLink(w);
+  const productName = getProductDisplayName(w);
+
+  return cleanStructuredData({
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": getProductDisplayName(w),
+    "@id": `${productUrl}#product`,
+    "name": productName,
     "brand": { "@type": "Brand", "name": w.brand },
-    "mpn": getWatchReference(w) || undefined,
-    "model": getWatchReference(w) || undefined,
+    "mpn": reference || undefined,
+    "model": reference || undefined,
     "sku": w.listingId,
+    "identifier": reference || w.listingId,
+    "category": "Pre-owned luxury watches",
     "description": w.description || getWatchDescription(w),
     "image": getImageLink(w),
-    "url": getProductLink(w),
+    "url": productUrl,
+    "itemCondition": "https://schema.org/UsedCondition",
+    "additionalProperty": [
+      reference ? { "@type": "PropertyValue", "name": "Reference Number", "value": reference } : undefined,
+      w.listingId ? { "@type": "PropertyValue", "name": "Listing ID", "value": w.listingId } : undefined,
+      w.specs?.year ? { "@type": "PropertyValue", "name": "Year", "value": String(w.specs.year) } : undefined,
+      w.specs?.caseSize ? { "@type": "PropertyValue", "name": "Case Size", "value": String(w.specs.caseSize) } : undefined
+    ],
     "offers": {
       "@type": "Offer",
-      "url": getProductLink(w),
+      "@id": `${productUrl}#offer`,
+      "url": productUrl,
       "priceCurrency": "GBP",
       "price": String(w.price),
       "availability": w.status === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       "itemCondition": "https://schema.org/UsedCondition",
-      "seller": { "@type": "Organization", "name": "Stapleford Watches" },
+      "seller": { "@type": "Organization", "@id": "https://staplefordwatches.co.uk/#organization", "name": "Stapleford Watches" },
       "shippingDetails": { ...STAPLEFORD_SHIPPING_DETAILS },
       "hasMerchantReturnPolicy": { ...STAPLEFORD_RETURN_POLICY }
     }
-  };
+  });
 }
 
 function prepareWatches(){
@@ -8770,7 +8841,7 @@ function prepareWatches(){
     watch.listingId = listingId;
     watch.id = watch.id || listingId;
     const reference = getWatchReference(watch);
-    watch.specs = { ...watch.specs, listingId, reference: reference || watch.specs?.reference || "" };
+    watch.specs = { ...watch.specs, listingId, reference: reference || pickFirstField(watch.specs, WATCH_REFERENCE_FIELDS) || "" };
     watch.productLink = getProductLink(watch);
     watch.imageLink = getImageLink(watch);
     const airtableDescription = String(watch.description || watch.watchDescription || watch.longDescription || "").trim();
@@ -8787,16 +8858,22 @@ function getStructuredDataGraph(){
 }
 
 function updateProductStructuredData(){
-  if(productStructuredDataScript){
-    productStructuredDataScript.textContent = JSON.stringify(getStructuredDataGraph());
+  let productStructuredDataScript = document.getElementById("stapleford-product-jsonld");
+
+  if(!Array.isArray(watches) || !watches.length){
+    productStructuredDataScript?.remove();
+    return;
   }
+
+  if(!productStructuredDataScript){
+    productStructuredDataScript = document.createElement("script");
+    productStructuredDataScript.type = "application/ld+json";
+    productStructuredDataScript.id = "stapleford-product-jsonld";
+    document.head.appendChild(productStructuredDataScript);
+  }
+
+  productStructuredDataScript.textContent = JSON.stringify(getStructuredDataGraph());
 }
-
-
-const productStructuredDataScript = document.createElement("script");
-productStructuredDataScript.type = "application/ld+json";
-productStructuredDataScript.textContent = JSON.stringify(getStructuredDataGraph());
-document.head.appendChild(productStructuredDataScript);
 
 const gallery=document.getElementById("gallery");
 let currentSort = "default";
@@ -9571,6 +9648,7 @@ function render(){
   div.dataset.listingId = w.listingId;
   div.dataset.productLink = w.productLink;
   div.dataset.imageLink = w.imageLink;
+  div.dataset.reference = getWatchReference(w);
   const isAvailable = w.status === "available";
   const isReserved = w.status === "reserved";
   const reference = getWatchReference(w);
