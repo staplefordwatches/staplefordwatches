@@ -10535,6 +10535,10 @@ function render(){
 
       </button>
       <div class="spec-overlay" aria-hidden="true">
+        <button class="spec-hide" type="button" aria-label="Hide specifications">
+          <span>HIDE ↓</span>
+
+        </button>
         <div class="spec-list">
           <div class="spec-row"><span class="spec-label">REFERENCE</span><span class="spec-value">${w.specs.reference || ""}</span></div>
           <div class="spec-row"><span class="spec-label">YEAR</span><span class="spec-value">${w.specs.year}</span></div>
@@ -10546,14 +10550,9 @@ function render(){
       </div>` : ""}
     </div>
     <div class="info">
-      <div class="title">
-        <div class="brand">${w.brand.toUpperCase()}</div>
-        <div>${productDisplayTitle}</div>
-        ${reference ? `<div class="listing-detail-line">REFERENCE ${String(reference).toUpperCase()}</div>` : ""}
-        ${w.specs?.contents ? `<div class="listing-detail-line">CONTENTS ${String(w.specs.contents).toUpperCase()}</div>` : ""}
-        <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
-      </div>
+      <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${productDisplayTitle}</div></div>
       <div class="info-right">
+        <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
         ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${productName} now">BUY</button>` : ""}
       </div>
     </div>
@@ -10587,7 +10586,6 @@ function render(){
     const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button');
     if(clickedControl) return;
     openLightbox(w, 0);
-    window.scrollTo(0, 0);
   });
 
   gallery.appendChild(div);
@@ -11314,27 +11312,34 @@ html body .lightbox.open .lightbox-detail-panel{
 
 
 
-<style id="stapleford-requested-product-page-and-details-v1">
-/* User requested: product clicks should feel like their own page, not an overlay over the buy listings. */
+<style id="stapleford-requested-product-page-and-details-v2">
+/* User correction: leave BUY listing cards alone. Only individual product view is changed. */
 html body.product-page-open{
-  overflow:auto !important;
-}
-html body.product-page-open #gallery,
-html body.product-page-open #noResults,
-html body.product-page-open .filter-custom{
-  display:none !important;
+  overflow:hidden !important;
 }
 html body.product-page-open .lightbox.open{
-  position:relative !important;
-  inset:auto !important;
-  z-index:auto !important;
-  min-height:100vh !important;
-  overflow:visible !important;
+  display:block !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:999999 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
   padding:0 18px 70px !important;
   background:#fff !important;
 }
 html body.product-page-open .lightbox.open .lightbox-inner{
-  min-height:0 !important;
+  min-height:100dvh !important;
+  margin:0 auto !important;
+  background:#fff !important;
+}
+html body.product-page-open .lightbox.open::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:#fff;
+  z-index:-1;
 }
 html body .lightbox-detail-hide,
 html body .lightbox-detail-reopen{
@@ -11394,32 +11399,6 @@ html body .lightbox-detail-description{
   margin-top:10px !important;
   max-height:14em !important;
   overflow:auto !important;
-}
-html body .card .info{
-  align-items:flex-start !important;
-}
-html body .card .title{
-  display:block !important;
-}
-html body .card .listing-detail-line{
-  margin-top:4px !important;
-  font-size:10px !important;
-  line-height:1.25 !important;
-  letter-spacing:.08em !important;
-  text-transform:uppercase !important;
-  opacity:.62 !important;
-}
-html body .card .title .price{
-  margin-top:8px !important;
-}
-html body .card .info-right .price{
-  display:none !important;
-}
-html body .image.available.show-spec .spec-overlay{
-  padding-top:14px !important;
-}
-html body .spec-hide{
-  display:none !important;
 }
 </style>
 
