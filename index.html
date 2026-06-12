@@ -15527,3 +15527,98 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   document.addEventListener('click', run, true);
 })();
 </script>
+
+<style id="stapleford-desktop-left-image-ratio-v50">
+/* V50: individual product view desktop only — fix the left hero image proportions.
+   The previous clamp height made the image too short, leaving the left column visually unfinished.
+   Use a proper portrait product-photo ratio so the left image carries down the page cleanly. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 45vw) minmax(440px, 560px) !important;
+    column-gap:clamp(82px, 6vw, 128px) !important;
+    align-items:start !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap,
+  html body .lightbox.open .lightbox-image-wrap{
+    width:45vw !important;
+    min-width:45vw !important;
+    max-width:45vw !important;
+    aspect-ratio:4 / 5 !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    border-radius:0 !important;
+    outline:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+
+  html body.product-page-open #lightbox img#lightboxImage,
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    width:100% !important;
+    height:100% !important;
+    display:block !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+}
+</style>
+
+<script id="stapleford-desktop-left-image-ratio-v50-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function fixDesktopHeroImageV50(){
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+    if(!root || !window.matchMedia('(min-width: 1024px)').matches) return;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var img = root.querySelector('img#lightboxImage');
+    setImportant(stage, 'grid-template-columns', 'minmax(0, 45vw) minmax(440px, 560px)');
+    setImportant(stage, 'column-gap', 'clamp(82px, 6vw, 128px)');
+    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '45vw'); });
+    setImportant(wrap, 'aspect-ratio', '4 / 5');
+    setImportant(wrap, 'height', 'auto');
+    setImportant(wrap, 'min-height', '0');
+    setImportant(wrap, 'max-height', 'none');
+    setImportant(wrap, 'padding', '0');
+    setImportant(wrap, 'margin', '0');
+    setImportant(wrap, 'overflow', 'hidden');
+    setImportant(wrap, 'border', '0');
+    setImportant(wrap, 'border-radius', '0');
+    setImportant(wrap, 'box-shadow', 'none');
+    setImportant(wrap, 'background', 'transparent');
+    setImportant(img, 'width', '100%');
+    setImportant(img, 'height', '100%');
+    setImportant(img, 'object-fit', 'cover');
+    setImportant(img, 'object-position', 'center center');
+  }
+  function run(){
+    fixDesktopHeroImageV50();
+    setTimeout(fixDesktopHeroImageV50, 80);
+    setTimeout(fixDesktopHeroImageV50, 240);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
