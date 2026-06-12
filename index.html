@@ -14207,6 +14207,136 @@ html body .lightbox.open .lightbox-related-title{
   document.addEventListener('click', run, true);
 })();
 </script>
+
+
+<script id="sw-v58-recovery-no-visual-change">
+(function(){
+  function q(sel, root){ return (root || document).querySelector(sel); }
+  function qa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function important(el, prop, value){ if(el) el.style.setProperty(prop, value, 'important'); }
+
+  function getWatches(){ return Array.isArray(window.watches) ? window.watches : (typeof watches !== 'undefined' && Array.isArray(watches) ? watches : []); }
+  function getCardWatch(card){
+    if(!card) return null;
+    var id = String(card.dataset.listingId || card.id || '').trim();
+    return getWatches().find(function(w){ return String(w.listingId || w.id || '').trim() === id; }) || null;
+  }
+
+  function openWatchFromCard(card, event){
+    var w = getCardWatch(card);
+    if(!w || w.status !== 'available' || typeof window.openLightbox !== 'function') return false;
+    if(event){
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    window.openLightbox(w, 0);
+    stabiliseProductHero();
+    return true;
+  }
+
+  function stabiliseProductHero(){
+    var root = q('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open');
+    if(!root) return;
+    var stage = q('.lightbox-stage', root);
+    var wrap = q('.lightbox-image-wrap', root);
+    var img = q('img#lightboxImage', root);
+    if(!wrap || !img) return;
+
+    important(wrap, 'padding', '0');
+    important(wrap, 'border', '0');
+    important(wrap, 'border-radius', '0');
+    important(wrap, 'box-shadow', 'none');
+    important(wrap, 'background', 'transparent');
+    important(wrap, 'overflow', 'hidden');
+    important(img, 'display', 'block');
+    important(img, 'margin', '0');
+    important(img, 'padding', '0');
+    important(img, 'border', '0');
+    important(img, 'border-radius', '0');
+    important(img, 'box-shadow', 'none');
+    important(img, 'background', 'transparent');
+    important(img, 'transform', 'none');
+    important(img, 'object-fit', 'cover');
+    important(img, 'object-position', 'center center');
+
+    if(window.matchMedia && window.matchMedia('(min-width:1024px)').matches){
+      important(stage, 'grid-template-columns', 'minmax(0,45vw) minmax(440px,560px)');
+      important(stage, 'column-gap', 'clamp(82px,6vw,128px)');
+      important(stage, 'align-items', 'start');
+      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, '45vw'); });
+      important(wrap, 'height', '100svh');
+      important(wrap, 'min-height', '100svh');
+      important(wrap, 'max-height', '100svh');
+      important(wrap, 'aspect-ratio', 'auto');
+      important(img, 'width', '100%');
+      important(img, 'height', '100%');
+      important(img, 'min-width', '100%');
+      important(img, 'min-height', '100%');
+    }else{
+      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, '100vw'); important(img, p, '100vw'); });
+      important(wrap, 'height', 'auto');
+      important(wrap, 'min-height', '0');
+      important(wrap, 'max-height', 'none');
+      important(img, 'height', 'auto');
+      important(img, 'min-height', '0');
+      important(img, 'max-height', 'none');
+    }
+  }
+
+  function scheduleHeroStabilise(){
+    stabiliseProductHero();
+    requestAnimationFrame(stabiliseProductHero);
+    setTimeout(stabiliseProductHero, 80);
+    setTimeout(stabiliseProductHero, 240);
+    setTimeout(stabiliseProductHero, 520);
+  }
+
+  function repairLogoFallback(){
+    qa('#logoHome, .logo').forEach(function(logo){
+      var img = q('img', logo);
+      if(!img) return;
+      if(!q('.sw-logo-fallback', logo)){
+        var fallback = document.createElement('span');
+        fallback.className = 'sw-logo-fallback';
+        fallback.setAttribute('aria-hidden', 'true');
+        fallback.textContent = 'SW';
+        logo.appendChild(fallback);
+      }
+      function fail(){ logo.classList.add('logo-image-failed'); img.classList.add('logo-failed'); }
+      function pass(){ if(img.naturalWidth > 0){ logo.classList.remove('logo-image-failed'); img.classList.remove('logo-failed'); } }
+      img.addEventListener('error', fail, {once:false});
+      img.addEventListener('load', pass, {once:false});
+      if(img.complete && img.naturalWidth === 0) fail();
+    });
+  }
+
+  // Recovery click handler: product cards still open the individual product page, without changing the layout.
+  document.addEventListener('click', function(event){
+    if(document.body.classList.contains('product-page-open')) return;
+    var card = event.target && event.target.closest ? event.target.closest('#gallery .card') : null;
+    if(!card) return;
+    if(event.target.closest('button, a, input, textarea, select, label, .spec-trigger, .spec-overlay, .spec-hide, .cart-trigger')) return;
+    openWatchFromCard(card, event);
+  }, true);
+
+  // Old image-balancing scripts can still run on accordion clicks; this reapplies the same intended image sizing after them.
+  document.addEventListener('click', function(event){
+    if(event.target && event.target.closest && event.target.closest('.lightbox-detail-description-toggle,.lightbox-detail-spec-toggle,.lightbox-detail-policy-toggle,[data-info-target]')){
+      scheduleHeroStabilise();
+    }
+  }, true);
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ repairLogoFallback(); scheduleHeroStabilise(); });
+  }else{
+    repairLogoFallback(); scheduleHeroStabilise();
+  }
+  window.addEventListener('load', function(){ repairLogoFallback(); scheduleHeroStabilise(); }, {passive:true});
+  window.addEventListener('resize', scheduleHeroStabilise, {passive:true});
+  window.addEventListener('orientationchange', scheduleHeroStabilise, {passive:true});
+})();
+</script>
+
 </body>
 </html>
 
