@@ -10361,7 +10361,6 @@ function openLightbox(w, startIndex = 0, updateUrl = true){
   if(window.StaplefordRelatedRail && typeof window.StaplefordRelatedRail.refresh === "function"){
     window.StaplefordRelatedRail.refresh();
   }
-  document.dispatchEvent(new CustomEvent("stapleford:product-opened"));
   document.body.style.overflow = "hidden";
   if(updateUrl) setProductBrowserUrl(w, false);
 }
@@ -14069,14 +14068,21 @@ html body:not(.product-page-open) #gallery.grid{
 }
 
 @media (max-width:1023px){
+  html body.product-page-open #lightbox.open .lightbox-inner,
+  html body.product-page-open .lightbox.open .lightbox-inner{
+    width:100vw !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 0 clamp(44px, 9vw, 72px) !important;
+    box-sizing:border-box !important;
+  }
+
   html body.product-page-open #lightbox.open .lightbox-stage,
   html body.product-page-open .lightbox.open .lightbox-stage{
     width:100vw !important;
     max-width:100vw !important;
-    margin-left:calc(50% - 50vw) !important;
-    margin-right:calc(50% - 50vw) !important;
-    padding-left:0 !important;
-    padding-right:0 !important;
+    margin:0 !important;
+    padding:0 !important;
     box-sizing:border-box !important;
   }
 
@@ -14103,14 +14109,29 @@ html body:not(.product-page-open) #gallery.grid{
     object-position:center center !important;
     transform:none !important;
   }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    width:calc(100vw - clamp(32px, 8vw, 56px)) !important;
+    max-width:640px !important;
+    min-width:0 !important;
+    margin:clamp(28px, 7vw, 46px) auto 0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-header,
+  html body.product-page-open .lightbox.open .lightbox-detail-header{
+    margin-top:0 !important;
+  }
 }
 </style>
 
 
 
 
-<style id="sw-v60-related-rail-premium-autoscroll">
-/* Product page recommendation rail: clean detail-column placement, premium hidden-scroll drag, and visible but restrained auto-scroll. */
+<style id="sw-v61-related-rail-premium-step-scroll">
+/* Product page recommendation rail: clean detail-column placement, hidden scrollbar, drag/swipe, and restrained step auto-advance. */
 html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
 html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related{
   display:block !important;
@@ -14173,15 +14194,9 @@ html body.product-page-open .lightbox.open .lightbox-related-grid::-webkit-scrol
 }
 
 html body.product-page-open #lightbox.open .lightbox-related-grid.is-dragging,
-html body.product-page-open #lightbox.open .lightbox-related-grid.is-autoscrolling,
-html body.product-page-open .lightbox.open .lightbox-related-grid.is-dragging,
-html body.product-page-open .lightbox.open .lightbox-related-grid.is-autoscrolling{
-  scroll-snap-type:none !important;
-}
-
-html body.product-page-open #lightbox.open .lightbox-related-grid.is-dragging,
 html body.product-page-open .lightbox.open .lightbox-related-grid.is-dragging{
   cursor:grabbing !important;
+  scroll-snap-type:none !important;
 }
 
 html body.product-page-open #lightbox.open .lightbox-related-card,
@@ -14297,27 +14312,26 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
 }
 </style>
 
-<script id="sw-v60-related-rail-premium-autoscroll-js">
+<script id="sw-v61-related-rail-premium-step-scroll-js">
 (function(){
   var RAIL_SELECTOR = '#lightboxRelatedGrid';
   var LIGHTBOX_SELECTOR = '#lightbox.open';
   var REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-  var AUTO_SCROLL_SPEED = 34; // px/second: visible enough to notice, slow enough to feel premium.
-  var EDGE_PAUSE_MS = 900;
-  var START_DELAY_MS = 450;
+  var STEP_DELAY_MS = 3800;
+  var STEP_SETTLE_MS = 1100;
+  var START_DELAY_MS = 900;
   var DRAG_THRESHOLD = 5;
   var RETRY_LIMIT = 24;
 
   var reduceMotionQuery = window.matchMedia ? window.matchMedia(REDUCED_MOTION_QUERY) : null;
   var reduceMotion = reduceMotionQuery ? reduceMotionQuery.matches : false;
+
   var state = {
     rail:null,
-    rafId:0,
-    startTimer:0,
+    timer:0,
+    settleTimer:0,
     retryCount:0,
-    lastFrame:0,
     direction:1,
-    edgePausedUntil:0,
     hoverPaused:false,
     stoppedByCustomer:false,
     dragging:false,
@@ -14326,10 +14340,8 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
     pointerId:null,
     startX:0,
     startScrollLeft:0,
-    inView:true,
     preparedRail:null,
-    mutationObserver:null,
-    intersectionObserver:null
+    mutationObserver:null
   };
 
   function rail(){
@@ -14341,13 +14353,11 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
   }
 
   function hasRoomToScroll(el){
-    return Boolean(el && el.children.length > 2 && el.scrollWidth > el.clientWidth + 6);
+    return Boolean(el && el.children.length > 2 && el.scrollWidth > el.clientWidth + 8);
   }
 
   function customerCanSeeRail(el){
-    if(!el) return false;
-    if(el.offsetParent === null) return false;
-    return true;
+    return Boolean(el && el.offsetParent !== null);
   }
 
   function canRun(el){
@@ -14357,100 +14367,112 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
     if(!lightboxIsOpen()) return false;
     if(!customerCanSeeRail(el)) return false;
     if(!hasRoomToScroll(el)) return false;
-    if(!state.inView) return false;
     if(state.hoverPaused || state.stoppedByCustomer || state.dragging) return false;
     return true;
   }
 
-  function cancel(){
-    if(state.rafId){
-      window.cancelAnimationFrame(state.rafId);
-      state.rafId = 0;
+  function clearTimers(){
+    if(state.timer){
+      window.clearTimeout(state.timer);
+      state.timer = 0;
     }
-    if(state.startTimer){
-      window.clearTimeout(state.startTimer);
-      state.startTimer = 0;
+    if(state.settleTimer){
+      window.clearTimeout(state.settleTimer);
+      state.settleTimer = 0;
     }
-    state.lastFrame = 0;
-    state.edgePausedUntil = 0;
-    if(state.rail) state.rail.classList.remove('is-autoscrolling');
   }
 
-  function tick(timestamp){
-    state.rafId = 0;
+  function getStep(el){
+    var first = el.querySelector('.lightbox-related-card');
+    if(!first) return Math.max(120, el.clientWidth * 0.52);
+    var second = first.nextElementSibling;
+    if(second) return Math.max(120, second.offsetLeft - first.offsetLeft);
+    return Math.max(120, first.getBoundingClientRect().width + 12);
+  }
+
+  function smoothScrollTo(el, left){
+    try{
+      el.scrollTo({ left:left, behavior:'smooth' });
+    }catch(error){
+      el.scrollLeft = left;
+    }
+  }
+
+  function schedule(delay){
+    clearTimers();
+    var wait = typeof delay === 'number' ? delay : STEP_DELAY_MS;
+
+    state.timer = window.setTimeout(function(){
+      state.timer = 0;
+      advance();
+    }, wait);
+  }
+
+  function retryOrStop(){
+    if(lightboxIsOpen() && !state.stoppedByCustomer && state.retryCount < RETRY_LIMIT){
+      state.retryCount += 1;
+      schedule(250);
+    }
+  }
+
+  function advance(){
     var el = state.rail || rail();
     state.rail = el;
 
     if(!canRun(el)){
-      cancel();
+      retryOrStop();
       return;
     }
+
+    state.retryCount = 0;
 
     var maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
-    if(maxScrollLeft <= 6){
-      cancel();
-      return;
-    }
+    if(maxScrollLeft <= 8) return;
 
-    if(!state.lastFrame) state.lastFrame = timestamp;
+    var step = getStep(el);
+    var current = el.scrollLeft;
+    var next = current + (step * state.direction);
 
-    if(state.edgePausedUntil && timestamp < state.edgePausedUntil){
-      state.rafId = window.requestAnimationFrame(tick);
-      return;
-    }
-
-    state.edgePausedUntil = 0;
-    var elapsed = Math.min(80, Math.max(0, timestamp - state.lastFrame));
-    state.lastFrame = timestamp;
-
-    el.scrollLeft += (AUTO_SCROLL_SPEED * elapsed / 1000) * state.direction;
-
-    if(el.scrollLeft >= maxScrollLeft - 1){
-      el.scrollLeft = maxScrollLeft;
+    if(next >= maxScrollLeft - 4){
+      next = maxScrollLeft;
       state.direction = -1;
-      state.edgePausedUntil = timestamp + EDGE_PAUSE_MS;
-    }else if(el.scrollLeft <= 1){
-      el.scrollLeft = 0;
+    }else if(next <= 4){
+      next = 0;
       state.direction = 1;
-      state.edgePausedUntil = timestamp + EDGE_PAUSE_MS;
     }
 
-    state.rafId = window.requestAnimationFrame(tick);
+    smoothScrollTo(el, next);
+
+    state.settleTimer = window.setTimeout(function(){
+      state.settleTimer = 0;
+      if(canRun(el)) schedule(STEP_DELAY_MS);
+    }, STEP_SETTLE_MS);
   }
 
   function startSoon(){
-    cancel();
-    state.startTimer = window.setTimeout(function(){
-      state.startTimer = 0;
+    clearTimers();
+    state.timer = window.setTimeout(function(){
+      state.timer = 0;
       var el = state.rail || rail();
       state.rail = el;
-
       if(canRun(el)){
-        state.retryCount = 0;
-        el.classList.add('is-autoscrolling');
-        state.rafId = window.requestAnimationFrame(tick);
-        return;
-      }
-
-      if(lightboxIsOpen() && !state.stoppedByCustomer && state.retryCount < RETRY_LIMIT){
-        state.retryCount += 1;
-        state.startTimer = window.setTimeout(startSoon, 250);
+        schedule(STEP_DELAY_MS);
+      }else{
+        retryOrStop();
       }
     }, START_DELAY_MS);
   }
 
   function stopForCustomer(){
     state.stoppedByCustomer = true;
-    cancel();
+    clearTimers();
   }
 
   function resetForProduct(){
-    cancel();
+    clearTimers();
     state.rail = rail();
     state.retryCount = 0;
-    state.lastFrame = 0;
     state.direction = 1;
-    state.edgePausedUntil = 0;
     state.hoverPaused = false;
     state.stoppedByCustomer = false;
     state.dragging = false;
@@ -14459,7 +14481,7 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
     state.pointerId = null;
 
     if(state.rail){
-      state.rail.classList.remove('is-dragging', 'is-autoscrolling');
+      state.rail.classList.remove('is-dragging');
       state.rail.scrollLeft = 0;
       prepareRail(state.rail);
     }
@@ -14470,12 +14492,12 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
   function prepareRail(el){
     if(!el || state.preparedRail === el) return;
     state.preparedRail = el;
-    el.dataset.swRelatedRail = 'premium-autoscroll-ready';
+    el.dataset.swRelatedRail = 'premium-step-scroll-ready';
 
     el.addEventListener('pointerenter', function(event){
       if(event.pointerType && event.pointerType !== 'mouse') return;
       state.hoverPaused = true;
-      cancel();
+      clearTimers();
     });
 
     el.addEventListener('pointerleave', function(event){
@@ -14542,17 +14564,6 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
       event.stopPropagation();
       state.suppressClick = false;
     }, true);
-
-    if(window.IntersectionObserver){
-      if(state.intersectionObserver) state.intersectionObserver.disconnect();
-      state.intersectionObserver = new IntersectionObserver(function(entries){
-        var entry = entries[0];
-        state.inView = !entry || entry.isIntersecting;
-        if(state.inView && !state.stoppedByCustomer) startSoon();
-        else cancel();
-      }, { threshold:0.12 });
-      state.intersectionObserver.observe(el);
-    }
   }
 
   function observeRailContent(){
@@ -14586,7 +14597,7 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
   }
 
   document.addEventListener('visibilitychange', function(){
-    if(document.hidden) cancel();
+    if(document.hidden) clearTimers();
     else if(!state.stoppedByCustomer) startSoon();
   });
 
@@ -14602,7 +14613,7 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
   if(reduceMotionQuery){
     var onMotionChange = function(event){
       reduceMotion = !!event.matches;
-      if(reduceMotion) cancel();
+      if(reduceMotion) clearTimers();
       else if(!state.stoppedByCustomer) startSoon();
     };
 
