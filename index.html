@@ -9162,7 +9162,7 @@ html body .lightbox.open .stapleford-preview-slide img{
 </div>
 <button aria-expanded="true" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span>HIDE DESCRIPTION ↓</span></button>
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
-<button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
+<button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span class="spec-heading-label">SPEC ↑</span><span class="spec-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15 15l5 5"></path></svg></span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY ↑</span><span class="policy-heading-icon policy-heading-icon-delivery" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailDelivery">
@@ -10044,7 +10044,7 @@ function setLightboxSpecsOpen(isOpen, scrollToSpecs = false){
   if(lightboxDetailSpecs) lightboxDetailSpecs.hidden = !isOpen;
   if(lightboxDetailSpecToggle){
     lightboxDetailSpecToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    lightboxDetailSpecToggle.innerHTML = `<span>${isOpen ? "HIDE SPEC ↓" : "SPEC ↑"}</span>`;
+    lightboxDetailSpecToggle.innerHTML = `<span class="spec-heading-label">${isOpen ? "HIDE SPEC ↓" : "SPEC ↑"}</span><span class="spec-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15 15l5 5"></path></svg></span>`;
   }
 
   if(isOpen && scrollToSpecs){
@@ -11628,6 +11628,41 @@ html body .lightbox.open .lightbox-detail-policy-copy{
   border-bottom:0 !important;
   box-shadow:none !important;
   outline:0 !important;
+}
+</style>
+
+
+
+<style id="stapleford-product-view-spec-magnifier-v15">
+/* Product view only: magnifying glass icon beside SPEC heading. */
+html body.product-page-open .lightbox-detail-spec-toggle .spec-heading-label,
+html body .lightbox.open .lightbox-detail-spec-toggle .spec-heading-label{
+  display:inline-flex !important;
+  align-items:center !important;
+}
+
+html body.product-page-open .lightbox-detail-spec-toggle .spec-heading-icon,
+html body .lightbox.open .lightbox-detail-spec-toggle .spec-heading-icon{
+  width:16px !important;
+  height:16px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin-left:12px !important;
+  flex:0 0 auto !important;
+  opacity:0.82 !important;
+}
+
+html body.product-page-open .lightbox-detail-spec-toggle .spec-heading-icon svg,
+html body .lightbox.open .lightbox-detail-spec-toggle .spec-heading-icon svg{
+  width:16px !important;
+  height:16px !important;
+  display:block !important;
+  fill:none !important;
+  stroke:currentColor !important;
+  stroke-width:1.8 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
 }
 </style>
 
