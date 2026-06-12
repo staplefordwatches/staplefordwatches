@@ -15110,3 +15110,101 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   }, true);
 })();
 </script>
+
+<style id="stapleford-product-detail-breathing-room-v45">
+/* V45: individual product view only — add desktop breathing room between edge-flush image and brand/title column. */
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    grid-template-columns:minmax(0, 46vw) minmax(440px, calc(var(--sw-page-width) * .42)) !important;
+    column-gap:clamp(78px, 6.2vw, 132px) !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-image-wrap,
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    width:46vw !important;
+    min-width:46vw !important;
+    max-width:46vw !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-panel,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    padding-left:0 !important;
+    margin-left:0 !important;
+  }
+}
+</style>
+
+<script id="stapleford-product-detail-breathing-room-v45-js">
+(function(){
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
+  }
+  function tuneProductDetailSpacing(){
+    if(!window.matchMedia('(min-width: 1024px)').matches) return;
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open');
+    if(!root) return;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var detail = root.querySelector('.lightbox-detail-panel');
+    setImportant(stage, 'grid-template-columns', 'minmax(0, 46vw) minmax(440px, calc(var(--sw-page-width) * .42))');
+    setImportant(stage, 'column-gap', 'clamp(78px, 6.2vw, 132px)');
+    ['width','min-width','max-width'].forEach(function(prop){ setImportant(wrap, prop, '46vw'); });
+    setImportant(detail, 'padding-left', '0');
+    setImportant(detail, 'margin-left', '0');
+  }
+  function run(){
+    tuneProductDetailSpacing();
+    setTimeout(tuneProductDetailSpacing, 80);
+    setTimeout(tuneProductDetailSpacing, 240);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('resize', run, {passive:true});
+  window.addEventListener('orientationchange', run, {passive:true});
+  document.addEventListener('click', run, true);
+})();
+</script>
+
+<style id="stapleford-related-rhythm-final-v46">
+/* V46: final rhythm fix for individual product view only.
+   Match YOU MIGHT ALSO LIKE spacing to the other product-view section rows. */
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+  margin-top:12px !important;
+  padding-top:10px !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+}
+
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title{
+  margin:0 !important;
+  padding:0 !important;
+  line-height:1.2 !important;
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:10px !important;
+  }
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:10px !important;
+  }
+}
+</style>
