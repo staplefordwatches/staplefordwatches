@@ -1245,7 +1245,7 @@ a, button{
   right:18px;
   bottom:18px;
   width:min(380px, 32vw);
-  max-height:min(58vh, 520px);
+  max-height:min(72vh, 680px);
   overflow:auto;
   background:rgba(255,255,255,0.96);
   border:1px solid rgba(0,0,0,0.12);
@@ -1325,8 +1325,11 @@ a, button{
   line-height:1.55;
   letter-spacing:0.02em;
   text-transform:none;
-  margin-bottom:12px;
+  margin-bottom:10px;
   white-space:pre-line;
+  max-height:10.5em;
+  overflow:auto;
+  padding-right:4px;
 }
 
 .lightbox-detail-actions{
@@ -1491,12 +1494,15 @@ a, button{
     right:12px;
     bottom:12px;
     width:auto;
-    max-height:42vh;
+    max-height:58vh;
     padding:13px 14px 12px;
   }
   .lightbox-detail-reopen{
     right:12px;
     bottom:12px;
+  }
+  .lightbox-detail-description{
+    max-height:6.8em;
   }
   .lightbox-meta{
     left:12px;
@@ -1515,6 +1521,9 @@ a, button{
   .lightbox-detail-reopen{
     right:12px;
     bottom:12px;
+  }
+  .lightbox-detail-description{
+    max-height:6.8em;
   }
   .lightbox-meta{
     bottom:12px;
@@ -8392,7 +8401,7 @@ html body #cartDrawer .cart-error{
   <p><strong>International:</strong> Please contact us for a shipping quote.</p>
   <p>For more details, please refer to <a class="lightbox-detail-policy-link" href="/#delivery" data-info-target="delivery">Delivery</a>.</p>
 </div>
-<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span class="policy-heading-icon policy-heading-icon-returns" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a5 5 0 1 1 0 10h-2"></path><path d="M15 3h5v5"></path><path d="M20 3 13 10"></path></svg></span></button>
+<button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span class="policy-heading-icon policy-heading-icon-returns" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a4.5 4.5 0 1 1 0 9h-3"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
   <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
   <p>For more details, please refer to <a class="lightbox-detail-policy-link" href="/#returns" data-info-target="returns">Returns</a>.</p>
@@ -9129,7 +9138,7 @@ function setLightboxSpecsOpen(isOpen, scrollToSpecs = false){
 
 function getLightboxPolicyIcon(section){
   if(section === "returns"){
-    return `<span class="policy-heading-icon policy-heading-icon-returns" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a5 5 0 1 1 0 10h-2"></path><path d="M15 3h5v5"></path><path d="M20 3 13 10"></path></svg></span>`;
+    return `<span class="policy-heading-icon policy-heading-icon-returns" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a4.5 4.5 0 1 1 0 9h-3"></path></svg></span>`;
   }
   return `<span class="policy-heading-icon policy-heading-icon-delivery" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span>`;
 }
@@ -9212,6 +9221,9 @@ function renderLightboxDetails(){
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
   setLightboxDetailsOpen(!lightboxDetailsManuallyHidden, false);
+  if(lightboxDetails){
+    requestAnimationFrame(() => { lightboxDetails.scrollTop = 0; });
+  }
 }
 
 function renderLightbox(){
