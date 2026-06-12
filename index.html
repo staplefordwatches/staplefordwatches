@@ -9160,8 +9160,8 @@ html body .lightbox.open .stapleford-preview-slide img{
     </a>
   </div>
 </div>
-<button aria-expanded="false" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span>DESCRIPTION ↑</span></button>
-<div class="lightbox-detail-description" hidden="" id="lightboxDetailDescription"></div>
+<button aria-expanded="true" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span>HIDE DESCRIPTION ↓</span></button>
+<div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY ↑</span><span class="policy-heading-icon policy-heading-icon-delivery" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span></button>
@@ -10121,9 +10121,10 @@ function renderLightboxDetails(){
   setText(lightboxDetailYear, year ? `Year: ${String(year).toUpperCase()}` : "");
   setText(lightboxDetailContents, contents ? `Contents: ${String(contents).toUpperCase()}` : "");
   setText(lightboxDetailPrice, isSold ? String(lightboxWatch.status || "sold").toUpperCase() : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
-  setText(lightboxDetailDescription, lightboxWatch.description || getWatchDescription(lightboxWatch));
-  if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
-  setLightboxDescriptionOpen(false);
+  const descriptionText = String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
+  setText(lightboxDetailDescription, descriptionText);
+  if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !descriptionText;
+  setLightboxDescriptionOpen(Boolean(descriptionText));
 
   if(lightboxDetailBuy){
     lightboxDetailBuy.hidden = !isAvailable;
@@ -10155,7 +10156,7 @@ function renderLightboxDetails(){
   }
 
   if(lightboxDetailSpecToggle) lightboxDetailSpecToggle.hidden = specRows.length === 0;
-  setLightboxDescriptionOpen(false);
+  setLightboxDescriptionOpen(Boolean(descriptionText));
   setLightboxSpecsOpen(false);
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
@@ -11397,12 +11398,25 @@ html body .lightbox-detail-description[hidden]{
   display:none !important;
 }
 html body .lightbox-detail-description{
-  border:1px solid rgba(0,0,0,0.12) !important;
-  background:#fff !important;
-  padding:12px !important;
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
   margin-top:10px !important;
-  max-height:14em !important;
-  overflow:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+
+/* V10: subtle underline dividers beneath product-view expandable headings. */
+html body.product-page-open .lightbox-detail-description-toggle,
+html body.product-page-open .lightbox-detail-spec-toggle,
+html body.product-page-open .lightbox-detail-policy-toggle{
+  border-bottom:1px solid rgba(0,0,0,0.12) !important;
+  padding-bottom:10px !important;
+}
+html body.product-page-open .lightbox-detail-description,
+html body.product-page-open .lightbox-detail-specs,
+html body.product-page-open .lightbox-detail-policy-copy{
+  border-top:0 !important;
 }
 </style>
 
