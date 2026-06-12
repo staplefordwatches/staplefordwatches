@@ -8218,6 +8218,53 @@ html body #cartDrawer .cart-error{
 }
 </style>
 
+
+<script type="application/ld+json" id="stapleford-merchant-policy-jsonld">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://staplefordwatches.co.uk/#organization",
+  "name": "Stapleford Watches",
+  "url": "https://staplefordwatches.co.uk/",
+  "hasShippingService": {
+    "@type": "ShippingService",
+    "shippingDestination": {
+      "@type": "DefinedRegion",
+      "addressCountry": "GB"
+    },
+    "shippingRate": {
+      "@type": "MonetaryAmount",
+      "value": 0,
+      "currency": "GBP"
+    },
+    "deliveryTime": {
+      "@type": "ShippingDeliveryTime",
+      "handlingTime": {
+        "@type": "QuantitativeValue",
+        "minValue": 0,
+        "maxValue": 1,
+        "unitCode": "DAY"
+      },
+      "transitTime": {
+        "@type": "QuantitativeValue",
+        "minValue": 1,
+        "maxValue": 1,
+        "unitCode": "DAY"
+      }
+    }
+  },
+  "hasMerchantReturnPolicy": {
+    "@type": "MerchantReturnPolicy",
+    "applicableCountry": "GB",
+    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+    "merchantReturnDays": 14,
+    "returnMethod": "https://schema.org/ReturnByMail",
+    "returnFees": "https://schema.org/ReturnShippingFees",
+    "merchantReturnLink": "https://staplefordwatches.co.uk/#returns"
+  }
+}
+</script>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -8526,6 +8573,28 @@ async function loadWatchesFromAirtable(){
 
 const SITE_ORIGIN = "https://staplefordwatches.co.uk";
 
+const STAPLEFORD_SHIPPING_DETAILS = {
+  "@type": "OfferShippingDetails",
+  "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "GB" },
+  "shippingRate": { "@type": "MonetaryAmount", "value": 0, "currency": "GBP" },
+  "deliveryTime": {
+    "@type": "ShippingDeliveryTime",
+    "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" },
+    "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 1, "unitCode": "DAY" }
+  }
+};
+
+const STAPLEFORD_RETURN_POLICY = {
+  "@type": "MerchantReturnPolicy",
+  "applicableCountry": "GB",
+  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+  "merchantReturnDays": 14,
+  "returnMethod": "https://schema.org/ReturnByMail",
+  "returnFees": "https://schema.org/ReturnShippingFees",
+  "merchantReturnLink": "https://staplefordwatches.co.uk/#returns"
+};
+
+
 function getAbsoluteUrl(path){
   if(!path) return SITE_ORIGIN + "/";
   return new URL(path, SITE_ORIGIN + "/").href;
@@ -8689,25 +8758,8 @@ function getStructuredProductData(w){
       "availability": w.status === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       "itemCondition": "https://schema.org/UsedCondition",
       "seller": { "@type": "Organization", "name": "Stapleford Watches" },
-      "shippingDetails": {
-        "@type": "OfferShippingDetails",
-        "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "GB" },
-        "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "GBP" },
-        "deliveryTime": {
-          "@type": "ShippingDeliveryTime",
-          "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" },
-          "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 1, "unitCode": "DAY" }
-        }
-      },
-      "hasMerchantReturnPolicy": {
-        "@type": "MerchantReturnPolicy",
-        "applicableCountry": "GB",
-        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-        "merchantReturnDays": 14,
-        "returnMethod": "https://schema.org/ReturnByMail",
-        "returnFees": "https://schema.org/ReturnShippingFees",
-        "merchantReturnLink": `${SITE_ORIGIN}/#returns`
-      }
+      "shippingDetails": { ...STAPLEFORD_SHIPPING_DETAILS },
+      "hasMerchantReturnPolicy": { ...STAPLEFORD_RETURN_POLICY }
     }
   };
 }
@@ -9515,8 +9567,6 @@ function render(){
  items.forEach((w,i)=>{
   const div=document.createElement("article");
   div.className="card";
-  div.setAttribute("itemscope", "");
-  div.setAttribute("itemtype", "https://schema.org/Product");
   div.id = w.listingId;
   div.dataset.listingId = w.listingId;
   div.dataset.productLink = w.productLink;
@@ -9530,9 +9580,6 @@ function render(){
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
       <img src="${w.image}" alt="${productName} (${w.listingId})" loading="${i<2?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${productName}"></a>` : ""}
-      <meta itemprop="name" content="${productName}">
-      ${reference ? `<meta itemprop="mpn" content="${reference}">` : ""}
-      <link itemprop="image" href="${w.imageLink}">
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
       <button class="spec-trigger" type="button" aria-expanded="false">
