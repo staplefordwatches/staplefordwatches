@@ -9210,7 +9210,7 @@ html body .lightbox.open .lightbox-related-card img{
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
-<img alt="Stapleford Watches" draggable="false" oncontextmenu="return false;" ondragstart="return false;" src="SW HIGH RES.png"/>
+<img alt="Stapleford Watches" decoding="async" fetchpriority="high" draggable="false" oncontextmenu="return false;" ondragstart="return false;" src="SW HIGH RES.png" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20420%20120%27%3E%3Crect%20width%3D%27420%27%20height%3D%27120%27%20fill%3D%27white%27%2F%3E%3Ctext%20x%3D%27210%27%20y%3D%2750%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%2C%20Helvetica%2C%20sans-serif%27%20font-size%3D%2734%27%20letter-spacing%3D%278%27%20fill%3D%27black%27%3ESW%3C%2Ftext%3E%3Ctext%20x%3D%27210%27%20y%3D%2786%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%2C%20Helvetica%2C%20sans-serif%27%20font-size%3D%2716%27%20letter-spacing%3D%274%27%20fill%3D%27black%27%3ESTAPLEFORD%20WATCHES%3C%2Ftext%3E%3C%2Fsvg%3E';this.classList.add('logo-fallback-image');"/>
 </button>
 <div class="nav">
 <div class="nav-left">
@@ -10875,7 +10875,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${w.image}" alt="${productName} (${w.listingId})" loading="${i<2?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${w.image}" alt="${productName} (${w.listingId})" loading="${i<6?'eager':'lazy'}" fetchpriority="${i<4?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${productName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
@@ -13951,7 +13951,12 @@ html body .lightbox.open .lightbox-detail-contact-link svg{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
 
@@ -14088,7 +14093,12 @@ html body .lightbox.open .lightbox-related-title{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
 
@@ -14204,229 +14214,14 @@ html body .lightbox.open .lightbox-related-title{
   window.addEventListener('load', run, {passive:true});
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
-
-
-<script id="sw-v58-recovery-no-visual-change">
-(function(){
-  function q(sel, root){ return (root || document).querySelector(sel); }
-  function qa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
-  function important(el, prop, value){ if(el) el.style.setProperty(prop, value, 'important'); }
-
-  function getWatches(){ return Array.isArray(window.watches) ? window.watches : (typeof watches !== 'undefined' && Array.isArray(watches) ? watches : []); }
-  function getCardWatch(card){
-    if(!card) return null;
-    var id = String(card.dataset.listingId || card.id || '').trim();
-    return getWatches().find(function(w){ return String(w.listingId || w.id || '').trim() === id; }) || null;
-  }
-
-  function openWatchFromCard(card, event){
-    var w = getCardWatch(card);
-    if(!w || w.status !== 'available' || typeof window.openLightbox !== 'function') return false;
-    if(event){
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    window.openLightbox(w, 0);
-    stabiliseProductHero();
-    return true;
-  }
-
-  function stabiliseProductHero(){
-    var root = q('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open');
-    if(!root) return;
-    var stage = q('.lightbox-stage', root);
-    var wrap = q('.lightbox-image-wrap', root);
-    var img = q('img#lightboxImage', root);
-    if(!wrap || !img) return;
-
-    important(wrap, 'padding', '0');
-    important(wrap, 'border', '0');
-    important(wrap, 'border-radius', '0');
-    important(wrap, 'box-shadow', 'none');
-    important(wrap, 'background', 'transparent');
-    important(wrap, 'overflow', 'hidden');
-    important(img, 'display', 'block');
-    important(img, 'margin', '0');
-    important(img, 'padding', '0');
-    important(img, 'border', '0');
-    important(img, 'border-radius', '0');
-    important(img, 'box-shadow', 'none');
-    important(img, 'background', 'transparent');
-    important(img, 'transform', 'none');
-    important(img, 'object-fit', 'cover');
-    important(img, 'object-position', 'center center');
-
-    if(window.matchMedia && window.matchMedia('(min-width:1024px)').matches){
-      important(stage, 'grid-template-columns', 'minmax(0,45vw) minmax(440px,560px)');
-      important(stage, 'column-gap', 'clamp(82px,6vw,128px)');
-      important(stage, 'align-items', 'start');
-      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, '45vw'); });
-      important(wrap, 'height', '100svh');
-      important(wrap, 'min-height', '100svh');
-      important(wrap, 'max-height', '100svh');
-      important(wrap, 'aspect-ratio', 'auto');
-      important(img, 'width', '100%');
-      important(img, 'height', '100%');
-      important(img, 'min-width', '100%');
-      important(img, 'min-height', '100%');
-    }else{
-      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, '100vw'); important(img, p, '100vw'); });
-      important(wrap, 'height', 'auto');
-      important(wrap, 'min-height', '0');
-      important(wrap, 'max-height', 'none');
-      important(img, 'height', 'auto');
-      important(img, 'min-height', '0');
-      important(img, 'max-height', 'none');
-    }
-  }
-
-  function scheduleHeroStabilise(){
-    stabiliseProductHero();
-    requestAnimationFrame(stabiliseProductHero);
-    setTimeout(stabiliseProductHero, 80);
-    setTimeout(stabiliseProductHero, 240);
-    setTimeout(stabiliseProductHero, 520);
-  }
-
-  function repairLogoFallback(){
-    qa('#logoHome, .logo').forEach(function(logo){
-      var img = q('img', logo);
-      if(!img) return;
-      if(!q('.sw-logo-fallback', logo)){
-        var fallback = document.createElement('span');
-        fallback.className = 'sw-logo-fallback';
-        fallback.setAttribute('aria-hidden', 'true');
-        fallback.textContent = 'SW';
-        logo.appendChild(fallback);
-      }
-      function fail(){ logo.classList.add('logo-image-failed'); img.classList.add('logo-failed'); }
-      function pass(){ if(img.naturalWidth > 0){ logo.classList.remove('logo-image-failed'); img.classList.remove('logo-failed'); } }
-      img.addEventListener('error', fail, {once:false});
-      img.addEventListener('load', pass, {once:false});
-      if(img.complete && img.naturalWidth === 0) fail();
-    });
-  }
-
-  // Recovery click handler: product cards still open the individual product page, without changing the layout.
-  document.addEventListener('click', function(event){
-    if(document.body.classList.contains('product-page-open')) return;
-    var card = event.target && event.target.closest ? event.target.closest('#gallery .card') : null;
-    if(!card) return;
-    if(event.target.closest('button, a, input, textarea, select, label, .spec-trigger, .spec-overlay, .spec-hide, .cart-trigger')) return;
-    openWatchFromCard(card, event);
-  }, true);
-
-  // Old image-balancing scripts can still run on accordion clicks; this reapplies the same intended image sizing after them.
-  document.addEventListener('click', function(event){
-    if(event.target && event.target.closest && event.target.closest('.lightbox-detail-description-toggle,.lightbox-detail-spec-toggle,.lightbox-detail-policy-toggle,[data-info-target]')){
-      scheduleHeroStabilise();
-    }
-  }, true);
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', function(){ repairLogoFallback(); scheduleHeroStabilise(); });
-  }else{
-    repairLogoFallback(); scheduleHeroStabilise();
-  }
-  window.addEventListener('load', function(){ repairLogoFallback(); scheduleHeroStabilise(); }, {passive:true});
-  window.addEventListener('resize', scheduleHeroStabilise, {passive:true});
-  window.addEventListener('orientationchange', scheduleHeroStabilise, {passive:true});
-})();
-</script>
-
-
-
-<!-- v59: no-visual-change product click recovery -->
-<script id="sw-v59-product-click-recovery-js">
-(function(){
-  function getCardFromEventTarget(target){
-    if(!target || !target.closest) return null;
-    return target.closest('.card');
-  }
-
-  function isControlClick(target){
-    if(!target || !target.closest) return false;
-    return !!target.closest('.spec-trigger, .spec-overlay, .spec-hide, .cart-trigger, #cartOpen, #cartDrawer, #cartBackdrop, button:not(.merchant-product-link), input, select, textarea, label, .filter-custom, .status-filter-option, .sort-option');
-  }
-
-  function openCardProduct(card, event){
-    if(!card) return false;
-    var image = card.querySelector('.image');
-    if(image && !image.classList.contains('available')) return false;
-
-    var listingId = card.getAttribute('data-listing-id') || card.id || '';
-    var watch = null;
-
-    try{
-      if(typeof window.findWatchByCartId === 'function') watch = window.findWatchByCartId(listingId);
-    }catch(e){}
-
-    if(!watch){
-      try{
-        if(typeof window.findWatchFromProductToken === 'function'){
-          var link = card.getAttribute('data-product-link') || '';
-          watch = window.findWatchFromProductToken(link) || window.findWatchFromProductToken(listingId);
-        }
-      }catch(e){}
-    }
-
-    if(!watch || typeof window.openLightbox !== 'function') return false;
-
-    if(event){
-      event.preventDefault();
-      event.stopPropagation();
-      if(typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-    }
-
-    window.openLightbox(watch, 0, true);
-    return true;
-  }
-
-  function shouldHandle(target){
-    if(!target || !target.closest) return false;
-    if(isControlClick(target)) return false;
-    return !!target.closest('.merchant-product-link, .card .image img, .card .image.available');
-  }
-
-  document.addEventListener('click', function(event){
-    if(!shouldHandle(event.target)) return;
-    var card = getCardFromEventTarget(event.target);
-    openCardProduct(card, event);
-  }, true);
-
-  document.addEventListener('keydown', function(event){
-    if(event.key !== 'Enter' && event.key !== ' ') return;
-    var card = getCardFromEventTarget(event.target);
-    if(!card) return;
-    openCardProduct(card, event);
-  }, true);
-
-  function makeCardsFocusable(){
-    document.querySelectorAll('.card .image.available').forEach(function(image){
-      var card = image.closest('.card');
-      if(!card) return;
-      image.style.cursor = 'pointer';
-      image.setAttribute('role','button');
-      image.setAttribute('tabindex','0');
-      if(!image.getAttribute('aria-label')){
-        var brand = (card.querySelector('.brand') && card.querySelector('.brand').textContent || '').trim();
-        var title = (card.querySelector('.title') && card.querySelector('.title').textContent || '').trim();
-        image.setAttribute('aria-label', 'View ' + (brand ? brand + ' ' : '') + title);
-      }
-    });
-  }
-
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', makeCardsFocusable); else makeCardsFocusable();
-  var gallery = document.getElementById('gallery');
-  if(gallery){
-    new MutationObserver(makeCardsFocusable).observe(gallery, {childList:true, subtree:true});
-  }
-})();
-</script>
-
 </body>
 </html>
 
@@ -15452,7 +15247,12 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
 
@@ -15592,7 +15392,12 @@ html body.product-page-open .lightbox.open .lightbox-site-footer{
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
 
@@ -15859,7 +15664,12 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
 
@@ -15954,7 +15764,12 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
 
@@ -16050,7 +15865,12 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
 })();
 </script>
 
@@ -16177,7 +15997,12 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   window.addEventListener('resize', run, {passive:true});
   window.addEventListener('orientationchange', run, {passive:true});
-  document.addEventListener('click', run, true);
+  document.addEventListener('click', function(event){
+    var t = event.target;
+    if(!t || !t.closest) return;
+    if(t.closest('.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle')) return;
+    if(t.closest('.watch-card, .card .image, .lightbox-related-card, .lightbox-close, #lightboxBack')) run();
+  }, true);
   window.addEventListener('load', run, {passive:true});
 })();
 </script>
@@ -16248,284 +16073,388 @@ html body:not(.product-page-open) #gallery.grid{
 }
 </style>
 
-<style id="sw-v56-stability-performance-fixes">
-/* v56 — stability/performance pass: logo fallback, stable product imagery, smoother media loading. */
-.logo{
-  min-height:42px !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-}
+
+<!-- V56 stabilisation: logo fallback, product-page anti-spasm, desktop text containment, faster product image warming. -->
+<style id="sw-v56-stability-and-performance">
 .logo img{
-  display:block;
-  object-fit:contain;
-}
-.logo img.logo-failed,
-.logo.logo-image-failed img{
-  display:none !important;
-}
-.logo .sw-logo-fallback{
-  display:none;
-  font-family:'Pea Virginia','PeaVirginia',Georgia,serif;
-  font-size:34px;
-  line-height:1;
-  letter-spacing:.02em;
-  color:#000;
-  background:transparent;
-  border:0;
-}
-.logo.logo-image-failed .sw-logo-fallback{
   display:block !important;
+  width:auto !important;
+  max-width:118px !important;
+  height:auto !important;
+  min-height:32px !important;
+  object-fit:contain !important;
+}
+.logo img.logo-fallback-image{
+  width:118px !important;
+  max-width:118px !important;
 }
 
-/* Stop product-specific imagery from resizing/reflowing when accordion headings are clicked. */
+/* Product view: one stable layout. This intentionally overrides the older v26-v55 click-time layout experiments. */
+html body.product-page-open #lightbox.open,
+html body.product-page-open .lightbox.open,
+html body .lightbox.open{
+  align-items:flex-start !important;
+  justify-content:center !important;
+  overflow:auto !important;
+  overscroll-behavior:contain !important;
+  padding:0 !important;
+  background:#fff !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-inner,
+html body.product-page-open .lightbox.open .lightbox-inner,
+html body .lightbox.open .lightbox-inner{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:100vh !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+html body.product-page-open #lightbox .stapleford-preview-track,
+html body.product-page-open #lightbox.open .stapleford-preview-track,
+html body.product-page-open .lightbox.open .stapleford-preview-track,
+html body .lightbox.open .stapleford-preview-track,
+html body.product-page-open #lightbox .lightbox-thumbs,
+html body.product-page-open #lightbox.open .lightbox-thumbs,
+html body.product-page-open .lightbox.open .lightbox-thumbs,
+html body .lightbox.open .lightbox-thumbs,
+html body.product-page-open #lightbox .lightbox-prev,
+html body.product-page-open #lightbox .lightbox-next,
+html body.product-page-open .lightbox.open .lightbox-prev,
+html body.product-page-open .lightbox.open .lightbox-next{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
 @media (min-width:1024px){
   html body.product-page-open #lightbox.open .lightbox-stage,
   html body.product-page-open .lightbox.open .lightbox-stage,
   html body .lightbox.open .lightbox-stage{
-    grid-template-columns:minmax(0,45vw) minmax(440px,560px) !important;
-    column-gap:clamp(82px,6vw,128px) !important;
+    display:grid !important;
+    grid-template-columns:minmax(0, 1fr) minmax(380px, 500px) !important;
+    grid-template-areas:"product-image product-details" !important;
+    column-gap:clamp(44px, 5.2vw, 86px) !important;
+    row-gap:0 !important;
     align-items:start !important;
+    width:min(100vw, 1280px) !important;
+    max-width:1280px !important;
+    min-height:100vh !important;
+    height:auto !important;
+    margin:0 auto !important;
+    padding:0 6px !important;
+    overflow:visible !important;
+    transform:none !important;
+    contain:layout paint !important;
   }
+
+  html body.product-page-open #lightbox .lightbox-image-wrap,
   html body.product-page-open #lightbox.open .lightbox-image-wrap,
   html body.product-page-open .lightbox.open .lightbox-image-wrap,
   html body .lightbox.open .lightbox-image-wrap{
-    width:45vw !important;
-    min-width:45vw !important;
-    max-width:45vw !important;
-    height:100svh !important;
-    min-height:100svh !important;
-    max-height:100svh !important;
+    grid-area:product-image !important;
+    position:relative !important;
+    z-index:1 !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    height:clamp(620px, 86vh, 820px) !important;
+    min-height:0 !important;
+    max-height:none !important;
     aspect-ratio:auto !important;
     margin:0 !important;
     padding:0 !important;
     overflow:hidden !important;
+    transform:none !important;
+    background:#fff !important;
     border:0 !important;
-    border-radius:0 !important;
     box-shadow:none !important;
-    background:transparent !important;
-    contain:layout paint size !important;
   }
-}
-@supports not (height:100svh){
-  @media (min-width:1024px){
-    html body.product-page-open #lightbox.open .lightbox-image-wrap,
-    html body.product-page-open .lightbox.open .lightbox-image-wrap,
-    html body .lightbox.open .lightbox-image-wrap{
-      height:100vh !important;
-      min-height:100vh !important;
-      max-height:100vh !important;
-    }
-  }
-}
 
-html body.product-page-open #lightbox.open img#lightboxImage,
-html body.product-page-open .lightbox.open img#lightboxImage,
-html body .lightbox.open img#lightboxImage,
-html body.product-page-open #lightbox.open .stapleford-preview-slide img,
-html body.product-page-open .lightbox.open .stapleford-preview-slide img,
-html body .lightbox.open .stapleford-preview-slide img{
-  width:100% !important;
-  height:100% !important;
-  min-width:100% !important;
-  min-height:100% !important;
-  max-width:none !important;
-  max-height:none !important;
-  display:block !important;
-  object-fit:cover !important;
-  object-position:center center !important;
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
-  transform:none !important;
-  backface-visibility:hidden !important;
+  html body.product-page-open #lightbox img#lightboxImage,
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:none !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:none !important;
+    transition:none !important;
+    opacity:1 !important;
+    background:#fff !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-panel,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel,
+  html body .lightbox.open .lightbox-detail-panel{
+    grid-area:product-details !important;
+    position:relative !important;
+    z-index:2 !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:500px !important;
+    height:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+    margin:0 !important;
+    padding:clamp(30px, 4vh, 56px) 0 40px !important;
+    background:#fff !important;
+    transform:none !important;
+    contain:layout paint !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-description,
+  html body.product-page-open #lightbox.open .lightbox-detail-description,
+  html body.product-page-open .lightbox.open .lightbox-detail-description,
+  html body .lightbox.open .lightbox-detail-description,
+  html body.product-page-open #lightbox .lightbox-detail-specs,
+  html body.product-page-open #lightbox.open .lightbox-detail-specs,
+  html body.product-page-open .lightbox.open .lightbox-detail-specs,
+  html body .lightbox.open .lightbox-detail-specs,
+  html body.product-page-open #lightbox .lightbox-detail-policy-copy,
+  html body.product-page-open #lightbox.open .lightbox-detail-policy-copy,
+  html body.product-page-open .lightbox.open .lightbox-detail-policy-copy,
+  html body .lightbox.open .lightbox-detail-policy-copy{
+    position:static !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    clear:both !important;
+    transform:none !important;
+    overflow:visible !important;
+    word-break:normal !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    position:static !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:12px 0 0 !important;
+    padding:10px 0 0 !important;
+  }
 }
 
 @media (max-width:1023px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage,
+  html body .lightbox.open .lightbox-stage{
+    display:block !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:100vh !important;
+    overflow:visible !important;
+    transform:none !important;
+  }
+  html body.product-page-open #lightbox .lightbox-image-wrap,
   html body.product-page-open #lightbox.open .lightbox-image-wrap,
   html body.product-page-open .lightbox.open .lightbox-image-wrap,
   html body .lightbox.open .lightbox-image-wrap{
-    contain:layout paint !important;
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    transform:none !important;
+  }
+  html body.product-page-open #lightbox img#lightboxImage,
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  html body .lightbox.open img#lightboxImage{
+    width:100% !important;
+    height:auto !important;
+    max-height:none !important;
+    object-fit:contain !important;
+    transform:none !important;
+    transition:none !important;
   }
 }
 
-/* Make accordion content changes affect only the right text column, not the image column. */
-html body.product-page-open #lightbox.open .lightbox-detail-panel,
-html body.product-page-open .lightbox.open .lightbox-detail-panel,
-html body .lightbox.open .lightbox-detail-panel{
-  overflow-anchor:none !important;
+html body.product-page-open #lightbox .lightbox-detail-description-toggle,
+html body.product-page-open #lightbox .lightbox-detail-spec-toggle,
+html body.product-page-open #lightbox .lightbox-detail-policy-toggle,
+html body.product-page-open .lightbox.open .lightbox-detail-description-toggle,
+html body.product-page-open .lightbox.open .lightbox-detail-spec-toggle,
+html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
+  transform:none !important;
+  transition:none !important;
+  will-change:auto !important;
 }
 </style>
 
-<script id="sw-v56-stability-performance-fixes-js">
+<script id="sw-v56-stability-and-performance-js">
 (function(){
-  function q(sel, root){ return (root || document).querySelector(sel); }
-  function qa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
-  function important(el, prop, value){ if(el) el.style.setProperty(prop, value, 'important'); }
+  var toggleSelector = '.lightbox-detail-description-toggle, .lightbox-detail-spec-toggle, .lightbox-detail-policy-toggle';
 
-  function installLogoFallback(){
-    var logo = document.getElementById('logoHome') || q('.logo');
-    if(!logo) return;
-    var img = logo.querySelector('img');
-    if(!img) return;
-
-    if(!logo.querySelector('.sw-logo-fallback')){
-      var fallback = document.createElement('span');
-      fallback.className = 'sw-logo-fallback';
-      fallback.setAttribute('aria-hidden','true');
-      fallback.textContent = 'SW';
-      logo.appendChild(fallback);
-    }
-
-    function fail(){
-      img.classList.add('logo-failed');
-      logo.classList.add('logo-image-failed');
-    }
-    function pass(){
-      if(img.naturalWidth > 0){
-        img.classList.remove('logo-failed');
-        logo.classList.remove('logo-image-failed');
-      }
-    }
-
-    img.addEventListener('error', fail, { once:false });
-    img.addEventListener('load', pass, { once:false });
-
-    /* Try encoded/relative versions before falling back, because spaces in local asset names can be flaky. */
-    if(!img.complete || img.naturalWidth === 0){
-      var original = img.getAttribute('src') || '';
-      var tried = false;
-      setTimeout(function(){
-        if(img.naturalWidth > 0) return;
-        if(!tried && original && original.indexOf('%20') === -1){
-          tried = true;
-          img.src = original.replace(/ /g, '%20');
-          setTimeout(function(){ if(img.naturalWidth === 0) fail(); }, 900);
-        }else{
-          fail();
-        }
-      }, 450);
-    }
+  function setImportant(el, prop, value){
+    if(el) el.style.setProperty(prop, value, 'important');
   }
 
-  function stableHero(){
-    var root = q('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
+  function stabiliseProductLayout(){
+    var root = document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open');
     if(!root) return;
-    var stage = q('.lightbox-stage', root);
-    var wrap = q('.lightbox-image-wrap', root);
-    var img = q('img#lightboxImage', root);
-    if(!wrap || !img) return;
+    var stage = root.querySelector('.lightbox-stage');
+    var wrap = root.querySelector('.lightbox-image-wrap');
+    var img = root.querySelector('img#lightboxImage');
+    var detail = root.querySelector('.lightbox-detail-panel');
+    var related = root.querySelector('#lightboxRelated');
+    if(related && detail && related.parentElement !== detail) detail.appendChild(related);
+
+    root.querySelectorAll('.stapleford-preview-track, .lightbox-thumbs, .lightbox-thumb, .lightbox-prev, .lightbox-next').forEach(function(el){
+      el.setAttribute('hidden','hidden');
+      setImportant(el, 'display', 'none');
+      setImportant(el, 'visibility', 'hidden');
+      setImportant(el, 'pointer-events', 'none');
+    });
 
     if(window.matchMedia && window.matchMedia('(min-width: 1024px)').matches){
-      important(stage, 'grid-template-columns', 'minmax(0,45vw) minmax(440px,560px)');
-      important(stage, 'column-gap', 'clamp(82px,6vw,128px)');
-      important(stage, 'align-items', 'start');
-      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, '45vw'); });
-      var vh = (window.visualViewport && window.visualViewport.height ? window.visualViewport.height : window.innerHeight) || 800;
-      var h = Math.max(520, Math.round(vh));
-      important(wrap, 'height', h + 'px');
-      important(wrap, 'min-height', h + 'px');
-      important(wrap, 'max-height', h + 'px');
-      important(wrap, 'aspect-ratio', 'auto');
-    }else{
-      ['width','min-width','max-width'].forEach(function(p){ important(wrap, p, window.innerWidth + 'px'); });
-      important(wrap, 'max-height', 'none');
+      setImportant(stage, 'display', 'grid');
+      setImportant(stage, 'grid-template-columns', 'minmax(0, 1fr) minmax(380px, 500px)');
+      setImportant(stage, 'column-gap', 'clamp(44px, 5.2vw, 86px)');
+      setImportant(stage, 'width', 'min(100vw, 1280px)');
+      setImportant(stage, 'height', 'auto');
+      setImportant(stage, 'min-height', '100vh');
+      setImportant(stage, 'margin-left', 'auto');
+      setImportant(stage, 'margin-right', 'auto');
+      setImportant(stage, 'padding', '0 6px');
+      setImportant(stage, 'overflow', 'visible');
+      setImportant(stage, 'transform', 'none');
+      setImportant(wrap, 'width', '100%');
+      setImportant(wrap, 'min-width', '0');
+      setImportant(wrap, 'max-width', '100%');
+      setImportant(wrap, 'height', 'clamp(620px, 86vh, 820px)');
+      setImportant(wrap, 'min-height', '0');
+      setImportant(wrap, 'margin', '0');
+      setImportant(wrap, 'overflow', 'hidden');
+      setImportant(wrap, 'transform', 'none');
+      setImportant(img, 'width', '100%');
+      setImportant(img, 'height', '100%');
+      setImportant(img, 'object-fit', 'cover');
+      setImportant(img, 'transform', 'none');
+      setImportant(img, 'transition', 'none');
+      setImportant(detail, 'width', '100%');
+      setImportant(detail, 'max-width', '500px');
+      setImportant(detail, 'margin', '0');
+      setImportant(detail, 'padding', 'clamp(30px, 4vh, 56px) 0 40px');
+      setImportant(detail, 'position', 'relative');
+      setImportant(detail, 'z-index', '2');
+      setImportant(detail, 'overflow', 'visible');
+      setImportant(detail, 'transform', 'none');
     }
-
-    ['padding','border','border-radius','box-shadow','background'].forEach(function(p){
-      important(wrap, p, p === 'background' ? 'transparent' : '0');
-    });
-    important(wrap, 'overflow', 'hidden');
-
-    ['width','height','min-width','min-height'].forEach(function(p){ important(img, p, '100%'); });
-    important(img, 'display', 'block');
-    important(img, 'object-fit', 'cover');
-    important(img, 'object-position', 'center center');
-    ['margin','padding','border','border-radius','box-shadow'].forEach(function(p){ important(img, p, '0'); });
-    important(img, 'background', 'transparent');
-    important(img, 'transform', 'none');
   }
 
-  function settleHero(){
-    stableHero();
-    requestAnimationFrame(stableHero);
-    setTimeout(stableHero, 80);
-    setTimeout(stableHero, 220);
-    setTimeout(stableHero, 520);
-  }
-
-  function preload(src){
-    if(!src) return;
-    var link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = src;
-    document.head.appendChild(link);
-    var im = new Image();
-    im.decoding = 'async';
-    im.src = src;
-  }
-
-  function optimiseImages(){
-    qa('img').forEach(function(img, i){
-      img.decoding = 'async';
-      if(i < 8){
-        img.loading = 'eager';
-        try{ img.fetchPriority = 'high'; }catch(e){}
-      }else if(!img.closest('#lightbox')){
-        img.loading = img.loading || 'lazy';
-      }
-    });
-    var active = q('#lightbox.open img#lightboxImage');
-    if(active && active.src) preload(active.src);
-    qa('#staplefordPreviewTrack img, .stapleford-preview-track img, .lightbox-related-grid img').slice(0,6).forEach(function(img){
-      if(img.src) preload(img.src);
+  var queued = false;
+  function queueStabilise(){
+    if(queued) return;
+    queued = true;
+    requestAnimationFrame(function(){
+      queued = false;
+      stabiliseProductLayout();
     });
   }
 
-  function wrapLightboxFunctions(){
-    if(window.__swV56Wrapped) return;
-    window.__swV56Wrapped = true;
-    ['openLightbox','renderLightbox','stepLightbox'].forEach(function(name){
-      var fn = window[name];
-      if(typeof fn !== 'function') return;
-      window[name] = function(){
-        var result = fn.apply(this, arguments);
-        settleHero();
-        optimiseImages();
-        return result;
-      };
-    });
-  }
-
-  function init(){
-    installLogoFallback();
-    wrapLightboxFunctions();
-    optimiseImages();
-    settleHero();
-  }
-
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-  window.addEventListener('load', init, {passive:true});
-  window.addEventListener('resize', settleHero, {passive:true});
-  window.addEventListener('orientationchange', settleHero, {passive:true});
-
-  /* Accordion/header clicks used to trigger older height scripts. Stabilise right after them. */
-  document.addEventListener('click', function(e){
-    if(e.target && e.target.closest && e.target.closest('.lightbox-detail-description-toggle,.lightbox-detail-spec-toggle,.lightbox-detail-policy-toggle,[data-info-target]')){
-      settleHero();
+  function setPanelOpen(panel, toggle, open, openLabel, closedLabel){
+    if(panel) panel.hidden = !open;
+    if(toggle){
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var span = toggle.querySelector('span');
+      if(span) span.textContent = open ? openLabel : closedLabel;
     }
+  }
+
+  /* Handle accordion headings before the older document-level click layout listeners fire. */
+  window.addEventListener('click', function(event){
+    var target = event.target && event.target.closest && event.target.closest(toggleSelector);
+    if(!target || !document.querySelector('body.product-page-open #lightbox.open, body.product-page-open .lightbox.open, body .lightbox.open')) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    if(target.id === 'lightboxDetailDescriptionToggle'){
+      var desc = document.getElementById('lightboxDetailDescription');
+      setPanelOpen(desc, target, !!(desc && desc.hidden), 'HIDE DESCRIPTION ↓', 'DESCRIPTION ↑');
+    }else if(target.id === 'lightboxDetailSpecToggle'){
+      var specs = document.getElementById('lightboxDetailSpecs');
+      var nextSpec = !!(specs && specs.hidden);
+      if(typeof window.setLightboxSpecsOpen === 'function') window.setLightboxSpecsOpen(nextSpec, false);
+      else setPanelOpen(specs, target, nextSpec, 'HIDE SPECIFICATION ↓', 'SPECIFICATION ↑');
+    }else if(target.id === 'lightboxDetailDeliveryToggle'){
+      var delivery = document.getElementById('lightboxDetailDelivery');
+      var nextDelivery = !!(delivery && delivery.hidden);
+      if(typeof window.setLightboxPolicyOpen === 'function') window.setLightboxPolicyOpen('delivery', nextDelivery);
+      else setPanelOpen(delivery, target, nextDelivery, 'HIDE DELIVERY ↓', 'DELIVERY ↑');
+    }else if(target.id === 'lightboxDetailReturnsToggle'){
+      var returns = document.getElementById('lightboxDetailReturns');
+      var nextReturns = !!(returns && returns.hidden);
+      if(typeof window.setLightboxPolicyOpen === 'function') window.setLightboxPolicyOpen('returns', nextReturns);
+      else setPanelOpen(returns, target, nextReturns, 'HIDE RETURNS ↓', 'RETURNS ↑');
+    }
+    queueStabilise();
   }, true);
 
-  var mo = new MutationObserver(function(muts){
-    var relevant = muts.some(function(m){
-      return m.target && (m.target.id === 'lightbox' || (m.target.closest && m.target.closest('#lightbox')));
-    });
-    if(relevant){ settleHero(); optimiseImages(); }
-  });
-  if(document.body) mo.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class','hidden','style','src']});
+  function warm(src){
+    if(!src) return;
+    try{
+      var im = new Image();
+      im.decoding = 'async';
+      im.fetchPriority = 'high';
+      im.src = src;
+      if(im.decode) im.decode().catch(function(){});
+    }catch(e){}
+  }
+
+  function warmCurrentProductImages(){
+    var root = document.querySelector('#lightbox.open');
+    if(!root) return;
+    var current = root.querySelector('img#lightboxImage');
+    if(current && current.currentSrc) warm(current.currentSrc);
+    root.querySelectorAll('.lightbox-related-grid img').forEach(function(img, index){ if(index < 4) warm(img.currentSrc || img.src); });
+  }
+
+  var oldOpen = window.openLightbox;
+  if(typeof oldOpen === 'function'){
+    window.openLightbox = function(w, startIndex, updateUrl){
+      try{
+        if(typeof window.getWatchImages === 'function'){
+          window.getWatchImages(w).slice(0, 4).forEach(warm);
+        }else if(w && w.image){
+          warm(w.image);
+        }
+      }catch(e){}
+      var result = oldOpen.apply(this, arguments);
+      queueStabilise();
+      setTimeout(queueStabilise, 80);
+      setTimeout(warmCurrentProductImages, 120);
+      return result;
+    };
+  }
+
+  document.addEventListener('mouseover', function(event){
+    var card = event.target && event.target.closest && event.target.closest('.card, .watch-card, .lightbox-related-card');
+    if(!card) return;
+    var img = card.querySelector && card.querySelector('img');
+    if(img) warm(img.currentSrc || img.src);
+  }, {passive:true});
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', queueStabilise); else queueStabilise();
+  window.addEventListener('resize', queueStabilise, {passive:true});
+  window.addEventListener('orientationchange', function(){ setTimeout(queueStabilise, 80); }, {passive:true});
+  window.addEventListener('load', function(){ queueStabilise(); warmCurrentProductImages(); }, {passive:true});
+  new MutationObserver(queueStabilise).observe(document.documentElement, {attributes:true, attributeFilter:['class'], subtree:true, childList:true});
 })();
 </script>
