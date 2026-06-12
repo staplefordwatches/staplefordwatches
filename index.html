@@ -11022,5 +11022,128 @@ html body .lightbox.open .stapleford-preview-slide img{
 })();
 </script>
 
+
+
+<style id="stapleford-single-slide-swipe-v9">
+/* V9: one product image visible at a time. No thumbnails, no arrows, no next-image preview. */
+html body .lightbox.open .lightbox-prev,
+html body .lightbox.open .lightbox-next,
+html body .lightbox .lightbox-prev,
+html body .lightbox .lightbox-next,
+html body .lightbox.open .lightbox-thumbs,
+html body .lightbox.open #lightboxThumbs,
+html body .lightbox .lightbox-thumbs,
+html body .lightbox .lightbox-thumb{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+html body .lightbox.open .lightbox-detail-panel{
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  background:transparent !important;
+}
+
+html body .lightbox.open .lightbox-image-wrap{
+  overflow:hidden !important;
+  background:transparent !important;
+}
+
+html body .lightbox.open img#lightboxImage{
+  display:none !important;
+}
+
+html body .lightbox.open .stapleford-preview-track{
+  display:flex !important;
+  width:100% !important;
+  gap:0 !important;
+  transition:transform 320ms ease !important;
+  will-change:transform !important;
+}
+
+html body .lightbox.open .stapleford-preview-slide{
+  flex:0 0 100% !important;
+  width:100% !important;
+  min-width:100% !important;
+  max-width:100% !important;
+}
+
+html body .lightbox.open .stapleford-preview-slide img{
+  width:100% !important;
+  height:auto !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center top !important;
+  margin:0 !important;
+}
+</style>
+
+<script id="stapleford-single-slide-swipe-v9-js">
+(function(){
+  function removeThumbGallery(){
+    document.querySelectorAll('#lightboxThumbs, .lightbox-thumbs').forEach(function(el){
+      el.innerHTML = '';
+      el.setAttribute('hidden', 'hidden');
+      el.setAttribute('aria-hidden', 'true');
+      el.style.display = 'none';
+    });
+  }
+
+  function setSingleSlideSizing(){
+    var wrap = document.querySelector('.lightbox-image-wrap');
+    var track = document.getElementById('staplefordPreviewTrack');
+    if(!wrap || !track) return;
+    var slideWidth = wrap.clientWidth || track.clientWidth || 0;
+    track.style.gap = '0px';
+    track.querySelectorAll('.stapleford-preview-slide').forEach(function(slide){
+      slide.style.flexBasis = '100%';
+      slide.style.width = slideWidth + 'px';
+      slide.style.minWidth = slideWidth + 'px';
+      slide.style.maxWidth = slideWidth + 'px';
+    });
+    var index = (typeof lightboxIndex !== 'undefined') ? lightboxIndex : 0;
+    track.style.transform = 'translate3d(' + (-index * slideWidth) + 'px, 0, 0)';
+  }
+
+  window.positionSwipePreviewTrack = setSingleSlideSizing;
+
+  window.renderSwipePreviewTrack = function(){
+    var wrap = document.querySelector('.lightbox-image-wrap');
+    if(!wrap || typeof lightboxImages === 'undefined' || !lightboxImages.length) return;
+
+    var track = document.getElementById('staplefordPreviewTrack');
+    if(!track){
+      track = document.createElement('div');
+      track.id = 'staplefordPreviewTrack';
+      track.className = 'stapleford-preview-track';
+      wrap.appendChild(track);
+    }
+
+    track.innerHTML = '';
+    lightboxImages.forEach(function(src, index){
+      var slide = document.createElement('div');
+      slide.className = 'stapleford-preview-slide';
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = (typeof lightboxTitle !== 'undefined' ? lightboxTitle : 'Product') + ' image ' + (index + 1);
+      img.loading = index === 0 ? 'eager' : 'lazy';
+      img.decoding = 'async';
+      slide.appendChild(img);
+      track.appendChild(slide);
+    });
+
+    setSingleSlideSizing();
+    removeThumbGallery();
+  };
+
+  removeThumbGallery();
+  setSingleSlideSizing();
+  window.addEventListener('resize', setSingleSlideSizing, { passive:true });
+  window.addEventListener('orientationchange', function(){ setTimeout(setSingleSlideSizing, 100); }, { passive:true });
+})();
+</script>
+
 </body>
 </html>
