@@ -15208,3 +15208,72 @@ html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-re
   }
 }
 </style>
+
+
+<style id="stapleford-related-and-mobile-brand-rhythm-v47">
+/* V47: individual product view only.
+   1) Move YOU MIGHT ALSO LIKE heading down from its separator line on desktop and mobile.
+   2) Add mobile breathing room between the full-bleed product image and the brand/title block. */
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+  margin-top:12px !important;
+  padding-top:20px !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+}
+
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-title{
+  margin:0 !important;
+  padding:0 !important;
+  transform:none !important;
+}
+
+html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related .lightbox-related-grid,
+html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-grid,
+html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-grid,
+html body .lightbox.open .lightbox-detail-panel > .lightbox-related .lightbox-related-grid{
+  margin-top:16px !important;
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox .lightbox-detail-panel,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel,
+  html body .lightbox.open .lightbox-detail-panel{
+    padding-top:clamp(26px, 6vw, 42px) !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-kicker,
+  html body.product-page-open #lightbox.open .lightbox-detail-kicker,
+  html body.product-page-open .lightbox.open .lightbox-detail-kicker,
+  html body .lightbox.open .lightbox-detail-kicker,
+  html body.product-page-open #lightbox .lightbox-brand,
+  html body.product-page-open #lightbox.open .lightbox-brand,
+  html body.product-page-open .lightbox.open .lightbox-brand,
+  html body .lightbox.open .lightbox-brand{
+    margin-top:0 !important;
+  }
+
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:20px !important;
+  }
+}
+
+@media (min-width:1024px){
+  html body.product-page-open #lightbox .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    margin-top:12px !important;
+    padding-top:20px !important;
+  }
+}
+</style>
