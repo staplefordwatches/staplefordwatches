@@ -8655,7 +8655,22 @@ function getWatchReference(w){
 
 function getProductDisplayName(w){
   const reference = getWatchReference(w);
-  return `${w.brand || ""} ${w.title || ""}${reference ? ` ${reference}` : ""}`.trim();
+  const baseName = `${w.brand || ""} ${w.title || ""}`.trim();
+
+  if(!reference) return baseName;
+
+  const normaliseReferenceText = value => String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+
+  const normalisedBase = normaliseReferenceText(baseName);
+  const normalisedReference = normaliseReferenceText(reference);
+
+  if(normalisedReference && normalisedBase.includes(normalisedReference)){
+    return baseName;
+  }
+
+  return `${baseName} ${reference}`.trim();
 }
 
 function getProductSlug(w){
