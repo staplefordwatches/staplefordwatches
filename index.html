@@ -9142,12 +9142,12 @@ html body .lightbox.open .stapleford-preview-slide img{
 <button class="lightbox-detail-reopen" hidden="" id="lightboxDetailsReopen" type="button">DETAILS ↑</button>
 <aside aria-live="polite" class="lightbox-detail-panel" id="lightboxDetails">
 <div class="lightbox-detail-header">
-  <div class="lightbox-detail-kicker">DETAILS</div>
-  <button aria-label="Hide product details" class="lightbox-detail-hide" id="lightboxDetailsHide" type="button">HIDE ↓</button>
+  <div class="lightbox-detail-kicker" id="lightboxDetailBrand"></div>
 </div>
 <div class="lightbox-detail-title" id="lightboxDetailTitle"></div>
+<div class="lightbox-detail-reference" id="lightboxDetailReference"></div>
+<div class="lightbox-detail-contents" id="lightboxDetailContents"></div>
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
-<div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
 <div class="lightbox-detail-actions">
   <button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY NOW</button>
   <div class="lightbox-detail-contact-options" id="lightboxDetailContactOptions" aria-label="Contact options">
@@ -9159,6 +9159,8 @@ html body .lightbox.open .stapleford-preview-slide img{
     </a>
   </div>
 </div>
+<button aria-expanded="false" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span>DESCRIPTION ↑</span></button>
+<div class="lightbox-detail-description" hidden="" id="lightboxDetailDescription"></div>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span>SPEC ↑</span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY ↑</span><span class="policy-heading-icon policy-heading-icon-delivery" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span></button>
@@ -9977,8 +9979,12 @@ const lightboxEmail = document.getElementById("lightboxEmail");
 const lightboxDetails = document.getElementById("lightboxDetails");
 const lightboxDetailsHide = document.getElementById("lightboxDetailsHide");
 const lightboxDetailsReopen = document.getElementById("lightboxDetailsReopen");
+const lightboxDetailBrand = document.getElementById("lightboxDetailBrand");
 const lightboxDetailTitle = document.getElementById("lightboxDetailTitle");
+const lightboxDetailReference = document.getElementById("lightboxDetailReference");
+const lightboxDetailContents = document.getElementById("lightboxDetailContents");
 const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
+const lightboxDetailDescriptionToggle = document.getElementById("lightboxDetailDescriptionToggle");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
 const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
 const lightboxDetailEnquire = document.getElementById("lightboxDetailEnquire");
@@ -10022,6 +10028,14 @@ function scrollLightboxSpecsIntoView(){
       });
     }
   });
+}
+
+function setLightboxDescriptionOpen(isOpen){
+  if(lightboxDetailDescription) lightboxDetailDescription.hidden = !isOpen;
+  if(lightboxDetailDescriptionToggle){
+    lightboxDetailDescriptionToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    lightboxDetailDescriptionToggle.innerHTML = `<span>${isOpen ? "HIDE DESCRIPTION ↓" : "DESCRIPTION ↑"}</span>`;
+  }
 }
 
 function setLightboxSpecsOpen(isOpen, scrollToSpecs = false){
@@ -10091,14 +10105,21 @@ function ensureLightboxThumbs(){
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
   const specs = lightboxWatch.specs || {};
-  const title = getProductDisplayName(lightboxWatch);
+  const title = getProductDisplayTitleWithoutBrand(lightboxWatch);
+  const reference = getWatchReference(lightboxWatch) || specs.reference || "";
+  const contents = specs.contents || "";
   const isAvailable = lightboxWatch.status === "available";
   const isSold = ["sold", "reserved"].includes(lightboxWatch.status);
   const enquiryData = getEnquiryData(lightboxWatch);
 
+  setText(lightboxDetailBrand, String(lightboxWatch.brand || "").toUpperCase());
   setText(lightboxDetailTitle, title);
+  setText(lightboxDetailReference, reference ? `REFERENCE ${String(reference).toUpperCase()}` : "");
+  setText(lightboxDetailContents, contents ? `CONTENTS ${String(contents).toUpperCase()}` : "");
   setText(lightboxDetailPrice, isSold ? String(lightboxWatch.status || "sold").toUpperCase() : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
   setText(lightboxDetailDescription, lightboxWatch.description || getWatchDescription(lightboxWatch));
+  if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
+  setLightboxDescriptionOpen(false);
 
   if(lightboxDetailBuy){
     lightboxDetailBuy.hidden = !isAvailable;
@@ -10130,6 +10151,7 @@ function renderLightboxDetails(){
   }
 
   if(lightboxDetailSpecToggle) lightboxDetailSpecToggle.hidden = specRows.length === 0;
+  setLightboxDescriptionOpen(false);
   setLightboxSpecsOpen(false);
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
@@ -10256,6 +10278,7 @@ function closeLightbox(updateUrl = true){
   if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
   lightboxDetailsManuallyHidden = false;
   setLightboxDetailsOpen(true, false);
+  setLightboxDescriptionOpen(false);
   setLightboxSpecsOpen(false);
   setLightboxPolicyOpen("delivery", false);
   setLightboxPolicyOpen("returns", false);
@@ -10345,6 +10368,12 @@ lightboxDetailsHide?.addEventListener("click", (e) => {
 lightboxDetailsReopen?.addEventListener("click", (e) => {
   e.stopPropagation();
   setLightboxDetailsOpen(true);
+});
+
+lightboxDetailDescriptionToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = lightboxDetailDescription && !lightboxDetailDescription.hidden;
+  setLightboxDescriptionOpen(!isOpen);
 });
 
 lightboxDetailSpecToggle?.addEventListener("click", (e) => {
@@ -10506,10 +10535,6 @@ function render(){
 
       </button>
       <div class="spec-overlay" aria-hidden="true">
-        <button class="spec-hide" type="button" aria-label="Hide specifications">
-          <span>HIDE ↓</span>
-
-        </button>
         <div class="spec-list">
           <div class="spec-row"><span class="spec-label">REFERENCE</span><span class="spec-value">${w.specs.reference || ""}</span></div>
           <div class="spec-row"><span class="spec-label">YEAR</span><span class="spec-value">${w.specs.year}</span></div>
@@ -10521,9 +10546,14 @@ function render(){
       </div>` : ""}
     </div>
     <div class="info">
-      <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${productDisplayTitle}</div></div>
-      <div class="info-right">
+      <div class="title">
+        <div class="brand">${w.brand.toUpperCase()}</div>
+        <div>${productDisplayTitle}</div>
+        ${reference ? `<div class="listing-detail-line">REFERENCE ${String(reference).toUpperCase()}</div>` : ""}
+        ${w.specs?.contents ? `<div class="listing-detail-line">CONTENTS ${String(w.specs.contents).toUpperCase()}</div>` : ""}
         <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
+      </div>
+      <div class="info-right">
         ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${productName} now">BUY</button>` : ""}
       </div>
     </div>
@@ -10557,6 +10587,7 @@ function render(){
     const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button');
     if(clickedControl) return;
     openLightbox(w, 0);
+    window.scrollTo(0, 0);
   });
 
   gallery.appendChild(div);
@@ -11280,6 +11311,117 @@ html body .lightbox.open .lightbox-detail-panel{
   window.addEventListener('load', cleanupProductGallery, { passive:true });
 })();
 </script>
+
+
+
+<style id="stapleford-requested-product-page-and-details-v1">
+/* User requested: product clicks should feel like their own page, not an overlay over the buy listings. */
+html body.product-page-open{
+  overflow:auto !important;
+}
+html body.product-page-open #gallery,
+html body.product-page-open #noResults,
+html body.product-page-open .filter-custom{
+  display:none !important;
+}
+html body.product-page-open .lightbox.open{
+  position:relative !important;
+  inset:auto !important;
+  z-index:auto !important;
+  min-height:100vh !important;
+  overflow:visible !important;
+  padding:0 18px 70px !important;
+  background:#fff !important;
+}
+html body.product-page-open .lightbox.open .lightbox-inner{
+  min-height:0 !important;
+}
+html body .lightbox-detail-hide,
+html body .lightbox-detail-reopen{
+  display:none !important;
+}
+html body .lightbox-detail-header{
+  margin-bottom:6px !important;
+}
+html body .lightbox-detail-kicker{
+  font-size:11px !important;
+  opacity:1 !important;
+  letter-spacing:.09em !important;
+}
+html body .lightbox-detail-title{
+  margin-bottom:8px !important;
+}
+html body .lightbox-detail-reference,
+html body .lightbox-detail-contents{
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1.35 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  opacity:.66 !important;
+  margin-bottom:3px !important;
+}
+html body .lightbox-detail-price{
+  margin-top:10px !important;
+}
+html body .lightbox-detail-description-toggle{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  border:0;
+  border-top:1px solid rgba(0,0,0,0.12);
+  background:transparent;
+  padding:10px 0 0;
+  margin:10px 0 0;
+  text-align:left;
+  font-family:'InterEmbedded', Arial, sans-serif !important;
+  font-weight:500 !important;
+  color:#000;
+  cursor:pointer;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  font-size:10px;
+  line-height:1.2;
+}
+html body .lightbox-detail-description-toggle[hidden],
+html body .lightbox-detail-description[hidden]{
+  display:none !important;
+}
+html body .lightbox-detail-description{
+  border:1px solid rgba(0,0,0,0.12) !important;
+  background:#fff !important;
+  padding:12px !important;
+  margin-top:10px !important;
+  max-height:14em !important;
+  overflow:auto !important;
+}
+html body .card .info{
+  align-items:flex-start !important;
+}
+html body .card .title{
+  display:block !important;
+}
+html body .card .listing-detail-line{
+  margin-top:4px !important;
+  font-size:10px !important;
+  line-height:1.25 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  opacity:.62 !important;
+}
+html body .card .title .price{
+  margin-top:8px !important;
+}
+html body .card .info-right .price{
+  display:none !important;
+}
+html body .image.available.show-spec .spec-overlay{
+  padding-top:14px !important;
+}
+html body .spec-hide{
+  display:none !important;
+}
+</style>
 
 </body>
 </html>
