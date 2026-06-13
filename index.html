@@ -16663,5 +16663,232 @@ html body #menuDrawer .menu-drawer-close:focus-visible{
 }
 </style>
 
+
+
+<style id="stapleford-no-hover-no-grey-sort-final-pass">
+/* Final interaction reset: no lightening and no grey fill anywhere in MENU/SORT. */
+html body #menuBtn.menu-open,
+html body #filterBtn,
+html body #menuDrawer .menu-drawer-link,
+html body #menuDrawer .menu-drawer-close,
+html body #filterMenu .filter-option,
+html body #filterMenu .sort-option,
+html body #filterMenu .status-filter-option,
+html body #filterMenu .sort-brand-suggestion,
+html body #filterMenu .sort-drawer-close,
+html body #filterMenu .sort-drawer-reset,
+html body #filterMenu .sort-drawer-search,
+html body #filterMenu button{
+  -webkit-tap-highlight-color:rgba(0,0,0,0) !important;
+  -webkit-touch-callout:none !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  opacity:1 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  outline:none !important;
+  text-decoration:none !important;
+  transition:none !important;
+}
+
+html body #menuBtn.menu-open:hover,
+html body #menuBtn.menu-open:focus,
+html body #menuBtn.menu-open:focus-visible,
+html body #menuBtn.menu-open:active,
+html body #filterBtn:hover,
+html body #filterBtn:focus,
+html body #filterBtn:focus-visible,
+html body #filterBtn:active,
+html body #menuDrawer .menu-drawer-link:hover,
+html body #menuDrawer .menu-drawer-link:focus,
+html body #menuDrawer .menu-drawer-link:focus-visible,
+html body #menuDrawer .menu-drawer-link:active,
+html body #menuDrawer .menu-drawer-close:hover,
+html body #menuDrawer .menu-drawer-close:focus,
+html body #menuDrawer .menu-drawer-close:focus-visible,
+html body #menuDrawer .menu-drawer-close:active,
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:focus-visible,
+html body #filterMenu .filter-option:focus-within,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .filter-option.active,
+html body #filterMenu .sort-option:hover,
+html body #filterMenu .sort-option:focus,
+html body #filterMenu .sort-option:focus-visible,
+html body #filterMenu .sort-option:focus-within,
+html body #filterMenu .sort-option:active,
+html body #filterMenu .sort-option.active,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus,
+html body #filterMenu .status-filter-option:focus-visible,
+html body #filterMenu .status-filter-option:focus-within,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .status-filter-option.active,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:focus-visible,
+html body #filterMenu .sort-brand-suggestion:active,
+html body #filterMenu .sort-drawer-close:hover,
+html body #filterMenu .sort-drawer-close:focus,
+html body #filterMenu .sort-drawer-close:focus-visible,
+html body #filterMenu .sort-drawer-close:active,
+html body #filterMenu .sort-drawer-reset:hover,
+html body #filterMenu .sort-drawer-reset:focus,
+html body #filterMenu .sort-drawer-reset:focus-visible,
+html body #filterMenu .sort-drawer-reset:active,
+html body #filterMenu .sort-drawer-search:hover,
+html body #filterMenu .sort-drawer-search:focus,
+html body #filterMenu .sort-drawer-search:focus-visible,
+html body #filterMenu .sort-drawer-search:active{
+  opacity:1 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  outline:none !important;
+  filter:none !important;
+}
+
+/* Rows live on the white drawer, so force a white row surface to stop any inherited mobile grey state showing through. */
+html body #filterMenu .filter-option,
+html body #filterMenu .sort-option,
+html body #filterMenu .status-filter-option,
+html body #filterMenu .sort-brand-suggestion{
+  background:#fff !important;
+  background-color:#fff !important;
+  background-image:none !important;
+  border-radius:0 !important;
+}
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .filter-option.active,
+html body #filterMenu .sort-option:hover,
+html body #filterMenu .sort-option:focus,
+html body #filterMenu .sort-option:active,
+html body #filterMenu .sort-option.active,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .status-filter-option.active,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:active{
+  background:#fff !important;
+  background-color:#fff !important;
+  background-image:none !important;
+}
+
+/* Keep selected states tick-only, with no underline, fill, shadow or pressed state. */
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after,
+html body #menuDrawer .menu-drawer-link[aria-current="page"]::after{
+  content:'✓' !important;
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  margin-left:16px !important;
+  flex:0 0 auto !important;
+  border:0 !important;
+  transform:none !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:0 !important;
+  text-decoration:none !important;
+}
+
+/* Search and suggestions stay quiet: no browser fill/grey flash. */
+html body #filterMenu .filter-search-input,
+html body #filterMenu .filter-search-input:hover,
+html body #filterMenu .filter-search-input:focus,
+html body #filterMenu .filter-search-input:active{
+  background:#fff !important;
+  background-color:#fff !important;
+  background-image:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+  -webkit-tap-highlight-color:rgba(0,0,0,0) !important;
+}
+html body #filterMenu .filter-search-input:-webkit-autofill,
+html body #filterMenu .filter-search-input:-webkit-autofill:hover,
+html body #filterMenu .filter-search-input:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px #fff inset !important;
+  box-shadow:0 0 0 1000px #fff inset !important;
+  -webkit-text-fill-color:#000 !important;
+}
+html body #filterMenu .sort-brand-suggestion,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:active{
+  color:rgba(0,0,0,.42) !important;
+}
+</style>
+
+<script id="stapleford-no-hover-no-grey-sort-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, {once:true});
+    else fn();
+  }
+  ready(function(){
+    var selectors = [
+      '#menuBtn', '#filterBtn',
+      '#menuDrawer .menu-drawer-link', '#menuDrawer .menu-drawer-close',
+      '#filterMenu .filter-option', '#filterMenu .sort-option', '#filterMenu .status-filter-option',
+      '#filterMenu .sort-brand-suggestion', '#filterMenu .sort-drawer-close',
+      '#filterMenu .sort-drawer-reset', '#filterMenu .sort-drawer-search'
+    ].join(',');
+
+    function clean(el){
+      if(!el) return;
+      el.style.opacity = '1';
+      el.style.backgroundImage = 'none';
+      el.style.boxShadow = 'none';
+      el.style.outline = 'none';
+      if(el.closest && el.closest('#filterMenu') && el.matches('.filter-option, .sort-option, .status-filter-option, .sort-brand-suggestion')){
+        el.style.background = '#fff';
+        el.style.backgroundColor = '#fff';
+      }else{
+        el.style.background = 'transparent';
+        el.style.backgroundColor = 'transparent';
+      }
+    }
+
+    document.addEventListener('pointerdown', function(event){
+      var el = event.target.closest(selectors);
+      if(el) clean(el);
+    }, true);
+
+    document.addEventListener('pointerup', function(event){
+      var el = event.target.closest(selectors);
+      if(el) clean(el);
+      if(el && el.closest('#filterMenu')){
+        setTimeout(function(){ try{ el.blur(); }catch(e){} clean(el); }, 0);
+      }
+    }, true);
+
+    document.addEventListener('mouseover', function(event){
+      var el = event.target.closest(selectors);
+      if(el) clean(el);
+    }, true);
+
+    document.addEventListener('focusin', function(event){
+      var el = event.target.closest(selectors);
+      if(el) clean(el);
+    }, true);
+  });
+})();
+</script>
+
 </body>
 </html>
