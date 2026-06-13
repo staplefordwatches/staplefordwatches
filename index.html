@@ -14692,5 +14692,156 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
 })();
 </script>
 
+
+
+<style id="ben-v12-left-cart-sort-spec-polish">
+/* V12: cart slides from left, SORT shares the cart's refined minimal styling, SPEC sits flush to the image edge. */
+
+/* Cart: anchor drawer on the left and animate in from the left on desktop + mobile. */
+html body #cartDrawer.cart-drawer{
+  left:0 !important;
+  right:auto !important;
+  border-left:none !important;
+  border-right:1px solid rgba(0,0,0,.12) !important;
+  transform:translate3d(-100%,0,0) !important;
+}
+
+html body #cartDrawer.cart-drawer.open{
+  transform:translate3d(0,0,0) !important;
+}
+
+/* SORT: match the quiet uppercase/cart language rather than feeling like a separate dropdown control. */
+html body #filterBtn,
+html body #filterBtn span{
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:18px !important;
+  height:18px !important;
+  min-height:18px !important;
+  font-weight:500 !important;
+  letter-spacing:.02em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+
+html body #filterBtn{
+  background:transparent !important;
+  border:none !important;
+  padding:0 !important;
+  margin:0 !important;
+  gap:2px !important;
+  cursor:pointer !important;
+}
+
+html body #filterBtn:hover{
+  opacity:.55 !important;
+}
+
+html body #filterBtn svg{
+  width:11px !important;
+  height:11px !important;
+  margin-left:2px !important;
+  transform:none !important;
+}
+
+html body #filterMenu.filter-menu{
+  top:calc(100% + 8px) !important;
+  left:0 !important;
+  min-width:230px !important;
+  padding:14px 16px !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,.12) !important;
+  box-shadow:none !important;
+  z-index:4001 !important;
+}
+
+html body #filterMenu .filter-search-wrap{
+  padding:0 0 12px !important;
+  margin:0 0 12px !important;
+  border-bottom:1px solid rgba(0,0,0,.12) !important;
+}
+
+html body #filterMenu .filter-search-input{
+  width:100% !important;
+  border:0 !important;
+  padding:0 !important;
+  height:18px !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:18px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  outline:none !important;
+}
+
+html body #filterMenu .filter-section-label{
+  padding:0 0 9px !important;
+  margin:0 !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  opacity:.45 !important;
+}
+
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option{
+  padding:9px 0 !important;
+  border-top:1px solid rgba(0,0,0,.12) !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  background:transparent !important;
+}
+
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus{
+  background:transparent !important;
+  opacity:.55 !important;
+}
+
+html body #filterMenu .status-filter-option.active::after{
+  opacity:.55 !important;
+}
+
+/* SPEC: make the trigger sit on the image border rather than floating above it. */
+html body .image.available .spec-trigger{
+  left:0 !important;
+  bottom:0 !important;
+  padding:8px 10px !important;
+  background:rgba(255,255,255,.96) !important;
+  border-top:1px solid rgba(0,0,0,.12) !important;
+  border-right:1px solid rgba(0,0,0,.12) !important;
+}
+
+@media (max-width:767px){
+  html body #filterBtn,
+  html body #filterBtn span{
+    font-size:10px !important;
+  }
+
+  html body #filterMenu.filter-menu{
+    min-width:220px !important;
+    padding:13px 15px !important;
+  }
+
+  html body .image.available .spec-trigger{
+    bottom:0 !important;
+    left:0 !important;
+  }
+}
+</style>
+
 </body>
 </html>
