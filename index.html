@@ -16204,5 +16204,182 @@ html body #filterMenu .status-filter-option.active{
 })();
 </script>
 
+
+
+<style id="stapleford-sort-refined-final-polish">
+/* Final SORT drawer polish: menu-sized ticks, no grey touch/hover fill, subtle grey suggestions. */
+html body #filterMenu .filter-option,
+html body #filterMenu .sort-option,
+html body #filterMenu .status-filter-option,
+html body #filterMenu .sort-brand-suggestion,
+html body #filterMenu .filter-check{
+  background:transparent !important;
+  background-color:transparent !important;
+  -webkit-tap-highlight-color:rgba(0,0,0,0) !important;
+  tap-highlight-color:rgba(0,0,0,0) !important;
+  outline:none !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:focus-visible,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .filter-option.active,
+html body #filterMenu .sort-option:hover,
+html body #filterMenu .sort-option:focus,
+html body #filterMenu .sort-option:focus-visible,
+html body #filterMenu .sort-option:active,
+html body #filterMenu .sort-option.active,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus,
+html body #filterMenu .status-filter-option:focus-visible,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .status-filter-option.active,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:focus-visible,
+html body #filterMenu .sort-brand-suggestion:active,
+html body #filterMenu .filter-check:hover,
+html body #filterMenu .filter-check:focus,
+html body #filterMenu .filter-check:focus-within,
+html body #filterMenu .filter-check:active{
+  background:transparent !important;
+  background-color:transparent !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .sort-option:hover,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .sort-brand-suggestion:hover{
+  opacity:.55 !important;
+}
+
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after{
+  content:'✓' !important;
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  border:0 !important;
+  transform:none !important;
+  margin:0 0 0 16px !important;
+  flex:0 0 auto !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:0 !important;
+  text-decoration:none !important;
+}
+
+html body #filterMenu .sort-brand-suggestions{
+  padding:6px 0 14px !important;
+  margin:0 !important;
+}
+html body #filterMenu .sort-brand-suggestion{
+  min-height:28px !important;
+  border-bottom:0 !important;
+  color:rgba(0,0,0,.42) !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  line-height:1.2 !important;
+  padding:0 !important;
+}
+html body #filterMenu .sort-brand-suggestion::after{
+  content:'SEARCH' !important;
+  color:rgba(0,0,0,.28) !important;
+  font-size:10px !important;
+  letter-spacing:.08em !important;
+}
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:active{
+  color:rgba(0,0,0,.62) !important;
+  opacity:1 !important;
+}
+html body #filterMenu .filter-search-input:focus{
+  outline:none !important;
+  box-shadow:none !important;
+}
+</style>
+
+<script id="stapleford-sort-grey-suggestion-fill-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, {once:true});
+    else fn();
+  }
+  ready(function(){
+    var menu = document.getElementById('filterMenu');
+    var suggestionBox = document.getElementById('sortBrandSuggestions');
+    var search = document.getElementById('watchSearch');
+    if(!menu || !suggestionBox || !search) return;
+
+    function availableBrands(){
+      try{
+        var seen = Object.create(null);
+        return (Array.isArray(watches) ? watches : []).filter(function(w){
+          return w && String(w.status || '').toLowerCase() === 'available' && String(w.brand || '').trim();
+        }).map(function(w){ return String(w.brand || '').trim(); }).filter(function(brand){
+          var key = brand.toLowerCase();
+          if(seen[key]) return false;
+          seen[key] = true;
+          return true;
+        }).sort(function(a,b){ return a.localeCompare(b); });
+      }catch(e){ return []; }
+    }
+
+    function drawSuggestions(){
+      var query = String(search.value || '').trim().toLowerCase();
+      var brands = availableBrands();
+      if(query) brands = brands.filter(function(brand){ return brand.toLowerCase().indexOf(query) !== -1; });
+      brands = brands.slice(0, 8);
+      suggestionBox.innerHTML = '';
+      if(!brands.length){
+        suggestionBox.classList.remove('is-visible');
+        return;
+      }
+      brands.forEach(function(brand){
+        var row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'sort-brand-suggestion';
+        row.textContent = brand;
+        row.addEventListener('pointerdown', function(event){
+          event.preventDefault();
+          event.stopPropagation();
+          search.value = brand;
+          suggestionBox.classList.remove('is-visible');
+          search.focus({preventScroll:true});
+        }, true);
+        row.addEventListener('click', function(event){
+          event.preventDefault();
+          event.stopPropagation();
+          search.value = brand;
+          suggestionBox.classList.remove('is-visible');
+          search.focus({preventScroll:true});
+        }, true);
+        suggestionBox.appendChild(row);
+      });
+      suggestionBox.classList.add('is-visible');
+    }
+
+    search.addEventListener('input', drawSuggestions, true);
+    search.addEventListener('focus', drawSuggestions, true);
+
+    var openBtn = document.getElementById('filterBtn');
+    if(openBtn){
+      openBtn.addEventListener('click', function(){ setTimeout(drawSuggestions, 40); }, true);
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
