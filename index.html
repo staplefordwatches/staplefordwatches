@@ -9143,6 +9143,187 @@ html body #filterMenu .status-filter-option.active::after{content:'✓' !importa
   html body #filterMenu.filter-menu{width:100vw !important;padding:18px !important;}
 }
 </style>
+
+<style id="stapleford-sort-fullscreen-menu-style">
+/* Premium SORT rebuild: SORT now uses the same full-screen drawer language as MENU. */
+html body #filterMenu.filter-menu{
+  display:flex !important;
+  position:fixed !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  left:0 !important;
+  width:100vw !important;
+  max-width:none !important;
+  height:100dvh !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:24px !important;
+  box-sizing:border-box !important;
+  flex-direction:column !important;
+  background:#fff !important;
+  border:0 !important;
+  box-shadow:none !important;
+  z-index:4100 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:translate3d(100%,0,0) !important;
+  pointer-events:none !important;
+  transition:transform .28s cubic-bezier(.22,.61,.36,1) !important;
+}
+html body #filterMenu.filter-menu.is-open{
+  transform:translate3d(0,0,0) !important;
+  pointer-events:auto !important;
+}
+html body #sortBackdrop.sort-backdrop{
+  position:fixed !important;
+  inset:0 !important;
+  background:rgba(0,0,0,.16) !important;
+  z-index:4099 !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transition:opacity .25s ease !important;
+}
+html body #sortBackdrop.sort-backdrop.is-open{
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+html body #filterMenu .sort-drawer-head{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  flex:0 0 auto !important;
+  padding:0 0 18px !important;
+  border-bottom:1px solid rgba(0,0,0,.10) !important;
+}
+html body #filterMenu .sort-drawer-title,
+html body #filterMenu .sort-drawer-close,
+html body #filterMenu .sort-drawer-reset{
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  line-height:1.2 !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+html body #filterMenu .sort-drawer-close,
+html body #filterMenu .sort-drawer-reset{
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  cursor:pointer !important;
+}
+html body #filterMenu .sort-drawer-close:hover,
+html body #filterMenu .sort-drawer-reset:hover{opacity:.55 !important;}
+html body #filterMenu .sort-drawer-body{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:0 !important;
+  flex:1 1 auto !important;
+  overflow:auto !important;
+  padding:24px 0 !important;
+  margin:0 !important;
+}
+html body #filterMenu .filter-search-wrap{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  width:100% !important;
+  height:42px !important;
+  margin:0 0 24px !important;
+  padding:0 24px 0 0 !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(0,0,0,.08) !important;
+  box-sizing:border-box !important;
+  background:transparent !important;
+}
+html body #filterMenu .filter-search-input{
+  width:100% !important;
+  height:42px !important;
+  line-height:42px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+}
+html body #filterMenu .filter-search-input::placeholder{color:#000 !important;opacity:.45 !important;}
+html body #filterMenu .sort-search-icon{
+  position:absolute !important;
+  right:0 !important;
+  top:50% !important;
+  width:14px !important;
+  height:14px !important;
+  transform:translateY(-50%) !important;
+  color:#000 !important;
+  opacity:.72 !important;
+  pointer-events:none !important;
+}
+html body #filterMenu .sort-search-icon svg{display:block !important;width:14px !important;height:14px !important;}
+html body #filterMenu .filter-section-label{
+  padding:18px 0 8px !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1.2 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  opacity:.5 !important;
+}
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option{
+  width:100% !important;
+  min-height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  position:static !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(0,0,0,.08) !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  line-height:1.2 !important;
+  text-transform:uppercase !important;
+  text-align:left !important;
+  cursor:pointer !important;
+  opacity:1 !important;
+}
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .status-filter-option:hover{opacity:.55 !important;background:transparent !important;}
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after{
+  content:'✓' !important;
+  font-size:11px !important;
+  line-height:1 !important;
+}
+html body #filterMenu .sort-drawer-foot{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  flex:0 0 auto !important;
+  padding:18px 0 0 !important;
+  border-top:1px solid rgba(0,0,0,.10) !important;
+}
+@media (max-width:640px){
+  html body #filterMenu.filter-menu{width:100vw !important;padding:18px !important;}
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
