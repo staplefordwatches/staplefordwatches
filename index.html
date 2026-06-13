@@ -16381,5 +16381,141 @@ html body #filterMenu .filter-search-input:focus{
 })();
 </script>
 
+
+
+<style id="stapleford-sort-no-grey-fill-hard-reset">
+/* Hard reset for SORT drawer interaction states: no grey fill on hover, focus, tap, active or selected. */
+html body #filterMenu,
+html body #filterMenu *,
+html body #filterMenu *::before,
+html body #filterMenu *::after{
+  -webkit-tap-highlight-color:rgba(0,0,0,0) !important;
+  -webkit-touch-callout:none !important;
+}
+
+html body #filterMenu .filter-option,
+html body #filterMenu .sort-option,
+html body #filterMenu .status-filter-option,
+html body #filterMenu .sort-brand-suggestion,
+html body #filterMenu .filter-check,
+html body #filterMenu button{
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  transition:none !important;
+}
+
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:focus-visible,
+html body #filterMenu .filter-option:focus-within,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .filter-option.active,
+html body #filterMenu .sort-option:hover,
+html body #filterMenu .sort-option:focus,
+html body #filterMenu .sort-option:focus-visible,
+html body #filterMenu .sort-option:focus-within,
+html body #filterMenu .sort-option:active,
+html body #filterMenu .sort-option.active,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus,
+html body #filterMenu .status-filter-option:focus-visible,
+html body #filterMenu .status-filter-option:focus-within,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .status-filter-option.active,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:focus-visible,
+html body #filterMenu .sort-brand-suggestion:focus-within,
+html body #filterMenu .sort-brand-suggestion:active{
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  opacity:1 !important;
+}
+
+/* Keep suggestions subtle grey, even on hover/tap. */
+html body #filterMenu .sort-brand-suggestion,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:active{
+  color:rgba(0,0,0,.42) !important;
+}
+
+/* Keep selected ticks only — no underline/fill/box. */
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after{
+  content:'✓' !important;
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  margin:0 0 0 16px !important;
+  border:0 !important;
+  border-bottom:0 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  transform:none !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:0 !important;
+  text-decoration:none !important;
+}
+
+html body #filterMenu .sort-option.active::before,
+html body #filterMenu .status-filter-option.active::before,
+html body #filterMenu .filter-option::before,
+html body #filterMenu .filter-option::after{
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+}
+</style>
+
+<script id="stapleford-sort-no-focus-flash-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+    else fn();
+  }
+  ready(function(){
+    var menu = document.getElementById('filterMenu');
+    if(!menu) return;
+    menu.addEventListener('pointerdown', function(event){
+      var row = event.target.closest('.filter-option, .sort-option, .status-filter-option, .sort-brand-suggestion');
+      if(!row) return;
+      row.style.background = 'transparent';
+      row.style.backgroundColor = 'transparent';
+      row.style.backgroundImage = 'none';
+      if(document.activeElement && document.activeElement !== document.body){
+        setTimeout(function(){
+          try{ document.activeElement.blur(); }catch(e){}
+        }, 0);
+      }
+    }, true);
+    menu.addEventListener('mouseover', function(event){
+      var row = event.target.closest('.filter-option, .sort-option, .status-filter-option, .sort-brand-suggestion');
+      if(!row) return;
+      row.style.background = 'transparent';
+      row.style.backgroundColor = 'transparent';
+      row.style.backgroundImage = 'none';
+    }, true);
+  });
+})();
+</script>
+
 </body>
 </html>
