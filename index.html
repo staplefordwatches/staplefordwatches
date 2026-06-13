@@ -9153,11 +9153,7 @@ html body #filterMenu .status-filter-option.active::after{content:'✓' !importa
 </button>
 <div class="nav">
 <div class="nav-left">
-<nav aria-label="Buy, sell or view information" class="nav-pages">
-<button aria-current="page" class="nav-page-btn" id="buyNav" type="button"><span>BUY</span></button>
-<button aria-current="false" class="nav-page-btn" id="sellNav" type="button"><span>SELL</span></button>
-<button aria-current="false" class="nav-page-btn" id="infoNav" type="button"><span>INFO</span></button>
-</nav>
+<button aria-expanded="false" aria-controls="menuDrawer" aria-label="Open menu" class="menu-open" id="menuBtn" type="button"><span>MENU</span></button>
 <div class="filter-wrap-inline">
 <div class="filter-custom">
 <button aria-label="Sort watches" id="filterBtn" type="button">
@@ -9189,6 +9185,18 @@ html body #filterMenu .status-filter-option.active::after{content:'✓' !importa
 
 </div>
 </div><div class="sort-backdrop" hidden="" id="sortBackdrop"></div>
+<div aria-hidden="true" class="menu-backdrop" hidden="" id="menuBackdrop"></div>
+<aside aria-label="Site menu" aria-modal="true" class="menu-drawer" id="menuDrawer" role="dialog">
+  <div class="menu-drawer-head">
+    <div class="menu-drawer-title">MENU</div>
+    <button class="menu-drawer-close" id="menuClose" type="button">CLOSE</button>
+  </div>
+  <nav aria-label="Site sections" class="menu-drawer-body">
+    <button aria-current="page" class="nav-page-btn menu-drawer-link" id="buyNav" type="button"><span>BUY</span></button>
+    <button aria-current="false" class="nav-page-btn menu-drawer-link" id="sellNav" type="button"><span>SELL</span></button>
+    <button aria-current="false" class="nav-page-btn menu-drawer-link" id="infoNav" type="button"><span>INFO</span></button>
+  </nav>
+</aside>
 <div class="grid" id="gallery"></div>
 <div class="no-results" hidden="" id="noResults">No watches found</div>
 <section class="sell-page" hidden="" id="sellPage">
@@ -15427,5 +15435,204 @@ html body #filterBtn svg{
   });
 })();
 </script>
+
+
+<style id="stapleford-premium-menu-drawer-final">
+/* Premium nav rebuild: BUY / SELL / INFO are now inside a MENU drawer that matches the SORT drawer language. */
+html body .nav-left{
+  position:static !important;
+  height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+html body #menuBtn.menu-open{
+  position:absolute !important;
+  left:6px !important;
+  top:0 !important;
+  height:24px !important;
+  line-height:24px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:12px !important;
+  font-weight:500 !important;
+  letter-spacing:.02em !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+}
+html body #menuBtn.menu-open:hover{opacity:.55 !important;}
+
+html body #menuDrawer.menu-drawer{
+  position:fixed !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  width:min(390px,100vw) !important;
+  height:100dvh !important;
+  display:flex !important;
+  flex-direction:column !important;
+  box-sizing:border-box !important;
+  padding:24px !important;
+  background:#fff !important;
+  border-left:1px solid rgba(0,0,0,.12) !important;
+  z-index:4100 !important;
+  transform:translate3d(100%,0,0) !important;
+  pointer-events:none !important;
+  transition:transform .28s cubic-bezier(.22,.61,.36,1) !important;
+}
+html body #menuDrawer.menu-drawer.is-open{
+  transform:translate3d(0,0,0) !important;
+  pointer-events:auto !important;
+}
+
+html body #menuBackdrop.menu-backdrop{
+  position:fixed !important;
+  inset:0 !important;
+  background:rgba(0,0,0,.16) !important;
+  z-index:4099 !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transition:opacity .25s ease !important;
+}
+html body #menuBackdrop.menu-backdrop.is-open{
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+
+html.menu-drawer-is-open,
+html.menu-drawer-is-open body{overflow:hidden !important;}
+
+html body .menu-drawer-head{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  flex:0 0 auto !important;
+  padding:0 0 18px !important;
+  border-bottom:1px solid rgba(0,0,0,.10) !important;
+}
+html body .menu-drawer-title,
+html body .menu-drawer-close{
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  line-height:1.2 !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+html body .menu-drawer-close{
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  cursor:pointer !important;
+}
+html body .menu-drawer-close:hover{opacity:.55 !important;}
+
+html body .menu-drawer-body{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:0 !important;
+  flex:1 1 auto !important;
+  overflow:auto !important;
+  padding:24px 0 !important;
+  margin:0 !important;
+}
+html body #menuDrawer .menu-drawer-link{
+  width:100% !important;
+  min-height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  position:static !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(0,0,0,.08) !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  line-height:1.2 !important;
+  text-transform:uppercase !important;
+  text-align:left !important;
+  cursor:pointer !important;
+  opacity:1 !important;
+}
+html body #menuDrawer .menu-drawer-link:hover{opacity:.55 !important;}
+html body #menuDrawer .menu-drawer-link[aria-current="page"]::after{
+  content:'✓' !important;
+  font-size:11px !important;
+  line-height:1 !important;
+}
+
+@media (max-width:640px){
+  html body #menuBtn.menu-open{left:6px !important;}
+  html body #menuDrawer.menu-drawer{width:100vw !important;padding:18px !important;}
+}
+</style>
+
+<script id="stapleford-premium-menu-drawer-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, {once:true});
+    else fn();
+  }
+
+  ready(function(){
+    var button = document.getElementById('menuBtn');
+    var drawer = document.getElementById('menuDrawer');
+    var backdrop = document.getElementById('menuBackdrop');
+    var closeButton = document.getElementById('menuClose');
+    if(!button || !drawer) return;
+
+    function openMenu(event){
+      if(event){ event.preventDefault(); event.stopPropagation(); }
+      backdrop && (backdrop.hidden = false);
+      requestAnimationFrame(function(){
+        drawer.classList.add('is-open');
+        backdrop && backdrop.classList.add('is-open');
+        document.documentElement.classList.add('menu-drawer-is-open');
+        document.body.classList.add('menu-drawer-is-open');
+        button.setAttribute('aria-expanded','true');
+      });
+    }
+
+    function closeMenu(event){
+      if(event){ event.preventDefault(); event.stopPropagation(); }
+      drawer.classList.remove('is-open');
+      backdrop && backdrop.classList.remove('is-open');
+      document.documentElement.classList.remove('menu-drawer-is-open');
+      document.body.classList.remove('menu-drawer-is-open');
+      button.setAttribute('aria-expanded','false');
+      window.setTimeout(function(){
+        if(!drawer.classList.contains('is-open') && backdrop) backdrop.hidden = true;
+      }, 280);
+    }
+
+    button.addEventListener('click', openMenu);
+    closeButton && closeButton.addEventListener('click', closeMenu);
+    backdrop && backdrop.addEventListener('click', closeMenu);
+    drawer.querySelectorAll('.menu-drawer-link').forEach(function(link){
+      link.addEventListener('click', function(){ window.setTimeout(closeMenu, 0); });
+    });
+    document.addEventListener('keydown', function(event){
+      if(event.key === 'Escape' && drawer.classList.contains('is-open')) closeMenu(event);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
