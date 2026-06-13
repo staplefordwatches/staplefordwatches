@@ -9324,6 +9324,58 @@ html body #filterMenu .sort-drawer-foot{
 }
 </style>
 
+
+<style id="stapleford-sort-drawer-alignment-search-final">
+/* Final polish: align SORT text precisely and add a premium SEARCH action. */
+html body #filterMenu .sort-drawer-head{
+  min-height:24px !important;
+  padding:0 0 18px !important;
+  align-items:center !important;
+}
+html body #filterMenu .sort-drawer-title,
+html body #filterMenu .sort-drawer-close{
+  height:24px !important;
+  display:flex !important;
+  align-items:center !important;
+  line-height:24px !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+html body #filterMenu .filter-section-label{
+  min-height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  padding:0 !important;
+  margin:0 !important;
+  line-height:42px !important;
+}
+html body #filterMenu .sort-drawer-foot{
+  justify-content:space-between !important;
+  align-items:center !important;
+  min-height:42px !important;
+}
+html body #filterMenu .sort-drawer-reset,
+html body #filterMenu .sort-drawer-search{
+  height:24px !important;
+  display:flex !important;
+  align-items:center !important;
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:24px !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+}
+html body #filterMenu .sort-drawer-reset:hover,
+html body #filterMenu .sort-drawer-search:hover{opacity:.55 !important;}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -9357,7 +9409,7 @@ html body #filterMenu .sort-drawer-foot{
 <div class="filter-section-label">Filter</div>
 <div class="filter-option status-filter-option" data-status="available">AVAILABLE</div>
 <div class="filter-option status-filter-option" data-status="sold">SOLD</div>
-</div><div class="sort-drawer-foot"><button class="sort-drawer-reset" id="sortReset" type="button">RESET</button></div></div>
+</div><div class="sort-drawer-foot"><button class="sort-drawer-reset" id="sortReset" type="button">RESET</button><button class="sort-drawer-search" id="sortSearchApply" type="button">SEARCH</button></div></div>
 
 </div>
 </div>
@@ -15810,6 +15862,46 @@ html body #menuDrawer .menu-drawer-link[aria-current="page"]::after{
     });
     document.addEventListener('keydown', function(event){
       if(event.key === 'Escape' && drawer.classList.contains('is-open')) closeMenu(event);
+    });
+  });
+})();
+</script>
+
+
+<script id="stapleford-sort-search-action-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, {once:true});
+    else fn();
+  }
+  ready(function(){
+    var menu = document.getElementById('filterMenu');
+    var backdrop = document.getElementById('sortBackdrop');
+    var button = document.getElementById('filterBtn');
+    var searchInput = document.getElementById('watchSearch');
+    var apply = document.getElementById('sortSearchApply');
+    if(!menu || !apply) return;
+
+    function closeSortDrawer(){
+      menu.classList.remove('is-open');
+      if(backdrop) backdrop.classList.remove('is-open');
+      document.documentElement.classList.remove('sort-drawer-is-open');
+      document.body.classList.remove('sort-drawer-is-open');
+      if(button) button.setAttribute('aria-expanded','false');
+      window.setTimeout(function(){
+        if(!menu.classList.contains('is-open')){
+          menu.style.display = 'flex';
+          if(backdrop) backdrop.hidden = true;
+        }
+      }, 280);
+    }
+
+    apply.addEventListener('click', function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      try{ searchQuery = searchInput ? searchInput.value.trim().toLowerCase() : searchQuery; }catch(e){}
+      try{ render(); }catch(e){}
+      closeSortDrawer();
     });
   });
 })();
