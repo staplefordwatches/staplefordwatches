@@ -9376,6 +9376,66 @@ html body #filterMenu .sort-drawer-reset:hover,
 html body #filterMenu .sort-drawer-search:hover{opacity:.55 !important;}
 </style>
 
+
+
+<style id="stapleford-sort-no-grey-tick-only-final">
+/* Final SORT polish: remove grey press/focus states and use tick-only selection marks. */
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option,
+html body #filterMenu .sort-option,
+html body #filterMenu .sort-brand-suggestion{
+  background:transparent !important;
+  -webkit-tap-highlight-color:transparent !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+}
+
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:focus-visible,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus,
+html body #filterMenu .status-filter-option:focus-visible,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .sort-option:hover,
+html body #filterMenu .sort-option:focus,
+html body #filterMenu .sort-option:focus-visible,
+html body #filterMenu .sort-option:active,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus,
+html body #filterMenu .sort-brand-suggestion:focus-visible,
+html body #filterMenu .sort-brand-suggestion:active{
+  background:transparent !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+html body #filterMenu .sort-option.active,
+html body #filterMenu .status-filter-option.active{
+  background:transparent !important;
+  border-bottom-color:rgba(0,0,0,.08) !important;
+}
+
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after{
+  content:'✓' !important;
+  width:auto !important;
+  height:auto !important;
+  border:0 !important;
+  transform:none !important;
+  margin-left:16px !important;
+  flex:0 0 auto !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -9398,7 +9458,7 @@ html body #filterMenu .sort-drawer-search:hover{opacity:.55 !important;}
 <div class="filter-menu" id="filterMenu"><div class="sort-drawer-head"><div class="sort-drawer-title">SORT</div><button class="sort-drawer-close" id="sortClose" type="button">CLOSE</button></div><div class="sort-drawer-body">
 <div class="filter-search-wrap">
 <input autocomplete="off" class="filter-search-input" id="watchSearch" placeholder="SEARCH" type="text"/>
-<span aria-hidden="true" class="sort-search-icon"><svg focusable="false" viewbox="0 0 24 24"><circle cx="10.5" cy="10.5" fill="none" r="6.25" stroke="currentColor" stroke-width="1.6"></circle><path d="M15.2 15.2 20 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg></span></div>
+<span aria-hidden="true" class="sort-search-icon"><svg focusable="false" viewbox="0 0 24 24"><circle cx="10.5" cy="10.5" fill="none" r="6.25" stroke="currentColor" stroke-width="1.6"></circle><path d="M15.2 15.2 20 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg></span></div><div class="sort-brand-suggestions" id="sortBrandSuggestions" aria-label="Available brand suggestions"></div>
 <div class="filter-section-label">Sort</div>
 <div class="filter-option sort-option" data-value="price-low">PRICE ↑</div>
 <div class="filter-option sort-option" data-value="price-high">PRICE ↓</div>
@@ -15903,6 +15963,243 @@ html body #menuDrawer .menu-drawer-link[aria-current="page"]::after{
       try{ render(); }catch(e){}
       closeSortDrawer();
     });
+  });
+})();
+</script>
+
+
+
+<style id="stapleford-sort-brand-suggestions-pending-final">
+/* Premium SORT behaviour: choices are staged until SEARCH, with available-brand suggestions and menu-style active marks. */
+html body #filterMenu .sort-brand-suggestions{
+  display:none !important;
+  width:100% !important;
+  padding:8px 0 0 !important;
+  margin:0 0 10px !important;
+}
+html body #filterMenu .sort-brand-suggestions.is-visible{
+  display:block !important;
+}
+html body #filterMenu .sort-brand-suggestion{
+  width:100% !important;
+  min-height:30px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(0,0,0,.08) !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  line-height:1.2 !important;
+  text-transform:uppercase !important;
+  text-align:left !important;
+  cursor:pointer !important;
+}
+html body #filterMenu .sort-brand-suggestion:hover{opacity:.55 !important;}
+html body #filterMenu .sort-option,
+html body #filterMenu .status-filter-option{
+  position:relative !important;
+}
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after{
+  content:'' !important;
+  width:12px !important;
+  height:7px !important;
+  border-right:1px solid #000 !important;
+  border-bottom:1px solid #000 !important;
+  transform:rotate(45deg) translateY(-1px) !important;
+  margin-left:16px !important;
+  flex:0 0 12px !important;
+}
+html body #filterMenu .sort-option.active,
+html body #filterMenu .status-filter-option.active{
+  border-bottom-color:rgba(0,0,0,.18) !important;
+}
+</style>
+
+<script id="stapleford-sort-brand-suggestions-pending-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, {once:true});
+    else fn();
+  }
+
+  ready(function(){
+    var menu = document.getElementById('filterMenu');
+    var backdrop = document.getElementById('sortBackdrop');
+    var button = document.getElementById('filterBtn');
+    var apply = document.getElementById('sortSearchApply');
+    var reset = document.getElementById('sortReset');
+    var suggestionBox = document.getElementById('sortBrandSuggestions');
+    var originalSearch = document.getElementById('watchSearch');
+    if(!menu || !originalSearch || !apply) return;
+
+    /* Clone the input to remove earlier instant-render listeners. SEARCH is now the deliberate apply action. */
+    var search = originalSearch.cloneNode(true);
+    originalSearch.parentNode.replaceChild(search, originalSearch);
+
+    var pendingSort = (typeof currentSort !== 'undefined' && currentSort) ? currentSort : 'default';
+    var pendingAvailable = (typeof showAvailable !== 'undefined') ? !!showAvailable : false;
+    var pendingSold = (typeof showSold !== 'undefined') ? !!showSold : false;
+
+    function closeSortDrawer(){
+      menu.classList.remove('is-open');
+      if(backdrop) backdrop.classList.remove('is-open');
+      document.documentElement.classList.remove('sort-drawer-is-open');
+      document.body.classList.remove('sort-drawer-is-open');
+      if(button) button.setAttribute('aria-expanded','false');
+      window.setTimeout(function(){
+        if(!menu.classList.contains('is-open')){
+          menu.style.display = 'flex';
+          if(backdrop) backdrop.hidden = true;
+        }
+      }, 280);
+    }
+
+    function getAvailableBrands(){
+      try{
+        var list = Array.isArray(watches) ? watches : [];
+        var brands = [];
+        list.forEach(function(w){
+          if(!w || w.status !== 'available') return;
+          var brand = String(w.brand || '').trim();
+          if(!brand) return;
+          if(!brands.some(function(existing){ return existing.toLowerCase() === brand.toLowerCase(); })) brands.push(brand);
+        });
+        return brands.sort(function(a,b){ return a.localeCompare(b); });
+      }catch(e){ return []; }
+    }
+
+    function renderBrandSuggestions(){
+      if(!suggestionBox) return;
+      var query = String(search.value || '').trim().toLowerCase();
+      var brands = getAvailableBrands();
+      if(query){
+        brands = brands.filter(function(brand){ return brand.toLowerCase().indexOf(query) !== -1; });
+      }
+      brands = brands.slice(0, 8);
+      suggestionBox.innerHTML = '';
+      if(!brands.length){
+        suggestionBox.classList.remove('is-visible');
+        return;
+      }
+      brands.forEach(function(brand){
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'sort-brand-suggestion';
+        btn.textContent = brand;
+        btn.addEventListener('click', function(event){
+          event.preventDefault();
+          event.stopPropagation();
+          search.value = brand;
+          suggestionBox.classList.remove('is-visible');
+          search.focus({preventScroll:true});
+        });
+        suggestionBox.appendChild(btn);
+      });
+      suggestionBox.classList.add('is-visible');
+    }
+
+    function syncActiveRows(){
+      menu.querySelectorAll('.sort-option').forEach(function(option){
+        option.classList.toggle('active', option.dataset.value === pendingSort && pendingSort !== 'default');
+      });
+      menu.querySelectorAll('.status-filter-option').forEach(function(option){
+        var status = option.dataset.status;
+        option.classList.toggle('active', (status === 'available' && pendingAvailable) || (status === 'sold' && pendingSold));
+      });
+    }
+
+    function syncPendingFromLive(){
+      try{ pendingSort = currentSort || 'default'; }catch(e){ pendingSort = 'default'; }
+      try{ pendingAvailable = !!showAvailable; }catch(e){ pendingAvailable = false; }
+      try{ pendingSold = !!showSold; }catch(e){ pendingSold = false; }
+      try{ search.value = searchQuery || ''; }catch(e){}
+      syncActiveRows();
+    }
+
+    if(button){
+      button.addEventListener('click', function(){
+        window.setTimeout(function(){
+          syncPendingFromLive();
+          renderBrandSuggestions();
+        }, 0);
+      }, true);
+    }
+
+    search.addEventListener('input', function(){
+      renderBrandSuggestions();
+    });
+    search.addEventListener('focus', renderBrandSuggestions);
+    search.addEventListener('keydown', function(event){
+      if(event.key === 'Enter'){
+        event.preventDefault();
+        apply.click();
+      }
+      if(event.key === 'Escape' && suggestionBox){
+        suggestionBox.classList.remove('is-visible');
+      }
+    });
+
+    menu.querySelectorAll('.sort-option').forEach(function(option){
+      option.addEventListener('click', function(event){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        pendingSort = option.dataset.value || 'default';
+        syncActiveRows();
+      }, true);
+      option.onclick = null;
+    });
+
+    menu.querySelectorAll('.status-filter-option').forEach(function(option){
+      option.addEventListener('click', function(event){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        var status = option.dataset.status;
+        if(status === 'available') pendingAvailable = !pendingAvailable;
+        if(status === 'sold') pendingSold = !pendingSold;
+        syncActiveRows();
+      }, true);
+    });
+
+    reset.addEventListener('click', function(event){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      pendingSort = 'default';
+      pendingAvailable = false;
+      pendingSold = false;
+      search.value = '';
+      try{ currentSort = 'default'; showAvailable = false; showSold = false; searchQuery = ''; }catch(e){}
+      syncActiveRows();
+      renderBrandSuggestions();
+      try{ render(); }catch(e){}
+    }, true);
+
+    apply.addEventListener('click', function(event){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      try{ currentSort = pendingSort || 'default'; }catch(e){}
+      try{ showAvailable = !!pendingAvailable; showSold = !!pendingSold; }catch(e){}
+      try{ searchQuery = String(search.value || '').trim().toLowerCase(); }catch(e){}
+      if(suggestionBox) suggestionBox.classList.remove('is-visible');
+      syncActiveRows();
+      try{ render(); }catch(e){}
+      closeSortDrawer();
+    }, true);
+
+    document.addEventListener('click', function(event){
+      if(suggestionBox && !event.target.closest('#filterMenu .filter-search-wrap') && !event.target.closest('#sortBrandSuggestions')){
+        suggestionBox.classList.remove('is-visible');
+      }
+    });
+
+    syncPendingFromLive();
   });
 })();
 </script>
