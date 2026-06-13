@@ -10219,8 +10219,11 @@ function renderLightboxDetails(){
   const reference = getWatchReference(lightboxWatch) || specs.reference || "";
   const year = specs.year || "";
   const contents = specs.contents || "";
-  const isAvailable = lightboxWatch.status === "available";
-  const isSold = ["sold", "reserved"].includes(lightboxWatch.status);
+  const status = String(lightboxWatch.status || "").toLowerCase();
+  const isAvailable = status === "available";
+  const isReserved = status === "reserved";
+  const isSold = status === "sold";
+  const isUnavailable = isReserved || isSold;
   const enquiryData = getEnquiryData(lightboxWatch);
 
   setText(lightboxDetailBrand, String(lightboxWatch.brand || "").toUpperCase());
@@ -10228,15 +10231,19 @@ function renderLightboxDetails(){
   setText(lightboxDetailReference, reference ? `REFERENCE: ${String(reference).toUpperCase()}` : "");
   setText(lightboxDetailYear, year ? `YEAR: ${String(year).toUpperCase()}` : "");
   setText(lightboxDetailContents, contents ? `CONTENTS: ${String(contents).toUpperCase()}` : "");
-  setText(lightboxDetailPrice, isSold ? String(lightboxWatch.status || "sold").toUpperCase() : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
+  setText(lightboxDetailPrice, isUnavailable ? "" : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
+  if(lightboxDetailPrice) lightboxDetailPrice.hidden = isUnavailable;
   const descriptionText = String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
   setText(lightboxDetailDescription, descriptionText);
   if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !descriptionText;
   setLightboxDescriptionOpen(Boolean(descriptionText));
 
   if(lightboxDetailBuy){
-    lightboxDetailBuy.hidden = !isAvailable;
-    lightboxDetailBuy.dataset.watchId = lightboxWatch.listingId || "";
+    lightboxDetailBuy.hidden = false;
+    lightboxDetailBuy.disabled = !isAvailable;
+    lightboxDetailBuy.setAttribute("aria-disabled", isAvailable ? "false" : "true");
+    lightboxDetailBuy.textContent = isReserved ? "RESERVED" : isSold ? "SOLD" : "BUY NOW";
+    lightboxDetailBuy.dataset.watchId = isAvailable ? (lightboxWatch.listingId || "") : "";
   }
 
   if(lightboxDetailWhatsapp) lightboxDetailWhatsapp.href = enquiryData.whatsapp;
@@ -10538,6 +10545,7 @@ lightboxDetails?.addEventListener("click", (e) => {
 
 lightboxDetailBuy?.addEventListener("click", (e) => {
   e.stopPropagation();
+  if(lightboxDetailBuy.disabled || lightboxDetailBuy.getAttribute("aria-disabled") === "true") return;
   const watchId = lightboxDetailBuy.dataset.watchId;
   if(!watchId) return;
   addToCart(watchId);
