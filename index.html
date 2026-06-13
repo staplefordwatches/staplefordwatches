@@ -5766,7 +5766,7 @@ html body #filterMenu .status-filter-option{
 }
 
 html body #filterMenu .status-filter-option.active::after{
-  content:'•' !important;
+  content:'✓' !important;
   margin-left:auto !important;
   padding-left:12px !important;
 }
@@ -9028,197 +9028,15 @@ select{
 }
 </style>
 
-<style id="stapleford-professional-sort-cart-left-drawer-v1">
-/* Professional production polish: SPEC sits flush to the image bottom; SORT and CART share a left-hand drawer system. */
-html body .image.available .spec-trigger,
-html body #gallery.grid .image.available .spec-trigger{
-  left:8px !important;
-  right:auto !important;
-  bottom:0 !important;
-  margin-bottom:0 !important;
-  transform:none !important;
-}
 
-html.sort-drawer-is-open,
-html.sort-drawer-is-open body{
-  overflow:hidden !important;
-  overscroll-behavior:none !important;
-}
+<style id="ben-v12-left-cart-sort-spec-polish">
+/* V12: cart slides from left, SORT shares the cart's refined minimal styling, SPEC sits flush to the image edge. */
 
-html body #sortBackdrop.sort-backdrop{
-  position:fixed !important;
-  inset:0 !important;
-  width:100vw !important;
-  height:var(--stapleford-visual-vh, 100dvh) !important;
-  min-height:100svh !important;
-  background:rgba(0,0,0,.16) !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-  transition:opacity .25s ease !important;
-  z-index:3998 !important;
-}
-
-html.sort-drawer-is-open body #sortBackdrop.sort-backdrop{
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-
-html body #filterMenu.filter-menu{
-  position:fixed !important;
-  top:0 !important;
-  left:0 !important;
-  right:auto !important;
-  bottom:auto !important;
-  width:min(430px, 100vw) !important;
-  max-width:100vw !important;
-  height:var(--stapleford-visual-vh, 100dvh) !important;
-  min-height:100svh !important;
-  max-height:var(--stapleford-visual-vh, 100dvh) !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  flex-direction:column !important;
-  gap:0 !important;
-  padding:24px !important;
-  padding-bottom:max(24px, env(safe-area-inset-bottom)) !important;
-  background:#fff !important;
-  color:#000 !important;
-  border:0 !important;
-  border-right:1px solid rgba(0,0,0,.12) !important;
-  border-radius:0 !important;
-  box-shadow:none !important;
-  overflow-y:auto !important;
-  overflow-x:hidden !important;
-  -webkit-overflow-scrolling:touch !important;
-  overscroll-behavior:contain !important;
-  z-index:4000 !important;
-  opacity:1 !important;
-  visibility:visible !important;
-  pointer-events:none !important;
-  transform:translate3d(-100%,0,0) !important;
-  transition:transform .25s ease !important;
-}
-
-html body #filterMenu.filter-menu.open{
-  pointer-events:auto !important;
-  transform:translate3d(0,0,0) !important;
-}
-
-html body #filterMenu .filter-drawer-head{
-  flex:0 0 auto !important;
-  min-height:42px !important;
-  display:flex !important;
-  align-items:flex-start !important;
-  justify-content:space-between !important;
-  gap:18px !important;
-  padding:0 0 18px 0 !important;
-  margin:0 !important;
-  box-sizing:border-box !important;
-  color:#000 !important;
-  font-family:'Inter', Arial, sans-serif !important;
-  font-size:11px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  letter-spacing:.08em !important;
-  text-transform:uppercase !important;
-}
-
-html body #filterMenu .filter-drawer-close{
-  border:0 !important;
-  background:transparent !important;
-  color:#000 !important;
-  font-family:'Inter', Arial, sans-serif !important;
-  font-size:11px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  text-transform:uppercase !important;
-  letter-spacing:.08em !important;
-  cursor:pointer !important;
-  padding:0 !important;
-  margin:0 !important;
-}
-
-html body #filterMenu .filter-drawer-close:hover{
-  opacity:.55 !important;
-}
-
-html body #filterMenu .filter-search-wrap{
-  flex:0 0 auto !important;
-  padding:0 0 18px 0 !important;
-  margin:0 !important;
-  border:0 !important;
-  border-bottom:1px solid rgba(0,0,0,.10) !important;
-  background:#fff !important;
-}
-
-html body #filterMenu .filter-search-input{
-  height:38px !important;
-  min-height:38px !important;
-  border:1px solid rgba(0,0,0,.20) !important;
-  padding:11px 12px !important;
-  font-size:11px !important;
-  letter-spacing:.08em !important;
-}
-
-html body #filterMenu .filter-section-label{
-  padding:18px 0 10px 0 !important;
-  margin:0 !important;
-  border:0 !important;
-  border-bottom:1px solid rgba(0,0,0,.10) !important;
-  background:#fff !important;
-  color:#000 !important;
-  opacity:.55 !important;
-  font-family:'Inter', Arial, sans-serif !important;
-  font-size:10px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  letter-spacing:.10em !important;
-  text-transform:uppercase !important;
-}
-
-html body #filterMenu .filter-option,
-html body #filterMenu .status-filter-option,
-html body #filterMenu .filter-check{
-  min-height:42px !important;
-  display:flex !important;
-  align-items:center !important;
-  width:100% !important;
-  box-sizing:border-box !important;
-  padding:13px 0 !important;
-  margin:0 !important;
-  border:0 !important;
-  border-bottom:1px solid rgba(0,0,0,.10) !important;
-  background:#fff !important;
-  color:#000 !important;
-  font-family:'Inter', Arial, sans-serif !important;
-  font-size:11px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  letter-spacing:.08em !important;
-  text-transform:uppercase !important;
-  white-space:nowrap !important;
-  cursor:pointer !important;
-}
-
-html body #filterMenu .filter-option:hover,
-html body #filterMenu .filter-option:focus,
-html body #filterMenu .status-filter-option:hover,
-html body #filterMenu .status-filter-option:focus{
-  background:#fff !important;
-  opacity:.55 !important;
-  outline:none !important;
-}
-
-html body #filterMenu .status-filter-option.active::after{
-  content:'•' !important;
-  margin-left:auto !important;
-  padding-left:12px !important;
-  opacity:1 !important;
-}
-
+/* Cart: anchor drawer on the left and animate in from the left on desktop + mobile. */
 html body #cartDrawer.cart-drawer{
   left:0 !important;
   right:auto !important;
-  border-left:0 !important;
+  border-left:none !important;
   border-right:1px solid rgba(0,0,0,.12) !important;
   transform:translate3d(-100%,0,0) !important;
 }
@@ -9227,38 +9045,259 @@ html body #cartDrawer.cart-drawer.open{
   transform:translate3d(0,0,0) !important;
 }
 
-@media (max-width:640px){
-  html body #sortBackdrop.sort-backdrop{
-    background:transparent !important;
+/* SORT: match the quiet uppercase/cart language rather than feeling like a separate dropdown control. */
+html body #filterBtn,
+html body #filterBtn span{
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:18px !important;
+  height:18px !important;
+  min-height:18px !important;
+  font-weight:500 !important;
+  letter-spacing:.02em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+
+html body #filterBtn{
+  background:transparent !important;
+  border:none !important;
+  padding:0 !important;
+  margin:0 !important;
+  gap:2px !important;
+  cursor:pointer !important;
+}
+
+html body #filterBtn:hover{
+  opacity:.55 !important;
+}
+
+html body #filterBtn svg{
+  width:11px !important;
+  height:11px !important;
+  margin-left:2px !important;
+  transform:none !important;
+}
+
+html body #filterMenu.filter-menu{
+  top:calc(100% + 8px) !important;
+  left:0 !important;
+  min-width:230px !important;
+  padding:14px 16px !important;
+  background:#fff !important;
+  border:1px solid rgba(0,0,0,.12) !important;
+  box-shadow:none !important;
+  z-index:4001 !important;
+}
+
+html body #filterMenu .filter-search-wrap{
+  padding:0 0 12px !important;
+  margin:0 0 12px !important;
+  border-bottom:1px solid rgba(0,0,0,.12) !important;
+}
+
+html body #filterMenu .filter-search-input{
+  width:100% !important;
+  border:0 !important;
+  padding:0 !important;
+  height:18px !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:18px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  outline:none !important;
+}
+
+html body #filterMenu .filter-section-label{
+  padding:0 0 9px !important;
+  margin:0 !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  opacity:.45 !important;
+}
+
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option{
+  padding:9px 0 !important;
+  border-top:1px solid rgba(0,0,0,.12) !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  background:transparent !important;
+}
+
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus{
+  background:transparent !important;
+  opacity:.55 !important;
+}
+
+html body #filterMenu .status-filter-option.active::after{
+  opacity:.55 !important;
+}
+
+/* SPEC: make the trigger sit on the image border rather than floating above it. */
+html body .image.available .spec-trigger{
+  left:0 !important;
+  bottom:0 !important;
+  padding:8px 10px !important;
+  background:rgba(255,255,255,.96) !important;
+  border-top:1px solid rgba(0,0,0,.12) !important;
+  border-right:1px solid rgba(0,0,0,.12) !important;
+}
+
+@media (max-width:767px){
+  html body #filterBtn,
+  html body #filterBtn span{
+    font-size:10px !important;
   }
 
   html body #filterMenu.filter-menu{
-    left:0 !important;
-    right:0 !important;
-    width:var(--stapleford-visual-vw, 100vw) !important;
-    max-width:var(--stapleford-visual-vw, 100vw) !important;
-    border-right:0 !important;
-    padding:22px max(20px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)) !important;
+    min-width:220px !important;
+    padding:13px 15px !important;
   }
 
-  html body #filterMenu .filter-drawer-head,
-  html body #filterMenu .filter-drawer-close,
-  html body #filterMenu .filter-option,
-  html body #filterMenu .status-filter-option,
-  html body #filterMenu .filter-search-input{
+  html body .image.available .spec-trigger{
+    bottom:0 !important;
+    left:0 !important;
+  }
+}
+</style>
+
+
+
+<style id="ben-no-grey-hover-sort-close-fix">
+/* Remove grey hover fill from SORT dropdown rows and close controls. */
+html body #filterBtn:hover,
+html body #filterBtn:focus,
+html body #filterBtn:active,
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .filter-check:hover,
+html body #filterMenu .filter-check:focus-within,
+html body #filterMenu .filter-check:active,
+html body #filterMenu div:hover,
+html body #filterMenu div:focus,
+html body #filterMenu div:active{
+  background:transparent !important;
+  background-color:transparent !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+
+html body .cart-close:hover,
+html body .cart-close:focus,
+html body .cart-close:active,
+html body .cart-continue:hover,
+html body .cart-continue:focus,
+html body .cart-continue:active,
+html body .lightbox-close:hover,
+html body .lightbox-close:focus,
+html body .lightbox-close:active{
+  background:transparent !important;
+  background-color:transparent !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+</style>
+
+
+
+<style id="ben-v14-grid-buy-remove-cart-sort-match">
+/* V14: remove BUY CTA from grid cards, and make top-left CART + SORT typography identical. */
+html body .grid .card .info-right .cart-trigger,
+html body .grid .card .image .cart-trigger{
+  display:none !important;
+}
+
+html body .filter-wrap-inline{
+  display:inline-flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:14px !important;
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+}
+
+html body #cartOpen.cart-open,
+html body #filterBtn{
+  position:static !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  width:auto !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#000 !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:12px !important;
+  font-weight:500 !important;
+  line-height:24px !important;
+  letter-spacing:0.02em !important;
+  text-transform:uppercase !important;
+  text-align:left !important;
+  white-space:nowrap !important;
+  cursor:pointer !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+}
+
+html body #cartOpen.cart-open span,
+html body #filterBtn span{
+  display:inline-flex !important;
+  align-items:center !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  font:inherit !important;
+  line-height:24px !important;
+  letter-spacing:inherit !important;
+  text-transform:inherit !important;
+}
+
+html body #filterBtn svg{
+  width:12px !important;
+  height:12px !important;
+  margin-left:4px !important;
+  flex:0 0 12px !important;
+  transform:none !important;
+}
+
+html body #cartOpen.cart-open:hover,
+html body #filterBtn:hover{
+  opacity:.55 !important;
+  background:transparent !important;
+}
+
+@media (max-width:767px){
+  html body #cartOpen.cart-open,
+  html body #filterBtn,
+  html body #cartOpen.cart-open span,
+  html body #filterBtn span{
     font-size:12px !important;
-    line-height:1.28 !important;
-  }
-
-  html body #cartDrawer.cart-drawer{
-    left:0 !important;
-    right:0 !important;
-    border-right:0 !important;
-    transform:translate3d(-100%,0,0) !important;
-  }
-
-  html body #cartDrawer.cart-drawer.open{
-    transform:translate3d(0,0,0) !important;
+    line-height:24px !important;
   }
 }
 </style>
@@ -9281,15 +9320,13 @@ html body #cartDrawer.cart-drawer.open{
 <div class="filter-wrap-inline">
 <button id="cartOpen" class="cart-open" type="button" aria-controls="cartDrawer" aria-expanded="false">CART (<span id="cartCount">0</span>)</button>
 <div class="filter-custom">
-<button aria-label="Sort watches" aria-controls="filterMenu" aria-expanded="false" id="filterBtn" type="button">
+<button aria-label="Sort watches" id="filterBtn" type="button">
 <span>SORT</span>
 <svg aria-hidden="true" focusable="false" viewbox="0 0 24 24">
 <path d="M8 6v12m0 0-3-3m3 3 3-3M16 18V6m0 0-3 3m3-3 3 3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
 </svg>
 </button>
-<div class="sort-backdrop" id="sortBackdrop" aria-hidden="true"></div>
-<div class="filter-menu" id="filterMenu" aria-hidden="true">
-<div class="filter-drawer-head"><span>SORT</span><button aria-label="Close sort panel" class="filter-drawer-close" id="filterDrawerClose" type="button">CLOSE</button></div>
+<div class="filter-menu" id="filterMenu">
 <div class="filter-search-wrap">
 <input autocomplete="off" class="filter-search-input" id="watchSearch" placeholder="SEARCH" type="text"/>
 </div>
@@ -9769,7 +9806,7 @@ function ensureMeta(selector, attrs){
 }
 
 function updateProductSeoHead(w){
-  const title = w ? `${getProductDisplayName(w)} | Stapleford Watches`.trim() : "Stapleford Watches | Pre-Owned Luxury Watches";
+  const title = w ? getProductDisplayName(w).trim() : "Stapleford Watches | Pre-Owned Luxury Watches";
   const description = w ? (w.description || getWatchDescription(w)) : "Stapleford Watches";
   const url = w ? getProductCanonicalUrl(w) : SITE_ORIGIN + "/";
   const image = w ? getImageLink(w) : "";
@@ -10041,7 +10078,7 @@ function setPage(page){
   sellNav?.setAttribute("aria-current", isSell ? "page" : "false");
   infoNav?.setAttribute("aria-current", isInfo ? "page" : "false");
   if(!getRequestedProductToken()){
-    document.title = isSell ? "Sell a watch | Stapleford Watches" : isInfo ? "Info | Stapleford Watches" : "Stapleford Watches | Pre-Owned Luxury Watches";
+    document.title = isSell ? "Sell a watch" : isInfo ? "Info" : "Stapleford Watches | Pre-Owned Luxury Watches";
   }
   if(filterMenu) filterMenu.style.display = "none";
   if(isBuy) render();
@@ -10983,7 +11020,6 @@ function render(){
       <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${productDisplayTitle}</div></div>
       <div class="info-right">
         <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
-        ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${productName} now">BUY</button>` : ""}
       </div>
     </div>
   `;
@@ -14931,89 +14967,147 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
 </script>
 
 
-<script id="stapleford-professional-sort-drawer-behaviour-v1">
-(function(){
-  const filterBtn = document.getElementById('filterBtn');
-  const filterMenu = document.getElementById('filterMenu');
-  const sortBackdrop = document.getElementById('sortBackdrop');
-  const closeBtn = document.getElementById('filterDrawerClose');
-  const watchSearchInput = document.getElementById('watchSearch');
-  const cartOpen = document.getElementById('cartOpen');
 
-  if(!filterBtn || !filterMenu) return;
+<style id="ben-v15-remove-light-hover-fills">
+/* V15: remove pale/grey/white hover fills across controls, menus, selects and overlays. Hover remains minimal via opacity/text only. */
+html body #filterBtn:hover,
+html body #filterBtn:focus,
+html body #filterBtn:active,
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .filter-check:hover,
+html body #filterMenu .filter-check:focus-within,
+html body #filterMenu .filter-check:active,
+html body #filterMenu div:hover,
+html body #filterMenu div:focus,
+html body #filterMenu div:active,
+html body .custom-select-trigger:hover,
+html body .custom-select-trigger:focus,
+html body .custom-select-trigger:active,
+html body .custom-select-options button:hover,
+html body .custom-select-options button:focus,
+html body .custom-select-options button:active,
+html body .brand-suggestion-item:hover,
+html body .brand-suggestion-item:focus,
+html body .brand-suggestion-item:active,
+html body .year-suggestion-item:hover,
+html body .year-suggestion-item:focus,
+html body .year-suggestion-item:active,
+html body .action-btn:hover,
+html body .action-btn:focus,
+html body .action-btn:active,
+html body .cart-open:hover,
+html body .cart-open:focus,
+html body .cart-open:active,
+html body .cart-close:hover,
+html body .cart-close:focus,
+html body .cart-close:active,
+html body .cart-continue:hover,
+html body .cart-continue:focus,
+html body .cart-continue:active,
+html body .cart-remove:hover,
+html body .cart-remove:focus,
+html body .cart-remove:active,
+html body .cart-checkout:hover,
+html body .cart-checkout:focus,
+html body .cart-checkout:active,
+html body .cart-trigger:hover,
+html body .cart-trigger:focus,
+html body .cart-trigger:active,
+html body .lightbox-close:hover,
+html body .lightbox-close:focus,
+html body .lightbox-close:active,
+html body .lightbox-prev:hover,
+html body .lightbox-prev:focus,
+html body .lightbox-prev:active,
+html body .lightbox-next:hover,
+html body .lightbox-next:focus,
+html body .lightbox-next:active,
+html body .info-contact-link:hover,
+html body .info-contact-link:focus,
+html body .info-contact-link:active{
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  outline:none !important;
+}
 
-  function sortIsOpen(){
-    return filterMenu.classList.contains('open');
-  }
+html body #filterBtn:hover,
+html body #cartOpen.cart-open:hover,
+html body .cart-open:hover,
+html body .cart-close:hover,
+html body .cart-continue:hover,
+html body .cart-remove:hover,
+html body .cart-checkout:hover{
+  opacity:.55 !important;
+}
+</style>
 
-  function setSortDrawer(open, focusSearch){
-    if(open && typeof window.closeCart === 'function') window.closeCart();
 
-    filterMenu.classList.toggle('open', open);
-    document.documentElement.classList.toggle('sort-drawer-is-open', open);
-    document.body.classList.toggle('sort-drawer-is-open', open);
-    filterMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
-    filterBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if(sortBackdrop) sortBackdrop.setAttribute('aria-hidden', open ? 'false' : 'true');
-    try{ filterMenu.inert = !open; } catch(_){}
 
-    if(open && focusSearch && watchSearchInput){
-      window.setTimeout(function(){
-        try{ watchSearchInput.focus({ preventScroll:true }); }
-        catch(_){ watchSearchInput.focus(); }
-      }, 190);
-    }
-  }
+<style id="ben-v16-spec-clean-open-no-flash">
+/* V16: SPEC opens cleanly with no click/tap flash or focus fill. */
+html body .image.available .spec-trigger,
+html body .image.available .spec-hide{
+  -webkit-tap-highlight-color:transparent !important;
+  tap-highlight-color:transparent !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
 
-  window.StaplefordSortDrawer = {
-    open:function(){ setSortDrawer(true, true); },
-    close:function(){ setSortDrawer(false, false); },
-    toggle:function(){ setSortDrawer(!sortIsOpen(), true); }
-  };
+html body .image.available .spec-trigger:hover,
+html body .image.available .spec-trigger:focus,
+html body .image.available .spec-trigger:focus-visible,
+html body .image.available .spec-trigger:active{
+  background:rgba(255,255,255,.96) !important;
+  background-color:rgba(255,255,255,.96) !important;
+  background-image:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
 
-  filterBtn.onclick = function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    window.StaplefordSortDrawer.toggle();
-  };
+html body .image.available .spec-hide:hover,
+html body .image.available .spec-hide:focus,
+html body .image.available .spec-hide:focus-visible,
+html body .image.available .spec-hide:active{
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
 
-  closeBtn?.addEventListener('click', function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    window.StaplefordSortDrawer.close();
-  });
+html body .image.available .spec-overlay{
+  transform:none !important;
+  transition:opacity .18s ease !important;
+  will-change:opacity;
+}
 
-  sortBackdrop?.addEventListener('click', function(event){
-    event.preventDefault();
-    window.StaplefordSortDrawer.close();
-  });
+html body .image.available:not(.show-spec) .spec-overlay{
+  opacity:0 !important;
+  transform:none !important;
+  visibility:hidden !important;
+}
 
-  cartOpen?.addEventListener('click', function(){
-    if(sortIsOpen()) window.StaplefordSortDrawer.close();
-  }, true);
+html body .image.available.show-spec .spec-overlay{
+  opacity:1 !important;
+  transform:none !important;
+  visibility:visible !important;
+}
+</style>
 
-  document.addEventListener('click', function(event){
-    if(!sortIsOpen()) return;
-    if(event.target.closest('#filterMenu') || event.target.closest('#filterBtn')) return;
-    window.StaplefordSortDrawer.close();
-    event.stopImmediatePropagation();
-  }, true);
-
-  document.addEventListener('keydown', function(event){
-    if(event.key === 'Escape' && sortIsOpen()){
-      window.StaplefordSortDrawer.close();
-      filterBtn.focus();
-    }
-  });
-
-  document.querySelectorAll('.sort-option').forEach(function(option){
-    option.addEventListener('click', function(){
-      window.setTimeout(function(){ window.StaplefordSortDrawer.close(); }, 0);
-    });
-  });
-
-  setSortDrawer(false, false);
-})();
+<script id="ben-v16-spec-blur-after-click">
+/* Remove the temporary focused/clicked state after SPEC/HIDE is pressed. */
+document.addEventListener('click', function(event){
+  const specControl = event.target.closest && event.target.closest('.spec-trigger, .spec-hide');
+  if(!specControl) return;
+  window.requestAnimationFrame(function(){ specControl.blur && specControl.blur(); });
+}, true);
 </script>
 
 </body>
