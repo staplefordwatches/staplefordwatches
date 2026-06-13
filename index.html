@@ -16517,5 +16517,151 @@ html body #filterMenu .filter-option::after{
 })();
 </script>
 
+
+<style id="stapleford-final-nav-hover-polish">
+/* Final premium interaction pass: MENU and SORT triggers share the same hover/focus behaviour, with no grey fills. */
+html body #menuBtn.menu-open,
+html body #filterBtn{
+  height:24px !important;
+  line-height:24px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:2px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:12px !important;
+  font-weight:500 !important;
+  letter-spacing:.02em !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+  opacity:1 !important;
+  transition:opacity .16s ease !important;
+}
+
+html body #menuBtn.menu-open:hover,
+html body #menuBtn.menu-open:focus-visible,
+html body #filterBtn:hover,
+html body #filterBtn:focus-visible{
+  opacity:.55 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+
+html body #menuBtn.menu-open:active,
+html body #filterBtn:active{
+  opacity:.55 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+
+html body #filterBtn span{
+  height:24px !important;
+  line-height:24px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+}
+
+html body #filterBtn svg{
+  width:13px !important;
+  height:13px !important;
+  display:block !important;
+  flex:0 0 13px !important;
+  margin-left:0 !important;
+}
+
+/* SORT drawer rows now match MENU interaction exactly: text fades on hover, never a grey box. */
+html body #filterMenu .filter-option,
+html body #filterMenu .status-filter-option,
+html body #filterMenu .sort-brand-suggestion{
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  -webkit-tap-highlight-color:transparent !important;
+  transition:opacity .16s ease !important;
+}
+
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus-visible,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus-visible,
+html body #filterMenu .sort-brand-suggestion:hover,
+html body #filterMenu .sort-brand-suggestion:focus-visible{
+  opacity:.55 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+
+html body #filterMenu .filter-option:active,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .sort-brand-suggestion:active{
+  opacity:.55 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+
+html body #filterMenu .filter-option.active,
+html body #filterMenu .status-filter-option.active{
+  opacity:1 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+}
+
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after,
+html body #menuDrawer .menu-drawer-link[aria-current="page"]::after{
+  content:'✓' !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  color:#000 !important;
+}
+
+/* Buttons in drawer foot/header match the same premium fade, with no fill. */
+html body #filterMenu .sort-drawer-close,
+html body #filterMenu .sort-drawer-reset,
+html body #filterMenu .sort-drawer-search,
+html body #menuDrawer .menu-drawer-close{
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  -webkit-tap-highlight-color:transparent !important;
+  transition:opacity .16s ease !important;
+}
+
+html body #filterMenu .sort-drawer-close:hover,
+html body #filterMenu .sort-drawer-close:focus-visible,
+html body #filterMenu .sort-drawer-reset:hover,
+html body #filterMenu .sort-drawer-reset:focus-visible,
+html body #filterMenu .sort-drawer-search:hover,
+html body #filterMenu .sort-drawer-search:focus-visible,
+html body #menuDrawer .menu-drawer-close:hover,
+html body #menuDrawer .menu-drawer-close:focus-visible{
+  opacity:.55 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+</style>
+
 </body>
 </html>
