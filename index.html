@@ -9488,6 +9488,8 @@ html body #filterMenu .status-filter-option.active::after{
     <button aria-current="page" class="nav-page-btn menu-drawer-link" id="buyNav" type="button"><span>BUY</span></button>
     <button aria-current="false" class="nav-page-btn menu-drawer-link" id="sellNav" type="button"><span>SELL</span></button>
     <button aria-current="false" class="nav-page-btn menu-drawer-link" id="infoNav" type="button"><span>INFO</span></button>
+    <button aria-label="Open cart" class="nav-page-btn menu-drawer-link menu-commerce-link" id="menuCartOpen" type="button"><span>CART</span><span aria-live="polite" class="menu-drawer-count" data-cart-count id="cartCount">0</span></button>
+    <button aria-disabled="true" class="nav-page-btn menu-drawer-link menu-commerce-link" disabled id="menuCheckout" type="button"><span>CHECKOUT</span></button>
   </nav>
 </aside>
 <div class="grid" id="gallery"></div>
@@ -9661,7 +9663,7 @@ html body #filterMenu .status-filter-option.active::after{
 </footer>
 </div>
 <div class="cart-backdrop" hidden="" id="cartBackdrop"></div>
-<aside aria-hidden="true" class="cart-drawer" id="cartDrawer">
+<aside aria-hidden="true" aria-label="Shopping cart" aria-modal="true" class="cart-drawer" id="cartDrawer" role="dialog">
 <div class="cart-head">
 <div>CART</div>
 <button class="cart-close" id="cartClose" type="button">CLOSE</button>
@@ -16886,6 +16888,158 @@ html body #filterMenu .sort-brand-suggestion:active{
       var el = event.target.closest(selectors);
       if(el) clean(el);
     }, true);
+  });
+})();
+</script>
+
+
+<style id="stapleford-menu-cart-checkout-all-views-final">
+/* Final commerce menu pass: Cart and Checkout now live inside the MENU drawer on every responsive view. */
+html body #menuDrawer .menu-commerce-link{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+}
+html body #menuDrawer .menu-drawer-count{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  min-width:1.5em !important;
+  margin-left:16px !important;
+  color:#000 !important;
+  font-family:'Inter',Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+}
+html body #menuCheckout:disabled,
+html body #menuCheckout[aria-disabled="true"]{
+  opacity:.35 !important;
+  cursor:default !important;
+}
+html body #menuCheckout:disabled:hover,
+html body #menuCheckout[aria-disabled="true"]:hover{
+  opacity:.35 !important;
+}
+
+/* Re-enable the existing cart drawer/backdrop that an earlier clean-nav pass hides. */
+html body #cartDrawer.cart-drawer{
+  display:flex !important;
+  visibility:visible !important;
+  pointer-events:none !important;
+  z-index:4200 !important;
+}
+html body #cartDrawer.cart-drawer.open{
+  pointer-events:auto !important;
+  transform:translate3d(0,0,0) !important;
+}
+html body #cartBackdrop.cart-backdrop{
+  display:block !important;
+  visibility:visible !important;
+  pointer-events:none !important;
+  z-index:4199 !important;
+}
+html body #cartBackdrop.cart-backdrop.open{
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+
+/* Keep the card grid restrained: commerce is accessed from product detail and the menu, not extra grid buttons. */
+html body .grid .card .image > .cart-trigger,
+html body .grid .card .info .cart-trigger{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
+@media (max-width:640px){
+  html body #menuDrawer.menu-drawer,
+  html body #cartDrawer.cart-drawer{
+    width:var(--stapleford-visual-vw, 100vw) !important;
+    max-width:var(--stapleford-visual-vw, 100vw) !important;
+  }
+  html body #menuDrawer .menu-drawer-count{
+    font-size:11px !important;
+  }
+}
+</style>
+
+<script id="stapleford-menu-cart-checkout-all-views-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, {once:true});
+    else fn();
+  }
+
+  ready(function(){
+    var menuButton = document.getElementById('menuBtn');
+    var menuDrawer = document.getElementById('menuDrawer');
+    var menuBackdrop = document.getElementById('menuBackdrop');
+    var menuCartOpen = document.getElementById('menuCartOpen');
+    var menuCheckout = document.getElementById('menuCheckout');
+    var cartCheckout = document.getElementById('cartCheckout');
+    var cartBackdrop = document.getElementById('cartBackdrop');
+
+    function closeMenuDrawer(){
+      if(menuDrawer) menuDrawer.classList.remove('is-open');
+      if(menuBackdrop) menuBackdrop.classList.remove('is-open');
+      document.documentElement.classList.remove('menu-drawer-is-open');
+      document.body.classList.remove('menu-drawer-is-open');
+      if(menuButton) menuButton.setAttribute('aria-expanded','false');
+      window.setTimeout(function(){
+        if(menuBackdrop && (!menuDrawer || !menuDrawer.classList.contains('is-open'))) menuBackdrop.hidden = true;
+      }, 280);
+    }
+
+    function syncMenuCommerce(){
+      var count = 0;
+      try{ count = (typeof getAvailableCartWatches === 'function') ? getAvailableCartWatches().length : 0; }catch(e){ count = 0; }
+      document.querySelectorAll('[data-cart-count], #cartCount').forEach(function(el){ el.textContent = String(count); });
+      if(menuCheckout){
+        var empty = count < 1;
+        menuCheckout.disabled = empty;
+        menuCheckout.setAttribute('aria-disabled', empty ? 'true' : 'false');
+      }
+    }
+
+    if(typeof window.renderCart === 'function'){
+      var originalRenderCart = window.renderCart;
+      window.renderCart = function(){
+        originalRenderCart.apply(this, arguments);
+        syncMenuCommerce();
+      };
+    }
+
+    menuCartOpen && menuCartOpen.addEventListener('click', function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      closeMenuDrawer();
+      window.setTimeout(function(){ if(typeof openCart === 'function') openCart(); }, 0);
+    }, true);
+
+    menuCheckout && menuCheckout.addEventListener('click', function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      if(menuCheckout.disabled) return;
+      closeMenuDrawer();
+      window.setTimeout(function(){
+        if(typeof openCart === 'function') openCart();
+        if(cartCheckout) cartCheckout.click();
+      }, 0);
+    }, true);
+
+    cartBackdrop && cartBackdrop.addEventListener('click', function(){
+      document.documentElement.classList.remove('cart-drawer-is-open');
+      document.body.classList.remove('cart-drawer-is-open');
+    }, true);
+
+    window.addEventListener('storage', function(event){
+      if(event.key === 'stapleford_cart') syncMenuCommerce();
+    });
+
+    syncMenuCommerce();
   });
 })();
 </script>
