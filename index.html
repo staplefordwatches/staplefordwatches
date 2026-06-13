@@ -17044,5 +17044,214 @@ html body .grid .card .info .cart-trigger{
 })();
 </script>
 
+
+
+<style id="stapleford-menu-left-fullscreen-sort-clean-final">
+/* Ben final request: MENU fills the whole screen on every view and enters from the left. */
+html body #menuDrawer.menu-drawer{
+  position:fixed !important;
+  inset:0 auto 0 0 !important;
+  left:0 !important;
+  right:auto !important;
+  top:0 !important;
+  bottom:0 !important;
+  width:100vw !important;
+  max-width:none !important;
+  min-width:100vw !important;
+  height:100vh !important;
+  height:100dvh !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:24px !important;
+  box-sizing:border-box !important;
+  background:#fff !important;
+  border:0 !important;
+  box-shadow:none !important;
+  transform:translate3d(-100%,0,0) !important;
+  transition:transform .28s cubic-bezier(.22,.61,.36,1) !important;
+  z-index:4300 !important;
+}
+html body #menuDrawer.menu-drawer.is-open{
+  transform:translate3d(0,0,0) !important;
+}
+html body #menuBackdrop.menu-backdrop{
+  background:transparent !important;
+  opacity:0 !important;
+  z-index:4299 !important;
+}
+html body #menuBackdrop.menu-backdrop.is-open{
+  background:transparent !important;
+  opacity:0 !important;
+}
+@media (max-width:640px){
+  html body #menuDrawer.menu-drawer{
+    width:100vw !important;
+    max-width:none !important;
+    min-width:100vw !important;
+    padding:18px !important;
+  }
+}
+
+/* Remove SORT search suggestions completely. */
+html body #filterMenu #sortBrandSuggestions,
+html body #filterMenu .sort-brand-suggestions,
+html body #filterMenu .sort-brand-suggestion{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  width:0 !important;
+  height:0 !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:0 !important;
+  max-height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+}
+
+/* Kill the grey/dark press/focus fill in SORT on all devices and browsers. */
+html body #filterMenu,
+html body #filterMenu *,
+html body #filterMenu *::before,
+html body #filterMenu *::after{
+  -webkit-tap-highlight-color:rgba(0,0,0,0) !important;
+  tap-highlight-color:rgba(0,0,0,0) !important;
+}
+html body #filterMenu.filter-menu,
+html body #filterMenu .sort-drawer-head,
+html body #filterMenu .sort-drawer-body,
+html body #filterMenu .sort-drawer-foot,
+html body #filterMenu .filter-search-wrap,
+html body #filterMenu .filter-search-input,
+html body #filterMenu .filter-section-label,
+html body #filterMenu .filter-option,
+html body #filterMenu .sort-option,
+html body #filterMenu .status-filter-option,
+html body #filterMenu .filter-check,
+html body #filterMenu button{
+  background:#fff !important;
+  background-color:#fff !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  border-radius:0 !important;
+  filter:none !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+}
+html body #filterMenu .filter-search-wrap,
+html body #filterMenu .filter-option,
+html body #filterMenu .sort-option,
+html body #filterMenu .status-filter-option{
+  border-bottom-color:rgba(0,0,0,.08) !important;
+}
+html body #filterMenu .filter-option:hover,
+html body #filterMenu .filter-option:focus,
+html body #filterMenu .filter-option:focus-visible,
+html body #filterMenu .filter-option:focus-within,
+html body #filterMenu .filter-option:active,
+html body #filterMenu .filter-option.active,
+html body #filterMenu .sort-option:hover,
+html body #filterMenu .sort-option:focus,
+html body #filterMenu .sort-option:focus-visible,
+html body #filterMenu .sort-option:focus-within,
+html body #filterMenu .sort-option:active,
+html body #filterMenu .sort-option.active,
+html body #filterMenu .status-filter-option:hover,
+html body #filterMenu .status-filter-option:focus,
+html body #filterMenu .status-filter-option:focus-visible,
+html body #filterMenu .status-filter-option:focus-within,
+html body #filterMenu .status-filter-option:active,
+html body #filterMenu .status-filter-option.active,
+html body #filterMenu .filter-check:hover,
+html body #filterMenu .filter-check:focus,
+html body #filterMenu .filter-check:focus-within,
+html body #filterMenu .filter-check:active,
+html body #filterMenu button:hover,
+html body #filterMenu button:focus,
+html body #filterMenu button:focus-visible,
+html body #filterMenu button:active{
+  background:#fff !important;
+  background-color:#fff !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  filter:none !important;
+}
+html body #sortBackdrop.sort-backdrop,
+html body .sort-backdrop{
+  background:transparent !important;
+}
+html body #sortBackdrop.sort-backdrop.is-open,
+html body .sort-backdrop.is-open{
+  background:transparent !important;
+  opacity:0 !important;
+}
+html body #filterMenu .sort-option.active::after,
+html body #filterMenu .status-filter-option.active::after{
+  content:'✓' !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  border:0 !important;
+  color:#000 !important;
+}
+</style>
+
+<script id="stapleford-remove-sort-suggestions-final-js">
+(function(){
+  function ready(fn){
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, {once:true});
+    else fn();
+  }
+  ready(function(){
+    var suggestionBox = document.getElementById('sortBrandSuggestions');
+    var search = document.getElementById('watchSearch');
+
+    function removeSuggestions(){
+      if(!suggestionBox) return;
+      suggestionBox.innerHTML = '';
+      suggestionBox.classList.remove('is-visible');
+      suggestionBox.hidden = true;
+      suggestionBox.setAttribute('aria-hidden','true');
+    }
+
+    removeSuggestions();
+    if(suggestionBox){
+      new MutationObserver(removeSuggestions).observe(suggestionBox, {childList:true, subtree:true, attributes:true, attributeFilter:['class','style','hidden']});
+    }
+    if(search){
+      search.removeAttribute('aria-controls');
+      search.setAttribute('aria-autocomplete','none');
+      search.setAttribute('aria-expanded','false');
+      ['input','focus','keydown','pointerdown','click'].forEach(function(type){
+        search.addEventListener(type, function(){ window.setTimeout(removeSuggestions, 0); }, true);
+      });
+    }
+
+    function cleanSortSurface(target){
+      var el = target && target.closest ? target.closest('#filterMenu .filter-option, #filterMenu .sort-option, #filterMenu .status-filter-option, #filterMenu .filter-check, #filterMenu button, #filterMenu input') : null;
+      if(!el) return;
+      el.style.background = '#fff';
+      el.style.backgroundColor = '#fff';
+      el.style.backgroundImage = 'none';
+      el.style.boxShadow = 'none';
+      el.style.outline = '0';
+    }
+    ['pointerdown','pointerup','mousedown','mouseup','touchstart','touchend','click','focusin'].forEach(function(type){
+      document.addEventListener(type, function(event){
+        cleanSortSurface(event.target);
+        window.setTimeout(function(){ cleanSortSurface(event.target); removeSuggestions(); }, 0);
+      }, true);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
