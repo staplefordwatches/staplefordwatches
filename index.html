@@ -9039,6 +9039,34 @@ select{
   bottom:0 !important;
 }
 </style>
+
+<style id="stapleford-nav-sort-drawer-final">
+/* Clean navigation rebuild: London/time and cart removed; sort opens as a premium side drawer. */
+html body .nav{position:relative !important;width:min(100%, var(--max-width)) !important;min-height:24px !important;height:24px !important;margin:0 auto 4px !important;padding:0 6px !important;box-sizing:border-box !important;display:block !important;}
+html body .nav-left{position:static !important;height:24px !important;margin:0 !important;padding:0 !important;}
+html body .nav-pages{position:absolute !important;left:6px !important;top:0 !important;height:24px !important;min-height:24px !important;display:flex !important;align-items:center !important;gap:clamp(18px, 3vw, 38px) !important;margin:0 !important;padding:0 !important;}
+html body .filter-wrap-inline{position:absolute !important;top:0 !important;right:6px !important;height:24px !important;min-height:24px !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;margin:0 !important;padding:0 !important;gap:0 !important;visibility:visible !important;opacity:1 !important;pointer-events:auto !important;}
+html body .filter-custom{position:static !important;height:24px !important;min-height:24px !important;display:inline-flex !important;align-items:center !important;margin:0 !important;padding:0 !important;}
+html body #filterBtn{height:24px !important;min-height:24px !important;line-height:24px !important;display:inline-flex !important;align-items:center !important;justify-content:flex-end !important;gap:1px !important;margin:0 !important;padding:0 !important;border:0 !important;background:transparent !important;appearance:none !important;-webkit-appearance:none !important;color:#000 !important;font-family:'Inter',Arial,sans-serif !important;font-weight:500 !important;font-size:12px !important;letter-spacing:0.02em !important;text-transform:uppercase !important;white-space:nowrap !important;cursor:pointer !important;}
+html body #filterBtn span{height:24px !important;line-height:24px !important;display:inline-flex !important;align-items:center !important;}
+html body #filterBtn svg{width:13px !important;height:13px !important;margin-left:0 !important;flex:0 0 13px !important;display:block !important;}
+html body #cartOpen,html body .cart-open,html body .nav-right,html body .uk-time,html body .grid .card .image > .cart-trigger,html body .grid .card .info .cart-trigger{display:none !important;}
+html body.sell-active .filter-custom,html body.info-active .filter-custom{visibility:hidden !important;opacity:0 !important;pointer-events:none !important;}
+html body #sortBackdrop.sort-backdrop{z-index:3999 !important;}
+html body #sortDrawer.sort-drawer{z-index:4000 !important;width:min(390px,100vw) !important;padding:24px !important;border-left:1px solid rgba(0,0,0,.12) !important;}
+html body .sort-drawer .sort-items{display:flex !important;flex-direction:column !important;gap:0 !important;padding:24px 0 !important;}
+html body .sort-search-wrap{margin:0 0 22px !important;padding:0 !important;}
+html body .sort-search-input{width:100% !important;height:36px !important;border:0 !important;border-bottom:1px solid rgba(0,0,0,.22) !important;border-radius:0 !important;padding:0 !important;background:transparent !important;color:#000 !important;font-family:'Inter',Arial,sans-serif !important;font-size:11px !important;font-weight:500 !important;letter-spacing:0.08em !important;text-transform:uppercase !important;outline:none !important;}
+html body .sort-search-input::placeholder{color:#000 !important;opacity:.45 !important;}
+html body .sort-section-label{padding:18px 0 8px !important;font-family:'Inter',Arial,sans-serif !important;font-size:11px !important;font-weight:500 !important;line-height:1.2 !important;letter-spacing:0.08em !important;text-transform:uppercase !important;opacity:.5 !important;}
+html body .sort-drawer .filter-option{width:100% !important;min-height:34px !important;display:flex !important;align-items:center !important;justify-content:space-between !important;border:0 !important;border-bottom:1px solid rgba(0,0,0,.08) !important;background:transparent !important;padding:0 !important;color:#000 !important;font-family:'Inter',Arial,sans-serif !important;font-size:11px !important;font-weight:500 !important;line-height:1.2 !important;letter-spacing:0.08em !important;text-transform:uppercase !important;text-align:left !important;cursor:pointer !important;}
+html body .sort-drawer .filter-option:hover{background:transparent !important;opacity:.55 !important;}
+html body .sort-drawer .sort-option.active::after,html body .sort-drawer .status-filter-option.active::after{content:'✓';font-size:11px;line-height:1;}
+html body .sort-foot{justify-content:flex-end !important;}
+html.sort-drawer-is-open,html.sort-drawer-is-open body{overflow:hidden !important;}
+@media (max-width:640px){html body .nav{padding-left:6px !important;padding-right:6px !important;}html body .nav-pages{left:6px !important;gap:18px !important;}html body .filter-wrap-inline{right:6px !important;}html body #filterBtn{font-size:12px !important;}html body #sortDrawer.sort-drawer{width:100vw !important;padding:18px !important;}}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -9055,35 +9083,19 @@ select{
 <button aria-current="false" class="nav-page-btn" id="infoNav" type="button"><span>INFO</span></button>
 </nav>
 <div class="filter-wrap-inline">
-<button id="cartOpen" class="cart-open" type="button" aria-controls="cartDrawer" aria-expanded="false">CART (<span id="cartCount">0</span>)</button>
 <div class="filter-custom">
-<button aria-label="Sort watches" id="filterBtn" type="button">
+<button aria-label="Sort watches" id="filterBtn" type="button" aria-controls="sortDrawer" aria-expanded="false">
 <span>SORT</span>
 <svg aria-hidden="true" focusable="false" viewbox="0 0 24 24">
 <path d="M8 6v12m0 0-3-3m3 3 3-3M16 18V6m0 0-3 3m3-3 3 3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
 </svg>
 </button>
-<div class="filter-menu" id="filterMenu">
-<div class="filter-search-wrap">
-<input autocomplete="off" class="filter-search-input" id="watchSearch" placeholder="SEARCH" type="text"/>
-</div>
-<div class="filter-section-label">Sort</div>
-<div class="filter-option sort-option" data-value="price-low">PRICE ↑</div>
-<div class="filter-option sort-option" data-value="price-high">PRICE ↓</div>
-<div class="filter-option sort-option" data-value="brand-az">BRAND A–Z</div>
-<div class="filter-option sort-option" data-value="brand-za">BRAND Z–A</div>
-<div class="filter-option sort-option" data-value="new-old">NEW–OLD</div>
-<div class="filter-option sort-option" data-value="old-new">OLD–NEW</div>
-<div class="filter-section-label">Filter</div>
-<div class="filter-option status-filter-option" data-status="available">AVAILABLE</div>
-<div class="filter-option status-filter-option" data-status="sold">SOLD</div>
+
 </div>
 </div>
 </div>
 </div>
-<div class="nav-right">
-<span aria-label="Current UK time in London, UK" class="uk-time"><span class="uk-time-label">LONDON, UK</span><span aria-hidden="true" class="uk-time-separator">|</span><span class="uk-time-digits" id="ukTimeDigits">00:00:00</span></span>
-</div>
+<div class="nav-right" aria-hidden="true"></div>
 </div>
 <div class="grid" id="gallery"></div>
 <div class="no-results" hidden="" id="noResults">No watches found</div>
@@ -9257,45 +9269,33 @@ select{
 </footer>
 </div>
 
-<div id="cartBackdrop" class="cart-backdrop" hidden></div>
-<aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
-  <div class="cart-head">
-    <div>CART</div>
-    <button id="cartClose" class="cart-close" type="button">CLOSE</button>
+<div id="sortBackdrop" class="cart-backdrop sort-backdrop" hidden></div>
+<aside id="sortDrawer" class="cart-drawer sort-drawer" aria-hidden="true" aria-labelledby="sortDrawerTitle">
+  <div class="cart-head sort-head">
+    <div id="sortDrawerTitle">SORT</div>
+    <button id="sortClose" class="cart-close sort-close" type="button">CLOSE</button>
   </div>
-  <div id="cartItems" class="cart-items"></div>
-  <div class="cart-foot">
-    <div>
-      <div>TOTAL</div>
-      <div>£<span id="cartTotal">0</span></div>
+  <div class="cart-items sort-items">
+    <div class="filter-search-wrap sort-search-wrap">
+      <input autocomplete="off" class="filter-search-input sort-search-input" id="watchSearch" placeholder="SEARCH" type="text"/>
     </div>
-    <div class="cart-actions">
-      <button id="cartCheckout" class="cart-checkout" type="button">CHECKOUT</button>
-      <button id="cartContinue" class="cart-continue" type="button">CONTINUE SHOPPING</button>
-    </div>
+    <div class="filter-section-label sort-section-label">Sort</div>
+    <button class="filter-option sort-option" type="button" data-value="price-low">PRICE ↑</button>
+    <button class="filter-option sort-option" type="button" data-value="price-high">PRICE ↓</button>
+    <button class="filter-option sort-option" type="button" data-value="brand-az">BRAND A–Z</button>
+    <button class="filter-option sort-option" type="button" data-value="brand-za">BRAND Z–A</button>
+    <button class="filter-option sort-option" type="button" data-value="new-old">NEW–OLD</button>
+    <button class="filter-option sort-option" type="button" data-value="old-new">OLD–NEW</button>
+    <div class="filter-section-label sort-section-label">Filter</div>
+    <button class="filter-option status-filter-option" type="button" data-status="available">AVAILABLE</button>
+    <button class="filter-option status-filter-option" type="button" data-status="sold">SOLD</button>
   </div>
-  <div id="cartError" class="cart-error" hidden></div>
+  <div class="cart-foot sort-foot">
+    <button id="sortReset" class="cart-continue sort-reset" type="button">RESET</button>
+  </div>
 </aside>
 
 <script>
-function updateUkTime(){
-  const el = document.getElementById('ukTimeDigits');
-  if(!el) return;
-  const now = new Date();
-  const parts = new Intl.DateTimeFormat('en-GB',{
-    timeZone:'Europe/London',
-    hour:'2-digit',
-    minute:'2-digit',
-    second:'2-digit',
-    hour12:false
-  }).formatToParts(now);
-  const hh = parts.find(p=>p.type==='hour')?.value || '';
-  const mm = parts.find(p=>p.type==='minute')?.value || '';
-  const ss = parts.find(p=>p.type==='second')?.value || '';
-  el.textContent = `${hh}:${mm}:${ss}`;
-}
-updateUkTime();
-setInterval(updateUkTime, 1000);
 
 let watches = [];
 let watchesLoaded = false;
@@ -9308,7 +9308,6 @@ function renderLoadedWatches(nextWatches){
   prepareWatches();
   updateProductStructuredData();
   watchesLoaded = true;
-  renderCart();
   render();
   openProductFromCurrentUrl(true);
 }
@@ -9702,7 +9701,8 @@ let currentSort = "default";
 let showAvailable = false;
 let showSold = false;
 
-const filterMenu = document.getElementById("filterMenu");
+const sortDrawer = document.getElementById("sortDrawer");
+const sortBackdrop = document.getElementById("sortBackdrop");
 const watchSearch = document.getElementById("watchSearch");
 let searchQuery = "";
 
@@ -9817,7 +9817,7 @@ function setPage(page){
   if(!getRequestedProductToken()){
     document.title = isSell ? "Sell a watch | Stapleford Watches" : isInfo ? "Info | Stapleford Watches" : "Stapleford Watches | Pre-Owned Luxury Watches";
   }
-  if(filterMenu) filterMenu.style.display = "none";
+  closeSort();
   if(isBuy) render();
 }
 
@@ -9955,32 +9955,50 @@ yearSuggestionList?.addEventListener("pointerdown", (e) => {
   yearInput.focus();
 });
 
-document.getElementById("filterBtn").onclick = () => {
-  const isOpen = filterMenu.style.display === "block";
-  filterMenu.style.display = isOpen ? "none" : "block";
-
-  if (!isOpen) {
-    setTimeout(() => watchSearch.focus(), 0);
+function openSort(){
+  const opener = document.getElementById("filterBtn");
+  if(!sortDrawer) return;
+  sortDrawer.classList.add("open");
+  document.documentElement.classList.add("sort-drawer-is-open");
+  document.body.classList.add("sort-drawer-is-open");
+  sortDrawer.setAttribute("aria-hidden", "false");
+  opener?.setAttribute("aria-expanded", "true");
+  if(sortBackdrop){
+    sortBackdrop.hidden = false;
+    requestAnimationFrame(() => sortBackdrop.classList.add("open"));
   }
-};
+  setTimeout(() => watchSearch?.focus(), 160);
+}
 
-watchSearch.addEventListener("input", (e) => {
+function closeSort(){
+  const opener = document.getElementById("filterBtn");
+  sortDrawer?.classList.remove("open");
+  document.documentElement.classList.remove("sort-drawer-is-open");
+  document.body.classList.remove("sort-drawer-is-open");
+  sortDrawer?.setAttribute("aria-hidden", "true");
+  opener?.setAttribute("aria-expanded", "false");
+  if(sortBackdrop){
+    sortBackdrop.classList.remove("open");
+    setTimeout(() => { if(!sortBackdrop.classList.contains("open")) sortBackdrop.hidden = true; }, 250);
+  }
+}
+
+document.getElementById("filterBtn")?.addEventListener("click", openSort);
+document.getElementById("sortClose")?.addEventListener("click", closeSort);
+document.getElementById("sortBackdrop")?.addEventListener("click", closeSort);
+
+watchSearch?.addEventListener("input", (e) => {
   searchQuery = e.target.value.trim().toLowerCase();
   render();
 });
 
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".filter-custom")) {
-    filterMenu.style.display = "none";
-  }
-});
-
 document.querySelectorAll(".sort-option").forEach(item=>{
-  item.onclick = () => {
+  item.addEventListener("click", () => {
     currentSort = item.dataset.value;
-    document.getElementById("filterMenu").style.display = "none";
+    document.querySelectorAll(".sort-option").forEach(option => option.classList.toggle("active", option === item));
+    closeSort();
     render();
-  };
+  });
 });
 
 document.querySelectorAll(".status-filter-option").forEach(item => {
@@ -9999,6 +10017,16 @@ document.querySelectorAll(".status-filter-option").forEach(item => {
 
     render();
   });
+});
+
+document.getElementById("sortReset")?.addEventListener("click", () => {
+  currentSort = "default";
+  showAvailable = false;
+  showSold = false;
+  searchQuery = "";
+  if(watchSearch) watchSearch.value = "";
+  document.querySelectorAll(".sort-option, .status-filter-option").forEach(item => item.classList.remove("active"));
+  render();
 });
 
 function getWatchYear(w){
@@ -10304,7 +10332,7 @@ function renderLightboxDetails(){
     lightboxDetailBuy.hidden = false;
     lightboxDetailBuy.disabled = !isAvailable;
     lightboxDetailBuy.setAttribute("aria-disabled", isAvailable ? "false" : "true");
-    lightboxDetailBuy.textContent = isReserved ? "RESERVED" : isSold ? "SOLD" : "BUY NOW";
+    lightboxDetailBuy.textContent = isReserved ? "RESERVED" : isSold ? "SOLD" : "ENQUIRE";
     lightboxDetailBuy.dataset.watchId = isAvailable ? (lightboxWatch.listingId || "") : "";
   }
 
@@ -10608,11 +10636,7 @@ lightboxDetails?.addEventListener("click", (e) => {
 lightboxDetailBuy?.addEventListener("click", (e) => {
   e.stopPropagation();
   if(lightboxDetailBuy.disabled || lightboxDetailBuy.getAttribute("aria-disabled") === "true") return;
-  const watchId = lightboxDetailBuy.dataset.watchId;
-  if(!watchId) return;
-  addToCart(watchId);
-  closeLightbox();
-  openCart();
+  setLightboxDetailEnquiryOpen(true);
 });
 
 lightboxDetailEnquire?.addEventListener("click", (e) => {
@@ -10809,173 +10833,10 @@ document.addEventListener('click', (event) => {
 });
 
 
-/* ===== CART / SQUARE CHECKOUT ===== */
-const STAPLEFORD_CART_KEY = "stapleford_cart";
-
-function getCart(){
-  try { return JSON.parse(localStorage.getItem(STAPLEFORD_CART_KEY) || "[]"); }
-  catch { return []; }
-}
-
-function saveCart(cart){
-  localStorage.setItem(STAPLEFORD_CART_KEY, JSON.stringify(cart));
-  renderCart();
-}
-
-function findWatchByCartId(cartId){
-  return watches.find(w => w.listingId === cartId);
-}
-
-function formatPounds(value){
-  return Number(value || 0).toLocaleString();
-}
-
-function openCart(){
-  const drawer = document.getElementById("cartDrawer");
-  const backdrop = document.getElementById("cartBackdrop");
-  const opener = document.getElementById("cartOpen");
-  if(!drawer) return;
-  drawer.classList.add("open");
-  document.documentElement.classList.add("cart-drawer-is-open");
-  document.body.classList.add("cart-drawer-is-open");
-  drawer.setAttribute("aria-hidden", "false");
-  opener?.setAttribute("aria-expanded", "true");
-  if(backdrop){
-    backdrop.hidden = false;
-    requestAnimationFrame(() => backdrop.classList.add("open"));
-  }
-}
-
-function closeCart(){
-  const drawer = document.getElementById("cartDrawer");
-  const backdrop = document.getElementById("cartBackdrop");
-  const opener = document.getElementById("cartOpen");
-  drawer?.classList.remove("open");
-  document.documentElement.classList.remove("cart-drawer-is-open");
-  document.body.classList.remove("cart-drawer-is-open");
-  drawer?.setAttribute("aria-hidden", "true");
-  opener?.setAttribute("aria-expanded", "false");
-  if(backdrop){
-    backdrop.classList.remove("open");
-    setTimeout(() => { if(!backdrop.classList.contains("open")) backdrop.hidden = true; }, 250);
-  }
-}
-
-function addToCart(cartId){
-  const watch = findWatchByCartId(cartId);
-  const error = document.getElementById("cartError");
-  if(error){ error.hidden = true; error.textContent = ""; }
-
-  if(!watch || watch.status !== "available"){
-    if(error){ error.hidden = false; error.textContent = "This watch is no longer available."; }
-    openCart();
-    return;
-  }
-
-  const cart = getCart();
-  if(!cart.some(item => item.id === cartId)){
-    cart.push({ id: cartId });
-    saveCart(cart);
-  } else {
-    renderCart();
-  }
-  openCart();
-}
-
-function removeFromCart(cartId){
-  saveCart(getCart().filter(item => item.id !== cartId));
-}
-
-function getAvailableCartWatches(){
-  return getCart()
-    .map(item => findWatchByCartId(item.id))
-    .filter(w => w && w.status === "available");
-}
-
-function renderCart(){
-  const cartItems = document.getElementById("cartItems");
-  const cartCount = document.getElementById("cartCount");
-  const cartTotal = document.getElementById("cartTotal");
-  if(!cartItems || !cartCount || !cartTotal) return;
-
-  const validItems = getAvailableCartWatches();
-  cartCount.textContent = validItems.length;
-  cartTotal.textContent = formatPounds(validItems.reduce((sum, w) => sum + Number(w.price || 0), 0));
-
-  if(!validItems.length){
-    cartItems.innerHTML = `<div class="cart-empty">Your cart is empty.</div>`;
-    return;
-  }
-
-  cartItems.innerHTML = validItems.map(w => `
-    <div class="cart-item">
-      <img src="${w.image}" alt="${w.brand} ${w.title}">
-      <div>
-        <div class="cart-item-title">${w.brand}<br>${w.title}</div>
-        <div class="cart-item-price">£${formatPounds(w.price)}</div>
-        <button class="cart-remove" type="button" data-remove-id="${w.listingId}">REMOVE</button>
-      </div>
-    </div>
-  `).join("");
-
-  cartItems.querySelectorAll("[data-remove-id]").forEach(button => {
-    button.addEventListener("click", event => {
-      event.stopPropagation();
-      removeFromCart(button.dataset.removeId);
-    });
-  });
-}
-
-document.getElementById("cartOpen")?.addEventListener("click", openCart);
-document.getElementById("cartClose")?.addEventListener("click", closeCart);
-document.getElementById("cartContinue")?.addEventListener("click", closeCart);
-document.getElementById("cartBackdrop")?.addEventListener("click", closeCart);
-
-document.addEventListener("click", event => {
-  const cartButton = event.target.closest(".cart-trigger");
-  if(!cartButton) return;
-  event.preventDefault();
-  event.stopPropagation();
-  addToCart(cartButton.dataset.watchId);
-});
-
-document.getElementById("cartCheckout")?.addEventListener("click", async () => {
-  const checkoutButton = document.getElementById("cartCheckout");
-  const error = document.getElementById("cartError");
-  const items = getAvailableCartWatches().map(w => ({ id: w.listingId }));
-
-  if(error){ error.hidden = true; error.textContent = ""; }
-
-  if(!items.length){
-    if(error){ error.hidden = false; error.textContent = "Your cart is empty."; }
-    return;
-  }
-
-  checkoutButton.disabled = true;
-  checkoutButton.textContent = "LOADING";
-
-  try{
-    const response = await fetch("/create-stripe-checkout", {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({ items })
-    });
-    const data = await response.json();
-    if(!response.ok || !data.checkoutUrl){
-      throw new Error(data.error || "Checkout unavailable");
-    }
-    window.location.href = data.checkoutUrl;
-  } catch(err){
-    console.error(err);
-    if(error){ error.hidden = false; error.textContent = err.message || "Checkout unavailable. Please enquire directly."; }
-  } finally {
-    checkoutButton.disabled = false;
-    checkoutButton.textContent = "CHECKOUT";
-  }
-});
+/* Cart has been intentionally removed from the live interface until the checkout flow is rebuilt. */
 
 document.addEventListener("keydown", event => {
-  if(event.key === "Escape") closeCart();
+  if(event.key === "Escape") closeSort();
 });
 
 loadWatchesFromAirtable();
@@ -14704,5 +14565,48 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
 })();
 </script>
 
+
+
+<style id="sw-no-spec-flash-fix">
+/* Fix: remove the SPEC click flash on product cards.
+   The original .spec-overlay had opacity/transform transitions, which made the
+   white overlay visibly flash/fade when SPEC was clicked. */
+html body:not(.product-page-open) .grid .card .image .spec-overlay{
+  transition:none !important;
+  transform:none !important;
+  will-change:auto !important;
+}
+
+html body:not(.product-page-open) .grid .card .image.available:not(.show-spec) .spec-overlay{
+  opacity:0 !important;
+  transform:none !important;
+  pointer-events:none !important;
+}
+
+html body:not(.product-page-open) .grid .card .image.available.show-spec .spec-overlay{
+  opacity:1 !important;
+  transform:none !important;
+  pointer-events:auto !important;
+}
+
+/* Also remove the mobile/browser tap highlight and focus flash from SPEC controls. */
+html body:not(.product-page-open) .grid .card .image .spec-trigger,
+html body:not(.product-page-open) .grid .card .image .spec-hide,
+html body:not(.product-page-open) .grid .card .image .spec-overlay,
+html body:not(.product-page-open) .grid .card .image .spec-overlay *{
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+html body:not(.product-page-open) .grid .card .image .spec-trigger:active,
+html body:not(.product-page-open) .grid .card .image .spec-trigger:focus,
+html body:not(.product-page-open) .grid .card .image .spec-trigger:focus-visible,
+html body:not(.product-page-open) .grid .card .image .spec-hide:active,
+html body:not(.product-page-open) .grid .card .image .spec-hide:focus,
+html body:not(.product-page-open) .grid .card .image .spec-hide:focus-visible{
+  outline:0 !important;
+  box-shadow:none !important;
+  filter:none !important;
+}
+</style>
 </body>
 </html>
