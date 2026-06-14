@@ -6917,20 +6917,22 @@ body:not(.info-active) #infoPage{
 
 <style id="stapleford-footer-edge-alignment">
 /* Footer edge alignment:
-   use the exact same max-width and side inset as the watch grid/page content
-   so © text and footer links vertically align with the grid text edges. */
+   footer now uses the same outer width system as the product grid,
+   including full desktop widths, so it does not drift when the browser is wide. */
 html body > footer{
   width:100%;
-  margin-top:34px;
-  padding:0 6px 20px;
+  margin-top: 22px;
+  padding: 0 6px 6px;
   box-sizing:border-box;
 }
 
 html body > footer .footer-inner{
   width:min(100%, var(--max-width));
   max-width:var(--max-width);
-  margin:0 auto;
-  padding:0;
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:0;
+  padding-right:0;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -6953,14 +6955,39 @@ html body > footer .footer-links{
   text-align:right;
 }
 
+/* Full desktop correction:
+   when the grid is wider than the generic --max-width cap, align the footer
+   to the actual grid/page text edges by matching the buy-page/grid width behaviour. */
+@media (min-width:1280px){
+  html body > footer{
+    padding-left:var(--page-pad, 6px);
+    padding-right:var(--page-pad, 6px);
+  }
+
+  html body > footer .footer-inner{
+    width:100%;
+    max-width:none;
+  }
+}
+
+/* Ultra-wide browsers:
+   keep the footer aligned with the visible content edges rather than falling inward. */
+@media (min-width:1600px){
+  html body > footer{
+    padding-left:var(--page-pad, 6px);
+    padding-right:var(--page-pad, 6px);
+  }
+}
+
 @media (max-width:640px){
   html body > footer{
-    margin-top:28px;
-    padding:0 8px 18px;
+    margin-top: 18px;
+    padding: 0 8px 8px;
   }
 
   html body > footer .footer-inner{
     width:min(100%, var(--max-width));
+    max-width:var(--max-width);
     display:block;
   }
 
