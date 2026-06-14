@@ -7083,10 +7083,14 @@ async function loadWatchesFromAirtable(){
     galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:Inter, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">LOADING WATCHES…</div>';
   }
 
+  const controller = window.AbortController ? new AbortController() : null;
+  const timeoutId = controller ? window.setTimeout(() => controller.abort(), 12000) : null;
+
   try{
     const response = await fetch("/api/watches", {
       headers: { "Accept": "application/json" },
-      cache: "no-store"
+      cache: "no-cache",
+      ...(controller ? { signal: controller.signal } : {})
     });
     const data = await response.json();
 
@@ -7095,13 +7099,23 @@ async function loadWatchesFromAirtable(){
     }
 
     const nextWatches = Array.isArray(data.watches) ? data.watches : [];
+    const nextSignature = JSON.stringify(nextWatches);
+    const cachedSignature = cachedWatches ? JSON.stringify(cachedWatches) : "";
+
     saveCachedWatches(nextWatches);
+
+    if(cachedWatches && nextSignature === cachedSignature){
+      return;
+    }
+
     renderLoadedWatches(nextWatches);
   } catch(error){
     console.error(error);
     if(!cachedWatches && galleryEl){
       galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:Inter, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">COULD NOT LOAD WATCHES. CHECK AIRTABLE SETTINGS.</div>';
     }
+  } finally {
+    if(timeoutId) window.clearTimeout(timeoutId);
   }
 }
 
@@ -8258,6 +8272,28 @@ document.addEventListener("keydown", (e) => {
 });
 
 
+
+function escapeHtml(value){
+  return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[char]));
+}
+
+function safeHttpUrl(value, fallback = ""){
+  const raw = String(value || "").trim();
+  if(!raw) return fallback;
+  try{
+    const url = new URL(raw, window.location.origin);
+    return /^https?:$/.test(url.protocol) ? url.href : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function render(){
  let items=[...watches];
 
@@ -8320,12 +8356,27 @@ function render(){
   const isReserved = w.status === "reserved";
   const reference = getWatchReference(w);
   const productName = getProductDisplayName(w);
-   const productDisplayTitle = getProductDisplayTitleWithoutBrand(w);
+  const productDisplayTitle = getProductDisplayTitleWithoutBrand(w);
+  const safeImageUrl = safeHttpUrl(w.image);
+  const safeProductLink = safeHttpUrl(w.productLink, "#");
+  const safeProductName = escapeHtml(productName);
+  const safeListingId = escapeHtml(w.listingId);
+  const safeBrand = escapeHtml(String(w.brand || "").toUpperCase());
+  const safeProductDisplayTitle = escapeHtml(productDisplayTitle);
+  const safePrice = escapeHtml(w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString());
+  const safeSpecs = {
+    reference: escapeHtml(w.specs?.reference || ""),
+    year: escapeHtml(w.specs?.year || ""),
+    caseSize: escapeHtml(w.specs?.caseSize || ""),
+    condition: escapeHtml(w.specs?.condition || ""),
+    contents: escapeHtml(w.specs?.contents || ""),
+    listingId: escapeHtml(w.specs?.listingId || "")
+  };
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${w.image}" alt="${productName} (${w.listingId})" loading="${i<2?'eager':'lazy'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
-      ${isAvailable ? `<a class="merchant-product-link" href="${w.productLink}" aria-label="Product link for ${productName}"></a>` : ""}
+      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      ${isAvailable ? `<a class="merchant-product-link" href="${safeProductLink}" aria-label="Product link for ${safeProductName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
       <button class="spec-trigger" type="button" aria-expanded="false">
@@ -8338,20 +8389,20 @@ function render(){
 
         </button>
         <div class="spec-list">
-          <div class="spec-row"><span class="spec-label">REFERENCE</span><span class="spec-value">${w.specs.reference || ""}</span></div>
-          <div class="spec-row"><span class="spec-label">YEAR</span><span class="spec-value">${w.specs.year}</span></div>
-          <div class="spec-row"><span class="spec-label">CASE SIZE</span><span class="spec-value">${w.specs.caseSize}</span></div>
-          <div class="spec-row"><span class="spec-label">CONDITION</span><span class="spec-value">${w.specs.condition}</span></div>
-          <div class="spec-row"><span class="spec-label">CONTENTS</span><span class="spec-value">${w.specs.contents}</span></div>
-          <div class="spec-row"><span class="spec-label">LISTING ID</span><span class="spec-value">${w.specs.listingId}</span></div>
+          <div class="spec-row"><span class="spec-label">REFERENCE</span><span class="spec-value">${safeSpecs.reference}</span></div>
+          <div class="spec-row"><span class="spec-label">YEAR</span><span class="spec-value">${safeSpecs.year}</span></div>
+          <div class="spec-row"><span class="spec-label">CASE SIZE</span><span class="spec-value">${safeSpecs.caseSize}</span></div>
+          <div class="spec-row"><span class="spec-label">CONDITION</span><span class="spec-value">${safeSpecs.condition}</span></div>
+          <div class="spec-row"><span class="spec-label">CONTENTS</span><span class="spec-value">${safeSpecs.contents}</span></div>
+          <div class="spec-row"><span class="spec-label">LISTING ID</span><span class="spec-value">${safeSpecs.listingId}</span></div>
         </div>
       </div>` : ""}
     </div>
     <div class="info">
-      <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${productDisplayTitle}</div></div>
+      <div class="title"><div class="brand">${safeBrand}</div><div>${safeProductDisplayTitle}</div></div>
       <div class="info-right">
-        <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
-        
+        <div class="price">${safePrice}</div>
+
       </div>
     </div>
   `;
@@ -10106,22 +10157,6 @@ body.product-page-open #lightbox.open .lightbox-detail-kicker,
   }
 }
 </style>
-<script id="stapleford-footer-sw-removal-v33">
-(function(){
-  function removeFooterMonograms(){
-    document.querySelectorAll('footer .footer-monogram, .lightbox-site-footer .footer-monogram').forEach(function(node){
-      node.remove();
-    });
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', removeFooterMonograms);
-  }else{
-    removeFooterMonograms();
-  }
-  document.addEventListener('click', function(){ window.setTimeout(removeFooterMonograms, 0); }, true);
-  window.addEventListener('resize', removeFooterMonograms, {passive:true});
-})();
-</script>
 <style id="stapleford-product-copy-weight-match-v35">
 /* Product view only: soften Description / Delivery / Returns body copy to match the lighter info text. */
 html body.product-page-open #lightbox.open .lightbox-detail-description,
@@ -12194,29 +12229,6 @@ html body .lightbox-detail-buy:focus-visible{
 }
 </style>
 
-<script id="stapleford-product-title-suffix-cleaner">
-(function(){
-  const suffix = " | Stapleford Watches";
-  const homepageTitle = "Stapleford Watches | Pre-Owned Luxury Watches";
-
-  function cleanProductTitle(){
-    if(document.title && document.title !== homepageTitle && document.title.endsWith(suffix)){
-      document.title = document.title.slice(0, -suffix.length);
-    }
-  }
-
-  cleanProductTitle();
-
-  const titleNode = document.querySelector("title");
-  if(titleNode){
-    new MutationObserver(cleanProductTitle).observe(titleNode, {
-      childList:true,
-      subtree:true,
-      characterData:true
-    });
-  }
-})();
-</script>
 
 </body>
 </html>
