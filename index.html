@@ -1353,7 +1353,10 @@ a, button{
 }
 
 .lightbox-detail-contact-link:hover{
-  opacity:0.65;
+  opacity:1;
+  background:transparent;
+  color:#000 !important;
+  text-decoration:none !important;
 }
 
 .lightbox-detail-buy[hidden],
@@ -2352,7 +2355,10 @@ input[list]{
 }
 
 .lightbox-detail-contact-link:hover{
-  opacity:0.65;
+  opacity:1;
+  background:transparent;
+  color:#000 !important;
+  text-decoration:none !important;
 }
 
 .lightbox-detail-contact-link svg{
@@ -6924,6 +6930,22 @@ html body #cartDrawer.cart-drawer.open{
   }
 }
 </style>
+
+<style id="stapleford-page-separation-clean">
+/* Dedicated page separation: BUY/listings and INFO are separate views, not one long merged page. */
+.buy-page{
+  width:100%;
+}
+body.info-active #buyPage{
+  display:none !important;
+}
+body.info-active #infoPage{
+  display:block;
+}
+body:not(.info-active) #infoPage{
+  display:none !important;
+}
+</style>
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -6970,11 +6992,13 @@ html body #cartDrawer.cart-drawer.open{
 <div class="nav-right">
 </div>
 </div>
+<main class="buy-page" id="buyPage">
 <div class="grid" id="gallery"></div>
 <div class="show-more-wrap" hidden="" id="showMoreWrap">
 <button class="show-more-btn" id="showMoreBtn" type="button">SHOW MORE</button>
 </div>
 <div class="no-results" hidden="" id="noResults">No watches found</div>
+</main>
 <section class="info-page" hidden="" id="infoPage">
 <div class="info-panel">
 <h1 class="info-title">INFO</h1>
@@ -7538,6 +7562,7 @@ function ensureListingLimitMatchesViewport(){
 
 const buyNav = document.getElementById("buyNav");
 const infoNav = document.getElementById("infoNav");
+const buyPage = document.getElementById("buyPage");
 const infoPage = document.getElementById("infoPage");
 const logoHome = document.getElementById("logoHome");
 let currentPage = "buy";
@@ -7547,6 +7572,7 @@ function setPage(page){
   currentPage = page === "info" ? "info" : "buy";
   const isInfo = currentPage === "info";
   const isBuy = currentPage === "buy";
+  if(buyPage) buyPage.hidden = !isBuy;
   if(infoPage) infoPage.hidden = !isInfo;
   document.body.classList.toggle("info-active", isInfo);
   buyNav?.setAttribute("aria-current", isBuy ? "page" : "false");
@@ -12472,6 +12498,33 @@ html body .lightbox-detail-buy:focus-visible{
   background:#000 !important;
   color:#fff !important;
   border-color:#000 !important;
+}
+
+
+/* Final contact hover cleanup — WhatsApp / Email should not lighten or gain a grey state */
+.lightbox-detail-contact-link,
+.lightbox-detail-contact-link:link,
+.lightbox-detail-contact-link:visited,
+.lightbox-detail-contact-link:hover,
+.lightbox-detail-contact-link:active,
+.lightbox-enquire .enquire-link-inline,
+.lightbox-enquire .enquire-link-inline:link,
+.lightbox-enquire .enquire-link-inline:visited,
+.lightbox-enquire .enquire-link-inline:hover,
+.lightbox-enquire .enquire-link-inline:active{
+  opacity:1 !important;
+  color:#000 !important;
+  background:transparent !important;
+  filter:none !important;
+  box-shadow:none !important;
+  text-decoration:none !important;
+}
+
+.info-item a.info-contact-link:hover{
+  opacity:1 !important;
+  color:inherit !important;
+  background:transparent !important;
+  filter:none !important;
 }
 </style>
 </body>
