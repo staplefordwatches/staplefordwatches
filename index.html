@@ -1263,7 +1263,7 @@ a, button{
   padding:0;
   margin:0;
   font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
+  font-weight: 400 !important;
   color:#000;
   cursor:pointer;
   text-transform:uppercase;
@@ -2373,7 +2373,7 @@ input[list]{
   text-align:center;
   border-radius:2px;
   font-size:11px !important;
-  font-weight:700 !important;
+  font-weight: 400 !important;
   letter-spacing:0.12em !important;
   box-shadow:none;
   transition:background 160ms ease, color 160ms ease, border-color 160ms ease;
@@ -6910,16 +6910,36 @@ body:not(.info-active) #infoPage{
 </style>
 
 
-<style id="stapleford-footer-grid-edge-reset">
-/* Clean footer reset: no divider lines, no previous padding experiments.
-   Footer text aligns to the same left/right visual start as the grid text edges. */
+<style id="stapleford-buy-now-regular-weight">
+html body .lightbox-detail-buy,
+html body.product-page-open .lightbox-detail-buy,
+html body .lightbox.open .lightbox-detail-buy{
+  font-weight:400 !important;
+}
+</style>
+<style id="stapleford-footer-world-class-flow">
+/* World-class footer treatment:
+   - normal document flow, not fixed
+   - no random lines or forced viewport positioning
+   - visually aligned to the product grid text inset
+   - compact, quiet, premium spacing */
+html body{
+  padding-bottom:0 !important;
+}
+
 html body > footer{
-  width:100%;
-  margin:18px auto 0;
-  padding:0 6px 6px;
-  box-sizing:border-box;
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  z-index:auto !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:clamp(28px, 4vw, 54px) 0 0 !important;
+  padding:0 6px 10px !important;
+  box-sizing:border-box !important;
   border:0 !important;
-  background:transparent;
+  background:transparent !important;
 }
 
 html body > footer::before,
@@ -6932,51 +6952,55 @@ html body > footer .footer-inner::after{
 }
 
 html body > footer .footer-inner{
-  width:min(100%, var(--max-width));
-  max-width:var(--max-width);
-  margin:0 auto;
-  padding:0;
-  box-sizing:border-box;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:flex-end !important;
+  justify-content:space-between !important;
+  gap:20px !important;
   border:0 !important;
+  background:transparent !important;
 }
 
 html body > footer .footer-copy,
 html body > footer .footer-links{
-  margin:0;
-  padding:0;
+  margin:0 !important;
+  padding:0 !important;
   border:0 !important;
 }
 
 html body > footer .footer-links{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:18px;
-  text-align:right;
-  flex-wrap:wrap;
+  display:flex !important;
+  justify-content:flex-end !important;
+  align-items:center !important;
+  gap:18px !important;
+  text-align:right !important;
+  flex-wrap:wrap !important;
+}
+
+/* Product/detail page has its own footer inside the lightbox; don't force the site footer over it. */
+html body.product-page-open > footer{
+  display:none !important;
 }
 
 @media (max-width:640px){
   html body > footer{
-    margin-top:14px;
-    padding:0 8px 8px;
+    margin-top:28px !important;
+    padding:0 6px 10px !important;
   }
 
   html body > footer .footer-inner{
-    display:block;
-    width:min(100%, var(--max-width));
-    max-width:var(--max-width);
+    display:block !important;
   }
 
   html body > footer .footer-links{
-    justify-content:flex-start;
-    text-align:left;
-    margin-top:8px;
-    gap:14px;
+    justify-content:flex-start !important;
+    text-align:left !important;
+    margin-top:8px !important;
+    gap:14px !important;
   }
 }
 </style>
