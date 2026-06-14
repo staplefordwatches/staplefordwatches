@@ -7782,13 +7782,16 @@ function openInfoSection(targetId){
   const target = document.getElementById(targetId);
   if(!target || !target.classList.contains("info-item")) return;
 
+  setPage("info");
+
   document.querySelectorAll(".info-item").forEach((item) => {
     item.open = item === target;
   });
 
-  setPage("info");
   requestAnimationFrame(() => {
-    target.scrollIntoView({ behavior:"smooth", block:"start" });
+    requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior:"smooth", block:"start" });
+    });
   });
 }
 
@@ -8235,7 +8238,14 @@ lightboxDetails?.addEventListener("click", (e) => {
   if(!link) return;
   e.preventDefault();
   e.stopPropagation();
-  openInfoSection(link.dataset.infoTarget);
+
+  const targetId = link.dataset.infoTarget || link.getAttribute("href")?.replace(/^.*#/, "");
+  closeLightbox();
+  openInfoSection(targetId);
+
+  if(targetId){
+    history.replaceState(null, "", `#${targetId}`);
+  }
 });
 
 lightboxDetailBuy?.addEventListener("click", (e) => {
