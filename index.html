@@ -7777,13 +7777,19 @@ function setLightboxPolicyOpen(section, isOpen){
 }
 
 function openInfoSection(targetId){
+  if(!targetId) return;
+
   const target = document.getElementById(targetId);
-  if(!target) return;
-  if(lightbox?.classList.contains("open")) closeLightbox(false);
-  if(window.history?.pushState) window.history.pushState({ page:"info", section:targetId }, "", `/#${targetId}`);
+  if(!target || !target.classList.contains("info-item")) return;
+
+  document.querySelectorAll(".info-item").forEach((item) => {
+    item.open = item === target;
+  });
+
   setPage("info");
-  if(target.tagName === "DETAILS") target.open = true;
-  requestAnimationFrame(() => target.scrollIntoView({ behavior:"smooth", block:"start" }));
+  requestAnimationFrame(() => {
+    target.scrollIntoView({ behavior:"smooth", block:"start" });
+  });
 }
 
 function handleInitialInfoHash(){
