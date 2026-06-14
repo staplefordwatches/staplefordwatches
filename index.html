@@ -12230,5 +12230,44 @@ html body .lightbox-detail-buy:focus-visible{
 </style>
 
 
+
+
+<style id="sw-production-related-heading-lock-v1">
+/* Production typography lock: keep the related rail heading on the exact
+   same scale as the product detail accordion headings. The previous
+   related-rail block hard-coded .lightbox-related-title to 10px, so desktop
+   product pages rendered "YOU MIGHT ALSO LIKE" smaller than DESCRIPTION,
+   SPECIFICATION, DELIVERY and RETURNS. Mobile already uses the 10px scale,
+   so this override only lifts the desktop/tablet product-page state. */
+html body.product-page-open #lightbox.open .lightbox-related-title,
+html body.product-page-open .lightbox.open .lightbox-related-title{
+  font-family:var(--font-body, "Inter", Arial, sans-serif) !important;
+  font-weight:500 !important;
+  font-size:10px !important;
+  line-height:1.25 !important;
+  letter-spacing:.075em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+
+@media (min-width: 1024px){
+  html body.product-page-open #lightbox.open .lightbox-detail-description-toggle,
+  html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle,
+  html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle,
+  html body.product-page-open #lightbox.open .lightbox-related-title,
+  html body.product-page-open .lightbox.open .lightbox-detail-description-toggle,
+  html body.product-page-open .lightbox.open .lightbox-detail-spec-toggle,
+  html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle,
+  html body.product-page-open .lightbox.open .lightbox-related-title{
+    font-family:var(--font-body, "Inter", Arial, sans-serif) !important;
+    font-weight:500 !important;
+    font-size:11px !important;
+    line-height:1.25 !important;
+    letter-spacing:.075em !important;
+    text-transform:uppercase !important;
+  }
+}
+</style>
+
 </body>
 </html>
