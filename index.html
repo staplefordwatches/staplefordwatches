@@ -5,16 +5,6 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Stapleford Watches | Pre-Owned Luxury Watches</title>
-<style id="stapleford-critical-no-nav-flash">
-.nav,
-#cartOpen,
-#filterBtn,
-#filterMenu,
-#sortBackdrop{
-  display:none !important;
-}
-</style>
-
 <meta content="Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." name="description"/>
 <link href="https://staplefordwatches.co.uk/" rel="canonical"/>
 <meta content="website" property="og:type"/>
@@ -6885,6 +6875,44 @@ html body .lightbox.open .lightbox-detail-buy{
 </g>
 </svg>
 </button>
+<div class="nav">
+<div class="nav-left">
+<nav aria-label="Buy or view information" class="nav-pages">
+<button aria-current="page" class="nav-page-btn" id="buyNav" type="button"><span>BUY</span></button>
+<button aria-current="false" class="nav-page-btn" id="infoNav" type="button"><span>INFO</span></button>
+</nav>
+<div class="filter-wrap-inline">
+<button aria-controls="cartDrawer" aria-expanded="false" class="cart-open" id="cartOpen" type="button">CART (<span id="cartCount">0</span>)</button>
+<div class="filter-custom">
+<button aria-controls="filterMenu" aria-expanded="false" aria-label="Sort watches" id="filterBtn" type="button">
+<span>SORT</span>
+<svg aria-hidden="true" focusable="false" viewbox="0 0 24 24">
+<path d="M8 6v12m0 0-3-3m3 3 3-3M16 18V6m0 0-3 3m3-3 3 3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</button>
+<div aria-hidden="true" class="sort-backdrop" id="sortBackdrop"></div>
+<div aria-hidden="true" class="filter-menu" id="filterMenu">
+<div class="filter-drawer-head"><span>SORT</span><button aria-label="Close sort panel" class="filter-drawer-close" id="filterDrawerClose" type="button">CLOSE</button></div>
+<div class="filter-search-wrap">
+<input autocomplete="off" class="filter-search-input" id="watchSearch" placeholder="SEARCH" type="text"/>
+</div>
+<div class="filter-section-label">Sort</div>
+<div class="filter-option sort-option" data-value="price-low">PRICE ↑</div>
+<div class="filter-option sort-option" data-value="price-high">PRICE ↓</div>
+<div class="filter-option sort-option" data-value="brand-az">BRAND A–Z</div>
+<div class="filter-option sort-option" data-value="brand-za">BRAND Z–A</div>
+<div class="filter-option sort-option" data-value="new-old">NEW–OLD</div>
+<div class="filter-option sort-option" data-value="old-new">OLD–NEW</div>
+<div class="filter-section-label">Filter</div>
+<div class="filter-option status-filter-option" data-status="available">AVAILABLE</div>
+<div class="filter-option status-filter-option" data-status="sold">SOLD</div>
+</div>
+</div>
+</div>
+</div>
+<div class="nav-right">
+</div>
+</div>
 <main class="buy-page" id="buyPage">
 <div class="grid" id="gallery"></div>
 <div class="show-more-wrap" hidden="" id="showMoreWrap">
@@ -6989,6 +7017,25 @@ html body .lightbox.open .lightbox-detail-buy{
 </div>
 </div>
 </div>
+<div class="cart-backdrop" hidden="" id="cartBackdrop"></div>
+<aside aria-hidden="true" class="cart-drawer" id="cartDrawer">
+<div class="cart-head">
+<div>CART</div>
+<button class="cart-close" id="cartClose" type="button">CLOSE</button>
+</div>
+<div class="cart-items" id="cartItems"></div>
+<div class="cart-foot">
+<div>
+<div>TOTAL</div>
+<div>£<span id="cartTotal">0</span></div>
+</div>
+<div class="cart-actions">
+<button class="cart-checkout" id="cartCheckout" type="button">CHECKOUT</button>
+<button class="cart-continue" id="cartContinue" type="button">CONTINUE SHOPPING</button>
+</div>
+</div>
+<div class="cart-error" hidden="" id="cartError"></div>
+</aside>
 <script>
 let watches = [];
 let watchesLoaded = false;
@@ -7458,6 +7505,9 @@ function setPage(page){
   if(filterMenu) filterMenu.style.display = "none";
   if(isBuy) render();
 }
+
+buyNav?.addEventListener("click", () => setPage("buy"));
+infoNav?.addEventListener("click", () => setPage("info"));
 logoHome?.addEventListener("click", () => {
   searchQuery = "";
   currentSort = "default";
@@ -11950,6 +12000,29 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
   setSortDrawer(false, false);
 })();
 </script>
+<style id="ben-final-nav-controls-hidden-listings-restored">
+/* Final correction: keep the Buy/listings gallery intact, remove only the top navigation/control row. */
+html body > .nav{
+  display:none !important;
+}
+
+/* Bring the Buy grid up under the logo with a balanced, professional gap. */
+html body:not(.product-page-open) #gallery.grid{
+  margin-top:6px !important;
+}
+
+/* Keep the SPEC control aligned with the product text start below it. */
+html body #gallery.grid .image.available .spec-trigger,
+html body .image.available .spec-trigger{
+  left:6px !important;
+}
+</style>
+<style id="stapleford-remove-grid-buy-final">
+/* Remove BUY controls from the main grid view only; keep product listings and detail page intact. */
+html body:not(.product-page-open) #gallery .cart-trigger{
+  display:none !important;
+}
+</style>
 
 <style id="stapleford-show-more-listings-final">
 /* Show fewer listings first, then reveal the rest on demand to keep the page lighter and cleaner. */
