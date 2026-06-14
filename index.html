@@ -9312,6 +9312,9 @@ html body #cartDrawer.cart-drawer.open{
 </div>
 </div>
 <div class="grid" id="gallery"></div>
+<div class="show-more-wrap" id="showMoreWrap" hidden="">
+<button class="show-more-btn" id="showMoreBtn" type="button">SHOW MORE</button>
+</div>
 <div class="no-results" hidden="" id="noResults">No watches found</div>
 <section class="sell-page" hidden="" id="sellPage">
 <div class="sell-panel">
@@ -9416,7 +9419,7 @@ html body #cartDrawer.cart-drawer.open{
 </div>
 </section>
 <div aria-hidden="true" class="lightbox" id="lightbox">
-<button aria-label="Back" class="lightbox-close" type="button">Back</button>
+<button aria-label="Close product" class="lightbox-close" type="button">Close</button>
 <div class="lightbox-inner">
 <div class="lightbox-stage">
 <div class="lightbox-image-wrap">
@@ -9912,6 +9915,10 @@ let showSold = false;
 const filterMenu = document.getElementById("filterMenu");
 const watchSearch = document.getElementById("watchSearch");
 let searchQuery = "";
+const showMoreWrap = document.getElementById("showMoreWrap");
+const showMoreBtn = document.getElementById("showMoreBtn");
+const INITIAL_LISTING_LIMIT = 8;
+let listingShowAll = false;
 
 const buyNav = document.getElementById("buyNav");
 const sellNav = document.getElementById("sellNav");
@@ -10036,6 +10043,7 @@ logoHome?.addEventListener("click", () => {
   currentSort = "default";
   showAvailable = false;
   showSold = false;
+  listingShowAll = false;
   if(watchSearch) watchSearch.value = "";
   document.querySelectorAll(".status-filter-option.active").forEach(option => option.classList.remove("active"));
   if(typeof closeLightbox === "function" && lightbox?.classList.contains("open")) closeLightbox();
@@ -10173,6 +10181,7 @@ document.getElementById("filterBtn").onclick = () => {
 
 watchSearch.addEventListener("input", (e) => {
   searchQuery = e.target.value.trim().toLowerCase();
+  listingShowAll = false;
   render();
 });
 
@@ -10185,6 +10194,7 @@ document.addEventListener("click", (e) => {
 document.querySelectorAll(".sort-option").forEach(item=>{
   item.onclick = () => {
     currentSort = item.dataset.value;
+    listingShowAll = false;
     document.getElementById("filterMenu").style.display = "none";
     render();
   };
@@ -10204,8 +10214,14 @@ document.querySelectorAll(".status-filter-option").forEach(item => {
       item.classList.toggle("active", showSold);
     }
 
+    listingShowAll = false;
     render();
   });
+});
+
+showMoreBtn?.addEventListener("click", () => {
+  listingShowAll = true;
+  render();
 });
 
 function getWatchYear(w){
@@ -10921,7 +10937,15 @@ function render(){
 
  document.body.classList.toggle("no-results-active", !hasResults);
 
- items.forEach((w,i)=>{
+ const hasHiddenListings = items.length > INITIAL_LISTING_LIMIT && !listingShowAll;
+ const visibleItems = listingShowAll ? items : items.slice(0, INITIAL_LISTING_LIMIT);
+
+ if(showMoreWrap && showMoreBtn){
+  showMoreWrap.hidden = !hasHiddenListings;
+  showMoreBtn.textContent = `SHOW MORE (${items.length - visibleItems.length})`;
+ }
+
+ visibleItems.forEach((w,i)=>{
   const div=document.createElement("article");
   div.className="card";
   div.id = w.listingId;
@@ -10964,7 +10988,7 @@ function render(){
       <div class="title"><div class="brand">${w.brand.toUpperCase()}</div><div>${productDisplayTitle}</div></div>
       <div class="info-right">
         <div class="price">${w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString()}</div>
-        ${isAvailable ? `<button class="cart-trigger" type="button" data-watch-id="${w.listingId}" aria-label="Buy ${productName} now">BUY</button>` : ""}
+        
       </div>
     </div>
   `;
@@ -15013,6 +15037,93 @@ html body:not(.product-page-open) #gallery.grid{
 html body #gallery.grid .image.available .spec-trigger,
 html body .image.available .spec-trigger{
   left:6px !important;
+}
+</style>
+
+<style id="stapleford-remove-grid-buy-final">
+/* Remove BUY controls from the main grid view only; keep product listings and detail page intact. */
+html body:not(.product-page-open) #gallery .cart-trigger{
+  display:none !important;
+}
+</style>
+
+
+<style id="stapleford-plain-product-close-final">
+/* Final product-detail close control: plain text only, no white box. */
+html body.product-page-open .lightbox.open .lightbox-close,
+html body .lightbox.open .lightbox-close,
+html body .lightbox .lightbox-close,
+html body .lightbox-close{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  padding:0 !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  width:auto !important;
+  height:auto !important;
+  color:#000 !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:10px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:.06em !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+}
+html body.product-page-open .lightbox.open .lightbox-close:hover,
+html body.product-page-open .lightbox.open .lightbox-close:focus,
+html body .lightbox.open .lightbox-close:hover,
+html body .lightbox.open .lightbox-close:focus{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  opacity:.64 !important;
+}
+</style>
+
+
+<style id="stapleford-show-more-listings-final">
+/* Show fewer listings first, then reveal the rest on demand to keep the page lighter and cleaner. */
+html body .show-more-wrap{
+  width:min(100%, var(--max-width)) !important;
+  margin:28px auto 10px !important;
+  padding:0 6px !important;
+  box-sizing:border-box !important;
+  text-align:center !important;
+}
+html body .show-more-wrap[hidden]{
+  display:none !important;
+}
+html body .show-more-btn{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#000 !important;
+  padding:0 !important;
+  margin:0 auto !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:12px !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  line-height:1.2 !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+}
+html body .show-more-btn:hover,
+html body .show-more-btn:focus-visible{
+  text-decoration:underline !important;
+  text-underline-offset:3px !important;
+}
+@media (max-width:767px){
+  html body .show-more-wrap{
+    margin-top:24px !important;
+  }
 }
 </style>
 </body>
