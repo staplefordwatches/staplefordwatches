@@ -9263,6 +9263,9 @@ html body #cartDrawer.cart-drawer.open{
 }
 </style>
 
+
+
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -9308,7 +9311,7 @@ html body #cartDrawer.cart-drawer.open{
 </div>
 </div>
 <div class="nav-right">
-<span aria-label="Current UK time in London, UK" class="uk-time"><span class="uk-time-label">LONDON, UK</span><span aria-hidden="true" class="uk-time-separator">|</span><span class="uk-time-digits" id="ukTimeDigits">00:00:00</span></span>
+<span aria-label="Current UK time in London" class="uk-time"><span class="uk-time-label">LON</span><span aria-hidden="true" class="uk-time-separator">|</span><span class="uk-time-digits" id="ukTimeDigits">00:00:00</span></span>
 </div>
 </div>
 <div class="grid" id="gallery"></div>
@@ -15015,6 +15018,100 @@ html body.product-page-open .lightbox.open .lightbox-related-price{
   setSortDrawer(false, false);
 })();
 </script>
+
+
+<style id="ben-final-lon-time-responsive-all-viewports">
+/* Final responsive placement for LON time.
+   The right edge is matched to the product price text edge: grid right edge minus the card info padding (6px).
+   This block is intentionally placed at the end of the document so later responsive rules cannot override it. */
+html body .nav-right{
+  position:fixed !important;
+  top:max(8px, env(safe-area-inset-top)) !important;
+  right:max(6px, calc((100vw - min(100vw, var(--max-width))) / 2 + 6px)) !important;
+  left:auto !important;
+  bottom:auto !important;
+  z-index:9999 !important;
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  width:auto !important;
+  min-width:0 !important;
+  max-width:calc(100vw - 12px) !important;
+  height:24px !important;
+  min-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  text-align:right !important;
+  transform:none !important;
+  pointer-events:none !important;
+}
+
+html body .nav-right .uk-time,
+html body .uk-time{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:24px !important;
+  min-height:24px !important;
+  line-height:24px !important;
+  margin:0 !important;
+  padding:0 !important;
+  text-align:right !important;
+  white-space:nowrap !important;
+  font-family:'Inter', Arial, sans-serif !important;
+  font-size:12px !important;
+  font-weight:500 !important;
+  letter-spacing:0.02em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  transform:none !important;
+}
+
+html body .nav-right .uk-time-label{
+  display:inline-block !important;
+}
+
+html body .nav-right .uk-time-separator{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:1ch !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+html body .nav-right .uk-time-digits{
+  display:inline-block !important;
+  width:8ch !important;
+  text-align:left !important;
+  font-variant-numeric:tabular-nums !important;
+  font-feature-settings:'tnum' 1, 'lnum' 1 !important;
+}
+
+@media (min-width:1024px){
+  html body .nav-right{
+    top:8px !important;
+    right:calc((100vw - min(100vw, var(--max-width))) / 2 + 6px) !important;
+  }
+}
+
+@media (min-width:768px) and (max-width:1023px){
+  html body .nav-right{
+    top:8px !important;
+    right:6px !important;
+  }
+}
+
+@media (max-width:767px){
+  html body .nav-right{
+    top:max(8px, env(safe-area-inset-top)) !important;
+    right:max(6px, env(safe-area-inset-right)) !important;
+  }
+}
+</style>
 
 </body>
 </html>
