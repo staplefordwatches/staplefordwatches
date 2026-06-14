@@ -6916,19 +6916,19 @@ body:not(.info-active) #infoPage{
 </style>
 
 <style id="stapleford-footer-edge-alignment">
-/* Footer alignment polish:
-   match the footer text edges to the same visual page/grid edges on desktop,
-   while keeping mobile compact and readable. */
+/* Footer edge alignment:
+   use the exact same max-width and side inset as the watch grid/page content
+   so © text and footer links vertically align with the grid text edges. */
 html body > footer{
   width:100%;
-  margin-top:42px;
-  padding:0 clamp(20px, 2.4vw, 34px) 22px;
+  margin-top:34px;
+  padding:0 6px 20px;
   box-sizing:border-box;
 }
 
 html body > footer .footer-inner{
-  width:min(100%, 1320px);
-  max-width:none;
+  width:min(100%, var(--max-width));
+  max-width:var(--max-width);
   margin:0 auto;
   padding:0;
   display:flex;
@@ -6953,19 +6953,14 @@ html body > footer .footer-links{
   text-align:right;
 }
 
-@media (max-width:860px){
+@media (max-width:640px){
   html body > footer{
-    margin-top:30px;
+    margin-top:28px;
     padding:0 8px 18px;
   }
 
   html body > footer .footer-inner{
     width:min(100%, var(--max-width));
-  }
-}
-
-@media (max-width:640px){
-  html body > footer .footer-inner{
     display:block;
   }
 
