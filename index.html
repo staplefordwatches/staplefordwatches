@@ -9105,7 +9105,6 @@ html body #cartDrawer.cart-drawer.open{
 </div>
 </section>
 <div aria-hidden="true" class="lightbox" id="lightbox">
-<button aria-label="Close product" class="lightbox-close" type="button">Close</button>
 <div class="lightbox-inner">
 <div class="lightbox-stage">
 <div class="lightbox-image-wrap">
@@ -9116,6 +9115,7 @@ html body #cartDrawer.cart-drawer.open{
 </div>
 <div class="lightbox-meta" id="lightboxMeta"></div>
 <button class="lightbox-detail-reopen" hidden="" id="lightboxDetailsReopen" type="button">DETAILS ↑</button>
+<button aria-label="Close product" class="lightbox-close" type="button">Close</button>
 <aside aria-live="polite" class="lightbox-detail-panel" id="lightboxDetails">
 <div class="lightbox-detail-header">
 <div class="lightbox-detail-kicker" id="lightboxDetailBrand"></div>
@@ -14676,23 +14676,19 @@ html body .show-more-btn:focus-visible{
 </style>
 
 <style id="stapleford-product-close-production-clean">
-/* Product detail Close control — one production rule set.
-   Plain text, aligned to the product content container across desktop, tablet and mobile. */
-.lightbox.open .lightbox-inner{
-  position:relative;
-}
-
-.lightbox.open .lightbox-close{
-  position:absolute;
-  top:20px;
-  right:0;
-  z-index:70;
+/* Product detail Close control — structured into the product detail layout, not patched over it.
+   It stays plain black text in every state: no underline, no fade, no hover colour shift, no box. */
+.lightbox.open .lightbox-close,
+.lightbox.open .lightbox-close:hover,
+.lightbox.open .lightbox-close:active,
+.lightbox.open .lightbox-close:focus,
+.lightbox.open .lightbox-close:focus-visible{
   display:inline-flex;
   align-items:center;
   justify-content:flex-end;
   width:auto;
-  height:auto;
   min-width:0;
+  height:auto;
   min-height:0;
   padding:0;
   margin:0;
@@ -14700,8 +14696,8 @@ html body .show-more-btn:focus-visible{
   border-radius:0;
   background:transparent;
   box-shadow:none;
-  outline-offset:4px;
   color:#000;
+  opacity:1;
   font-family:'Inter', Arial, sans-serif;
   font-size:10px;
   font-weight:500;
@@ -14709,35 +14705,58 @@ html body .show-more-btn:focus-visible{
   letter-spacing:.08em;
   text-transform:uppercase;
   text-align:right;
+  text-decoration:none;
   cursor:pointer;
   -webkit-appearance:none;
   appearance:none;
 }
 
-.lightbox.open .lightbox-close:hover,
 .lightbox.open .lightbox-close:focus-visible{
-  background:transparent;
-  box-shadow:none;
-  text-decoration:underline;
-  text-underline-offset:3px;
+  outline:none;
 }
 
-@media (min-width:768px) and (max-width:1100px){
-  .lightbox.open .lightbox-close{
-    right:12px;
+@media (min-width:1024px){
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    grid-template-areas:
+      "product-image product-close"
+      "product-image product-details" !important;
+    grid-template-rows:auto auto !important;
+    align-content:start !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-close,
+  html body.product-page-open .lightbox.open .lightbox-close{
+    grid-area:product-close !important;
+    position:relative !important;
+    z-index:20 !important;
+    align-self:start !important;
+    justify-self:end !important;
+    margin-top:clamp(32px, 4.8vw, 72px) !important;
+    margin-bottom:clamp(22px, 2.4vw, 34px) !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    padding-top:0 !important;
   }
 }
 
-@media (max-width:767px){
-  .lightbox.open .lightbox-close{
-    top:14px;
-    right:0;
+@media (max-width:1023px){
+  html body.product-page-open #lightbox.open .lightbox-close,
+  html body.product-page-open .lightbox.open .lightbox-close{
+    position:relative !important;
+    z-index:20 !important;
+    width:calc(100vw - clamp(32px, 8vw, 56px)) !important;
+    max-width:640px !important;
+    display:flex !important;
+    justify-content:flex-end !important;
+    margin:clamp(22px, 6vw, 36px) auto clamp(18px, 5vw, 28px) !important;
   }
-}
 
-@media (max-width:420px){
-  .lightbox.open .lightbox-close{
-    top:12px;
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    margin-top:0 !important;
   }
 }
 </style></body>
