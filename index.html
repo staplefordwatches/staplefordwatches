@@ -7399,7 +7399,7 @@ function ensureMeta(selector, attrs){
 }
 
 function updateProductSeoHead(w){
-  const title = w ? `${getProductDisplayName(w)} | Stapleford Watches`.trim() : "Stapleford Watches | Pre-Owned Luxury Watches";
+  const title = w ? `${getProductDisplayName(w)}`.trim() : "Stapleford Watches | Pre-Owned Luxury Watches";
   const description = w ? (w.description || getWatchDescription(w)) : "Stapleford Watches";
   const url = w ? getProductCanonicalUrl(w) : SITE_ORIGIN + "/";
   const image = w ? getImageLink(w) : "";
@@ -12567,5 +12567,30 @@ html body .lightbox-detail-buy:focus-visible{
   filter:none !important;
 }
 </style>
+
+<script id="stapleford-product-title-suffix-cleaner">
+(function(){
+  const suffix = " | Stapleford Watches";
+  const homepageTitle = "Stapleford Watches | Pre-Owned Luxury Watches";
+
+  function cleanProductTitle(){
+    if(document.title && document.title !== homepageTitle && document.title.endsWith(suffix)){
+      document.title = document.title.slice(0, -suffix.length);
+    }
+  }
+
+  cleanProductTitle();
+
+  const titleNode = document.querySelector("title");
+  if(titleNode){
+    new MutationObserver(cleanProductTitle).observe(titleNode, {
+      childList:true,
+      subtree:true,
+      characterData:true
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
