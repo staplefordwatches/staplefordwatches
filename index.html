@@ -2892,18 +2892,21 @@ body.sell-active #filterMenu{
   font-size:11px !important;
   font-weight:700 !important;
   letter-spacing:0.12em !important;
-  box-shadow:0 10px 24px rgba(0,0,0,0.16);
-  transition:transform 160ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
+  box-shadow:none;
+  transition:background 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 
 .lightbox-detail-buy:hover{
-  transform:translateY(-1px);
-  box-shadow:0 14px 30px rgba(0,0,0,0.22);
+  transform:none;
+  box-shadow:none;
+  background:#f4f4f4 !important;
+  color:#000 !important;
+  border-color:#f4f4f4 !important;
 }
 
 .lightbox-detail-buy:active{
-  transform:translateY(0);
-  box-shadow:0 8px 18px rgba(0,0,0,0.18);
+  transform:none;
+  box-shadow:none;
 }
 
 .lightbox-detail-buy[hidden]{
@@ -8904,11 +8907,11 @@ html body #filterMenu .status-filter-option.active::after{
 }
 
 html body #cartDrawer.cart-drawer{
-  left:0 !important;
-  right:auto !important;
-  border-left:0 !important;
-  border-right:1px solid rgba(0,0,0,.12) !important;
-  transform:translate3d(-100%,0,0) !important;
+  left:auto !important;
+  right:0 !important;
+  border-right:0 !important;
+  border-left:1px solid rgba(0,0,0,.12) !important;
+  transform:translate3d(100%,0,0) !important;
 }
 
 html body #cartDrawer.cart-drawer.open{
@@ -8941,8 +8944,9 @@ html body #cartDrawer.cart-drawer.open{
   html body #cartDrawer.cart-drawer{
     left:0 !important;
     right:0 !important;
+    border-left:0 !important;
     border-right:0 !important;
-    transform:translate3d(-100%,0,0) !important;
+    transform:translate3d(100%,0,0) !important;
   }
 
   html body #cartDrawer.cart-drawer.open{
@@ -14747,5 +14751,70 @@ html body.product-page-open .lightbox.open .lightbox-stage{
     right:clamp(16px, 5.5vw, 32px) !important;
   }
 }
-</style></body>
+</style>
+<style id="stapleford-cart-right-buy-hover-production">
+/* Cart drawer: open from the right on every viewport. */
+html body #cartDrawer.cart-drawer{
+  left:auto !important;
+  right:0 !important;
+  border-right:0 !important;
+  border-left:1px solid rgba(0,0,0,.12) !important;
+  transform:translate3d(100%,0,0) !important;
+}
+html body #cartDrawer.cart-drawer.open{
+  transform:translate3d(0,0,0) !important;
+}
+@media (max-width:640px){
+  html body #cartDrawer.cart-drawer{
+    left:0 !important;
+    right:0 !important;
+    width:var(--stapleford-visual-vw, 100vw) !important;
+    max-width:var(--stapleford-visual-vw, 100vw) !important;
+    border-left:0 !important;
+    border-right:0 !important;
+    transform:translate3d(100%,0,0) !important;
+  }
+  html body #cartDrawer.cart-drawer.open{
+    transform:translate3d(0,0,0) !important;
+  }
+}
+
+/* Subtle site-wide cart-style hover language: light grey surface, no fade. */
+html body #cartDrawer .cart-checkout:hover,
+html body #cartDrawer .cart-close:hover,
+html body #cartDrawer .cart-continue:hover,
+html body #cartDrawer .cart-remove:hover{
+  background:#f4f4f4 !important;
+  color:#000 !important;
+  opacity:1 !important;
+}
+html body #cartDrawer .cart-checkout,
+html body #cartDrawer .cart-close,
+html body #cartDrawer .cart-continue,
+html body #cartDrawer .cart-remove{
+  padding:4px 6px !important;
+  margin:-4px -6px !important;
+  border-radius:0 !important;
+  transition:background 160ms ease, color 160ms ease !important;
+}
+
+/* BUY NOW: keep the button grounded. No upward hover animation or shadow jump. */
+html body .lightbox-detail-buy,
+html body .lightbox-detail-buy:hover,
+html body .lightbox-detail-buy:active,
+html body .lightbox-detail-buy:focus{
+  transform:none !important;
+  box-shadow:none !important;
+}
+html body .lightbox-detail-buy{
+  transition:background 160ms ease, color 160ms ease, border-color 160ms ease !important;
+}
+html body .lightbox-detail-buy:hover,
+html body .lightbox-detail-buy:focus-visible{
+  background:#f4f4f4 !important;
+  color:#000 !important;
+  border-color:#f4f4f4 !important;
+}
+</style>
+</body>
 </html>
