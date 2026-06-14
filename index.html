@@ -232,41 +232,10 @@ body{
 
 /* FOOTER */
 
-.footer-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
 
-.footer-copy{
-  text-align:left;
-  display:flex;
-  align-items:baseline;
-  gap:8px;
-}
 
-.footer-monogram{
-  font-family:"PeaVirginia", serif;
-  font-size:25px;
-  line-height:1;
-  display:inline-block;
-  transform:translateY(0);
-}
 
-.footer-links{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:12px;
-}
 
-.footer-links a{
-  text-decoration:none;
-  color:#000;
-  text-transform:uppercase;
-  line-height:1;
-}
 
 /* MOBILE */
 @media  (max-width:767px){
@@ -602,18 +571,8 @@ body,
 .spec-row,
 .spec-label,
 .spec-value,
-footer{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:400 !important;
-  letter-spacing:0.01em;
-}
 
 
-footer{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  letter-spacing:0.02em;
-}
 
 
 /* SPEC BUTTON + OVERLAY -> INTER MEDIUM */
@@ -863,11 +822,6 @@ body{
 .nav,
 .grid,
 .no-results,
-footer{
-  width:min(100%, var(--max-width));
-  margin-left:auto;
-  margin-right:auto;
-}
 
 .grid,
 .no-results{
@@ -887,10 +841,6 @@ footer{
   text-align:center;
 }
 
-footer{
-  margin-top:auto !important;
-  padding-top:40px !important;
-}
 
 /* When there are no results, keep the page feeling deliberate */
 body.no-results-active .grid{
@@ -6917,93 +6867,6 @@ html body .lightbox.open .lightbox-detail-buy{
   font-weight:400 !important;
 }
 </style>
-<style id="stapleford-footer-world-class-flow">
-/* World-class footer treatment:
-   - normal document flow, not fixed
-   - no random lines or forced viewport positioning
-   - visually aligned to the product grid text inset
-   - compact, quiet, premium spacing */
-html body{
-  padding-bottom:0 !important;
-}
-
-html body > footer{
-  position:relative !important;
-  left:auto !important;
-  right:auto !important;
-  bottom:auto !important;
-  z-index:auto !important;
-  width:100% !important;
-  max-width:none !important;
-  margin:clamp(28px, 4vw, 54px) 0 0 !important;
-  padding:0 6px 10px !important;
-  box-sizing:border-box !important;
-  border:0 !important;
-  background:transparent !important;
-}
-
-html body > footer::before,
-html body > footer::after,
-html body > footer .footer-inner::before,
-html body > footer .footer-inner::after{
-  content:none !important;
-  display:none !important;
-  border:0 !important;
-}
-
-html body > footer .footer-inner{
-  width:100% !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:flex-end !important;
-  justify-content:space-between !important;
-  gap:20px !important;
-  border:0 !important;
-  background:transparent !important;
-}
-
-html body > footer .footer-copy,
-html body > footer .footer-links{
-  margin:0 !important;
-  padding:0 !important;
-  border:0 !important;
-}
-
-html body > footer .footer-links{
-  display:flex !important;
-  justify-content:flex-end !important;
-  align-items:center !important;
-  gap:18px !important;
-  text-align:right !important;
-  flex-wrap:wrap !important;
-}
-
-/* Product/detail page has its own footer inside the lightbox; don't force the site footer over it. */
-html body.product-page-open > footer{
-  display:none !important;
-}
-
-@media (max-width:640px){
-  html body > footer{
-    margin-top:28px !important;
-    padding:0 6px 10px !important;
-  }
-
-  html body > footer .footer-inner{
-    display:block !important;
-  }
-
-  html body > footer .footer-links{
-    justify-content:flex-start !important;
-    text-align:left !important;
-    margin-top:8px !important;
-    gap:14px !important;
-  }
-}
-</style>
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -7153,16 +7016,6 @@ html body.product-page-open > footer{
 </aside>
 </div>
 </div>
-<footer aria-label="Product page footer" class="lightbox-site-footer">
-<div class="footer-inner lightbox-site-footer-inner">
-<div class="footer-copy"><span>© 2026 STAPLEFORD WATCHES</span></div>
-<div class="footer-links">
-<a href="https://wa.me/447438196047">WHATSAPP</a>
-<a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a>
-<a href="https://instagram.com/staplefordwatches">INSTAGRAM</a>
-</div>
-</div>
-</footer>
 </div>
 <div class="cart-backdrop" hidden="" id="cartBackdrop"></div>
 <aside aria-hidden="true" class="cart-drawer" id="cartDrawer">
@@ -8723,16 +8576,6 @@ loadWatchesFromAirtable();
 handleInitialInfoHash();
 window.addEventListener("hashchange", handleInitialInfoHash);
 </script>
-<footer>
-<div class="footer-inner">
-<div class="footer-copy"><span>© 2026 STAPLEFORD WATCHES</span></div>
-<div class="footer-links">
-<a href="https://wa.me/447438196047">WHATSAPP</a>
-<a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a>
-<a href="https://instagram.com/staplefordwatches">INSTAGRAM</a>
-</div>
-</div>
-</footer>
 <script>
 /* ===== GLOBAL PAGE LOCKDOWN ===== */
 document.addEventListener('copy', function(e){
@@ -9945,61 +9788,11 @@ html body .lightbox.open .lightbox-detail-policy-copy{
 </script>
 <style id="stapleford-product-page-footer-v26">
 /* Product page footer: show the same footer inside individual product pages across all viewports. */
-html body .lightbox-site-footer{
-  display:none;
-}
 
-html body.product-page-open #lightbox .lightbox-site-footer,
-html body .lightbox.open .lightbox-site-footer{
-  display:block !important;
-  width:100% !important;
-  max-width:1280px !important;
-  margin:0 auto !important;
-  padding:clamp(26px, 4vw, 46px) clamp(16px, 4vw, 42px) clamp(22px, 3vw, 34px) !important;
-  box-sizing:border-box !important;
-  border-top:1px solid rgba(0,0,0,.12) !important;
-  background:#fff !important;
-  color:#000 !important;
-}
 
-html body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
-html body .lightbox.open .lightbox-site-footer .footer-inner{
-  width:100% !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  gap:18px !important;
-  box-sizing:border-box !important;
-}
 
-html body.product-page-open #lightbox .lightbox-site-footer .footer-copy,
-html body.product-page-open #lightbox .lightbox-site-footer .footer-links,
-html body .lightbox.open .lightbox-site-footer .footer-copy,
-html body .lightbox.open .lightbox-site-footer .footer-links{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:10px !important;
-  line-height:1.4 !important;
-  letter-spacing:.08em !important;
-  text-transform:uppercase !important;
-}
 
-html body.product-page-open #lightbox .lightbox-site-footer .footer-links,
-html body .lightbox.open .lightbox-site-footer .footer-links{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  gap:16px !important;
-  flex-wrap:wrap !important;
-}
 
-html body.product-page-open #lightbox .lightbox-site-footer a,
-html body .lightbox.open .lightbox-site-footer a{
-  color:#000 !important;
-  text-decoration:none !important;
-}
 
 @media  (max-width: 767px){
   html body.product-page-open #lightbox .lightbox-site-footer,
@@ -10056,53 +9849,14 @@ html body.product-page-open .lightbox.open .lightbox-inner{
 
 body.product-page-open #lightbox .lightbox-site-footer,
 body.product-page-open #lightbox.open .lightbox-site-footer,
-html body.product-page-open .lightbox.open .lightbox-site-footer{
-  display:block !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  position:static !important;
-  clear:both !important;
-  width:100% !important;
-  max-width:1500px !important;
-  margin:0 auto !important;
-  padding:34px clamp(18px, 4.5vw, 64px) 36px !important;
-  border-top:1px solid rgba(0,0,0,.14) !important;
-  background:#fff !important;
-  box-sizing:border-box !important;
-}
 
 body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
 body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-inner{
-  width:100% !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  gap:20px !important;
-}
 
 body.product-page-open #lightbox .lightbox-site-footer .footer-copy,
 body.product-page-open #lightbox .lightbox-site-footer .footer-links,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-copy,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-links{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:11px !important;
-  line-height:1.45 !important;
-  letter-spacing:.09em !important;
-  text-transform:uppercase !important;
-}
 
 body.product-page-open #lightbox .lightbox-site-footer .footer-links,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-links{
-  display:flex !important;
-  flex-wrap:wrap !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  gap:16px !important;
-}
 
 @media  (min-width:1024px){
   body.product-page-open #lightbox .lightbox-inner,
@@ -10233,15 +9987,7 @@ body.product-page-open #lightbox.open .lightbox-detail-kicker,
 </style>
 <style id="stapleford-global-width-footer-v33">
 /* V33: widen desktop rhythm, remove footer SW monogram site-wide, and align footer/nav/grid to the same premium content edge. */
-html body footer .footer-monogram,
-html body .lightbox-site-footer .footer-monogram{
-  display:none !important;
-}
 
-html body footer .footer-copy,
-html body .lightbox-site-footer .footer-copy{
-  gap:0 !important;
-}
 
 @media  (min-width:1024px){
   html body{
@@ -10963,17 +10709,6 @@ html body.product-page-open .lightbox.open .lightbox-inner{
 
 body.product-page-open #lightbox .lightbox-site-footer,
 body.product-page-open #lightbox.open .lightbox-site-footer,
-html body.product-page-open .lightbox.open .lightbox-site-footer{
-  display:block !important;
-  clear:both !important;
-  width:100% !important;
-  max-width:1440px !important;
-  margin:0 auto !important;
-  padding:clamp(28px, 4vw, 52px) clamp(18px, 4.5vw, 56px) clamp(26px, 3.5vw, 42px) !important;
-  border-top:1px solid rgba(0,0,0,.14) !important;
-  background:#fff !important;
-  box-sizing:border-box !important;
-}
 
 body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
 body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner{
@@ -11107,89 +10842,11 @@ html body.product-page-open .lightbox.open .lightbox-detail-buy,
 html body .lightbox.open .lightbox-detail-buy{
   box-shadow:none !important;
 }
-html body.product-page-open #lightbox .lightbox-site-footer,
-html body.product-page-open #lightbox.open .lightbox-site-footer,
-html body.product-page-open .lightbox.open .lightbox-site-footer,
-html body .lightbox.open .lightbox-site-footer{
-  display:block !important;
-  position:static !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  clear:both !important;
-  width:min(100vw,var(--max-width)) !important;
-  max-width:min(100vw,var(--max-width)) !important;
-  margin:36px auto 20px !important;
-  padding:0 6px !important;
-  border:0 !important;
-  border-top:0 !important;
-  background:#fff !important;
-  font-size:12px !important;
-  line-height:normal !important;
-  letter-spacing:normal !important;
-  text-transform:none !important;
-  box-sizing:border-box !important;
-}
 html body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
-html body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-inner,
-html body .lightbox.open .lightbox-site-footer .footer-inner{
-  width:100% !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  gap:12px !important;
-}
 html body.product-page-open #lightbox .lightbox-site-footer .footer-copy,
-html body.product-page-open #lightbox.open .lightbox-site-footer .footer-copy,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-copy,
-html body .lightbox.open .lightbox-site-footer .footer-copy{
-  text-align:left !important;
-  display:flex !important;
-  align-items:baseline !important;
-  gap:8px !important;
-  font-size:12px !important;
-  line-height:normal !important;
-  letter-spacing:normal !important;
-  text-transform:none !important;
-}
 html body.product-page-open #lightbox .lightbox-site-footer .footer-monogram,
-html body.product-page-open #lightbox.open .lightbox-site-footer .footer-monogram,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-monogram,
-html body .lightbox.open .lightbox-site-footer .footer-monogram{
-  font-family:"PeaVirginia", serif !important;
-  font-size:25px !important;
-  line-height:1 !important;
-  display:inline-block !important;
-  transform:translateY(0) !important;
-  letter-spacing:normal !important;
-  text-transform:none !important;
-}
 html body.product-page-open #lightbox .lightbox-site-footer .footer-links,
-html body.product-page-open #lightbox.open .lightbox-site-footer .footer-links,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-links,
-html body .lightbox.open .lightbox-site-footer .footer-links{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  gap:12px !important;
-  font-size:12px !important;
-  line-height:normal !important;
-  letter-spacing:normal !important;
-}
 html body.product-page-open #lightbox .lightbox-site-footer .footer-links a,
-html body.product-page-open #lightbox.open .lightbox-site-footer .footer-links a,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-links a,
-html body .lightbox.open .lightbox-site-footer .footer-links a{
-  text-decoration:none !important;
-  color:#000 !important;
-  text-transform:uppercase !important;
-  line-height:1 !important;
-  font-size:12px !important;
-  letter-spacing:normal !important;
-}
 @media  (max-width:767px){
   html body.product-page-open #lightbox .lightbox-site-footer,
   html body.product-page-open #lightbox.open .lightbox-site-footer,
@@ -11280,47 +10937,9 @@ html body .uk-time{
     grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
   }
 }
-html body footer .footer-monogram,
-html body .lightbox-site-footer .footer-monogram{
-  display:none !important;
-  visibility:hidden !important;
-  width:0 !important;
-  height:0 !important;
-  overflow:hidden !important;
-}
 html body > footer .footer-inner,
-html body .lightbox-site-footer .footer-inner,
-html body.product-page-open #lightbox .lightbox-site-footer .footer-inner,
-html body.product-page-open #lightbox.open .lightbox-site-footer .footer-inner,
-html body.product-page-open .lightbox.open .lightbox-site-footer .footer-inner{
-  width:100% !important;
-  max-width:none !important;
-  margin:0 !important;
-  padding:0 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  gap:clamp(14px, 2vw, 28px) !important;
-  box-sizing:border-box !important;
-}
 html body > footer .footer-copy,
 html body > footer .footer-links,
-html body .lightbox-site-footer .footer-copy,
-html body .lightbox-site-footer .footer-links{
-  font-family:"Inter","Inter",Arial,sans-serif !important;
-  font-size:12px !important;
-  line-height:1.2 !important;
-  letter-spacing:normal !important;
-  text-transform:uppercase !important;
-}
-html body > footer .footer-links,
-html body .lightbox-site-footer .footer-links{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-end !important;
-  gap:clamp(12px, 1.8vw, 22px) !important;
-  flex-wrap:wrap !important;
-}
 html body.product-page-open #lightbox,
 html body.product-page-open #lightbox.open,
 html body.product-page-open .lightbox.open{
@@ -11330,31 +10949,7 @@ html body.product-page-open .lightbox.open{
   background:#fff !important;
   overflow-x:hidden !important;
 }
-html body.product-page-open #lightbox .lightbox-inner,
-html body.product-page-open #lightbox.open .lightbox-inner,
-html body.product-page-open .lightbox.open .lightbox-inner,
-html body.product-page-open #lightbox .lightbox-stage,
-html body.product-page-open #lightbox.open .lightbox-stage,
-html body.product-page-open .lightbox.open .lightbox-stage,
 html body.product-page-open #lightbox .lightbox-site-footer,
-html body.product-page-open #lightbox.open .lightbox-site-footer,
-html body.product-page-open .lightbox.open .lightbox-site-footer{
-  width:var(--sw-page-width) !important;
-  max-width:var(--sw-page-width) !important;
-  margin-left:auto !important;
-  margin-right:auto !important;
-  box-sizing:border-box !important;
-  padding-left:0 !important;
-  padding-right:0 !important;
-}
-html body.product-page-open #lightbox .lightbox-site-footer,
-html body.product-page-open #lightbox.open .lightbox-site-footer,
-html body.product-page-open .lightbox.open .lightbox-site-footer{
-  margin-top:clamp(30px, 4vw, 56px) !important;
-  margin-bottom:clamp(18px, 2.5vw, 34px) !important;
-  border:0 !important;
-  background:#fff !important;
-}
 @media  (min-width:1024px){
   html body.product-page-open #lightbox.open .lightbox-stage,
   html body.product-page-open .lightbox.open .lightbox-stage{
