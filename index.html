@@ -231,12 +231,6 @@ body{
 }
 
 /* FOOTER */
-footer{
-  width:min(100vw,var(--max-width));
-  margin:36px auto 20px;
-  font-size:12px;
-  padding:0 6px;
-}
 
 .footer-inner{
   display:flex;
@@ -6915,91 +6909,77 @@ body:not(.info-active) #infoPage{
 }
 </style>
 
-<style id="stapleford-footer-edge-alignment">
-/* Footer edge alignment:
-   footer now uses the same outer width system as the product grid,
-   including full desktop widths, so it does not drift when the browser is wide. */
+
+<style id="stapleford-footer-grid-edge-reset">
+/* Clean footer reset: no divider lines, no previous padding experiments.
+   Footer text aligns to the same left/right visual start as the grid text edges. */
 html body > footer{
   width:100%;
-  margin-top: 22px;
-  padding: 0 6px 6px;
+  margin:18px auto 0;
+  padding:0 6px 6px;
   box-sizing:border-box;
+  border:0 !important;
+  background:transparent;
+}
+
+html body > footer::before,
+html body > footer::after,
+html body > footer .footer-inner::before,
+html body > footer .footer-inner::after{
+  content:none !important;
+  display:none !important;
+  border:0 !important;
 }
 
 html body > footer .footer-inner{
   width:min(100%, var(--max-width));
   max-width:var(--max-width);
-  margin-left:auto;
-  margin-right:auto;
-  padding-left:0;
-  padding-right:0;
+  margin:0 auto;
+  padding:0;
+  box-sizing:border-box;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:24px;
-  box-sizing:border-box;
+  gap:20px;
+  border:0 !important;
 }
 
 html body > footer .footer-copy,
 html body > footer .footer-links{
   margin:0;
   padding:0;
+  border:0 !important;
 }
 
 html body > footer .footer-links{
   display:flex;
-  align-items:center;
   justify-content:flex-end;
+  align-items:center;
   gap:18px;
-  flex-wrap:wrap;
   text-align:right;
-}
-
-/* Full desktop correction:
-   when the grid is wider than the generic --max-width cap, align the footer
-   to the actual grid/page text edges by matching the buy-page/grid width behaviour. */
-@media (min-width:1280px){
-  html body > footer{
-    padding-left:var(--page-pad, 6px);
-    padding-right:var(--page-pad, 6px);
-  }
-
-  html body > footer .footer-inner{
-    width:100%;
-    max-width:none;
-  }
-}
-
-/* Ultra-wide browsers:
-   keep the footer aligned with the visible content edges rather than falling inward. */
-@media (min-width:1600px){
-  html body > footer{
-    padding-left:var(--page-pad, 6px);
-    padding-right:var(--page-pad, 6px);
-  }
+  flex-wrap:wrap;
 }
 
 @media (max-width:640px){
   html body > footer{
-    margin-top: 18px;
-    padding: 0 8px 8px;
+    margin-top:14px;
+    padding:0 8px 8px;
   }
 
   html body > footer .footer-inner{
+    display:block;
     width:min(100%, var(--max-width));
     max-width:var(--max-width);
-    display:block;
   }
 
   html body > footer .footer-links{
     justify-content:flex-start;
     text-align:left;
-    margin-top:10px;
+    margin-top:8px;
     gap:14px;
   }
 }
 </style>
-
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
