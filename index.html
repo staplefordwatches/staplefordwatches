@@ -6914,6 +6914,70 @@ body:not(.info-active) #infoPage{
   display:none !important;
 }
 </style>
+
+<style id="stapleford-footer-edge-alignment">
+/* Footer alignment polish:
+   match the footer text edges to the same visual page/grid edges on desktop,
+   while keeping mobile compact and readable. */
+html body > footer{
+  width:100%;
+  margin-top:42px;
+  padding:0 clamp(20px, 2.4vw, 34px) 22px;
+  box-sizing:border-box;
+}
+
+html body > footer .footer-inner{
+  width:min(100%, 1320px);
+  max-width:none;
+  margin:0 auto;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  box-sizing:border-box;
+}
+
+html body > footer .footer-copy,
+html body > footer .footer-links{
+  margin:0;
+  padding:0;
+}
+
+html body > footer .footer-links{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:18px;
+  flex-wrap:wrap;
+  text-align:right;
+}
+
+@media (max-width:860px){
+  html body > footer{
+    margin-top:30px;
+    padding:0 8px 18px;
+  }
+
+  html body > footer .footer-inner{
+    width:min(100%, var(--max-width));
+  }
+}
+
+@media (max-width:640px){
+  html body > footer .footer-inner{
+    display:block;
+  }
+
+  html body > footer .footer-links{
+    justify-content:flex-start;
+    text-align:left;
+    margin-top:10px;
+    gap:14px;
+  }
+}
+</style>
+
 </head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
