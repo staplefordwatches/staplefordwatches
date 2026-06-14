@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Stapleford Watches | Pre-Owned Luxury Watches</title>
-<meta content="Buy and sell pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." name="description"/>
+<meta content="Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." name="description"/>
 <link href="https://staplefordwatches.co.uk/" rel="canonical"/>
 <meta content="website" property="og:type"/>
 <meta content="Stapleford Watches | Pre-Owned Luxury Watches" property="og:title"/>
-<meta content="Buy and sell pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." property="og:description"/>
+<meta content="Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." property="og:description"/>
 <meta content="https://staplefordwatches.co.uk/" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <style>
@@ -575,7 +575,7 @@ footer{
 }
 
 .filter-menu div:hover{
-  background:#f5f5f5;
+  background:transparent;
 }
 /* Embedded font overrides */
 .nav,
@@ -667,7 +667,7 @@ footer{
 }
 
 .filter-option:hover{
-  background:#f5f5f5;
+  background:transparent;
 }
 
 .filter-check{
@@ -687,7 +687,7 @@ footer{
 
 
 .filter-check:hover{
-  background:#f5f5f5;
+  background:transparent;
 }
 
 .filter-check input{
@@ -1683,15 +1683,6 @@ a, button{
   pointer-events:none;
 }
 
-
-/* BUY / SELL NAV + SELL SUBMISSION */
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  min-height:18px;
-}
-
 .nav-pages{
   display:inline-flex;
   align-items:center;
@@ -1729,213 +1720,30 @@ a, button{
   text-underline-offset:3px;
 }
 
-.sell-page{
-  width:min(100%, var(--max-width));
-  margin:0 auto;
-  padding:34px 6px 16px;
-  flex:0 0 auto;
-}
-
-.sell-panel{
-  max-width:620px;
-  margin:0 auto;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:400 !important;
-  letter-spacing:0.01em;
-}
-
-.sell-title{
-  margin:0 0 12px;
-  font-family:"Pea Virginia","PeaVirginia", cursive !important;
-  font-weight:400 !important;
-  font-size:38px;
-  line-height:1.05;
-  text-transform:none;
-  letter-spacing:0;
-}
-
-.sell-copy{
-  margin:0 0 12px;
-  width:100%;
-  max-width:100%;
-  box-sizing:border-box;
-  font-size:13px;
-  line-height:1.5;
-  color:#8a8a8a;
-  text-transform:none;
-  letter-spacing:normal;
-  white-space:normal;
-  overflow-wrap:break-word;
-}
-
-.sell-form{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:12px;
-}
-
-.sell-field{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-.sell-field-wide{
-  grid-column:1 / -1;
-}
-
-.sell-field-half{
-  grid-column:auto;
-}
-
-.sell-field label{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px;
-  line-height:1;
-  text-transform:uppercase;
-  letter-spacing:0.06em;
-}
-
-.sell-field input,
-.sell-field textarea{
-  width:100%;
-  border:1px solid #000;
-  border-radius:0;
-  background:#fff;
-  color:#000;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px;
-  line-height:1.3;
-  padding:10px;
-  outline:none;
-}
-
-.sell-field textarea{
-  min-height:108px;
-  resize:vertical;
-}
-
-.sell-error{
-  display:none;
-  margin-top:2px;
-  color:#b00020;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:11px;
-  line-height:1.35;
-}
-
-.sell-field.has-error input,
-.sell-field.has-error textarea{
-  border-color:#b00020;
-}
-
-.sell-field.has-error .sell-error{
-  display:block;
-}
 
 
-.sell-method-title{
-  grid-column:1 / -1;
-  margin-top:4px;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px;
-  line-height:1;
-  text-transform:uppercase;
-  letter-spacing:0.06em;
-}
 
-.sell-form-message{
-  grid-column:1 / -1;
-  display:none;
-  color:#b00020;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:12px;
-  line-height:1.4;
-}
 
-.sell-form-message.show{
-  display:block;
-}
 
-.sell-methods{
-  grid-column:1 / -1;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:2px;
-}
 
-.sell-method-option{
-  position:relative;
-  display:inline-flex;
-  align-items:center;
-}
 
-.sell-method-option input{
-  position:absolute;
-  opacity:0;
-  pointer-events:none;
-}
 
-.sell-method-label{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  min-height:38px;
-  border:1px solid #000;
-  padding:10px 12px;
-  cursor:pointer;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:12px;
-  line-height:1;
-  letter-spacing:0.05em;
-  text-transform:uppercase;
-}
 
-.sell-method-option input:checked + .sell-method-label{
-  background:#000;
-  color:#fff;
-}
 
-.sell-method-icon{
-  width:15px;
-  height:15px;
-  display:block;
-  flex:0 0 auto;
-}
 
-.sell-submit{
-  grid-column:1 / -1;
-  justify-self:start;
-  margin-top:4px;
-  border:1px solid #000;
-  background:#000;
-  color:#fff;
-  cursor:pointer;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:12px;
-  line-height:1;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  padding:12px 16px;
-}
 
-.sell-note{
-  grid-column:1 / -1;
-  margin:2px 0 0;
-  font-size:11px;
-  line-height:1.4;
-  opacity:0.65;
-}
 
-body.sell-active .grid,
-body.sell-active #noResults{
-  display:none !important;
-}
+
+
+
+
+
+
+
+
+
+
+
 
 @media  (max-width: 640px){
   .nav-left{
@@ -1947,18 +1755,7 @@ body.sell-active #noResults{
     font-size:11px !important;
   }
 
-  .sell-page{
-    padding:28px 8px 12px;
-  }
 
-  .sell-form{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:10px;
-  }
-
-  .sell-form > .sell-field:not(.sell-field-half){
-    grid-column:1 / -1;
-  }
 }
 
 @media  (max-width: 380px){
@@ -2073,10 +1870,6 @@ body.sell-active #noResults{
   outline:none;
 }
 
-.sell-field.has-error input{
-  border-color:#b00020 !important;
-}
-
 @media  (max-width: 640px){
   .nav-left{gap:10px !important;}
   .nav-pages{gap:9px !important;}
@@ -2093,16 +1886,9 @@ body.sell-active #noResults{
 .brand-field{grid-column:1 / -1 !important;}
 .brand-quick-picks{display:flex !important;flex-wrap:wrap !important;gap:7px !important;margin:7px 0 0 !important;}
 .brand-chip{border:1px solid #000 !important;background:#fff !important;color:#000 !important;cursor:pointer !important;font-size:11px !important;line-height:1 !important;padding:7px 9px !important;text-transform:uppercase !important;}
-.sell-field.has-error input{border-color:#b00020 !important;}
-.sell-field.has-error .sell-error{display:block !important;}
-.sell-form-message.show{display:block !important;}
 
-/* === BEN REQUESTED SELL PAGE FIXES - VERIFIED 2026-06-05 === */
-.nav{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-}
+
+
 .nav-left{
   display:flex !important;
   align-items:center !important;
@@ -2161,13 +1947,7 @@ body.sell-active #noResults{
   text-decoration:underline !important;
   text-underline-offset:3px !important;
 }
-.sell-field.has-error input{
-  border-color:#b00020 !important;
-}
-.sell-field.has-error .sell-error,
-.sell-form-message.show{
-  display:block !important;
-}
+
 .brand-field{ grid-column:1 / -1 !important; }
 .brand-quick-picks{
   display:flex !important;
@@ -2191,16 +1971,7 @@ body.sell-active #noResults{
   background:#000 !important;
   color:#fff !important;
 }
-.sell-method-label{
-  display:inline-flex !important;
-  align-items:center !important;
-  gap:7px !important;
-}
-.sell-method-icon{
-  width:16px !important;
-  height:16px !important;
-  display:block !important;
-}
+
 @media  (max-width:640px){
   .nav-left{gap:10px !important;}
   .nav-pages{gap:9px !important;}
@@ -2215,52 +1986,11 @@ body.sell-active #noResults{
 .brand-autocomplete{
   position:relative;
 }
-#watchBrand{
-  width:100%;
-}
-.brand-suggestion-list{
-  position:absolute;
-  left:0;
-  right:0;
-  top:calc(100% + 6px);
-  z-index:9999;
-  max-height:220px;
-  overflow:auto;
-  background:#fff;
-  border:1px solid #111;
-  box-shadow:0 10px 24px rgba(0,0,0,.12);
-}
-.brand-suggestion-item{
-  width:100%;
-  display:block;
-  border:0;
-  border-bottom:1px solid #eee;
-  background:#fff;
-  color:#111;
-  text-align:left;
-  padding:12px 13px;
-  font:inherit;
-  font-size:14px;
-  cursor:pointer;
-}
-.brand-suggestion-item:last-child{
-  border-bottom:0;
-}
-.brand-suggestion-item:hover,
-.brand-suggestion-item:focus{
-  background:#f5f5f5;
-  outline:none;
-}
-@media  (max-width:640px){
-  .brand-suggestion-list{
-    max-height:260px;
-    -webkit-overflow-scrolling:touch;
-  }
-  .brand-suggestion-item{
-    min-height:44px;
-    font-size:16px;
-  }
-}
+
+
+
+
+
 
 input[list]{
   background-image:none !important;
@@ -2338,7 +2068,7 @@ input[list]{
 
 .custom-select-options button:hover,
 .custom-select-options button:focus{
-  background:rgba(0,0,0,.05);
+  background:transparent;
   outline:none;
 }
 
@@ -2359,272 +2089,29 @@ input[list]{
   display:block !important;
 }
 
-.sell-field .custom-select-trigger{
-  width:100% !important;
-  box-sizing:border-box !important;
-  height:auto !important;
-  min-height:0 !important;
-  margin:0 !important;
-  border:1px solid #000 !important;
-  border-radius:0 !important;
-  background:#fff !important;
-  color:#000 !important;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  font-weight:400 !important;
-  line-height:1.3 !important;
-  padding:10px !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  text-align:left !important;
-  text-transform:uppercase !important;
-  appearance:none !important;
-  -webkit-appearance:none !important;
-}
-
-.sell-field .custom-select-trigger::after{
-  right:10px !important;
-  top:50% !important;
-  width:7px !important;
-  height:7px !important;
-  transform:translateY(-65%) rotate(45deg) !important;
-}
-
-.sell-field .custom-select-options button{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.3 !important;
-  padding:10px !important;
-}
 
 
-.brand-suggestions,
-.brand-suggestions *{
-  text-transform:none !important;
-}
 
 
-/* === BRAND SUGGESTIONS ALL CAPS === */
-.brand-suggestions,
-.brand-suggestions *,
-.brand-suggestion,
-.brand-suggestion *,
-#brandSuggestions,
-#brandSuggestions *,
-[data-brand-suggestion],
-[data-brand-suggestion] *{
-  text-transform:uppercase !important;
-}
 
-#sellPage .sell-form{
-  display:grid !important;
-  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-  column-gap:10px !important;
-  row-gap:12px !important;
-}
 
-#sellPage .sell-field{
-  min-width:0 !important;
-}
 
-#sellPage .sell-field-half{
-  grid-column:auto !important;
-}
 
-#sellPage .sell-form > .sell-field:not(.sell-field-half),
-#sellPage .sell-field-wide,
-#sellPage .sell-method-title,
-#sellPage .sell-methods,
-#sellPage .sell-form-message,
-#sellPage .sell-submit{
-  grid-column:1 / -1 !important;
-}
 
-#sellPage .sell-title{
-  font-family:"Pea Virginia","PeaVirginia", cursive !important;
-  font-weight:400 !important;
-  text-transform:none !important;
-  letter-spacing:0 !important;
-}
 
-@media  (max-width: 600px){
-  #sellPage .sell-form{
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    column-gap:8px !important;
-    row-gap:10px !important;
-  }
 
-  #sellPage .sell-field-half{
-    grid-column:auto !important;
-  }
 
-  #sellPage .sell-field-half label{
-    font-size:9px !important;
-    letter-spacing:0.04em !important;
-  }
 
-  #sellPage .sell-field-half input,
-  #sellPage .sell-field-half .custom-select-trigger{
-    min-width:0 !important;
-    width:100% !important;
-    padding-left:8px !important;
-    padding-right:8px !important;
-  }
 
-  #sellPage .sell-field-half input::placeholder{
-    font-size:9px !important;
-  }
-}
 
-#sellPage .sell-title{
-  font-size:30px !important;
-  line-height:1.05 !important;
-  margin-bottom:10px !important;
-}
 
-#sellPage .sell-form{
-  display:grid !important;
-  grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) !important;
-  gap:10px !important;
-}
 
-#sellPage .sell-field{
-  min-width:0 !important;
-  width:auto !important;
-  max-width:none !important;
-}
 
-#sellPage .sell-field-half{
-  grid-column:span 1 !important;
-}
 
-#sellPage .sell-form > .sell-field:not(.sell-field-half),
-#sellPage .sell-field-wide,
-#sellPage .sell-method-title,
-#sellPage .sell-methods,
-#sellPage .sell-form-message,
-#sellPage .sell-submit{
-  grid-column:1 / -1 !important;
-}
 
-@media  (max-width: 700px){
-  #sellPage .sell-form{
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) !important;
-    gap:8px !important;
-  }
 
-  #sellPage .sell-field-half{
-    grid-column:span 1 !important;
-  }
 
-  #sellPage .sell-field-half label{
-    font-size:8.5px !important;
-    letter-spacing:0.035em !important;
-    white-space:nowrap !important;
-  }
 
-  #sellPage .sell-field-half input,
-  #sellPage .sell-field-half .custom-select-trigger{
-    box-sizing:border-box !important;
-    width:100% !important;
-    min-width:0 !important;
-    padding-left:7px !important;
-    padding-right:7px !important;
-    font-size:11px !important;
-  }
-
-  #sellPage #watchContents::placeholder{
-    font-size:8px !important;
-  }
-}
-
-#sellPage .sell-title{
-  font-family:"Pea Virginia","PeaVirginia", cursive !important;
-  font-size:30px !important;
-  line-height:1.05 !important;
-  font-weight:400 !important;
-  text-transform:none !important;
-  letter-spacing:0 !important;
-  margin-bottom:10px !important;
-}
-
-#sellPage .sell-form{
-  display:grid !important;
-  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-  column-gap:8px !important;
-  row-gap:10px !important;
-}
-
-#sellPage .sell-field-half{
-  grid-column:span 1 !important;
-  min-width:0 !important;
-}
-
-#sellPage .sell-form > .sell-field:not(.sell-field-half),
-#sellPage .sell-field-wide,
-#sellPage .sell-method-title,
-#sellPage .sell-methods,
-#sellPage .sell-form-message,
-#sellPage .sell-submit{
-  grid-column:1 / -1 !important;
-}
-
-@media  (max-width:700px){
-  #sellPage .sell-title{
-    font-family:"Pea Virginia","PeaVirginia", cursive !important;
-    font-size:30px !important;
-    line-height:1.05 !important;
-    font-weight:400 !important;
-    text-transform:none !important;
-    letter-spacing:0 !important;
-  }
-
-  #sellPage .sell-form{
-    display:grid !important;
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    column-gap:8px !important;
-    row-gap:10px !important;
-  }
-
-  #sellPage .sell-field-half{
-    grid-column:span 1 !important;
-    min-width:0 !important;
-  }
-
-  #sellPage .sell-field-half label{
-    white-space:nowrap !important;
-    font-size:8.5px !important;
-  }
-
-  #sellPage .sell-field-half input,
-  #sellPage .sell-field-half .custom-select-trigger{
-    width:100% !important;
-    min-width:0 !important;
-    box-sizing:border-box !important;
-    padding-left:7px !important;
-    padding-right:7px !important;
-    font-size:11px !important;
-  }
-}
-
-#sellPage .sell-title{
-  font-size:28px !important;
-  line-height:0.9 !important;
-  margin-bottom:18px !important;
-  display:block !important;
-  transform:scaleY(0.92) !important;
-  transform-origin:left top !important;
-}
-
-@media  (max-width:700px){
-  #sellPage .sell-title{
-    font-size:28px !important;
-    line-height:0.9 !important;
-    margin-bottom:18px !important;
-    transform:scaleY(0.92) !important;
-  }
-}
 
 #filterBtn{
   gap:0 !important;
@@ -2659,10 +2146,6 @@ input[list]{
 .uk-time{
   height:24px !important;
   align-items:center !important;
-}
-body.sell-active .filter-wrap-inline,
-body.sell-active #filterMenu{
-  display:none !important;
 }
 
 
@@ -2899,9 +2382,9 @@ body.sell-active #filterMenu{
 .lightbox-detail-buy:hover{
   transform:none;
   box-shadow:none;
-  background:#f4f4f4 !important;
-  color:#000 !important;
-  border-color:#f4f4f4 !important;
+  background:#000 !important;
+  color:#fff !important;
+  border-color:#000 !important;
 }
 
 .lightbox-detail-buy:active{
@@ -3158,75 +2641,12 @@ body.product-page-open{
 <link href="/site.webmanifest?v=4" rel="manifest"/>
 <meta content="#ffffff" name="theme-color"/>
 <style>
-#sellPage .sell-title{
-  font-family:"PeaVirginia","Pea Virginia", cursive !important;
-  font-size:25px !important;
-  line-height:1.25 !important;
-  font-weight:400 !important;
-  transform:none !important;
-  text-transform:none !important;
-  letter-spacing:0 !important;
-  margin:0 0 8px !important;
-  padding-bottom:4px !important;
-}
 
-#sellPage .sell-copy{
-  margin-top:0 !important;
-}
 
-#sellPage #watchContents{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.2 !important;
-  letter-spacing:0 !important;
-  text-transform:uppercase !important;
-}
 
-#sellPage #watchContents::placeholder{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.2 !important;
-  letter-spacing:0 !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-  text-transform:uppercase !important;
-}
 
-#sellPage .sell-field-half input,
-#sellPage .sell-field-half .custom-select-trigger{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.2 !important;
-}
 
-@media  (max-width:700px){
-  #sellPage .sell-title{
-    font-family:"PeaVirginia","Pea Virginia", cursive !important;
-    font-size:25px !important;
-    line-height:1.25 !important;
-    transform:none !important;
-    margin:0 0 8px !important;
-    padding-bottom:4px !important;
-  }
 
-  #sellPage .sell-form{
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) !important;
-    column-gap:8px !important;
-    row-gap:10px !important;
-  }
-
-  #sellPage .sell-field-half{
-    grid-column:span 1 !important;
-    min-width:0 !important;
-  }
-
-  #sellPage .sell-field-half input,
-  #sellPage .sell-field-half .custom-select-trigger,
-  #sellPage #watchContents,
-  #sellPage #watchContents::placeholder{
-    font-size:11px !important;
-  }
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -3277,200 +2697,25 @@ body.product-page-open{
 
 </style>
 <style>
-#sellPage .sell-panel{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.35 !important;
-}
 
-#sellPage .sell-title{
-  font-family:"PeaVirginia","Pea Virginia", cursive !important;
-  font-weight:400 !important;
-  font-size:24px !important;
-  line-height:1.4 !important;
-  letter-spacing:0 !important;
-  text-transform:none !important;
-  transform:none !important;
-  margin:0 0 12px !important;
-  padding:0 !important;
-  overflow:visible !important;
-}
 
-#sellPage .sell-copy{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.45 !important;
-  font-weight:400 !important;
-  letter-spacing:0 !important;
-  text-transform:none !important;
-  color:#8a8a8a !important;
-  margin:0 0 22px !important;
-  max-width:100% !important;
-}
 
-#sellPage .sell-form{
-  display:grid !important;
-  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-  column-gap:12px !important;
-  row-gap:12px !important;
-  width:100% !important;
-  box-sizing:border-box !important;
-}
 
-#sellPage .sell-form > .sell-field:not(.sell-field-half),
-#sellPage .sell-field-wide,
-#sellPage .sell-method-title,
-#sellPage .sell-methods,
-#sellPage .sell-form-message,
-#sellPage .sell-submit{
-  grid-column:1 / -1 !important;
-}
 
-#sellPage .sell-field-half{
-  grid-column:span 1 !important;
-  min-width:0 !important;
-}
 
-#sellPage .sell-field{
-  min-width:0 !important;
-  gap:6px !important;
-}
 
-#sellPage .sell-field label,
-#sellPage .sell-method-title{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  white-space:nowrap !important;
-}
 
-#sellPage .sell-field input,
-#sellPage .sell-field textarea,
-#sellPage .custom-select-trigger{
-  box-sizing:border-box !important;
-  width:100% !important;
-  min-width:0 !important;
-  border:1px solid #000 !important;
-  border-radius:0 !important;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.25 !important;
-  font-weight:400 !important;
-  letter-spacing:0 !important;
-  color:#000 !important;
-  padding:10px !important;
-  min-height:44px !important;
-}
 
-#sellPage .sell-field textarea{
-  min-height:108px !important;
-}
 
-#sellPage .sell-field input::placeholder,
-#sellPage .sell-field textarea::placeholder,
-#sellPage #watchContents::placeholder{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.25 !important;
-  font-weight:400 !important;
-  letter-spacing:0 !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-  text-transform:uppercase !important;
-}
 
-#sellPage #watchContents{
-  text-transform:uppercase !important;
-}
 
-#sellPage .sell-field.has-error label{
-  color:#b00020 !important;
-}
 
-#sellPage .sell-field.has-error input,
-#sellPage .sell-field.has-error textarea,
-#sellPage .sell-field.has-error .custom-select-trigger{
-  border-color:#b00020 !important;
-}
 
-#sellPage .sell-form-message{
-  color:#b00020 !important;
-  text-transform:uppercase !important;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.25 !important;
-  letter-spacing:0.06em !important;
-  margin-top:2px !important;
-}
 
-#sellPage .sell-form-message.show{
-  display:block !important;
-}
 
-#sellPage .custom-select-trigger{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  text-align:left !important;
-}
 
-#sellPage .sell-method-label,
-#sellPage .sell-submit{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:12px !important;
-  line-height:1 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-}
 
-@media  (max-width:700px){
-  #sellPage .sell-page,
-  .sell-page{
-    padding-left:8px !important;
-    padding-right:8px !important;
-    box-sizing:border-box !important;
-  }
 
-  #sellPage .sell-title{
-    font-size:24px !important;
-    line-height:1.4 !important;
-    margin:0 0 12px !important;
-  }
-
-  #sellPage .sell-form{
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    column-gap:8px !important;
-    row-gap:10px !important;
-  }
-
-  #sellPage .sell-field label,
-  #sellPage .sell-method-title{
-    font-size:11px !important;
-    line-height:1.15 !important;
-    letter-spacing:0.05em !important;
-  }
-
-  #sellPage .sell-field input,
-  #sellPage .sell-field textarea,
-  #sellPage .custom-select-trigger,
-  #sellPage .sell-field input::placeholder,
-  #sellPage .sell-field textarea::placeholder,
-  #sellPage #watchContents::placeholder{
-    font-size:13px !important;
-    line-height:1.25 !important;
-  }
-
-  #sellPage .sell-field-half input,
-  #sellPage .sell-field-half .custom-select-trigger{
-    padding-left:8px !important;
-    padding-right:8px !important;
-  }
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -3521,124 +2766,17 @@ body.product-page-open{
 
 </style>
 <style>
-#sellPage .sell-title{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:18px !important;
-  line-height:1.2 !important;
-  text-transform:uppercase !important;
-  letter-spacing:0.03em !important;
-  transform:none !important;
-  margin:0 0 12px !important;
-  padding:0 !important;
-  overflow:visible !important;
-}
 
-#sellPage .sell-copy{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.45 !important;
-  font-weight:400 !important;
-  letter-spacing:0 !important;
-  text-transform:none !important;
-  color:#8a8a8a !important;
-  margin:0 0 22px !important;
-}
 
-#sellPage .sell-field label,
-#sellPage .sell-method-title{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-}
 
-#sellPage .sell-field input,
-#sellPage .sell-field textarea{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:13px !important;
-  line-height:1.25 !important;
-  font-weight:400 !important;
-  letter-spacing:0 !important;
-}
 
-#sellPage .sell-field input::placeholder,
-#sellPage .sell-field textarea::placeholder,
-#sellPage #watchContents::placeholder,
-#sellPage .custom-select-trigger{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-}
 
-#sellPage .custom-select-trigger{
-  min-height:44px !important;
-  padding:10px !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-}
 
-#sellPage .custom-select-options button{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-}
 
-#sellPage .sell-form{
-  grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-  column-gap:12px !important;
-  row-gap:12px !important;
-}
-#sellPage .sell-field-half{grid-column:span 1 !important;min-width:0 !important;}
-#sellPage .sell-form > .sell-field:not(.sell-field-half),
-#sellPage .sell-field-wide,
-#sellPage .sell-method-title,
-#sellPage .sell-methods,
-#sellPage .sell-form-message,
-#sellPage .sell-submit{grid-column:1 / -1 !important;}
 
-@media  (max-width:700px){
-  #sellPage .sell-title{
-    font-family:"Inter", Arial, sans-serif !important;
-    font-weight:500 !important;
-    font-size:18px !important;
-    line-height:1.2 !important;
-    text-transform:uppercase !important;
-    letter-spacing:0.03em !important;
-    transform:none !important;
-  }
-  #sellPage .sell-form{
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    column-gap:8px !important;
-    row-gap:10px !important;
-  }
-  #sellPage .sell-field label,
-  #sellPage .sell-method-title,
-  #sellPage .sell-field input::placeholder,
-  #sellPage .sell-field textarea::placeholder,
-  #sellPage #watchContents::placeholder,
-  #sellPage .custom-select-trigger{
-    font-size:11px !important;
-    line-height:1.15 !important;
-    letter-spacing:0.05em !important;
-  }
-  #sellPage .sell-field-half input,
-  #sellPage .sell-field-half .custom-select-trigger{
-    padding-left:8px !important;
-    padding-right:8px !important;
-  }
-}
+
+
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -3689,37 +2827,8 @@ body.product-page-open{
 
 </style>
 <style>
-/* Keep the existing box sizing/layout untouched; only match the SELECT typography to the small grey field text. */
-#sellPage .custom-select-trigger,
-#sellPage .custom-select-trigger:focus,
-#sellPage .custom-select-trigger:hover{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-}
-#sellPage .custom-select-options button{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-}
-#sellPage #watchContents::placeholder{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-}
+
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -3770,36 +2879,8 @@ body.product-page-open{
 
 </style>
 <style>
-#sellPage .sell-field-half .custom-select-trigger,
-#sellPage .sell-field-half .custom-select-trigger:focus,
-#sellPage .sell-field-half .custom-select-trigger:hover{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-}
-#sellPage .sell-field-half .custom-select-options button{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-}
-@media  (max-width:700px){
-  #sellPage .sell-field-half .custom-select-trigger,
-  #sellPage .sell-field-half .custom-select-trigger:focus,
-  #sellPage .sell-field-half .custom-select-trigger:hover,
-  #sellPage .sell-field-half .custom-select-options button{
-    font-size:8px !important;
-    line-height:1.15 !important;
-    letter-spacing:0.05em !important;
-  }
-}
+
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -3850,14 +2931,7 @@ body.product-page-open{
 
 </style>
 <style>
-#sellerName,
-#watchModel{
-  text-transform: uppercase !important;
-}
-#sellerName::placeholder,
-#watchModel::placeholder{
-  text-transform: uppercase !important;
-}
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -3908,33 +2982,7 @@ body.product-page-open{
 
 </style>
 <style>
-/* LOCK CONDITION SELECT TYPOGRAPHY ONLY — no box size/layout changes */
-html body #sellPage .sell-field .custom-select-wrap > button.custom-select-trigger,
-html body #sellPage .sell-field .custom-select-wrap > button.custom-select-trigger:hover,
-html body #sellPage .sell-field .custom-select-wrap > button.custom-select-trigger:focus,
-html body #sellPage .sell-field-half .custom-select-wrap > button.custom-select-trigger,
-html body #sellPage .sell-field-half .custom-select-wrap > button.custom-select-trigger:hover,
-html body #sellPage .sell-field-half .custom-select-wrap > button.custom-select-trigger:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-html body #sellPage .custom-select-options button{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -3985,35 +3033,7 @@ html body #sellPage .custom-select-options button{
 
 </style>
 <style>
-html body #sellPage .custom-select-wrap > button.custom-select-trigger,
-html body #sellPage .custom-select-wrap > button.custom-select-trigger:hover,
-html body #sellPage .custom-select-wrap > button.custom-select-trigger:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-html body #sellPage .custom-select-options button,
-html body #sellPage .custom-select-options button:hover,
-html body #sellPage .custom-select-options button:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4064,94 +3084,11 @@ html body #sellPage .custom-select-options button:focus{
 
 </style>
 <style>
-/* Condition select: selected placeholder and dropdown options must never resize on hover or in minimised/mobile view. */
-html body #sellPage .custom-select-wrap > button.custom-select-trigger,
-html body #sellPage .custom-select-wrap > button.custom-select-trigger:hover,
-html body #sellPage .custom-select-wrap > button.custom-select-trigger:focus,
-html body #sellPage .custom-select-wrap.is-open > button.custom-select-trigger{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-html body #sellPage .custom-select-options button,
-html body #sellPage .custom-select-options button:hover,
-html body #sellPage .custom-select-options button:focus,
-html body #sellPage .custom-select-options button[role="option"],
-html body #sellPage .custom-select-options button[role="option"]:hover,
-html body #sellPage .custom-select-options button[role="option"]:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-/* Brand autocomplete suggestions: match the Condition dropdown option style. */
-html body #sellPage .brand-suggestion-list .brand-suggestion-item,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus,
-html body #sellPage .year-suggestion-list .year-suggestion-item,
-html body #sellPage .year-suggestion-list .year-suggestion-item:hover,
-html body #sellPage .year-suggestion-list .year-suggestion-item:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-/* Brand placeholder keeps the same small grey form style. */
-html body #sellPage #watchBrand::placeholder{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-}
 
-@media  (max-width:700px){
-  html body #sellPage .custom-select-wrap > button.custom-select-trigger,
-  html body #sellPage .custom-select-wrap > button.custom-select-trigger:hover,
-  html body #sellPage .custom-select-wrap > button.custom-select-trigger:focus,
-  html body #sellPage .custom-select-wrap.is-open > button.custom-select-trigger,
-  html body #sellPage .custom-select-options button,
-  html body #sellPage .custom-select-options button:hover,
-  html body #sellPage .custom-select-options button:focus,
-  html body #sellPage .custom-select-options button[role="option"],
-  html body #sellPage .custom-select-options button[role="option"]:hover,
-  html body #sellPage .custom-select-options button[role="option"]:focus,
-  html body #sellPage .brand-suggestion-list .brand-suggestion-item,
-  html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
-  html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus,
-  html body #sellPage #watchBrand::placeholder{
-    font-size:11px !important;
-    line-height:1.15 !important;
-    letter-spacing:0.06em !important;
-    -webkit-text-size-adjust:100% !important;
-    text-size-adjust:100% !important;
-  }
-}
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4202,35 +3139,8 @@ html body #sellPage #watchBrand::placeholder{
 
 </style>
 <style>
-html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger,
-html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:hover,
-html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:focus,
-html body #sellPage .custom-select-wrap.has-value.is-open > button.custom-select-trigger{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:400 !important;
-  font-size:13px !important;
-  line-height:1.25 !important;
-  letter-spacing:0 !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-@media  (max-width:700px){
-  html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger,
-  html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:hover,
-  html body #sellPage .custom-select-wrap.has-value > button.custom-select-trigger:focus,
-  html body #sellPage .custom-select-wrap.has-value.is-open > button.custom-select-trigger{
-    font-family:"Inter", Arial, sans-serif !important;
-    font-weight:400 !important;
-    font-size:13px !important;
-    line-height:1.25 !important;
-    letter-spacing:0 !important;
-    color:#111 !important;
-  }
-}
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4281,141 +3191,14 @@ html body #sellPage .custom-select-wrap.has-value.is-open > button.custom-select
 
 </style>
 <style>
-/* Same physical box for Name, Brand, Model, Year, Box / papers and Condition. */
-html body #sellPage .sell-field input,
-html body #sellPage .sell-field textarea,
-html body #sellPage .sell-field .custom-select-trigger,
-html body #sellPage #watchContents{
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  width:100% !important;
-  min-width:0 !important;
-  height:44px !important;
-  min-height:44px !important;
-  max-height:44px !important;
-  padding:10px !important;
-  margin:0 !important;
-  border:1px solid #000 !important;
-  border-radius:0 !important;
-  background:#fff !important;
-  box-shadow:none !important;
-  appearance:none !important;
-  -webkit-appearance:none !important;
-}
 
-/* Text inside normal typed fields. */
-html body #sellPage .sell-field input,
-html body #sellPage #watchContents{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:400 !important;
-  font-size:13px !important;
-  line-height:1.25 !important;
-  letter-spacing:0 !important;
-  color:#111 !important;
-}
 
-/* Placeholder text inside boxes. */
-html body #sellPage .sell-field input::placeholder,
-html body #sellPage #watchContents::placeholder{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-}
 
-/* Condition placeholder: SELECT. */
-html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger,
-html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger:hover,
-html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#a7a7a7 !important;
-  opacity:1 !important;
-  justify-content:space-between !important;
-  text-align:left !important;
-}
 
-/* Condition selected value: match typed outputs. */
-html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger,
-html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:hover,
-html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:400 !important;
-  font-size:13px !important;
-  line-height:1.25 !important;
-  letter-spacing:0 !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-  justify-content:space-between !important;
-  text-align:left !important;
-}
 
-/* Condition dropdown options and Brand suggestions: stable, dark, same size in normal/hover/mobile. */
-html body #sellPage .custom-select-options button,
-html body #sellPage .custom-select-options button:hover,
-html body #sellPage .custom-select-options button:focus,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item:hover,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item:focus,
-html body #sellPage .year-suggestion-list .year-suggestion-item,
-html body #sellPage .year-suggestion-list .year-suggestion-item:hover,
-html body #sellPage .year-suggestion-list .year-suggestion-item:focus{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-/* Keep the textarea as the only taller field. */
-html body #sellPage .sell-field textarea{
-  display:block !important;
-  height:108px !important;
-  min-height:108px !important;
-  max-height:none !important;
-}
 
-@media  (max-width:700px){
-  html body #sellPage .sell-field input,
-  html body #sellPage .sell-field .custom-select-trigger,
-  html body #sellPage #watchContents{
-    height:44px !important;
-    min-height:44px !important;
-    max-height:44px !important;
-    padding:8px !important;
-  }
-  html body #sellPage .sell-field input,
-  html body #sellPage #watchContents,
-  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger{
-    font-size:13px !important;
-    line-height:1.25 !important;
-  }
-  html body #sellPage .sell-field input::placeholder,
-  html body #sellPage #watchContents::placeholder,
-  html body #sellPage .sell-field .custom-select-wrap:not(.has-value) > .custom-select-trigger,
-  html body #sellPage .custom-select-options button,
-  html body #sellPage .brand-suggestion-list .brand-suggestion-item,
-  html body #sellPage .year-suggestion-list .year-suggestion-item{
-    font-size:11px !important;
-    line-height:1.15 !important;
-    letter-spacing:0.06em !important;
-  }
-}
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4466,69 +3249,10 @@ html body #sellPage .sell-field textarea{
 
 </style>
 <style>
-/* Typed/entered text in Sell form fields */
-html body #sellPage .sell-field input,
-html body #sellPage .sell-field textarea,
-html body #sellPage #sellerName,
-html body #sellPage #watchBrand,
-html body #sellPage #watchModel,
-html body #sellPage #watchYear,
-html body #sellPage #watchContents,
-html body #sellPage #watchDetails{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  color:#111 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-/* Keep the compact all-caps look for the small fields the user fills in. */
-html body #sellPage #sellerName,
-html body #sellPage #watchBrand,
-html body #sellPage #watchModel,
-html body #sellPage #watchYear,
-html body #sellPage #watchContents{
-  text-transform:uppercase !important;
-}
 
-/* Selected Condition value: same size/style as the other completed field outputs. */
-html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger,
-html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:hover,
-html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:focus,
-html body #sellPage .sell-field .custom-select-wrap.has-value.is-open > .custom-select-trigger{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-@media  (max-width:700px){
-  html body #sellPage .sell-field input,
-  html body #sellPage .sell-field textarea,
-  html body #sellPage #sellerName,
-  html body #sellPage #watchBrand,
-  html body #sellPage #watchModel,
-  html body #sellPage #watchYear,
-  html body #sellPage #watchContents,
-  html body #sellPage #watchDetails,
-  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger,
-  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:hover,
-  html body #sellPage .sell-field .custom-select-wrap.has-value > .custom-select-trigger:focus{
-    font-size:11px !important;
-    line-height:1.15 !important;
-    letter-spacing:0.06em !important;
-  }
-}
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4579,16 +3303,6 @@ html body #sellPage .sell-field .custom-select-wrap.has-value.is-open > .custom-
 
 </style>
 <style>
-#sellPage .sell-copy{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:11px !important;
-  line-height:1.45 !important;
-  font-weight:400 !important;
-  color:#8a8a8a !important;
-  text-transform:none !important;
-  letter-spacing:0.02em !important;
-  margin:0 0 22px !important;
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4639,23 +3353,9 @@ html body #sellPage .sell-field .custom-select-wrap.has-value.is-open > .custom-
 
 </style>
 <style>
-html body #sellPage .sell-title{
-  margin-bottom:10px !important;
-}
-html body #sellPage .sell-copy{
-  margin:0 0 10px !important;
-}
-html body #sellPage .sell-form{
-  margin-top:0 !important;
-}
-@media  (max-width:700px){
-  html body #sellPage .sell-title{
-    margin-bottom:10px !important;
-  }
-  html body #sellPage .sell-copy{
-    margin:0 0 10px !important;
-  }
-}
+
+
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4707,173 +3407,18 @@ html body #sellPage .sell-form{
 </style>
 <!-- PROFESSIONAL FIX: prevent horizontal/landscape text enlargement on Sell form labels and controls. -->
 <style>
-/* iOS/Safari can enlarge small text in landscape unless every affected text node is explicitly locked. */
-html,
-body,
-html body #sellPage,
-html body #sellPage *{
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
-/* Keep Sell form labels the same compact professional size in normal and horizontal views. */
-html body #sellPage .sell-field > label,
-html body #sellPage .sell-method-title,
-html body #sellPage .sell-method-label,
-html body #sellPage .sell-submit,
-html body #sellPage .brand-suggestion-list .brand-suggestion-item,
-html body #sellPage .year-suggestion-list .year-suggestion-item,
-html body #sellPage .custom-select-options button{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
 
 /* Explicitly catch phone landscape where width may be over the mobile breakpoint. */
-@media  (orientation:landscape) and (max-height:500px){
-  html body #sellPage .sell-field > label,
-  html body #sellPage .sell-method-title,
-  html body #sellPage .sell-method-label,
-  html body #sellPage .sell-submit,
-  html body #sellPage .brand-suggestion-list .brand-suggestion-item,
-  html body #sellPage .custom-select-options button{
-    font-size:11px !important;
-    line-height:1.15 !important;
-    letter-spacing:0.06em !important;
-  }
-}
+
 
 
 html, body, button, input, textarea, select{
   -webkit-text-size-adjust:100% !important;
   text-size-adjust:100% !important;
 }
-#sellPage .sell-field label,
-#sellPage .sell-method-title{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:12px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.02em !important;
-  text-transform:uppercase !important;
-  white-space:nowrap !important;
-}
-@media  (max-width:640px){
-  #sellPage .sell-field label,
-  #sellPage .sell-method-title{
-    font-size:11px !important;
-    letter-spacing:0.02em !important;
-  }
-}
-@media  (max-width:380px){
-  #sellPage .sell-field label,
-  #sellPage .sell-method-title{
-    font-size:10px !important;
-    letter-spacing:0.02em !important;
-  }
-}
 
 
-/* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
-.lightbox,
-.lightbox *{
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.lightbox-image-wrap{
-  cursor: pointer !important;
-  touch-action: manipulation !important;
-}
-
-.lightbox-prev,
-.lightbox-next{
-  pointer-events: none !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  font-size: 132px !important;
-  opacity: .34 !important;
-  color: rgba(0,0,0,.38) !important;
-  text-shadow: 0 1px 16px rgba(255,255,255,.95) !important;
-}
-
-.lightbox-prev:focus,
-.lightbox-next:focus,
-.lightbox-prev:active,
-.lightbox-next:active,
-.lightbox-prev:hover,
-.lightbox-next:hover{
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  opacity: .42 !important;
-  color: rgba(0,0,0,.44) !important;
-}
-
-@media  (max-width: 767px){
-  .lightbox-prev,
-  .lightbox-next{
-    font-size: 104px !important;
-    opacity: .32 !important;
-  }
-}
-
-</style>
-<style id="ben-final-nav-matched-sell-labels">
-html, body, button, input, textarea, select, label{
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
-
-:root{
-  --ben-nav-text-size:12px;
-  --ben-nav-letter-spacing:0.02em;
-  --ben-nav-font-family:"Inter", Arial, sans-serif;
-  --ben-nav-font-weight:500;
-}
-
-@media  (max-width:640px), (orientation:landscape) and (max-height:500px){
-  :root{ --ben-nav-text-size:11px; }
-}
-
-@media  (max-width:380px){
-  :root{ --ben-nav-text-size:10px; }
-}
-
-#filterBtn,
-#filterBtn span,
-.nav-page-btn,
-.nav-page-btn span,
-#sellPage .sell-field > label,
-#sellPage .sell-method-title,
-#sellPage .sell-method-label,
-#sellPage .sell-submit{
-  font-family:var(--ben-nav-font-family) !important;
-  font-weight:var(--ben-nav-font-weight) !important;
-  font-size:var(--ben-nav-text-size) !important;
-  letter-spacing:var(--ben-nav-letter-spacing) !important;
-  line-height:1.15 !important;
-  text-transform:uppercase !important;
-  -webkit-text-size-adjust:100% !important;
-  text-size-adjust:100% !important;
-}
-
-#filterBtn,
-.nav-page-btn{
-  line-height:24px !important;
-}
-
-#sellPage .sell-field > label,
-#sellPage .sell-method-title{
-  white-space:nowrap !important;
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -4924,46 +3469,9 @@ html, body, button, input, textarea, select, label{
 
 </style>
 <style>
-/* Year autocomplete: uses the same clean dropdown styling as Brand suggestions. */
-html body #sellPage .year-autocomplete{
-  position:relative !important;
-}
-html body #sellPage .year-suggestion-list{
-  position:absolute !important;
-  left:0 !important;
-  right:0 !important;
-  top:100% !important;
-  z-index:20 !important;
-  background:#fff !important;
-  border:1px solid #000 !important;
-  border-top:none !important;
-  max-height:180px !important;
-  overflow:auto !important;
-}
-html body #sellPage .year-suggestion-list .year-suggestion-item,
-html body #sellPage .year-suggestion-list .year-suggestion-item:hover,
-html body #sellPage .year-suggestion-list .year-suggestion-item:focus{
-  display:block !important;
-  width:100% !important;
-  padding:10px !important;
-  margin:0 !important;
-  border:0 !important;
-  border-bottom:1px solid #e6e6e6 !important;
-  background:#fff !important;
-  text-align:left !important;
-  cursor:pointer !important;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-weight:500 !important;
-  font-size:11px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.06em !important;
-  text-transform:uppercase !important;
-  color:#111 !important;
-  opacity:1 !important;
-}
-html body #sellPage .year-suggestion-list .year-suggestion-item:last-child{
-  border-bottom:0 !important;
-}
+
+
+
 
 
 /* === V7: keep nav text same size on desktop/minimised views + remove contact autofill icon === */
@@ -5005,117 +3513,6 @@ html body .uk-time{
   }
 }
 
-html body #sellPage input::-webkit-contacts-auto-fill-button,
-html body #sellPage input::-webkit-credentials-auto-fill-button{
-  visibility:hidden !important;
-  display:none !important;
-  pointer-events:none !important;
-  position:absolute !important;
-  right:0 !important;
-}
-
-html body #sellPage input{
-  -webkit-appearance:none;
-  appearance:none;
-}
-
-
-/* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
-.lightbox,
-.lightbox *{
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.lightbox-image-wrap{
-  cursor: pointer !important;
-  touch-action: manipulation !important;
-}
-
-.lightbox-prev,
-.lightbox-next{
-  pointer-events: none !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  font-size: 132px !important;
-  opacity: .34 !important;
-  color: rgba(0,0,0,.38) !important;
-  text-shadow: 0 1px 16px rgba(255,255,255,.95) !important;
-}
-
-.lightbox-prev:focus,
-.lightbox-next:focus,
-.lightbox-prev:active,
-.lightbox-next:active,
-.lightbox-prev:hover,
-.lightbox-next:hover{
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  opacity: .42 !important;
-  color: rgba(0,0,0,.44) !important;
-}
-
-@media  (max-width: 767px){
-  .lightbox-prev,
-  .lightbox-next{
-    font-size: 104px !important;
-    opacity: .32 !important;
-  }
-}
-
-</style>
-<style id="ben-v9-stable-sell-nav-position">
-/* V9: stop BUY/SELL nav moving between Buy and Sell.
-   The sort row is invisible on Sell but its space is reserved, so the top nav stays locked. */
-html body .nav{
-  align-items:flex-start !important;
-}
-html body .nav-left{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-start !important;
-  gap:2px !important;
-  min-height:50px !important;
-}
-html body .nav-pages{
-  order:1 !important;
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-html body .filter-wrap-inline{
-  order:2 !important;
-  height:24px !important;
-  min-height:24px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-html body.sell-active .filter-wrap-inline{
-  display:flex !important;
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
-html body.sell-active #filterMenu{
-  display:none !important;
-}
-html body .nav-page-btn{
-  min-width:34px !important;
-}
-html body .nav-right,
-html body .uk-time{
-  height:24px !important;
-  min-height:24px !important;
-  line-height:24px !important;
-  display:flex !important;
-  align-items:center !important;
-  padding-top:0 !important;
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -5166,15 +3563,6 @@ html body .uk-time{
 
 </style>
 <style id="ben-v10-sort-vertical-align-fix">
-/* V10: keep SORT row vertically aligned under BUY/SELL while reserving its space on Sell. */
-html body .nav-left{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-start !important;
-  justify-content:flex-start !important;
-  gap:0 !important;
-  min-height:48px !important;
-}
 html body .nav-pages,
 html body .filter-wrap-inline,
 html body .filter-custom{
@@ -5212,12 +3600,6 @@ html body #filterBtn svg{
   display:block !important;
   flex:0 0 auto !important;
   transform:none !important;
-}
-html body.sell-active .filter-wrap-inline{
-  display:flex !important;
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
 }
 
 
@@ -5269,15 +3651,6 @@ html body.sell-active .filter-wrap-inline{
 
 </style>
 <style id="ben-v11-sort-under-buy-align">
-/* V11: align SORT text directly under BUY text, while keeping the hidden sort row space on Sell. */
-html body .nav-left{
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:flex-start !important;
-  justify-content:flex-start !important;
-  gap:0 !important;
-  min-height:48px !important;
-}
 html body .nav-pages{
   display:flex !important;
   align-items:center !important;
@@ -5332,12 +3705,6 @@ html body #filterBtn svg{
   flex:0 0 auto !important;
   transform:none !important;
 }
-html body.sell-active .filter-wrap-inline{
-  display:flex !important;
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -5388,10 +3755,6 @@ html body.sell-active .filter-wrap-inline{
 
 </style>
 <style id="ben-v12-nav-and-filter-dropdown-fix">
-/* V12: lock SORT directly under BUY and make the buy filter dropdown match the Sell form dropdown style. */
-html body .nav{
-  align-items:flex-start !important;
-}
 html body .nav-left{
   display:inline-flex !important;
   flex-direction:column !important;
@@ -5467,15 +3830,7 @@ html body #filterBtn svg{
   flex:0 0 auto !important;
   transform:none !important;
 }
-html body.sell-active .filter-wrap-inline{
-  display:flex !important;
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
-html body.sell-active #filterMenu{
-  display:none !important;
-}
+
 html body .nav-right,
 html body .uk-time{
   height:24px !important;
@@ -5484,24 +3839,6 @@ html body .uk-time{
   display:inline-flex !important;
   align-items:center !important;
   padding-top:0 !important;
-}
-
-/* Buy SORT dropdown styled like the Sell form Condition dropdown. */
-html body #filterMenu.filter-menu{
-  position:absolute !important;
-  left:0 !important;
-  right:auto !important;
-  top:calc(100% + 6px) !important;
-  z-index:9999 !important;
-  min-width:210px !important;
-  max-width:min(260px, calc(100vw - 24px)) !important;
-  padding:0 !important;
-  background:#fff !important;
-  color:#111 !important;
-  border:1px solid currentColor !important;
-  border-radius:0 !important;
-  box-shadow:0 12px 30px rgba(0,0,0,.12) !important;
-  overflow:hidden !important;
 }
 html body #filterMenu .filter-search-wrap{
   padding:8px !important;
@@ -5568,7 +3905,7 @@ html body #filterMenu .filter-option:hover,
 html body #filterMenu .filter-option:focus,
 html body #filterMenu .filter-check:hover,
 html body #filterMenu .filter-check:focus-within{
-  background:rgba(0,0,0,.05) !important;
+  background:transparent !important;
   outline:none !important;
 }
 html body #filterMenu .filter-check:last-child,
@@ -5747,16 +4084,6 @@ html body #filterMenu .filter-check input{
 
 </style>
 <style id="ben-v14-lighter-dropdown-section-labels">
-/* V14: make the SORT and FILTER section headings in the dropdown lighter, matching the Sell form labels. */
-html body #filterMenu .filter-section-label{
-  color:rgba(0,0,0,.45) !important;
-  opacity:1 !important;
-  font-size:10px !important;
-  line-height:1.15 !important;
-  letter-spacing:0.08em !important;
-  font-weight:500 !important;
-  padding:10px 12px 7px !important;
-}
 
 html body #filterMenu .filter-option,
 html body #filterMenu .status-filter-option{
@@ -5828,95 +4155,6 @@ html body #filterMenu .status-filter-option{
   font-size:12px !important;
   line-height:1.15 !important;
   letter-spacing:0.02em !important;
-}
-
-
-/* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
-.lightbox,
-.lightbox *{
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.lightbox-image-wrap{
-  cursor: pointer !important;
-  touch-action: manipulation !important;
-}
-
-.lightbox-prev,
-.lightbox-next{
-  pointer-events: none !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  font-size: 132px !important;
-  opacity: .34 !important;
-  color: rgba(0,0,0,.38) !important;
-  text-shadow: 0 1px 16px rgba(255,255,255,.95) !important;
-}
-
-.lightbox-prev:focus,
-.lightbox-next:focus,
-.lightbox-prev:active,
-.lightbox-next:active,
-.lightbox-prev:hover,
-.lightbox-next:hover{
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  opacity: .42 !important;
-  color: rgba(0,0,0,.44) !important;
-}
-
-@media  (max-width: 767px){
-  .lightbox-prev,
-  .lightbox-next{
-    font-size: 104px !important;
-    opacity: .32 !important;
-  }
-}
-
-</style>
-<style id="ben-v25-sell-start-grid-align">
-/* V25: align SELL YOUR WATCH start with the Buy product image top edge. */
-html body #sell,
-html body #sellPage,
-html body #sellSection,
-html body .sell-page,
-html body .sell-section{
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-html body .sell-container,
-html body .sell-content,
-html body .sell-form-wrap,
-html body .sell-form-section{
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-html body .sell-title,
-html body .sell-heading,
-html body #sell h1,
-html body #sell h2,
-html body #sellPage h1,
-html body #sellPage h2,
-html body #sellSection h1,
-html body #sellSection h2,
-html body .sell-page h1,
-html body .sell-page h2,
-html body .sell-section h1,
-html body .sell-section h2{
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-/* Match the Buy grid content start after the nav/sort area */
-html body .sell-view,
-html body .sell-panel{
-  padding-top: 0 !important;
 }
 
 
@@ -6122,72 +4360,7 @@ html body .nav-time{
 }
 
 </style>
-<style id="ben-v30-buy-sell-nav-tighten">
-/* V30: tighten BUY/SELL spacing for a cleaner pro header. */
-html body .nav-pages{
-  gap: 14px !important;
-}
-
-@media  (max-width:640px){
-  html body .nav-pages{
-    gap: 12px !important;
-  }
-}
-
-
-/* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
-.lightbox,
-.lightbox *{
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.lightbox-image-wrap{
-  cursor: pointer !important;
-  touch-action: manipulation !important;
-}
-
-.lightbox-prev,
-.lightbox-next{
-  pointer-events: none !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  font-size: 132px !important;
-  opacity: .34 !important;
-  color: rgba(0,0,0,.38) !important;
-  text-shadow: 0 1px 16px rgba(255,255,255,.95) !important;
-}
-
-.lightbox-prev:focus,
-.lightbox-next:focus,
-.lightbox-prev:active,
-.lightbox-next:active,
-.lightbox-prev:hover,
-.lightbox-next:hover{
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  opacity: .42 !important;
-  color: rgba(0,0,0,.44) !important;
-}
-
-@media  (max-width: 767px){
-  .lightbox-prev,
-  .lightbox-next{
-    font-size: 104px !important;
-    opacity: .32 !important;
-  }
-}
-
-</style>
 <style id="ben-v31-info-nav-page">
-/* V31: INFO navigation page. Uses the same restrained styling as SELL for a premium FAQ/info area. */
-html body.info-active .grid,
-html body.info-active #noResults{
-  display:none !important;
-}
 
 html body.info-active .filter-wrap-inline{
   display:flex !important;
@@ -6380,12 +4553,6 @@ html body.info-active #filterMenu{
 
 </style>
 <style id="ben-v32-info-start-grid-align">
-/* V32: align INFO page start with the Buy product image top edge, matching SELL. */
-html body #infoPage,
-html body .info-page{
-  margin-top:0 !important;
-  padding-top:0 !important;
-}
 
 html body .info-panel{
   padding-top:0 !important;
@@ -6455,160 +4622,6 @@ html body .info-hero-image{
 }
 
 </style>
-<style id="ben-v33-sell-info-style-match">
-/* V33: make the SELL page match the INFO page's uppercase, restrained typography. */
-html body #sellPage .sell-title{
-  margin:0 0 18px !important;
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:12px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  text-transform:uppercase !important;
-  letter-spacing:0.08em !important;
-}
-
-html body #sellPage .sell-copy{
-  font-size:11px !important;
-  line-height:1.72 !important;
-  letter-spacing:0.02em !important;
-  text-transform:none !important;
-  opacity:0.76 !important;
-  color:#000 !important;
-}
-
-html body #sellPage .sell-field label,
-html body #sellPage .sell-method-title,
-html body #sellPage .sell-submit,
-html body #sellPage .custom-select-trigger,
-html body #sellPage .custom-select-options button{
-  font-family:"Inter", Arial, sans-serif !important;
-  font-size:11px !important;
-  line-height:1.2 !important;
-  font-weight:500 !important;
-  text-transform:uppercase !important;
-  letter-spacing:0.12em !important;
-}
-
-html body #sellPage input::placeholder,
-html body #sellPage textarea::placeholder{
-  text-transform:uppercase !important;
-  letter-spacing:0.06em !important;
-}
-
-
-/* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
-.lightbox,
-.lightbox *{
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.lightbox-image-wrap{
-  cursor: pointer !important;
-  touch-action: manipulation !important;
-}
-
-.lightbox-prev,
-.lightbox-next{
-  pointer-events: none !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  font-size: 132px !important;
-  opacity: .34 !important;
-  color: rgba(0,0,0,.38) !important;
-  text-shadow: 0 1px 16px rgba(255,255,255,.95) !important;
-}
-
-.lightbox-prev:focus,
-.lightbox-next:focus,
-.lightbox-prev:active,
-.lightbox-next:active,
-.lightbox-prev:hover,
-.lightbox-next:hover{
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  opacity: .42 !important;
-  color: rgba(0,0,0,.44) !important;
-}
-
-@media  (max-width: 767px){
-  .lightbox-prev,
-  .lightbox-next{
-    font-size: 104px !important;
-    opacity: .32 !important;
-  }
-}
-
-</style>
-<style id="sell-copy-case-fix-final">
-html body section#sellPage p.sell-copy,
-html body section#sellPage p#sellIntroCopy,
-html body #sellPage .sell-panel > p.sell-copy{
-  text-transform:none !important;
-  letter-spacing:0.02em !important;
-}
-
-
-/* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
-.lightbox,
-.lightbox *{
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.lightbox-image-wrap{
-  cursor: pointer !important;
-  touch-action: manipulation !important;
-}
-
-.lightbox-prev,
-.lightbox-next{
-  pointer-events: none !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  font-size: 132px !important;
-  opacity: .34 !important;
-  color: rgba(0,0,0,.38) !important;
-  text-shadow: 0 1px 16px rgba(255,255,255,.95) !important;
-}
-
-.lightbox-prev:focus,
-.lightbox-next:focus,
-.lightbox-prev:active,
-.lightbox-next:active,
-.lightbox-prev:hover,
-.lightbox-next:hover{
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  opacity: .42 !important;
-  color: rgba(0,0,0,.44) !important;
-}
-
-@media  (max-width: 767px){
-  .lightbox-prev,
-  .lightbox-next{
-    font-size: 104px !important;
-    opacity: .32 !important;
-  }
-}
-
-</style>
-<script id="sell-copy-case-fix-script">
-document.addEventListener('DOMContentLoaded', function(){
-  var el = document.getElementById('sellIntroCopy') || document.querySelector('#sellPage .sell-copy');
-  if(el){
-    el.textContent = 'Please share the details of your watch. We will review your submission and come back to you directly.';
-    el.style.setProperty('text-transform','none','important');
-    el.style.setProperty('letter-spacing','0.02em','important');
-  }
-});
-</script>
 <style id="stapleford-cart-nav-perfect-fix">
 /* Align CART with the existing right-side nav typography and edge. */
 html body .nav-right{
@@ -6951,13 +4964,6 @@ html body .nav-right .uk-time{
   display:inline-flex !important;
   align-items:center !important;
 }
-html body.sell-active .filter-wrap-inline,
-html body.info-active .filter-wrap-inline{
-  display:inline-flex !important;
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
 @media  (max-width:640px){
   html body .nav-pages{ gap:12px !important; }
   html body .filter-wrap-inline{ gap:12px !important; }
@@ -7022,28 +5028,8 @@ html body.info-active .filter-wrap-inline{
 
 </style>
 <style id="stapleford-cart-visible-all-pages-final">
-/* FINAL: keep CART visible on BUY, SELL and INFO while hiding only SORT off the BUY page. */
-html body.sell-active .filter-wrap-inline,
-html body.info-active .filter-wrap-inline{
-  display:inline-flex !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-html body.sell-active #cartOpen,
-html body.info-active #cartOpen{
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-html body.sell-active .filter-custom,
-html body.info-active .filter-custom,
-html body.sell-active #filterMenu,
-html body.info-active #filterMenu{
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
+
+
 
 
 /* === GALLERY: CLEAN SIDE-TAP NAVIGATION, NO CLICK FLASH === */
@@ -7261,22 +5247,6 @@ html body .nav-right .uk-time{
   white-space:nowrap !important;
 }
 
-html body.sell-active .filter-wrap-inline,
-html body.info-active .filter-wrap-inline{
-  display:flex !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-
-html body.sell-active .filter-custom,
-html body.info-active .filter-custom,
-html body.sell-active #filterMenu,
-html body.info-active #filterMenu{
-  visibility:hidden !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
 
 @media  (max-width:520px){
   html body .nav{
@@ -8964,9 +6934,8 @@ html body #cartDrawer.cart-drawer.open{
 </button>
 <div class="nav">
 <div class="nav-left">
-<nav aria-label="Buy, sell or view information" class="nav-pages">
+<nav aria-label="Buy or view information" class="nav-pages">
 <button aria-current="page" class="nav-page-btn" id="buyNav" type="button"><span>BUY</span></button>
-<button aria-current="false" class="nav-page-btn" id="sellNav" type="button"><span>SELL</span></button>
 <button aria-current="false" class="nav-page-btn" id="infoNav" type="button"><span>INFO</span></button>
 </nav>
 <div class="filter-wrap-inline">
@@ -9006,64 +6975,6 @@ html body #cartDrawer.cart-drawer.open{
 <button class="show-more-btn" id="showMoreBtn" type="button">SHOW MORE</button>
 </div>
 <div class="no-results" hidden="" id="noResults">No watches found</div>
-<section class="sell-page" hidden="" id="sellPage">
-<div class="sell-panel">
-<h1 class="sell-title">SELL YOUR WATCH</h1>
-<p class="sell-copy" id="sellIntroCopy" style="text-transform:none !important; letter-spacing:0.02em !important;">Please share the details of your watch. We will review your submission and come back to you directly.</p>
-<form action="https://formspree.io/f/mdavgyov" class="sell-form" id="sellForm" method="POST" novalidate="">
-<input name="_subject" type="hidden" value="NEW WATCH SUBMISSION - STAPLEFORD WATCHES"/>
-<div class="sell-field">
-<label for="sellerName">NAME</label>
-<input autocapitalize="characters" autocomplete="name" id="sellerName" name="name" placeholder="FIRST LAST" spellcheck="false" style="text-transform:uppercase" type="text"/>
-</div>
-<div class="sell-field">
-<label for="sellerEmail">EMAIL</label>
-<input autocapitalize="characters" autocomplete="email" autocorrect="off" id="sellerEmail" name="email" placeholder="EMAIL ADDRESS" spellcheck="false" style="text-transform:uppercase" type="email"/>
-</div>
-<div class="sell-field">
-<label for="sellerPhone">PHONE / WHATSAPP</label>
-<input autocapitalize="off" autocomplete="tel" autocorrect="off" id="sellerPhone" inputmode="tel" name="phone" placeholder="PHONE NUMBER" spellcheck="false" type="tel"/>
-</div>
-<div class="sell-field sell-field-wide brand-field brand-autocomplete">
-<label for="watchBrand">BRAND</label>
-<input aria-autocomplete="list" aria-controls="brandSuggestionList" aria-expanded="false" autocapitalize="characters" autocomplete="off" autocorrect="off" id="watchBrand" name="brand" placeholder="START TYPING BRAND" spellcheck="false" style="text-transform:uppercase;text-transform:uppercase" type="text"/>
-<div class="brand-suggestion-list" hidden="" id="brandSuggestionList" role="listbox"></div>
-</div>
-<div class="sell-field sell-field-half">
-<label for="watchModel">MODEL</label>
-<input autocapitalize="characters" autocomplete="off" autocorrect="off" id="watchModel" name="model" placeholder="MODEL" spellcheck="false" style="text-transform:uppercase" type="text"/>
-</div>
-<div class="sell-field sell-field-half year-autocomplete">
-<label for="watchYear">YEAR</label>
-<input aria-autocomplete="list" aria-controls="yearSuggestionList" aria-expanded="false" autocomplete="off" id="watchYear" inputmode="numeric" maxlength="4" name="year" pattern="[0-9]{4}" placeholder="START TYPING YEAR" type="text"/>
-<div class="brand-suggestion-list year-suggestion-list" hidden="" id="yearSuggestionList" role="listbox"></div>
-</div>
-<div class="sell-field sell-field-half">
-<label for="watchContents">BOX / PAPERS</label>
-<input autocomplete="off" autocorrect="off" id="watchContents" name="contents" placeholder="" type="text"/>
-</div>
-<div class="sell-field sell-field-half">
-<label for="watchCondition">CONDITION</label>
-<div class="custom-select-wrap" data-custom-select="">
-<input id="watchCondition" name="condition" type="hidden" value=""/>
-<button aria-expanded="false" aria-haspopup="listbox" class="custom-select-trigger" type="button">SELECT</button>
-<div class="custom-select-options" role="listbox">
-<button data-value="NEW" role="option" type="button">NEW</button>
-<button data-value="EXCELLENT" role="option" type="button">EXCELLENT</button>
-<button data-value="GOOD" role="option" type="button">GOOD</button>
-<button data-value="FAIR" role="option" type="button">FAIR</button>
-</div>
-</div>
-</div>
-<div class="sell-field sell-field-wide">
-<label for="watchDetails">ADDITIONAL INFORMATION</label>
-<textarea autocapitalize="characters" id="watchDetails" name="details" placeholder="OPTIONAL" spellcheck="false" style="text-transform:uppercase"></textarea>
-</div>
-<div aria-live="polite" class="sell-form-message" hidden="" id="sellFormMessage">MISSING FIELD</div>
-<button class="sell-submit" type="submit">SUBMIT</button>
-</form>
-</div>
-</section>
 <section class="info-page" hidden="" id="infoPage">
 <div class="info-panel">
 <h1 class="info-title">INFO</h1>
@@ -9397,7 +7308,7 @@ function getRequestedProductToken(){
   if(queryToken) return queryToken;
   if(window.location.hash && window.location.hash.length > 1){
     const hashToken = decodeURIComponent(window.location.hash.slice(1));
-    if(["buy", "sell", "info", "delivery", "returns"].includes(hashToken.toLowerCase())) return "";
+    if(["buy", "info", "delivery", "returns"].includes(hashToken.toLowerCase())) return "";
     return hashToken;
   }
   return "";
@@ -9626,122 +7537,28 @@ function ensureListingLimitMatchesViewport(){
 }
 
 const buyNav = document.getElementById("buyNav");
-const sellNav = document.getElementById("sellNav");
 const infoNav = document.getElementById("infoNav");
-const sellPage = document.getElementById("sellPage");
 const infoPage = document.getElementById("infoPage");
-const sellForm = document.getElementById("sellForm");
 const logoHome = document.getElementById("logoHome");
 let currentPage = "buy";
 
 
-const sellFormMessage = document.getElementById("sellFormMessage");
-const sellRequiredGroups = [
-  { fields: ["sellerName"], message: "MISSING FIELD" },
-  { fields: ["sellerEmail", "sellerPhone"], message: "MISSING FIELD" },
-  { fields: ["watchBrand"], message: "MISSING FIELD" }
-];
-
-function getSellFieldWrap(fieldId){
-  return document.getElementById(fieldId)?.closest(".sell-field");
-}
-
-function setSellFieldError(fieldId, hasError){
-  const wrap = getSellFieldWrap(fieldId);
-  if(wrap) wrap.classList.toggle("has-error", hasError);
-}
-
-function clearSellErrors(){
-  sellForm?.querySelectorAll(".sell-field.has-error").forEach(field => field.classList.remove("has-error"));
-  if(sellFormMessage){
-    sellFormMessage.hidden = true;
-    sellFormMessage.classList.remove("show");
-  }
-}
-
-function validateSellForm(){
-  clearSellErrors();
-  let valid = true;
-  let firstMissing = null;
-
-  sellRequiredGroups.forEach(group => {
-    const groupHasValue = group.fields.some(fieldId => {
-      const field = document.getElementById(fieldId);
-      return field && String(field.value || "").trim().length > 0;
-    });
-
-    if(!groupHasValue){
-      valid = false;
-      group.fields.forEach(fieldId => setSellFieldError(fieldId, true));
-      if(!firstMissing) firstMissing = document.getElementById(group.fields[0]);
-    }
-  });
-
-  const emailField = document.getElementById("sellerEmail");
-  if(emailField && emailField.value.trim() && !emailField.checkValidity()){
-    valid = false;
-    setSellFieldError("sellerEmail", true);
-    if(!firstMissing) firstMissing = emailField;
-  }
-
-  const yearField = document.getElementById("watchYear");
-  if(yearField && yearField.value.trim()){
-    const yearValue = yearField.value.trim();
-    const yearNumber = Number(yearValue);
-    if(!/^\d{4}$/.test(yearValue) || yearNumber < 1900 || yearNumber > new Date().getFullYear()){
-      valid = false;
-      setSellFieldError("watchYear", true);
-      if(!firstMissing) firstMissing = yearField;
-    }
-  }
-
-  if(!valid && sellFormMessage){
-    sellFormMessage.textContent = "MISSING FIELD";
-    sellFormMessage.hidden = false;
-    sellFormMessage.classList.add("show");
-    firstMissing?.focus({ preventScroll:true });
-    firstMissing?.scrollIntoView({ behavior:"smooth", block:"center" });
-  }
-
-  return valid;
-}
-
-sellForm?.addEventListener("submit", (e) => {
-  if(!validateSellForm()) e.preventDefault();
-});
-
-sellForm?.querySelectorAll("input, textarea").forEach(field => {
-  field.addEventListener("input", () => {
-    field.closest(".sell-field")?.classList.remove("has-error");
-    if(sellForm?.querySelectorAll(".sell-field.has-error").length === 0 && sellFormMessage){
-      sellFormMessage.hidden = true;
-      sellFormMessage.classList.remove("show");
-    }
-  });
-});
-
-
 function setPage(page){
-  currentPage = page === "sell" || page === "info" ? page : "buy";
-  const isSell = currentPage === "sell";
+  currentPage = page === "info" ? "info" : "buy";
   const isInfo = currentPage === "info";
   const isBuy = currentPage === "buy";
-  if(sellPage) sellPage.hidden = !isSell;
   if(infoPage) infoPage.hidden = !isInfo;
-  document.body.classList.toggle("sell-active", isSell);
   document.body.classList.toggle("info-active", isInfo);
   buyNav?.setAttribute("aria-current", isBuy ? "page" : "false");
-  sellNav?.setAttribute("aria-current", isSell ? "page" : "false");
   infoNav?.setAttribute("aria-current", isInfo ? "page" : "false");
   if(!getRequestedProductToken()){
-    document.title = isSell ? "Sell a watch | Stapleford Watches" : isInfo ? "Info | Stapleford Watches" : "Stapleford Watches | Pre-Owned Luxury Watches";
+    document.title = isInfo ? "Info" : "Stapleford Watches | Pre-Owned Luxury Watches";
   }
   if(filterMenu) filterMenu.style.display = "none";
   if(isBuy) render();
 }
 
 buyNav?.addEventListener("click", () => setPage("buy"));
-sellNav?.addEventListener("click", () => setPage("sell"));
 infoNav?.addEventListener("click", () => setPage("info"));
 logoHome?.addEventListener("click", () => {
   searchQuery = "";
@@ -9757,123 +7574,6 @@ logoHome?.addEventListener("click", () => {
   window.scrollTo(0, 0);
 });
 
-
-const luxuryWatchBrands = [
-  "ROLEX", "PATEK PHILIPPE", "AUDEMARS PIGUET", "RICHARD MILLE", "OMEGA", "CARTIER", "TUDOR", "ZENITH",
-  "VACHERON CONSTANTIN", "JAEGER-LECOULTRE", "BREITLING", "IWC", "PANERAI", "TAG HEUER", "HUBLOT",
-  "BREGUET", "BLANCPAIN", "CHOPARD", "GIRARD-PERREGAUX", "ULYSSE NARDIN", "A. LANGE & SÖHNE",
-  "GRAND SEIKO", "SEIKO", "LONGINES", "TISSOT", "BELL & ROSS", "BREMONT", "CHRISTOPHER WARD", "NOMOS",
-  "ORIS", "PIAGET", "BULGARI", "FRANCK MULLER", "F.P. JOURNE", "MB&F", "DE BETHUNE", "PARMIGIANI FLEURIER",
-  "ROGER DUBUIS", "AKRIVIA", "LAURENT FERRIER", "H. MOSER & CIE", "URWERK", "RESSENCE", "GREUBEL FORSEY",
-  "JACOB & CO.", "MAURICE LACROIX", "FREDERIQUE CONSTANT", "BAUME & MERCIER", "RADO", "HAMILTON", "SINN",
-  "DOXA", "SQUALE", "MING", "STUDIO UNDERD0G"
-];
-
-const brandInput = document.getElementById("watchBrand");
-const brandSuggestionList = document.getElementById("brandSuggestionList");
-
-function hideBrandSuggestions(){
-  if(!brandSuggestionList || !brandInput) return;
-  brandSuggestionList.hidden = true;
-  brandSuggestionList.innerHTML = "";
-  brandInput.setAttribute("aria-expanded", "false");
-}
-
-function showBrandSuggestions(){
-  if(!brandSuggestionList || !brandInput) return;
-  const query = brandInput.value.trim().toLowerCase();
-  if(query.length < 1){
-    hideBrandSuggestions();
-    return;
-  }
-  const matches = luxuryWatchBrands
-    .filter(brand => brand.toLowerCase().includes(query))
-    .slice(0, 8);
-
-  if(!matches.length){
-    hideBrandSuggestions();
-    return;
-  }
-
-  brandSuggestionList.innerHTML = matches.map(brand =>
-    `<button type="button" class="brand-suggestion-item" role="option" data-brand="${brand.replace(/"/g, '&quot;')}">${brand}</button>`
-  ).join("");
-  brandSuggestionList.hidden = false;
-  brandInput.setAttribute("aria-expanded", "true");
-}
-
-brandInput?.addEventListener("input", showBrandSuggestions);
-brandInput?.addEventListener("focus", showBrandSuggestions);
-brandInput?.addEventListener("keydown", (e) => {
-  if(e.key === "Escape") hideBrandSuggestions();
-});
-
-brandSuggestionList?.addEventListener("pointerdown", (e) => {
-  const option = e.target.closest(".brand-suggestion-item");
-  if(!option || !brandInput) return;
-  e.preventDefault();
-  brandInput.value = option.dataset.brand || option.textContent.trim();
-  hideBrandSuggestions();
-  brandInput.focus();
-});
-
-document.addEventListener("click", (e) => {
-  if(!e.target.closest(".brand-autocomplete")) hideBrandSuggestions();
-  if(!e.target.closest(".year-autocomplete")) hideYearSuggestions();
-});
-
-const yearInput = document.getElementById("watchYear");
-const yearSuggestionList = document.getElementById("yearSuggestionList");
-const currentYear = new Date().getFullYear();
-const watchYears = Array.from({ length: currentYear - 1900 + 1 }, (_, index) => String(currentYear - index));
-
-function hideYearSuggestions(){
-  if(!yearSuggestionList || !yearInput) return;
-  yearSuggestionList.hidden = true;
-  yearSuggestionList.innerHTML = "";
-  yearInput.setAttribute("aria-expanded", "false");
-}
-
-function showYearSuggestions(){
-  if(!yearSuggestionList || !yearInput) return;
-  const query = yearInput.value.trim();
-  if(query.length < 1){
-    hideYearSuggestions();
-    return;
-  }
-
-  const matches = watchYears
-    .filter(year => year.startsWith(query))
-    .slice(0, 8);
-
-  if(!matches.length){
-    hideYearSuggestions();
-    return;
-  }
-
-  yearSuggestionList.innerHTML = matches.map(year =>
-    `<button type="button" class="year-suggestion-item" role="option" data-year="${year}">${year}</button>`
-  ).join("");
-  yearSuggestionList.hidden = false;
-  yearInput.setAttribute("aria-expanded", "true");
-}
-
-yearInput?.addEventListener("input", () => {
-  yearInput.value = yearInput.value.replace(/\D/g, "").slice(0, 4);
-  showYearSuggestions();
-});
-yearInput?.addEventListener("focus", showYearSuggestions);
-yearInput?.addEventListener("keydown", (e) => {
-  if(e.key === "Escape") hideYearSuggestions();
-});
-yearSuggestionList?.addEventListener("pointerdown", (e) => {
-  const option = e.target.closest(".year-suggestion-item");
-  if(!option || !yearInput) return;
-  e.preventDefault();
-  yearInput.value = option.dataset.year || option.textContent.trim();
-  hideYearSuggestions();
-  yearInput.focus();
-});
 
 document.getElementById("filterBtn").onclick = () => {
   const isOpen = filterMenu.style.display === "block";
@@ -10609,7 +8309,6 @@ document.addEventListener("keydown", (e) => {
 
 
 function render(){
- if(currentPage === "sell") return;
  let items=[...watches];
 
  if(showAvailable || showSold){
@@ -10999,25 +8698,6 @@ document.addEventListener("DOMContentLoaded", function(){
       if(!select.contains(event.target)){
         select.classList.remove("is-open");
         trigger.setAttribute("aria-expanded", "false");
-      }
-    });
-  });
-});
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  ["sellerName", "watchModel"].forEach(function(id){
-    const input = document.getElementById(id);
-    if(!input) return;
-    input.addEventListener("input", function(){
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      const upper = input.value.toUpperCase();
-      if(input.value !== upper){
-        input.value = upper;
-        if(typeof start === "number" && typeof end === "number"){
-          input.setSelectionRange(start, end);
-        }
       }
     });
   });
@@ -13459,29 +11139,7 @@ html body .lightbox.open .lightbox-site-footer .footer-links a{
 @media  (min-width:1280px){
   :root{ --sw-page-edge:40px; --sw-page-max:1360px; }
 }
-html body .logo,
-html body .nav,
-html body .grid,
-html body > footer,
-html body .sell-page,
-html body .info-page,
-html body #sellPage,
-html body #infoPage{
-  width:var(--sw-page-width) !important;
-  max-width:var(--sw-page-width) !important;
-  margin-left:auto !important;
-  margin-right:auto !important;
-  box-sizing:border-box !important;
-}
-html body .nav,
-html body > footer,
-html body .sell-page,
-html body .info-page,
-html body #sellPage,
-html body #infoPage{
-  padding-left:0 !important;
-  padding-right:0 !important;
-}
+
 html body .nav{
   display:flex !important;
   align-items:center !important;
@@ -14779,12 +12437,12 @@ html body #cartDrawer.cart-drawer.open{
   }
 }
 
-/* Subtle site-wide cart-style hover language: light grey surface, no fade. */
+/* No grey hover surfaces: controls keep their resting appearance on hover. */
 html body #cartDrawer .cart-checkout:hover,
 html body #cartDrawer .cart-close:hover,
 html body #cartDrawer .cart-continue:hover,
 html body #cartDrawer .cart-remove:hover{
-  background:#f4f4f4 !important;
+  background:transparent !important;
   color:#000 !important;
   opacity:1 !important;
 }
@@ -14798,7 +12456,7 @@ html body #cartDrawer .cart-remove{
   transition:background 160ms ease, color 160ms ease !important;
 }
 
-/* BUY NOW: keep the button grounded. No upward hover animation or shadow jump. */
+/* BUY NOW: keep the button grounded and visually unchanged on hover. */
 html body .lightbox-detail-buy,
 html body .lightbox-detail-buy:hover,
 html body .lightbox-detail-buy:active,
@@ -14811,9 +12469,9 @@ html body .lightbox-detail-buy{
 }
 html body .lightbox-detail-buy:hover,
 html body .lightbox-detail-buy:focus-visible{
-  background:#f4f4f4 !important;
-  color:#000 !important;
-  border-color:#f4f4f4 !important;
+  background:#000 !important;
+  color:#fff !important;
+  border-color:#000 !important;
 }
 </style>
 </body>
