@@ -5618,6 +5618,36 @@ html body.product-page-open .lightbox.open .lightbox-related-title{
     font-size:10px !important;
   }
 }
+
+
+/* FINAL POLISH: product-detail accordion hover/cursor states */
+html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle,
+html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle *,
+html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle,
+html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle *,
+html body.product-page-open #lightbox.open .lightbox-detail-description-toggle,
+html body.product-page-open #lightbox.open .lightbox-detail-description-toggle *{
+  cursor:pointer !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle:hover,
+html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle:focus-visible,
+html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle:hover,
+html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle:focus-visible,
+html body.product-page-open #lightbox.open .lightbox-detail-description-toggle:hover,
+html body.product-page-open #lightbox.open .lightbox-detail-description-toggle:focus-visible{
+  color:#000 !important;
+  background:transparent !important;
+  opacity:1 !important;
+  outline:none !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle:hover *,
+html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle:hover *,
+html body.product-page-open #lightbox.open .lightbox-detail-description-toggle:hover *{
+  color:#000 !important;
+  text-decoration:none !important;
+}
 </style></head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -5674,12 +5704,12 @@ html body.product-page-open .lightbox.open .lightbox-related-title{
 <p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
 <p>Collection is also available upon request.</p>
 <p><strong>International:</strong> Please contact us for a shipping quote.</p>
-<p>For more details, please refer to <a class="lightbox-detail-policy-link" data-info-target="delivery" href="/#delivery">Delivery</a>.</p>
+
 </div>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-returns"><svg focusable="false" viewbox="0 0 24 24"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a4.5 4.5 0 1 1 0 9h-3"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
 <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
-<p>For more details, please refer to <a class="lightbox-detail-policy-link" data-info-target="returns" href="/#returns">Returns</a>.</p>
+
 </div>
 <section class="lightbox-related" hidden="" id="lightboxRelated">
 <h2 class="lightbox-related-title">YOU MIGHT ALSO LIKE</h2>
