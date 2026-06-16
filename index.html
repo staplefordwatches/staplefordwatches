@@ -5704,12 +5704,12 @@ html body.product-page-open #lightbox.open .lightbox-detail-description-toggle:h
 <p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
 <p>Collection is also available upon request.</p>
 <p><strong>International:</strong> Please contact us for a shipping quote.</p>
-
+<p>For more details, please refer to <a class="lightbox-detail-policy-link" data-info-target="delivery" href="/#delivery">Delivery</a>.</p>
 </div>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-returns"><svg focusable="false" viewbox="0 0 24 24"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a4.5 4.5 0 1 1 0 9h-3"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
 <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
-
+<p>For more details, please refer to <a class="lightbox-detail-policy-link" data-info-target="returns" href="/#returns">Returns</a>.</p>
 </div>
 <section class="lightbox-related" hidden="" id="lightboxRelated">
 <h2 class="lightbox-related-title">YOU MIGHT ALSO LIKE</h2>
@@ -5761,8 +5761,6 @@ async function loadWatchesFromAirtable(){
 
   if(cachedWatches){
     renderLoadedWatches(cachedWatches);
-  } else if(galleryEl){
-    galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:Inter, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">LOADING WATCHES…</div>';
   }
 
   const controller = window.AbortController ? new AbortController() : null;
@@ -5777,7 +5775,7 @@ async function loadWatchesFromAirtable(){
     const data = await response.json();
 
     if(!response.ok){
-      throw new Error(data.error || "Could not load watches from Airtable");
+      throw new Error(data.error || "Could not load watches");
     }
 
     const nextWatches = Array.isArray(data.watches) ? data.watches : [];
@@ -5794,7 +5792,7 @@ async function loadWatchesFromAirtable(){
   } catch(error){
     console.error(error);
     if(!cachedWatches && galleryEl){
-      galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:Inter, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">COULD NOT LOAD WATCHES. CHECK AIRTABLE SETTINGS.</div>';
+      galleryEl.innerHTML = '';
     }
   } finally {
     if(timeoutId) window.clearTimeout(timeoutId);
