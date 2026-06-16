@@ -5791,10 +5791,12 @@ a:focus, a:active, button:focus, button:active, [role="button"]:focus, [role="bu
 <p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
 <p>Collection is also available upon request.</p>
 <p><strong>International:</strong> Please contact us for a shipping quote.</p>
+
 </div>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-returns"><svg focusable="false" viewbox="0 0 24 24"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a4.5 4.5 0 1 1 0 9h-3"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
 <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
+
 </div>
 <section class="lightbox-related" hidden="" id="lightboxRelated">
 <h2 class="lightbox-related-title">YOU MIGHT ALSO LIKE</h2>
@@ -5804,28 +5806,39 @@ a:focus, a:active, button:focus, button:active, [role="button"]:focus, [role="bu
 </div>
 </div>
 </div>
+
 <!-- V10 final: use ONLY the native single main image. Remove stacked/duplicate preview carousel. -->
+
 <script id="stapleford-production-js">
 let watches = [];
 let watchesLoaded = false;
 
 const WATCHES_CACHE_KEY = "stapleford_watches_cache_v1";
-const WATCHES_CACHE_MAX_AGE_MS = 5 * 60 * 1000;
+const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+const WATCHES_FETCH_TIMEOUT_MS = 18000;
+const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
+
+function hasUsableWatches(value){
+  return Array.isArray(value) && value.length > 0;
+}
 
 function renderLoadedWatches(nextWatches){
-  watches = Array.isArray(nextWatches) ? nextWatches : [];
+  if(!hasUsableWatches(nextWatches)) return false;
+  watches = nextWatches;
   prepareWatches();
   updateProductStructuredData();
   watchesLoaded = true;
   render();
   openProductFromCurrentUrl(true);
+  return true;
 }
 
 function getCachedWatches(){
   try{
     const cached = JSON.parse(localStorage.getItem(WATCHES_CACHE_KEY) || "null");
-    if(!cached || !Array.isArray(cached.watches)) return null;
-    if(Date.now() - Number(cached.savedAt || 0) > WATCHES_CACHE_MAX_AGE_MS) return null;
+    if(!cached || !hasUsableWatches(cached.watches)) return null;
+    const savedAt = Number(cached.savedAt || 0);
+    if(savedAt && Date.now() - savedAt > WATCHES_CACHE_MAX_AGE_MS) return null;
     return cached.watches;
   } catch {
     return null;
@@ -5833,60 +5846,116 @@ function getCachedWatches(){
 }
 
 function saveCachedWatches(nextWatches){
+  if(!hasUsableWatches(nextWatches)) return;
   try{
     localStorage.setItem(WATCHES_CACHE_KEY, JSON.stringify({
       savedAt: Date.now(),
-      watches: Array.isArray(nextWatches) ? nextWatches : []
+      watches: nextWatches
     }));
   } catch {}
 }
 
-async function loadWatches(){
-  const galleryEl = document.getElementById("gallery");
-  const cachedWatches = getCachedWatches();
+function delay(ms){
+  return new Promise(resolve => window.setTimeout(resolve, ms));
+}
 
-  if(cachedWatches){
-    renderLoadedWatches(cachedWatches);
-  } else if(galleryEl){
-    galleryEl.innerHTML = '';
-  }
-
+async function fetchWatchesOnce(attemptIndex){
   const controller = window.AbortController ? new AbortController() : null;
-  const timeoutId = controller ? window.setTimeout(() => controller.abort(), 12000) : null;
+  const timeoutId = controller ? window.setTimeout(() => controller.abort(), WATCHES_FETCH_TIMEOUT_MS) : null;
+  const bustCache = attemptIndex >= 2;
+  const url = bustCache ? `/api/watches?sw=${Date.now()}-${attemptIndex}` : "/api/watches";
 
   try{
-    const response = await fetch("/api/watches", {
+    const response = await fetch(url, {
       headers: { "Accept": "application/json" },
-      cache: "no-cache",
+      cache: attemptIndex === 0 ? "default" : (attemptIndex === 1 ? "reload" : "no-store"),
       ...(controller ? { signal: controller.signal } : {})
     });
-    const data = await response.json();
+
+    const text = await response.text();
+    let data = null;
+    try{
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      throw new Error("Invalid watches response");
+    }
 
     if(!response.ok){
-      throw new Error(data.error || "Could not load watches");
+      throw new Error("Watches request failed");
     }
 
-    const nextWatches = Array.isArray(data.watches) ? data.watches : [];
-    const nextSignature = JSON.stringify(nextWatches);
-    const cachedSignature = cachedWatches ? JSON.stringify(cachedWatches) : "";
-
-    saveCachedWatches(nextWatches);
-
-    if(cachedWatches && nextSignature === cachedSignature){
-      return;
+    const nextWatches = Array.isArray(data?.watches) ? data.watches : [];
+    if(!hasUsableWatches(nextWatches)){
+      throw new Error("Empty watches response");
     }
 
-    renderLoadedWatches(nextWatches);
-  } catch(error){
-    console.error(error);
-    if(!cachedWatches && galleryEl){
-      galleryEl.innerHTML = '';
-    }
+    return nextWatches;
   } finally {
     if(timeoutId) window.clearTimeout(timeoutId);
   }
 }
 
+let watchesLoadPromise = null;
+
+async function loadWatches(){
+  if(watchesLoadPromise) return watchesLoadPromise;
+
+  watchesLoadPromise = (async () => {
+    const galleryEl = document.getElementById("gallery");
+    const cachedWatches = getCachedWatches();
+
+    if(cachedWatches){
+      renderLoadedWatches(cachedWatches);
+    } else if(galleryEl){
+      galleryEl.innerHTML = '';
+    }
+
+    let freshWatches = null;
+    let lastError = null;
+
+    for(let attemptIndex = 0; attemptIndex < WATCHES_FETCH_RETRY_DELAYS_MS.length; attemptIndex += 1){
+      const waitMs = WATCHES_FETCH_RETRY_DELAYS_MS[attemptIndex];
+      if(waitMs) await delay(waitMs);
+
+      try{
+        freshWatches = await fetchWatchesOnce(attemptIndex);
+        break;
+      } catch(error){
+        lastError = error;
+      }
+    }
+
+    if(freshWatches){
+      const freshSignature = JSON.stringify(freshWatches);
+      const currentSignature = hasUsableWatches(watches) ? JSON.stringify(watches) : "";
+      saveCachedWatches(freshWatches);
+
+      if(freshSignature !== currentSignature){
+        renderLoadedWatches(freshWatches);
+      }
+      return;
+    }
+
+    if(!cachedWatches && galleryEl){
+      galleryEl.innerHTML = '';
+    }
+
+    if(lastError) console.warn(lastError);
+  })().finally(() => {
+    watchesLoadPromise = null;
+  });
+
+  return watchesLoadPromise;
+}
+
+function retryWatchesIfNeeded(){
+  if(!hasUsableWatches(watches)) loadWatches();
+}
+
+window.addEventListener('online', retryWatchesIfNeeded, { passive:true });
+document.addEventListener('visibilitychange', () => {
+  if(!document.hidden) retryWatchesIfNeeded();
+});
 
 const SITE_ORIGIN = "https://staplefordwatches.co.uk";
 
@@ -6327,7 +6396,14 @@ const lightboxImage = document.getElementById("lightboxImage");
 let lightboxThumbs = document.getElementById("lightboxThumbs");
 const lightboxMeta = document.getElementById("lightboxMeta");
 const lightboxStatusBadge = document.getElementById("lightboxStatusBadge");
+const lightboxEnquire = document.getElementById("lightboxEnquire");
+const lightboxEnquireTrigger = document.getElementById("lightboxEnquireTrigger");
+const lightboxEnquireOverlay = document.getElementById("lightboxEnquireOverlay");
+const lightboxEnquireHide = document.getElementById("lightboxEnquireHide");
+const lightboxWhatsapp = document.getElementById("lightboxWhatsapp");
+const lightboxEmail = document.getElementById("lightboxEmail");
 const lightboxDetails = document.getElementById("lightboxDetails");
+const lightboxDetailsHide = document.getElementById("lightboxDetailsHide");
 const lightboxDetailsReopen = document.getElementById("lightboxDetailsReopen");
 const lightboxDetailBrand = document.getElementById("lightboxDetailBrand");
 const lightboxDetailTitle = document.getElementById("lightboxDetailTitle");
@@ -6338,6 +6414,7 @@ const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
 const lightboxDetailDescriptionToggle = document.getElementById("lightboxDetailDescriptionToggle");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
 const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
+const lightboxDetailEnquire = document.getElementById("lightboxDetailEnquire");
 const lightboxDetailContactOptions = document.getElementById("lightboxDetailContactOptions");
 const lightboxDetailWhatsapp = document.getElementById("lightboxDetailWhatsapp");
 const lightboxDetailEmail = document.getElementById("lightboxDetailEmail");
@@ -6736,7 +6813,13 @@ function closeLightbox(updateUrl = true){
     lightboxStatusBadge.hidden = true;
     lightboxStatusBadge.textContent = "";
   }
-lightboxDetailsManuallyHidden = false;
+  if(lightboxEnquire){
+    lightboxEnquire.hidden = true;
+    lightboxEnquire.classList.remove("show-enquire");
+  }
+  if(lightboxEnquireTrigger) lightboxEnquireTrigger.setAttribute("aria-expanded", "false");
+  if(lightboxEnquireOverlay) lightboxEnquireOverlay.setAttribute("aria-hidden", "true");
+  lightboxDetailsManuallyHidden = false;
   setLightboxDetailsOpen(true, false);
   setLightboxDescriptionOpen(false);
   setLightboxSpecsOpen(false);
@@ -6763,6 +6846,11 @@ lightbox?.addEventListener("click", (e) => {
 
 document.addEventListener("click", (e) => {
   if(!lightbox?.classList.contains("open")) return;
+  if(!lightboxEnquire || !lightboxEnquire.classList.contains("show-enquire")) return;
+  if(e.target.closest("#lightboxEnquire")) return;
+  lightboxEnquire.classList.remove("show-enquire");
+  lightboxEnquireTrigger?.setAttribute("aria-expanded", "false");
+  lightboxEnquireOverlay?.setAttribute("aria-hidden", "true");
 });
 
 document.querySelector(".lightbox-close")?.addEventListener("click", closeLightbox);
@@ -6797,8 +6885,31 @@ document.querySelector(".lightbox-image-wrap")?.addEventListener("click", (e) =>
   stepLightbox(direction);
 });
 
+lightboxEnquireTrigger?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  lightboxEnquire?.classList.add("show-enquire");
+  lightboxEnquireTrigger.setAttribute("aria-expanded", "true");
+  lightboxEnquireOverlay?.setAttribute("aria-hidden", "false");
+});
+
+lightboxEnquireHide?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  lightboxEnquire?.classList.remove("show-enquire");
+  lightboxEnquireTrigger?.setAttribute("aria-expanded", "false");
+  lightboxEnquireOverlay?.setAttribute("aria-hidden", "true");
+});
+
+lightboxEnquireOverlay?.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+
 lightboxDetails?.addEventListener("click", (e) => {
   e.stopPropagation();
+});
+
+lightboxDetailsHide?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  setLightboxDetailsOpen(false);
 });
 
 lightboxDetailsReopen?.addEventListener("click", (e) => {
@@ -6902,6 +7013,13 @@ lightboxDetailBuy?.addEventListener("click", (e) => {
   e.stopPropagation();
   const watchId = lightboxDetailBuy.dataset.watchId;
   checkoutSingleWatch(watchId);
+});
+
+lightboxDetailEnquire?.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  const isOpen = lightboxDetailContactOptions && !lightboxDetailContactOptions.hidden;
+  setLightboxDetailEnquiryOpen(!isOpen);
 });
 
 lightboxDetailContactOptions?.addEventListener("click", (e) => {
