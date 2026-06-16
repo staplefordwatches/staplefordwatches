@@ -5507,6 +5507,117 @@ html body.product-page-open .lightbox.open .lightbox-related-title{
     letter-spacing:.075em !important;
     text-transform:uppercase !important;
   }}
+
+
+/* === FINAL PRODUCT DETAIL RESTORE: BUY NOW + BLACK SPEC UI === */
+.lightbox-detail-buy{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#000 !important;
+  color:#fff !important;
+  border:1px solid #000 !important;
+  padding:11px 18px !important;
+  min-width:128px !important;
+  min-height:40px !important;
+  text-align:center !important;
+  border-radius:2px !important;
+  font-family:"Inter", Arial, sans-serif !important;
+  font-size:11px !important;
+  font-weight:400 !important;
+  line-height:1 !important;
+  letter-spacing:0.12em !important;
+  text-transform:uppercase !important;
+  cursor:pointer !important;
+  box-shadow:none !important;
+  text-decoration:none !important;
+}
+.lightbox-detail-buy:hover,
+.lightbox-detail-buy:focus,
+.lightbox-detail-buy:active{
+  background:#000 !important;
+  color:#fff !important;
+  border-color:#000 !important;
+  opacity:1 !important;
+  transform:none !important;
+  box-shadow:none !important;
+  outline:none !important;
+}
+.lightbox-detail-buy[hidden]{
+  display:none !important;
+}
+.lightbox-detail-buy:disabled,
+.lightbox-detail-buy[aria-disabled="true"]{
+  opacity:.35 !important;
+  cursor:default !important;
+}
+.lightbox-detail-actions{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:18px !important;
+}
+.lightbox-detail-contact-options{
+  margin-left:auto !important;
+}
+.lightbox-detail-description-toggle,
+.lightbox-detail-spec-toggle,
+.lightbox-detail-policy-toggle,
+.lightbox-detail-reopen,
+.lightbox-detail-hide{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  background:transparent !important;
+  color:#000 !important;
+  border-color:rgba(0,0,0,0.12) !important;
+  text-decoration:none !important;
+}
+.lightbox-detail-description-toggle *,
+.lightbox-detail-spec-toggle *,
+.lightbox-detail-policy-toggle *,
+.lightbox-detail-specs,
+.lightbox-detail-specs *,
+.lightbox-detail-policy-copy,
+.lightbox-detail-policy-copy *,
+.lightbox-detail-policy-link,
+.lightbox-detail-policy-link:link,
+.lightbox-detail-policy-link:visited,
+.lightbox-detail-policy-link:hover,
+.lightbox-detail-policy-link:active{
+  color:#000 !important;
+  text-decoration:none !important;
+}
+.lightbox-detail-spec-toggle svg,
+.lightbox-detail-policy-toggle svg,
+.lightbox-detail-spec-toggle svg *,
+.lightbox-detail-policy-toggle svg *{
+  fill:none !important;
+  stroke:#000 !important;
+}
+.lightbox-detail-contact-link,
+.lightbox-detail-contact-link:link,
+.lightbox-detail-contact-link:visited,
+.lightbox-detail-contact-link:hover,
+.lightbox-detail-contact-link:active{
+  color:#000 !important;
+  text-decoration:none !important;
+}
+.lightbox-detail-contact-link svg,
+.lightbox-detail-contact-link svg *{
+  fill:currentColor !important;
+  stroke:none !important;
+}
+@media (max-width:560px){
+  .lightbox-detail-actions{ gap:12px !important; }
+  .lightbox-detail-buy{
+    min-width:118px !important;
+    min-height:38px !important;
+    padding:10px 15px !important;
+    font-size:10px !important;
+  }
+}
 </style></head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -5544,6 +5655,7 @@ html body.product-page-open .lightbox.open .lightbox-related-title{
 <div class="lightbox-detail-contents lightbox-detail-meta-line" id="lightboxDetailContents"></div>
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
 <div class="lightbox-detail-actions">
+<button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY NOW</button>
 <div aria-label="Contact options" class="lightbox-detail-contact-options" id="lightboxDetailContactOptions">
 <a aria-label="Enquire by WhatsApp" class="lightbox-detail-contact-link lightbox-detail-contact-whatsapp" href="#" id="lightboxDetailWhatsapp" rel="noopener" target="_blank" title="WhatsApp">
 <svg aria-hidden="true" focusable="false" viewbox="0 0 32 32"><path d="M16 3.2A12.6 12.6 0 0 0 5.2 22.3L3.7 28l5.9-1.5A12.6 12.6 0 1 0 16 3.2Zm0 2.3a10.3 10.3 0 0 1 0 20.6c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.5.9.9-3.4-.3-.4A10.3 10.3 0 0 1 16 5.5Zm-4.3 5.2c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.8.5-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.4l-1.8-.9c-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.2-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-.8-1.9c-.2-.5-.4-.5-.7-.5h-.6Z"></path></svg>
@@ -6116,6 +6228,7 @@ const lightboxDetailContents = document.getElementById("lightboxDetailContents")
 const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
 const lightboxDetailDescriptionToggle = document.getElementById("lightboxDetailDescriptionToggle");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
+const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
 const lightboxDetailEnquire = document.getElementById("lightboxDetailEnquire");
 const lightboxDetailContactOptions = document.getElementById("lightboxDetailContactOptions");
 const lightboxDetailWhatsapp = document.getElementById("lightboxDetailWhatsapp");
@@ -6355,6 +6468,13 @@ function renderLightboxDetails(){
   setText(lightboxDetailContents, contents ? `CONTENTS: ${String(contents).toUpperCase()}` : "");
   setText(lightboxDetailPrice, isUnavailable ? "" : (lightboxWatch.price ? `£${formatPounds(lightboxWatch.price)}` : "PRICE ON REQUEST"));
   if(lightboxDetailPrice) lightboxDetailPrice.hidden = isUnavailable;
+  if(lightboxDetailBuy){
+    lightboxDetailBuy.hidden = !isAvailable;
+    lightboxDetailBuy.disabled = !isAvailable;
+    lightboxDetailBuy.setAttribute("aria-disabled", isAvailable ? "false" : "true");
+    lightboxDetailBuy.dataset.watchId = String(lightboxWatch.listingId || lightboxWatch.id || "");
+    lightboxDetailBuy.textContent = "BUY NOW";
+  }
   const descriptionText = String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
   setText(lightboxDetailDescription, descriptionText);
   if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !descriptionText;
@@ -6664,6 +6784,53 @@ lightboxDetails?.addEventListener("click", (e) => {
   }
 });
 
+
+
+async function checkoutSingleWatch(watchId){
+  const watch = watches.find(w => String(w.listingId || w.id || "") === String(watchId || ""));
+  if(!watch || String(watch.status || "").toLowerCase() !== "available") return;
+  if(!lightboxDetailBuy) return;
+
+  const originalText = lightboxDetailBuy.textContent;
+  lightboxDetailBuy.disabled = true;
+  lightboxDetailBuy.setAttribute("aria-disabled", "true");
+  lightboxDetailBuy.textContent = "LOADING";
+
+  try{
+    const response = await fetch("/create-stripe-checkout", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ items:[{ id: watch.listingId || watch.id }] })
+    });
+    const data = await response.json();
+    if(!response.ok || !data.checkoutUrl){
+      throw new Error(data.error || "Checkout unavailable");
+    }
+    window.location.href = data.checkoutUrl;
+  } catch(err){
+    console.error(err);
+    lightboxDetailBuy.textContent = "ENQUIRE";
+    const enquiryData = getEnquiryData(watch);
+    if(enquiryData && enquiryData.email){
+      window.location.href = enquiryData.email;
+    }
+  } finally {
+    setTimeout(() => {
+      if(lightboxDetailBuy && lightboxWatch && String(lightboxWatch.listingId || lightboxWatch.id || "") === String(watchId || "")){
+        lightboxDetailBuy.disabled = false;
+        lightboxDetailBuy.setAttribute("aria-disabled", "false");
+        lightboxDetailBuy.textContent = originalText || "BUY NOW";
+      }
+    }, 800);
+  }
+}
+
+lightboxDetailBuy?.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  const watchId = lightboxDetailBuy.dataset.watchId;
+  checkoutSingleWatch(watchId);
+});
 
 lightboxDetailEnquire?.addEventListener("click", (e) => {
   e.preventDefault();
