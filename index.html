@@ -3185,7 +3185,9 @@ html body #gallery.grid .image.available .spec-trigger{
   width:100%;
 }
 
-
+body:not(.info-active) #infoPage{
+  display:none !important;
+}
 
 html body .lightbox.open .lightbox-prev,
 html body .lightbox.open .lightbox-next,
@@ -5575,14 +5577,7 @@ html body.product-page-open .lightbox.open .lightbox-related-title{
 </div>
 </div>
 </div>
-
-<!-- V10 final: use ONLY the native single main image. Remove stacked/duplicate preview carousel. -->
-
-
-
-
 <script>
-/* ---- main ---- */
 let watches = [];
 let watchesLoaded = false;
 
@@ -6877,11 +6872,25 @@ function render(){
     });
   }
 
-  image?.addEventListener('click', (event) => {
+  const openListing = (event) => {
     if(!isAvailable) return;
     const clickedControl = event.target.closest('.spec-trigger, .spec-overlay, .spec-hide, a, button');
     if(clickedControl) return;
     openLightbox(w, 0);
+  };
+
+  div.classList.toggle('is-clickable', isAvailable);
+  if(isAvailable){
+    div.setAttribute('role', 'button');
+    div.setAttribute('tabindex', '0');
+    div.setAttribute('aria-label', `Open ${productName}`);
+  }
+
+  div.addEventListener('click', openListing);
+  div.addEventListener('keydown', (event) => {
+    if(event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    openListing(event);
   });
 
   gallery.appendChild(div);
@@ -6902,8 +6911,9 @@ document.addEventListener('click', (event) => {
 
 
 loadWatchesFromAirtable();
-
-/* ---- stapleford-independent-product-page-lock-v17 ---- */
+</script>
+<!-- V10 final: use ONLY the native single main image. Remove stacked/duplicate preview carousel. -->
+<script id="stapleford-independent-product-page-lock-v17">
 (function(){
   function syncProductPageRootClass(){
     var isOpen = document.body && document.body.classList.contains('product-page-open');
@@ -6935,8 +6945,8 @@ loadWatchesFromAirtable();
 
   syncProductPageRootClass();
 })();
-
-/* ---- stapleford-responsive-product-page-polish-v25-js ---- */
+</script>
+<script id="stapleford-responsive-product-page-polish-v25-js">
 (function(){
   function refreshProductTrack(){
     var wrap = document.querySelector('body.product-page-open .lightbox-image-wrap, .lightbox.open .lightbox-image-wrap');
@@ -6958,8 +6968,8 @@ loadWatchesFromAirtable();
   document.addEventListener('click', function(){ window.setTimeout(refreshProductTrack, 80); }, true);
   window.setTimeout(refreshProductTrack, 0);
 })();
-
-/* ---- stapleford-master-alignment-v34-js ---- */
+</script>
+<script id="stapleford-master-alignment-v34-js">
 (function(){
   function removeFooterSW(){
     document.querySelectorAll('footer .footer-monogram, .lightbox-site-footer .footer-monogram').forEach(function(el){ el.remove(); });
@@ -6977,8 +6987,8 @@ loadWatchesFromAirtable();
   window.addEventListener('orientationchange', run, {passive:true});
   document.addEventListener('click', function(){ setTimeout(run, 0); setTimeout(run, 80); }, true);
 })();
-
-/* ---- sw-v61-related-rail-premium-step-scroll-js ---- */
+</script>
+<script id="sw-v61-related-rail-premium-step-scroll-js">
 (function(){
   var RAIL_SELECTOR = '#lightboxRelatedGrid';
   var LIGHTBOX_SELECTOR = '#lightbox.open';
@@ -7287,5 +7297,6 @@ loadWatchesFromAirtable();
     else if(reduceMotionQuery.addListener) reduceMotionQuery.addListener(onMotionChange);
   }
 })();
-</script></body>
+</script>
+</body>
 </html>
