@@ -5620,33 +5620,95 @@ html body.product-page-open .lightbox.open .lightbox-related-title{
 }
 
 
-/* FINAL POLISH: product-detail accordion hover/cursor states */
-html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle,
-html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle *,
-html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle,
-html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle *,
-html body.product-page-open #lightbox.open .lightbox-detail-description-toggle,
-html body.product-page-open #lightbox.open .lightbox-detail-description-toggle *{
-  cursor:pointer !important;
+/* ===== FINAL INTERACTION POLISH: NO HAND CURSOR / NO TAP FLASH ===== */
+html,
+body,
+body *,
+a,
+button,
+[role="button"],
+[tabindex],
+label,
+summary,
+input,
+select,
+textarea,
+.lightbox,
+.lightbox *,
+.grid,
+.grid *,
+.card,
+.card *,
+.image,
+.image *,
+.lightbox-detail-panel,
+.lightbox-detail-panel *{
+  cursor:default !important;
+  -webkit-tap-highlight-color:transparent !important;
 }
 
-html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle:hover,
-html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle:focus-visible,
-html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle:hover,
-html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle:focus-visible,
-html body.product-page-open #lightbox.open .lightbox-detail-description-toggle:hover,
-html body.product-page-open #lightbox.open .lightbox-detail-description-toggle:focus-visible{
-  color:#000 !important;
-  background:transparent !important;
-  opacity:1 !important;
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+button,
+button:hover,
+button:active,
+button:focus,
+button:focus-visible,
+[role="button"],
+[role="button"]:hover,
+[role="button"]:active,
+[role="button"]:focus,
+[role="button"]:focus-visible,
+.lightbox-detail-policy-toggle,
+.lightbox-detail-policy-toggle:hover,
+.lightbox-detail-policy-toggle:active,
+.lightbox-detail-policy-toggle:focus,
+.lightbox-detail-spec-toggle,
+.lightbox-detail-spec-toggle:hover,
+.lightbox-detail-spec-toggle:active,
+.lightbox-detail-spec-toggle:focus,
+.lightbox-detail-hide,
+.lightbox-detail-hide:hover,
+.lightbox-detail-hide:active,
+.lightbox-detail-hide:focus,
+.lightbox-detail-reopen,
+.lightbox-detail-reopen:hover,
+.lightbox-detail-reopen:active,
+.lightbox-detail-reopen:focus,
+.lightbox-detail-buy,
+.lightbox-detail-buy:hover,
+.lightbox-detail-buy:active,
+.lightbox-detail-buy:focus{
+  cursor:default !important;
   outline:none !important;
+  box-shadow:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+  -webkit-touch-callout:none !important;
 }
 
-html body.product-page-open #lightbox.open .lightbox-detail-spec-toggle:hover *,
-html body.product-page-open #lightbox.open .lightbox-detail-policy-toggle:hover *,
-html body.product-page-open #lightbox.open .lightbox-detail-description-toggle:hover *{
-  color:#000 !important;
-  text-decoration:none !important;
+a:active,
+button:active,
+[role="button"]:active,
+.lightbox-detail-policy-toggle:active,
+.lightbox-detail-spec-toggle:active,
+.lightbox-detail-hide:active,
+.lightbox-detail-reopen:active,
+.lightbox-detail-buy:active{
+  transform:none !important;
+  filter:none !important;
+}
+
+.lightbox-detail-spec-toggle,
+.lightbox-detail-policy-toggle,
+.lightbox-detail-hide,
+.lightbox-detail-reopen,
+.lightbox-detail-buy{
+  -webkit-user-select:none !important;
+  user-select:none !important;
+  touch-action:manipulation !important;
 }
 </style></head>
 <body>
@@ -5761,6 +5823,8 @@ async function loadWatchesFromAirtable(){
 
   if(cachedWatches){
     renderLoadedWatches(cachedWatches);
+  } else if(galleryEl){
+    galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:Inter, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">LOADING WATCHES…</div>';
   }
 
   const controller = window.AbortController ? new AbortController() : null;
@@ -5775,7 +5839,7 @@ async function loadWatchesFromAirtable(){
     const data = await response.json();
 
     if(!response.ok){
-      throw new Error(data.error || "Could not load watches");
+      throw new Error(data.error || "Could not load watches from Airtable");
     }
 
     const nextWatches = Array.isArray(data.watches) ? data.watches : [];
@@ -5792,7 +5856,7 @@ async function loadWatchesFromAirtable(){
   } catch(error){
     console.error(error);
     if(!cachedWatches && galleryEl){
-      galleryEl.innerHTML = '';
+      galleryEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;font-family:Inter, Arial, sans-serif;font-size:12px;letter-spacing:.08em;">COULD NOT LOAD WATCHES. CHECK AIRTABLE SETTINGS.</div>';
     }
   } finally {
     if(timeoutId) window.clearTimeout(timeoutId);
