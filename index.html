@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -233,7 +234,112 @@ html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
   }
 }
 </script>
-</head>
+<style>
+/* Restored product-page BUY NOW + cart drawer. Top BUY/INFO/CART/SORT nav remains removed. */
+.lightbox-detail-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:18px;
+}
+.lightbox-detail-buy{
+  background:#000 !important;
+  color:#fff !important;
+  border:1px solid #000 !important;
+  padding:11px 18px !important;
+  min-width:128px;
+  text-align:center;
+  border-radius:2px;
+  font-family:"Inter", Arial, sans-serif !important;
+  font-size:11px !important;
+  font-weight:400 !important;
+  letter-spacing:0.12em !important;
+  line-height:1.2;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.lightbox-detail-buy:hover{
+  background:#000 !important;
+  color:#fff !important;
+  border-color:#000 !important;
+}
+.lightbox-detail-buy:disabled,
+.lightbox-detail-buy[aria-disabled="true"]{
+  opacity:.45;
+  cursor:default;
+}
+.lightbox-detail-buy[hidden]{display:none !important;}
+.lightbox-detail-contact-options{
+  display:flex !important;
+  align-items:center;
+  gap:10px;
+  border-top:0 !important;
+  padding-top:0 !important;
+  margin:0 0 0 auto !important;
+}
+.cart-checkout,.cart-remove,.cart-close,.cart-continue{
+  border:none;
+  background:transparent;
+  color:#000;
+  font-family:"Inter",Arial,sans-serif;
+  font-size:11px;
+  line-height:1.2;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  cursor:pointer;
+  padding:0;
+}
+.cart-checkout:hover,.cart-remove:hover,.cart-close:hover,.cart-continue:hover{opacity:.55;}
+.cart-checkout:disabled{opacity:.35;cursor:default;}
+.cart-drawer{
+  position:fixed;
+  inset:0 0 0 auto;
+  width:min(390px,100vw);
+  height:100vh;
+  background:#fff;
+  z-index:4000;
+  transform:translateX(100%);
+  transition:transform .25s ease;
+  padding:24px;
+  box-sizing:border-box;
+  border-left:1px solid rgba(0,0,0,.12);
+  display:flex;
+  flex-direction:column;
+}
+.cart-drawer.open{transform:translateX(0);}
+.cart-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.16);
+  z-index:3999;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+.cart-backdrop.open{opacity:1;pointer-events:auto;}
+.cart-head,.cart-foot{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  font-family:"Inter",Arial,sans-serif;
+  font-size:11px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.cart-head{padding-bottom:18px;border-bottom:1px solid rgba(0,0,0,.1);}
+.cart-foot{padding-top:18px;border-top:1px solid rgba(0,0,0,.1);align-items:flex-end;}
+.cart-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.cart-items{flex:1;overflow:auto;padding:24px 0;}
+.cart-item{display:grid;grid-template-columns:64px 1fr;gap:12px;margin-bottom:18px;}
+.cart-item img{width:64px;height:64px;object-fit:cover;background:#f4f4f4;}
+.cart-item-title{font-family:"Inter",Arial,sans-serif;font-size:11px;line-height:1.35;text-transform:uppercase;letter-spacing:0.06em;}
+.cart-item-price{margin:6px 0 8px;font-family:"Inter",Arial,sans-serif;font-size:11px;opacity:.7;}
+.cart-empty,.cart-error{font-family:"Inter",Arial,sans-serif;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;opacity:.65;line-height:1.5;}
+.cart-error{color:#8a0000;opacity:1;margin-top:12px;}
+@media (max-width:767px){.cart-drawer{padding:18px;}.lightbox-detail-buy{min-width:118px;padding:10px 15px !important;font-size:10px !important;}}
+</style></head>
 <body>
 <button aria-label="Return to home page" class="logo" id="logoHome" type="button">
 <svg aria-hidden="true" class="logo-mark" focusable="false" viewbox="0 0 4356 5399" xmlns="http://www.w3.org/2000/svg">
@@ -241,7 +347,6 @@ html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
 </g>
 </svg>
 </button>
-
 <main class="buy-page" id="buyPage">
 <div class="grid" id="gallery"></div>
 <div class="show-more-wrap" hidden="" id="showMoreWrap">
@@ -249,7 +354,6 @@ html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
 </div>
 <div class="no-results" hidden="" id="noResults">No watches found</div>
 </main>
-
 <div aria-hidden="true" class="lightbox" id="lightbox">
 <div class="lightbox-inner">
 <button aria-label="Close product" class="lightbox-close" type="button">Close</button>
@@ -267,8 +371,7 @@ html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
 <div class="lightbox-detail-year lightbox-detail-meta-line" id="lightboxDetailYear"></div>
 <div class="lightbox-detail-contents lightbox-detail-meta-line" id="lightboxDetailContents"></div>
 <div class="lightbox-detail-price" id="lightboxDetailPrice"></div>
-<div class="lightbox-detail-actions">
-
+<div class="lightbox-detail-actions"><button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY NOW</button>
 <div aria-label="Contact options" class="lightbox-detail-contact-options" id="lightboxDetailContactOptions">
 <a aria-label="Enquire by WhatsApp" class="lightbox-detail-contact-link lightbox-detail-contact-whatsapp" href="#" id="lightboxDetailWhatsapp" rel="noopener" target="_blank" title="WhatsApp">
 <svg aria-hidden="true" focusable="false" viewbox="0 0 32 32"><path d="M16 3.2A12.6 12.6 0 0 0 5.2 22.3L3.7 28l5.9-1.5A12.6 12.6 0 1 0 16 3.2Zm0 2.3a10.3 10.3 0 0 1 0 20.6c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.5.9.9-3.4-.3-.4A10.3 10.3 0 0 1 16 5.5Zm-4.3 5.2c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.8.5-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.4l-1.8-.9c-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.2-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-.8-1.9c-.2-.5-.4-.5-.7-.5h-.6Z"></path></svg>
@@ -287,12 +390,10 @@ html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
 <p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
 <p>Collection is also available upon request.</p>
 <p><strong>International:</strong> Please contact us for a shipping quote.</p>
-
 </div>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-returns"><svg focusable="false" viewbox="0 0 24 24"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a4.5 4.5 0 1 1 0 9h-3"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
 <p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
-
 </div>
 <section class="lightbox-related" hidden="" id="lightboxRelated">
 <h2 class="lightbox-related-title">YOU MIGHT ALSO LIKE</h2>
@@ -301,9 +402,24 @@ html body.product-page-open .lightbox.open .lightbox-detail-policy-toggle{
 </aside>
 </div>
 </div>
+</div><aside aria-hidden="true" class="cart-drawer" id="cartDrawer">
+<div class="cart-head">
+<div>CART</div>
+<button class="cart-close" id="cartClose" type="button">CLOSE</button>
 </div>
-
-
+<div class="cart-items" id="cartItems"></div>
+<div class="cart-foot">
+<div>
+<div>TOTAL</div>
+<div>£<span id="cartTotal">0</span></div>
+</div>
+<div class="cart-actions">
+<button class="cart-checkout" id="cartCheckout" type="button">CHECKOUT</button>
+<button class="cart-continue" id="cartContinue" type="button">CONTINUE SHOPPING</button>
+</div>
+</div>
+<div class="cart-error" hidden="" id="cartError"></div>
+</aside><div class="cart-backdrop" hidden="" id="cartBackdrop"></div>
 <script>let watches = [];
 let watchesLoaded = false;
 
@@ -315,6 +431,7 @@ function renderLoadedWatches(nextWatches){
   prepareWatches();
   updateProductStructuredData();
   watchesLoaded = true;
+  renderCart();
   render();
   openProductFromCurrentUrl(true);
 }
@@ -597,6 +714,7 @@ function openProductFromCurrentUrl(replaceUrl = true){
   if(!token || !watchesLoaded) return false;
   const watch = findWatchFromProductToken(token);
   if(!watch) return false;
+  setPage("buy");
   openLightbox(watch, 0, false);
   setProductBrowserUrl(watch, replaceUrl);
   return true;
@@ -715,11 +833,19 @@ function updateProductStructuredData(){
 }
 
 const gallery=document.getElementById("gallery");
+let currentSort = "default";
+let showAvailable = false;
+let showSold = false;
+
+const filterMenu = document.getElementById("filterMenu");
+const watchSearch = document.getElementById("watchSearch");
+let searchQuery = "";
 const showMoreWrap = document.getElementById("showMoreWrap");
 const showMoreBtn = document.getElementById("showMoreBtn");
 const LISTING_LIMITS = { desktop: 48, tablet: 36, mobile: 24 };
 const LISTING_LOAD_MORE_COUNT = 24;
 let visibleListingLimit = getInitialListingLimit();
+
 function getInitialListingLimit(){
   if(window.matchMedia("(max-width: 640px)").matches) return LISTING_LIMITS.mobile;
   if(window.matchMedia("(max-width: 1024px)").matches) return LISTING_LIMITS.tablet;
@@ -737,13 +863,94 @@ function ensureListingLimitMatchesViewport(){
   }
 }
 
-
+const buyNav = document.getElementById("buyNav");
+const infoNav = document.getElementById("infoNav");
+const buyPage = document.getElementById("buyPage");
+const infoPage = document.getElementById("infoPage");
 const logoHome = document.getElementById("logoHome");
+let currentPage = "buy";
+
+function setPage(page){
+  currentPage = page === "info" ? "info" : "buy";
+  const isInfo = currentPage === "info";
+  const isBuy = currentPage === "buy";
+  if(buyPage) buyPage.hidden = !isBuy;
+  if(infoPage) infoPage.hidden = !isInfo;
+  document.body.classList.toggle("info-active", isInfo);
+  buyNav?.setAttribute("aria-current", isBuy ? "page" : "false");
+  infoNav?.setAttribute("aria-current", isInfo ? "page" : "false");
+  if(!getRequestedProductToken()){
+    document.title = isInfo ? "Info" : "Stapleford Watches | Pre-Owned Luxury Watches";
+  }
+  if(filterMenu) filterMenu.style.display = "none";
+  if(isBuy) render();
+}
+
+buyNav?.addEventListener("click", () => setPage("buy"));
+infoNav?.addEventListener("click", () => setPage("info"));
 logoHome?.addEventListener("click", () => {
+  searchQuery = "";
+  currentSort = "default";
+  showAvailable = false;
+  showSold = false;
   resetListingLimit();
+  if(watchSearch) watchSearch.value = "";
+  document.querySelectorAll(".status-filter-option.active").forEach(option => option.classList.remove("active"));
   if(typeof closeLightbox === "function" && lightbox?.classList.contains("open")) closeLightbox();
-  render();
+  setPage("buy");
+  // Go back to the BUY page instantly, without the smooth-scroll flash/jump.
   window.scrollTo(0, 0);
+});
+
+const filterBtn = document.getElementById("filterBtn");
+if(filterBtn && filterMenu && watchSearch){
+  filterBtn.onclick = () => {
+    const isOpen = filterMenu.style.display === "block";
+    filterMenu.style.display = isOpen ? "none" : "block";
+    if(!isOpen) setTimeout(() => watchSearch.focus(), 0);
+  };
+}
+
+if(watchSearch){
+  watchSearch.addEventListener("input", (e) => {
+    searchQuery = e.target.value.trim().toLowerCase();
+    resetListingLimit();
+    render();
+  });
+}
+
+document.addEventListener("click", (e) => {
+  if (filterMenu && !e.target.closest(".filter-custom")) {
+    filterMenu.style.display = "none";
+  }
+});
+
+document.querySelectorAll(".sort-option").forEach(item=>{
+  item.onclick = () => {
+    currentSort = item.dataset.value;
+    resetListingLimit();
+    if(filterMenu) filterMenu.style.display = "none";
+    render();
+  };
+});
+
+document.querySelectorAll(".status-filter-option").forEach(item => {
+  item.addEventListener("click", () => {
+    const status = item.dataset.status;
+
+    if (status === "available") {
+      showAvailable = !showAvailable;
+      item.classList.toggle("active", showAvailable);
+    }
+
+    if (status === "sold") {
+      showSold = !showSold;
+      item.classList.toggle("active", showSold);
+    }
+
+    resetListingLimit();
+    render();
+  });
 });
 
 showMoreBtn?.addEventListener("click", () => {
@@ -758,15 +965,13 @@ window.addEventListener("resize", () => {
     render();
   }
 });
+
 function getWatchYear(w){
   const rawYear = w.specs && w.specs.year ? String(w.specs.year).trim() : "";
   const match = rawYear.match(/\d{4}/);
   return match ? parseInt(match[0], 10) : 0;
 }
 
-function formatPounds(value){
-  return Number(value || 0).toLocaleString();
-}
 function getEnquiryData(w){
   const watchName = `${w.brand} ${w.title}`.trim();
   const listingId = w.listingId ? ` (${w.listingId})` : "";
@@ -813,6 +1018,7 @@ const lightboxDetailContents = document.getElementById("lightboxDetailContents")
 const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
 const lightboxDetailDescriptionToggle = document.getElementById("lightboxDetailDescriptionToggle");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
+const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
 const lightboxDetailContactOptions = document.getElementById("lightboxDetailContactOptions");
 const lightboxDetailWhatsapp = document.getElementById("lightboxDetailWhatsapp");
 const lightboxDetailEmail = document.getElementById("lightboxDetailEmail");
@@ -891,6 +1097,30 @@ function setLightboxPolicyOpen(section, isOpen){
     const text = isOpen ? `HIDE ${label} ↓` : `${label} ↑`;
     toggle.innerHTML = `<span class="policy-heading-label">${text}</span>${getLightboxPolicyIcon(section)}`;
   }
+}
+
+function openInfoSection(targetId){
+  if(!targetId) return;
+
+  const target = document.getElementById(targetId);
+  if(!target || !target.classList.contains("info-item")) return;
+
+  setPage("info");
+
+  document.querySelectorAll(".info-item").forEach((item) => {
+    item.open = item === target;
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior:"smooth", block:"start" });
+    });
+  });
+}
+
+function handleInitialInfoHash(){
+  const hash = (window.location.hash || "").replace(/^#/, "");
+  if(hash === "delivery" || hash === "returns") openInfoSection(hash);
 }
 
 function setLightboxDetailEnquiryOpen(isOpen){
@@ -1013,6 +1243,14 @@ function renderLightboxDetails(){
   setText(lightboxDetailDescription, descriptionText);
   if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !descriptionText;
   setLightboxDescriptionOpen(Boolean(descriptionText));
+
+  if(lightboxDetailBuy){
+    lightboxDetailBuy.hidden = false;
+    lightboxDetailBuy.disabled = !isAvailable;
+    lightboxDetailBuy.setAttribute("aria-disabled", isAvailable ? "false" : "true");
+    lightboxDetailBuy.textContent = isReserved ? "RESERVED" : isSold ? "SOLD" : "BUY NOW";
+    lightboxDetailBuy.dataset.watchId = isAvailable ? (lightboxWatch.listingId || "") : "";
+  }
 
   if(lightboxDetailWhatsapp) lightboxDetailWhatsapp.href = enquiryData.whatsapp;
   if(lightboxDetailEmail) lightboxDetailEmail.href = enquiryData.email;
@@ -1166,15 +1404,40 @@ lightboxDetailReturnsToggle?.addEventListener("click", (e) => {
 
 lightboxDetails?.addEventListener("click", (e) => {
   const relatedCard = e.target.closest(".lightbox-related-card");
-  if(!relatedCard) return;
+  if(relatedCard){
+    e.preventDefault();
+    e.stopPropagation();
+    const watchId = relatedCard.dataset.watchId || "";
+    const relatedWatch = watches.find(w => String(w.listingId || w.id || "") === watchId);
+    if(relatedWatch){
+      openLightbox(relatedWatch, 0, true);
+      requestAnimationFrame(() => { lightbox?.scrollTo({ top: 0, behavior: "smooth" }); });
+    }
+    return;
+  }
+
+  const link = e.target.closest("[data-info-target]");
+  if(!link) return;
   e.preventDefault();
   e.stopPropagation();
-  const watchId = relatedCard.dataset.watchId || "";
-  const relatedWatch = watches.find(w => String(w.listingId || w.id || "") === watchId);
-  if(relatedWatch){
-    openLightbox(relatedWatch, 0, true);
-    requestAnimationFrame(() => { lightbox?.scrollTo({ top: 0, behavior: "smooth" }); });
+
+  const targetId = link.dataset.infoTarget || link.getAttribute("href")?.replace(/^.*#/, "");
+  closeLightbox();
+  openInfoSection(targetId);
+
+  if(targetId){
+    history.replaceState(null, "", `#${targetId}`);
   }
+});
+
+lightboxDetailBuy?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  if(lightboxDetailBuy.disabled || lightboxDetailBuy.getAttribute("aria-disabled") === "true") return;
+  const watchId = lightboxDetailBuy.dataset.watchId;
+  if(!watchId) return;
+  addToCart(watchId);
+  closeLightbox();
+  openCart();
 });
 lightboxDetailContactOptions?.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -1209,6 +1472,31 @@ function safeHttpUrl(value, fallback = ""){
 
 function render(){
  let items=[...watches];
+
+ if(showAvailable || showSold){
+  items = items.filter(w => {
+    return (showAvailable && w.status === "available") || (showSold && ["sold", "reserved"].includes(w.status));
+  });
+ }
+
+ if(searchQuery){
+  items = items.filter(w => {
+    const brand = (w.brand || "").toLowerCase();
+    const title = (w.title || "").toLowerCase();
+    const reference = getWatchReference(w).toLowerCase();
+    const listingId = String(w.listingId || "").toLowerCase();
+    return brand.includes(searchQuery) || title.includes(searchQuery) || reference.includes(searchQuery) || listingId.includes(searchQuery);
+  });
+ }
+
+ switch(currentSort){
+  case "price-low": items.sort((a,b)=>a.price-b.price); break;
+  case "price-high": items.sort((a,b)=>b.price-a.price); break;
+  case "brand-az": items.sort((a,b)=>a.brand.localeCompare(b.brand)); break;
+  case "brand-za": items.sort((a,b)=>b.brand.localeCompare(a.brand)); break;
+  case "new-old": items.sort((a,b)=>getWatchYear(b)-getWatchYear(a)); break;
+  case "old-new": items.sort((a,b)=>getWatchYear(a)-getWatchYear(b)); break;
+ }
 
  items.sort((a,b)=>Number(["sold", "reserved"].includes(a.status)) - Number(["sold", "reserved"].includes(b.status)));
 
@@ -1340,8 +1628,170 @@ document.addEventListener('click', (event) => {
   });
 });
 
+/* ===== CART / SQUARE CHECKOUT ===== */
+const STAPLEFORD_CART_KEY = "stapleford_cart";
+
+function getCart(){
+  try { return JSON.parse(localStorage.getItem(STAPLEFORD_CART_KEY) || "[]"); }
+  catch { return []; }
+}
+
+function saveCart(cart){
+  localStorage.setItem(STAPLEFORD_CART_KEY, JSON.stringify(cart));
+  renderCart();
+}
+
+function findWatchByCartId(cartId){
+  return watches.find(w => w.listingId === cartId);
+}
+
+function formatPounds(value){
+  return Number(value || 0).toLocaleString();
+}
+
+function openCart(){
+  const drawer = document.getElementById("cartDrawer");
+  const backdrop = document.getElementById("cartBackdrop");
+  const opener = document.getElementById("cartOpen");
+  if(!drawer) return;
+  drawer.classList.add("open");
+  document.documentElement.classList.add("cart-drawer-is-open");
+  document.body.classList.add("cart-drawer-is-open");
+  drawer.setAttribute("aria-hidden", "false");
+  opener?.setAttribute("aria-expanded", "true");
+  if(backdrop){
+    backdrop.hidden = false;
+    requestAnimationFrame(() => backdrop.classList.add("open"));
+  }
+}
+
+function closeCart(){
+  const drawer = document.getElementById("cartDrawer");
+  const backdrop = document.getElementById("cartBackdrop");
+  const opener = document.getElementById("cartOpen");
+  drawer?.classList.remove("open");
+  document.documentElement.classList.remove("cart-drawer-is-open");
+  document.body.classList.remove("cart-drawer-is-open");
+  drawer?.setAttribute("aria-hidden", "true");
+  opener?.setAttribute("aria-expanded", "false");
+  if(backdrop){
+    backdrop.classList.remove("open");
+    setTimeout(() => { if(!backdrop.classList.contains("open")) backdrop.hidden = true; }, 250);
+  }
+}
+
+function addToCart(cartId){
+  const watch = findWatchByCartId(cartId);
+  const error = document.getElementById("cartError");
+  if(error){ error.hidden = true; error.textContent = ""; }
+
+  if(!watch || watch.status !== "available"){
+    if(error){ error.hidden = false; error.textContent = "This watch is no longer available."; }
+    openCart();
+    return;
+  }
+
+  const cart = getCart();
+  if(!cart.some(item => item.id === cartId)){
+    cart.push({ id: cartId });
+    saveCart(cart);
+  } else {
+    renderCart();
+  }
+  openCart();
+}
+
+function removeFromCart(cartId){
+  saveCart(getCart().filter(item => item.id !== cartId));
+}
+
+function getAvailableCartWatches(){
+  return getCart()
+    .map(item => findWatchByCartId(item.id))
+    .filter(w => w && w.status === "available");
+}
+
+function renderCart(){
+  const cartItems = document.getElementById("cartItems");
+  const cartCount = document.getElementById("cartCount");
+  const cartTotal = document.getElementById("cartTotal");
+  if(!cartItems || !cartTotal) return;
+
+  const validItems = getAvailableCartWatches();
+  if(cartCount) cartCount.textContent = validItems.length;
+  cartTotal.textContent = formatPounds(validItems.reduce((sum, w) => sum + Number(w.price || 0), 0));
+
+  if(!validItems.length){
+    cartItems.innerHTML = `<div class="cart-empty">Your cart is empty.</div>`;
+    return;
+  }
+
+  cartItems.innerHTML = validItems.map(w => `
+    <div class="cart-item">
+      <img src="${w.image}" alt="${w.brand} ${w.title}">
+      <div>
+        <div class="cart-item-title">${w.brand}<br>${w.title}</div>
+        <div class="cart-item-price">£${formatPounds(w.price)}</div>
+        <button class="cart-remove" type="button" data-remove-id="${w.listingId}">REMOVE</button>
+      </div>
+    </div>
+  `).join("");
+
+  cartItems.querySelectorAll("[data-remove-id]").forEach(button => {
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      removeFromCart(button.dataset.removeId);
+    });
+  });
+}
+
+document.getElementById("cartOpen")?.addEventListener("click", openCart);
+document.getElementById("cartClose")?.addEventListener("click", closeCart);
+document.getElementById("cartContinue")?.addEventListener("click", closeCart);
+document.getElementById("cartBackdrop")?.addEventListener("click", closeCart);
+document.getElementById("cartCheckout")?.addEventListener("click", async () => {
+  const checkoutButton = document.getElementById("cartCheckout");
+  const error = document.getElementById("cartError");
+  const items = getAvailableCartWatches().map(w => ({ id: w.listingId }));
+
+  if(error){ error.hidden = true; error.textContent = ""; }
+
+  if(!items.length){
+    if(error){ error.hidden = false; error.textContent = "Your cart is empty."; }
+    return;
+  }
+
+  checkoutButton.disabled = true;
+  checkoutButton.textContent = "LOADING";
+
+  try{
+    const response = await fetch("/create-stripe-checkout", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ items })
+    });
+    const data = await response.json();
+    if(!response.ok || !data.checkoutUrl){
+      throw new Error(data.error || "Checkout unavailable");
+    }
+    window.location.href = data.checkoutUrl;
+  } catch(err){
+    console.error(err);
+    if(error){ error.hidden = false; error.textContent = err.message || "Checkout unavailable. Please enquire directly."; }
+  } finally {
+    checkoutButton.disabled = false;
+    checkoutButton.textContent = "CHECKOUT";
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape") closeCart();
+});
+
 loadWatchesFromAirtable();
+handleInitialInfoHash();
+window.addEventListener("hashchange", handleInitialInfoHash);
 </script>
 <!-- V10 final: use ONLY the native single main image. Remove stacked/duplicate preview carousel. -->
-</body>
+<span hidden="" id="cartCount">0</span></body>
 </html>
