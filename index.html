@@ -5855,7 +5855,9 @@ function setProductBrowserUrl(w, replace = false){
   if(!w || !window.history?.pushState) return;
   const method = replace ? "replaceState" : "pushState";
   const slug = getProductSlug(w);
-  window.history[method]({ productToken:slug }, "", `/watches/${encodeURIComponent(slug)}/`);
+  try{
+    window.history[method]({ productToken:slug }, "", `/watches/${encodeURIComponent(slug)}/`);
+  } catch {}
   updateProductSeoHead(w);
 }
 
@@ -5864,7 +5866,9 @@ function clearProductBrowserUrl(replace = false){
   const hadProductUrl = Boolean(getRequestedProductToken());
   if(!hadProductUrl) return;
   const method = replace ? "replaceState" : "pushState";
-  window.history[method]({ page:"buy" }, "", "/");
+  try{
+    window.history[method]({ page:"buy" }, "", "/");
+  } catch {}
   updateProductSeoHead(null);
 }
 
@@ -6044,6 +6048,10 @@ window.addEventListener("resize", () => {
     render();
   }
 });
+
+function formatPounds(value){
+  return Number(value || 0).toLocaleString("en-GB");
+}
 
 function getWatchYear(w){
   const rawYear = w.specs && w.specs.year ? String(w.specs.year).trim() : "";
