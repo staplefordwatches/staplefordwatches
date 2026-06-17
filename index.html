@@ -5864,7 +5864,7 @@ html body .lightbox-next{
 </div>
 <button aria-expanded="true" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span>HIDE DESCRIPTION ↓</span></button>
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
-<button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span class="spec-heading-label">SPECIFICATION ↑</span><span aria-hidden="true" class="spec-heading-icon"><svg focusable="false" viewbox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15 15l5 5"></path></svg></span></button>
+<button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span class="spec-heading-label">SPECIFICATION ↑</span><span aria-hidden="true" class="spec-heading-icon"><svg focusable="false" viewbox="0 0 24 24"><path d="M6 4.5h9l3 3V19.5H6z"></path><path d="M15 4.5v3h3"></path><path d="M9 11h6"></path><path d="M9 14h6"></path><path d="M9 17h4"></path></svg></span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-delivery"><svg focusable="false" viewbox="0 0 24 24"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailDelivery">
@@ -6551,7 +6551,7 @@ function setLightboxSpecsOpen(isOpen, scrollToSpecs = false){
   if(lightboxDetailSpecs) lightboxDetailSpecs.hidden = !isOpen;
   if(lightboxDetailSpecToggle){
     lightboxDetailSpecToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    lightboxDetailSpecToggle.innerHTML = `<span class="spec-heading-label">${isOpen ? "HIDE SPECIFICATION ↓" : "SPECIFICATION ↑"}</span><span class="spec-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="M15 15l5 5"></path></svg></span>`;
+    lightboxDetailSpecToggle.innerHTML = `<span class="spec-heading-label">${isOpen ? "HIDE SPECIFICATION ↓" : "SPECIFICATION ↑"}</span><span class="spec-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 4.5h9l3 3V19.5H6z"></path><path d="M15 4.5v3h3"></path><path d="M9 11h6"></path><path d="M9 14h6"></path><path d="M9 17h4"></path></svg></span>`;
   }
 
   if(isOpen && scrollToSpecs){
