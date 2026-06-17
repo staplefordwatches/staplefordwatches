@@ -6100,21 +6100,30 @@ function getProductSlug(w){
   return `${name || "watch"}-${String(w.listingId || w.id || "").toLowerCase()}`;
 }
 
+const PRODUCT_ROUTE_PREFIX = "/watches/";
+
 function getProductLink(w){
-  return `${SITE_ORIGIN}/?watch=${encodeURIComponent(getProductSlug(w))}`;
+  return `${SITE_ORIGIN}${PRODUCT_ROUTE_PREFIX}${encodeURIComponent(getProductSlug(w))}/`;
 }
 
 function getRequestedProductToken(){
-  const pathMatch = window.location.pathname.match(/\/watches\/([^\/]+)\/?$/i);
+  const cleanPath = window.location.pathname
+    .replace(/\/index\.html$/i, "")
+    .replace(/\/+$/g, "");
+
+  const pathMatch = cleanPath.match(/\/(?:watches|watch|products|product)\/([^\/]+)$/i);
   if(pathMatch && pathMatch[1]) return decodeURIComponent(pathMatch[1]);
+
   const params = new URLSearchParams(window.location.search);
   const queryToken = params.get("watch") || params.get("product") || params.get("listing");
   if(queryToken) return queryToken;
+
   if(window.location.hash && window.location.hash.length > 1){
     const hashToken = decodeURIComponent(window.location.hash.slice(1));
     if(["buy", "info", "delivery", "returns"].includes(hashToken.toLowerCase())) return "";
     return hashToken;
   }
+
   return "";
 }
 
@@ -6174,7 +6183,7 @@ function setProductBrowserUrl(w, replace = false){
   const method = replace ? "replaceState" : "pushState";
   const slug = getProductSlug(w);
   try{
-    window.history[method]({ productToken:slug }, "", `/?watch=${encodeURIComponent(slug)}`);
+    window.history[method]({ productToken:slug }, "", `${PRODUCT_ROUTE_PREFIX}${encodeURIComponent(slug)}/`);
   } catch {}
   updateProductSeoHead(w);
 }
