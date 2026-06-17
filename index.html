@@ -6199,12 +6199,24 @@ function clearProductBrowserUrl(replace = false){
   updateProductSeoHead(null);
 }
 
+function setPage(page){
+  const nextPage = String(page || "buy").toLowerCase();
+  document.body.classList.toggle("info-active", nextPage === "info");
+  if(nextPage === "buy"){
+    document.body.classList.remove("info-active");
+  }
+}
+
 function openProductFromCurrentUrl(replaceUrl = true){
   const token = getRequestedProductToken();
   if(!token || !watchesLoaded) return false;
+
   const watch = findWatchFromProductToken(token);
   if(!watch) return false;
-  setPage("buy");
+
+  // Product routes are handled directly here so /watches/product-slug/
+  // does not depend on any separate page-tab/navigation helper.
+  document.body.classList.remove("info-active");
   openLightbox(watch, 0, false);
   setProductBrowserUrl(watch, replaceUrl);
   return true;
