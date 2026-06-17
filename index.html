@@ -6017,91 +6017,6 @@ document.addEventListener('visibilitychange', () => {
 
 const SITE_ORIGIN = "https://staplefordwatches.co.uk";
 
-const CLOUDINARY_CLOUD_NAME = "dvm4pgghh";
-const CLOUDINARY_DEFAULT_EXTENSION = "jpg";
-
-function cleanCloudinaryPath(value){
-  return String(value || "")
-    .trim()
-    .replace(/^\/+|\/+$/g, "");
-}
-
-function getCloudinaryFolder(w){
-  return cleanCloudinaryPath(
-    pickFirstField(w, [
-      "Cloudinary Folder",
-      "CloudinaryFolder",
-      "cloudinaryFolder",
-      "Cloudinary folder",
-      "Cloudinary Path",
-      "cloudinaryPath"
-    ]) ||
-    pickFirstField(w?.specs, [
-      "Cloudinary Folder",
-      "CloudinaryFolder",
-      "cloudinaryFolder",
-      "Cloudinary folder",
-      "Cloudinary Path",
-      "cloudinaryPath"
-    ])
-  );
-}
-
-function getCloudinaryImageNumbers(w){
-  const rawNumbers = pickFirstField(w, [
-    "Image Numbers",
-    "ImageNumbers",
-    "imageNumbers",
-    "Cloudinary Image Numbers",
-    "cloudinaryImageNumbers"
-  ]) || pickFirstField(w?.specs, [
-    "Image Numbers",
-    "ImageNumbers",
-    "imageNumbers",
-    "Cloudinary Image Numbers",
-    "cloudinaryImageNumbers"
-  ]);
-
-  if(rawNumbers){
-    return String(rawNumbers)
-      .split(/[\n,]+/)
-      .map(item => item.trim())
-      .filter(Boolean)
-      .map(item => item.replace(/\.(jpe?g|png|webp|avif)$/i, ""));
-  }
-
-  const rawCount = pickFirstField(w, ["Image Count", "ImageCount", "imageCount"]) ||
-    pickFirstField(w?.specs, ["Image Count", "ImageCount", "imageCount"]);
-  const count = Math.max(0, Math.min(30, parseInt(rawCount, 10) || 0));
-  return Array.from({ length: count }, (_, index) => String(index + 1).padStart(2, "0"));
-}
-
-function buildCloudinaryImageUrl(folder, imageNumber, transform = "f_auto,q_auto,w_1400,c_limit"){
-  const cleanFolder = cleanCloudinaryPath(folder);
-  const cleanImage = String(imageNumber || "").trim().replace(/^\/+/, "");
-  if(!CLOUDINARY_CLOUD_NAME || !cleanFolder || !cleanImage) return "";
-
-  const hasExtension = /\.(jpe?g|png|webp|avif)$/i.test(cleanImage);
-  const fileName = hasExtension ? cleanImage : `${cleanImage}.${CLOUDINARY_DEFAULT_EXTENSION}`;
-  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${transform}/${cleanFolder}/${fileName}`;
-}
-
-function getCloudinaryImages(w, transform = "f_auto,q_auto,w_1400,c_limit"){
-  const folder = getCloudinaryFolder(w);
-  if(!folder) return [];
-  return getCloudinaryImageNumbers(w)
-    .map(number => buildCloudinaryImageUrl(folder, number, transform))
-    .filter(Boolean);
-}
-
-function getCloudinaryGridImage(w){
-  const folder = getCloudinaryFolder(w);
-  const firstImageNumber = getCloudinaryImageNumbers(w)[0];
-  return folder && firstImageNumber
-    ? buildCloudinaryImageUrl(folder, firstImageNumber, "f_auto,q_auto,w_700,c_fill,ar_4:5")
-    : "";
-}
-
 const STAPLEFORD_SHIPPING_DETAILS = {
   "@type": "OfferShippingDetails",
   "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "GB" },
@@ -6345,8 +6260,6 @@ function openProductFromCurrentUrl(replaceUrl = true){
 }
 
 function getImageLink(w){
-  const cloudinaryGridImage = getCloudinaryGridImage(w);
-  if(cloudinaryGridImage) return cloudinaryGridImage;
   return getAbsoluteUrl(w.image);
 }
 
@@ -6425,8 +6338,6 @@ function prepareWatches(){
     watch.id = watch.id || listingId;
     const reference = getWatchReference(watch);
     watch.specs = { ...watch.specs, listingId, reference: reference || pickFirstField(watch.specs, WATCH_REFERENCE_FIELDS) || "" };
-    const cloudinaryGridImage = getCloudinaryGridImage(watch);
-    if(cloudinaryGridImage) watch.image = cloudinaryGridImage;
     watch.productLink = getProductLink(watch);
     watch.imageLink = getImageLink(watch);
     const airtableDescription = String(watch.description || watch.watchDescription || watch.longDescription || "").trim();
@@ -6539,9 +6450,6 @@ function getEnquiryData(w){
 
 
 function getWatchImages(w){
-  const cloudinaryImages = getCloudinaryImages(w, "f_auto,q_auto,w_1400,c_limit");
-  if(cloudinaryImages.length) return cloudinaryImages;
-
   const cover = w.image ? [w.image] : [];
 
   if(Array.isArray(w.gallery) && w.gallery.length){
