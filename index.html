@@ -5172,8 +5172,8 @@ html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-re
   display:block !important;
   width:100% !important;
   max-width:100% !important;
-  margin:18px 0 0 !important;
-  padding:18px 0 0 !important;
+  margin:12px 0 0 !important;
+  padding:12px 0 0 !important;
   border:0 !important;
   border-top:1px solid rgba(0,0,0,.14) !important;
   background:transparent !important;
@@ -6101,7 +6101,7 @@ function getProductSlug(w){
 }
 
 function getProductLink(w){
-  return `${SITE_ORIGIN}/watches/${encodeURIComponent(getProductSlug(w))}/`;
+  return `${SITE_ORIGIN}/?watch=${encodeURIComponent(getProductSlug(w))}`;
 }
 
 function getRequestedProductToken(){
@@ -6174,7 +6174,7 @@ function setProductBrowserUrl(w, replace = false){
   const method = replace ? "replaceState" : "pushState";
   const slug = getProductSlug(w);
   try{
-    window.history[method]({ productToken:slug }, "", `/watches/${encodeURIComponent(slug)}/`);
+    window.history[method]({ productToken:slug }, "", `/?watch=${encodeURIComponent(slug)}`);
   } catch {}
   updateProductSeoHead(w);
 }
