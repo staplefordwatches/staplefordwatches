@@ -5756,6 +5756,43 @@ html body .lightbox-next{
   font-family:Arial, Helvetica, sans-serif !important;
 }
 
+
+
+/* FINAL FIX: centre WhatsApp/email SVG icons inside the contact boxes.
+   The anchors are square boxes; the SVG is absolutely centred so font line-height
+   and SVG baseline spacing cannot pull the icon off-centre. */
+html body .lightbox-detail-contact-link,
+html body .lightbox-detail-contact-link:link,
+html body .lightbox-detail-contact-link:visited,
+html body .lightbox-detail-contact-link:hover,
+html body .lightbox-detail-contact-link:active{
+  position:relative !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+  line-height:1 !important;
+  padding:0 !important;
+}
+
+html body .lightbox-detail-contact-link svg{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  transform:translate(-50%, -50%) !important;
+  display:block !important;
+  margin:0 !important;
+  padding:0 !important;
+  vertical-align:middle !important;
+  pointer-events:none !important;
+}
+
+html body .lightbox-detail-contact-whatsapp svg,
+html body .lightbox-detail-contact-email svg{
+  width:17px !important;
+  height:17px !important;
+}
+
 </style></head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
