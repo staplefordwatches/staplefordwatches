@@ -37,7 +37,7 @@ export async function onRequestGet(context) {
       {
         watches,
         count: watches.length,
-        source: "airtable-cloudinary-sw-sku"
+        source: "airtable-cloudinary-sw-sku-jpg"
       },
       {
         headers: {
@@ -145,7 +145,7 @@ function normaliseWatch(record, cloudName, index) {
     gallery: buildGalleryUrls(cloudName, sku, imageCount),
 
     description: clean(
-      pick(fields, ["Description", "Watch Description", "Long Description", "Notes"])
+      pick(fields, ["Watch Description", "Description", "Long Description", "Notes"])
     ),
 
     createdTime,
@@ -171,6 +171,7 @@ function sortNewestAvailableThenNewestSold(a, b) {
 
   const aTime = Number(a.createdAt || 0);
   const bTime = Number(b.createdAt || 0);
+
   if (aTime !== bTime) return bTime - aTime;
 
   return String(b.listingId || "").localeCompare(String(a.listingId || ""));
@@ -185,12 +186,14 @@ function normaliseStatus(status) {
 
   if (["sold", "sale agreed", "completed"].includes(cleanStatus)) return "sold";
   if (["reserved", "reserve", "on hold", "hold", "resolved"].includes(cleanStatus)) return "reserved";
+
   return "available";
 }
 
 function buildCardImageUrl(cloudName, sku) {
-  const publicId = `watches/${sku}/01`;
+  const publicId = `watches/${sku}/01.jpg`;
   const transform = "f_auto,q_auto,dpr_auto,w_900,h_1125,c_fill,g_auto";
+
   return cloudinaryUrl(cloudName, publicId, transform);
 }
 
@@ -199,8 +202,9 @@ function buildGalleryUrls(cloudName, sku, imageCount) {
 
   return Array.from({ length: count }, (_, index) => {
     const imageNumber = String(index + 1).padStart(2, "0");
-    const publicId = `watches/${sku}/${imageNumber}`;
+    const publicId = `watches/${sku}/${imageNumber}.jpg`;
     const transform = "f_auto,q_auto,dpr_auto,w_1800,c_limit";
+
     return cloudinaryUrl(cloudName, publicId, transform);
   });
 }
@@ -219,12 +223,14 @@ function pick(source, names) {
   }
 
   const normalised = {};
+
   for (const [key, value] of Object.entries(source)) {
     normalised[normaliseKey(key)] = value;
   }
 
   for (const name of names) {
     const value = normalised[normaliseKey(name)];
+
     if (value !== undefined && value !== null && String(value).trim() !== "") {
       return value;
     }
@@ -250,10 +256,13 @@ function normalisePrice(value) {
 
 function toNumber(value, fallback = 0) {
   const number = Number(value);
+
   return Number.isFinite(number) ? number : fallback;
 }
 
 function clean(value) {
   if (value === undefined || value === null) return "";
+
   return String(value).trim();
+}
 }
