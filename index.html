@@ -5871,7 +5871,7 @@ html body .lightbox-detail-contact-email svg{
 let watches = [];
 let watchesLoaded = false;
 
-const WATCHES_CACHE_KEY = "stapleford_watches_cache_v1";
+const WATCHES_CACHE_KEY = "stapleford_watches_cache_v2";
 const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const WATCHES_FETCH_TIMEOUT_MS = 18000;
 const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
@@ -7240,7 +7240,7 @@ function render(){
   const safeListingId = escapeHtml(w.listingId);
   const safeBrand = escapeHtml(String(w.brand || "").toUpperCase());
   const safeProductDisplayTitle = escapeHtml(productDisplayTitle);
-  const safePrice = escapeHtml(w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : "£"+w.price.toLocaleString());
+  const safePrice = escapeHtml(w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : (Number(w.price) > 0 ? "£"+Number(w.price).toLocaleString() : "PRICE ON REQUEST"));
   const safeSpecs = {
     reference: escapeHtml(w.specs?.reference || ""),
     year: escapeHtml(w.specs?.year || ""),
