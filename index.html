@@ -5794,18 +5794,29 @@ html body .lightbox-detail-contact-email svg{
 }
 
 
-/* Content interaction policy
-   Keeps the retail page from feeling like a selectable document and removes
-   the browser's casual save/drag affordances for product imagery. This is a
-   single site policy, not a per-component override. */
+
+/* ========================================================================
+   STAPLEFORD CONTENT INTERACTION POLICY
+   Proper fix: one authoritative site-wide rule for selection, copy, drag,
+   long-press callouts and casual image saving. Keep this as the LAST CSS
+   block so later component styles cannot re-enable selection accidentally.
+   ======================================================================== */
+:root{
+  -webkit-touch-callout:none !important;
+  -webkit-user-select:none !important;
+  -moz-user-select:none !important;
+  -ms-user-select:none !important;
+  user-select:none !important;
+}
+
 html,
 body,
-body *:not(input):not(textarea):not(select):not(option):not([contenteditable="true"]):not([data-allow-select]){
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
-  -webkit-touch-callout:none;
+body *:not(input):not(textarea):not(select):not(option):not([contenteditable="true"]):not([contenteditable=""]):not([data-allow-select="true"]){
+  -webkit-touch-callout:none !important;
+  -webkit-user-select:none !important;
+  -moz-user-select:none !important;
+  -ms-user-select:none !important;
+  user-select:none !important;
 }
 
 input,
@@ -5813,23 +5824,47 @@ textarea,
 select,
 option,
 [contenteditable="true"],
-[data-allow-select]{
-  -webkit-user-select:text;
-  -moz-user-select:text;
-  -ms-user-select:text;
-  user-select:text;
-  -webkit-touch-callout:default;
+[contenteditable=""],
+[data-allow-select="true"]{
+  -webkit-touch-callout:default !important;
+  -webkit-user-select:text !important;
+  -moz-user-select:text !important;
+  -ms-user-select:text !important;
+  user-select:text !important;
 }
 
 img,
-[data-protected-media],
+picture,
+svg,
+.image img,
+.product-image img,
+.lightbox-stage img,
+.lightbox-image-wrap img,
+.stapleford-preview-slide img,
+.lightbox-related-image img,
+[data-protected-media="true"]{
+  -webkit-touch-callout:none !important;
+  -webkit-user-select:none !important;
+  -moz-user-select:none !important;
+  -ms-user-select:none !important;
+  user-select:none !important;
+  -webkit-user-drag:none !important;
+  user-drag:none !important;
+  pointer-events:none !important;
+}
+
 .image,
+.product-image,
 .lightbox-image-wrap,
 .stapleford-preview-slide,
-.lightbox-related-image{
-  -webkit-user-drag:none;
-  user-drag:none;
-  -webkit-touch-callout:none;
+.lightbox-related-image,
+.watch-card,
+.card{
+  -webkit-touch-callout:none !important;
+  -webkit-user-select:none !important;
+  -moz-user-select:none !important;
+  -ms-user-select:none !important;
+  user-select:none !important;
 }
 
 </style></head>
@@ -6550,63 +6585,6 @@ let lightboxTitle = "";
 let lightboxWatch = null;
 let lightboxDetailsManuallyHidden = false;
 
-
-/* Content interaction policy: centralised image/text protection. */
-const CONTENT_PROTECTION_SELECTABLE = 'input, textarea, select, option, [contenteditable="true"], [data-allow-select]';
-const CONTENT_PROTECTION_MEDIA = 'img, [data-protected-media], .image, .lightbox-image-wrap, .stapleford-preview-slide, .lightbox-related-image, .lightbox-related-card';
-
-function contentPolicyAllowsSelection(target){
-  return !!(target && target.closest && target.closest(CONTENT_PROTECTION_SELECTABLE));
-}
-
-function contentPolicyIsProtectedMedia(target){
-  return !!(target && target.closest && target.closest(CONTENT_PROTECTION_MEDIA));
-}
-
-function protectImageElement(img){
-  if(!img || img.nodeType !== 1) return;
-  img.draggable = false;
-  img.setAttribute('draggable', 'false');
-  img.setAttribute('data-protected-media', 'true');
-}
-
-function protectContent(root){
-  if(!root || !root.querySelectorAll) return;
-  root.querySelectorAll('img').forEach(protectImageElement);
-}
-
-protectImageElement(lightboxImage);
-protectContent(document);
-
-document.addEventListener('contextmenu', (event) => {
-  if(contentPolicyIsProtectedMedia(event.target)) event.preventDefault();
-}, true);
-
-document.addEventListener('dragstart', (event) => {
-  if(contentPolicyIsProtectedMedia(event.target)) event.preventDefault();
-}, true);
-
-document.addEventListener('selectstart', (event) => {
-  if(!contentPolicyAllowsSelection(event.target)) event.preventDefault();
-}, true);
-
-document.addEventListener('copy', (event) => {
-  if(!contentPolicyAllowsSelection(event.target)) event.preventDefault();
-}, true);
-
-if(window.MutationObserver && document.body){
-  new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if(node.nodeType !== 1) return;
-        if(node.matches && node.matches('img')) protectImageElement(node);
-        protectContent(node);
-      });
-    });
-  }).observe(document.body, { childList:true, subtree:true });
-}
-
-
 function setText(el, value){
   if(el) el.textContent = value || "";
 }
@@ -6769,7 +6747,7 @@ function renderRelatedWatches(currentWatch){
     img.alt = getProductDisplayName(w);
     img.loading = "lazy";
     img.decoding = "async";
-    protectImageElement(img);
+    img.draggable = false;
 
     const imageWrap = document.createElement("span");
     imageWrap.className = "lightbox-related-image";
@@ -6899,7 +6877,6 @@ function renderSwipePreviewTrack(){
     img.alt = `${lightboxTitle} image ${((index % lightboxImages.length) + 1)}`;
     img.loading = index < 2 ? "eager" : "lazy";
     img.decoding = "async";
-    protectImageElement(img);
     slide.appendChild(img);
     track.appendChild(slide);
   });
@@ -6952,7 +6929,6 @@ function renderLightbox(){
         img.alt = "";
         img.loading = "lazy";
         img.decoding = "async";
-        protectImageElement(img);
         thumb.appendChild(img);
         thumbs.appendChild(thumb);
       });
@@ -7350,7 +7326,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" data-protected-media="true">
+      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${safeProductLink}" aria-label="Product link for ${safeProductName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
@@ -7381,8 +7357,6 @@ function render(){
       </div>
     </div>
   `;
-
-  protectContent(div);
 
   const image = div.querySelector('.image');
   if(isAvailable){
@@ -7835,5 +7809,129 @@ loadWatches();
     else if(reduceMotionQuery.addListener) reduceMotionQuery.addListener(onMotionChange);
   }
 })();
+
+
+/* ========================================================================
+   STAPLEFORD CONTENT INTERACTION POLICY
+   Proper fix: capture-phase behaviour guard. This is intentionally central
+   and document-level so dynamically-rendered products/lightbox images are
+   protected without per-component patches.
+   ======================================================================== */
+(function staplefordContentInteractionPolicy(){
+  'use strict';
+
+  var FORM_SELECTOR = 'input, textarea, select, option, [contenteditable="true"], [contenteditable=""], [data-allow-select="true"]';
+  var MEDIA_SELECTOR = 'img, picture, svg, .image, .product-image, .lightbox-image-wrap, .stapleford-preview-slide, .lightbox-related-image, [data-protected-media="true"]';
+
+  function closest(target, selector){
+    return !!(target && target.closest && target.closest(selector));
+  }
+
+  function isEditable(target){
+    return closest(target, FORM_SELECTOR);
+  }
+
+  function isProtectedMedia(target){
+    return closest(target, MEDIA_SELECTOR);
+  }
+
+  function stop(event){
+    if(!event) return;
+    event.preventDefault();
+  }
+
+  function stopHard(event){
+    if(!event) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if(event.stopImmediatePropagation) event.stopImmediatePropagation();
+  }
+
+  function clearSelection(){
+    var selection = window.getSelection && window.getSelection();
+    if(selection && selection.rangeCount) selection.removeAllRanges();
+  }
+
+  function protectImage(img){
+    if(!img || img.nodeType !== 1) return;
+    img.setAttribute('draggable', 'false');
+    img.setAttribute('data-protected-media', 'true');
+    img.setAttribute('oncontextmenu', 'return false');
+    img.setAttribute('ondragstart', 'return false');
+    img.setAttribute('onselectstart', 'return false');
+  }
+
+  function protectTree(root){
+    if(!root || root.nodeType !== 1) return;
+    if(root.matches && root.matches('img')) protectImage(root);
+    if(root.querySelectorAll){
+      root.querySelectorAll('img').forEach(protectImage);
+    }
+  }
+
+  // Initial pass.
+  protectTree(document.documentElement);
+
+  // Dynamically-rendered product cards, lightbox images and related products.
+  if(window.MutationObserver && document.documentElement){
+    new MutationObserver(function(mutations){
+      mutations.forEach(function(mutation){
+        mutation.addedNodes.forEach(protectTree);
+      });
+    }).observe(document.documentElement, { childList:true, subtree:true });
+  }
+
+  // Stop text becoming selectable. Forms remain usable if added later.
+  ['selectstart', 'selectionchange'].forEach(function(type){
+    document.addEventListener(type, function(event){
+      var target = event && event.target;
+      if(isEditable(target)) return;
+      if(type === 'selectstart') stopHard(event);
+      clearSelection();
+    }, true);
+  });
+
+  // Stop browser copy/cut/save-image affordances for public page content.
+  ['copy', 'cut', 'dragstart'].forEach(function(type){
+    document.addEventListener(type, function(event){
+      if(isEditable(event.target)) return;
+      stopHard(event);
+      clearSelection();
+    }, true);
+  });
+
+  // Right-click / long-press menu: block globally outside form fields. This is
+  // what prevents casual “Save image as…” rather than just changing the cursor.
+  document.addEventListener('contextmenu', function(event){
+    if(isEditable(event.target)) return;
+    stopHard(event);
+  }, true);
+
+  // Mouse/touch selection often begins before CSS alone can stop it.
+  ['mousedown', 'pointerdown', 'touchstart'].forEach(function(type){
+    document.addEventListener(type, function(event){
+      if(isEditable(event.target)) return;
+      if(event.button && event.button !== 0) stopHard(event);
+      window.setTimeout(clearSelection, 0);
+    }, { capture:true, passive:false });
+  });
+
+  // Keyboard shortcuts that create/copy selections or trigger page save/print.
+  document.addEventListener('keydown', function(event){
+    if(isEditable(event.target)) return;
+    var key = String(event.key || '').toLowerCase();
+    if((event.metaKey || event.ctrlKey) && ['a', 'c', 'x', 's', 'p'].indexOf(key) !== -1){
+      stopHard(event);
+      clearSelection();
+    }
+  }, true);
+
+  // Defensive cleanup for browsers/extensions that create a selection anyway.
+  document.addEventListener('mouseup', function(event){
+    if(isEditable(event.target)) return;
+    window.setTimeout(clearSelection, 0);
+  }, true);
+})();
+
 </script></body>
 </html>
