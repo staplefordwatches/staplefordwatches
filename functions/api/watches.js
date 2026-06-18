@@ -29,16 +29,15 @@ export async function onRequestGet(context) {
     });
 
     const watches = records
-      .map(record => normaliseWatch(record.fields, CLOUDINARY_CLOUD_NAME))
+      .map((record, index) => normaliseWatch(record, CLOUDINARY_CLOUD_NAME, index))
       .filter(Boolean)
-      .filter(watch => watch.published !== false)
-      .sort((a, b) => Number(a.sortOrder || 9999) - Number(b.sortOrder || 9999));
+      .sort(sortNewestAvailableThenNewestSold);
 
     return Response.json(
       {
         watches,
         count: watches.length,
-        source: "airtable-cloudinary"
+        source: "airtable-cloudinary-sw-sku"
       },
       {
         headers: {
@@ -97,40 +96,39 @@ async function getAirtableRecords({ token, baseId, tableName }) {
   return records;
 }
 
-function normaliseWatch(fields, cloudName) {
-  const sku = clean(
-    fields["SKU"] ||
-    fields["Sku"] ||
-    fields["Listing ID"] ||
-    fields["Listing Id"] ||
-    fields["ID"] ||
-    fields["Id"]
-  );
+function normaliseWatch(record, cloudName, index) {
+  const fields = record.fields || {};
+
+  const sku = clean(pick(fields, ["SKU", "Sku"]));
 
   if (!sku) return null;
 
-  const imageCount = Number(
-    fields["Image Count"] ||
-    fields["Images Count"] ||
-    fields["Photo Count"] ||
-    fields["Photos"] ||
+  const rawStatus = clean(pick(fields, ["Status", "Availability"]) || "available").toLowerCase();
+  const status = normaliseStatus(rawStatus);
+
+  const imageCount = toNumber(
+    pick(fields, ["Image Count", "Images Count", "Photo Count", "Photos", "ImageCount"]),
     1
   );
 
-  const publishedValue = fields["Published"];
-  const published =
-    publishedValue === undefined ||
-    publishedValue === null ||
-    publishedValue === "" ||
-    publishedValue === true ||
-    String(publishedValue).toLowerCase() === "true" ||
-    String(publishedValue).toLowerCase() === "yes" ||
-    String(publishedValue).toLowerCase() === "live";
+  const brand = clean(pick(fields, ["Brand", "Make"]));
+  const title = clean(pick(fields, ["Title", "Model", "Watch", "Watch Title", "Name"]));
 
-  const brand = clean(fields["Brand"]);
-  const title = clean(fields["Title"] || fields["Model"] || fields["Watch"]);
+  const sellingPrice = normalisePrice(
+    pick(fields, [
+      "Price",
+      "Selling Price",
+      "Sale Price",
+      "Website Price",
+      "Asking Price",
+      "Retail Price",
+      "Price GBP",
+      "Price (£)"
+    ])
+  );
 
-  const status = clean(fields["Status"] || "available").toLowerCase();
+  const createdTime = record.createdTime || "";
+  const createdAt = Date.parse(createdTime) || 0;
 
   return {
     listingId: sku,
@@ -140,49 +138,103 @@ function normaliseWatch(fields, cloudName) {
     brand,
     title,
 
-    price: normalisePrice(fields["Price"]),
+    price: sellingPrice,
     status,
 
     image: buildCardImageUrl(cloudName, sku),
     gallery: buildGalleryUrls(cloudName, sku, imageCount),
 
-    description: clean(fields["Description"] || fields["Watch Description"]),
-    sortOrder: Number(fields["Sort Order"] || fields["Order"] || 9999),
+    description: clean(
+      pick(fields, ["Description", "Watch Description", "Long Description", "Notes"])
+    ),
 
-    published,
+    createdTime,
+    createdAt,
+    sortOrder: index + 1,
 
     specs: {
-      reference: clean(fields["Reference"] || fields["Ref"]),
-      year: clean(fields["Year"]),
-      caseSize: clean(fields["Case Size"] || fields["Case"]),
-      condition: clean(fields["Condition"]),
-      contents: clean(fields["Contents"] || fields["Box/Papers"] || fields["Box & Papers"]),
+      reference: clean(pick(fields, ["Reference", "Ref", "Reference Number"])),
+      year: clean(pick(fields, ["Year", "Watch Year"])),
+      caseSize: clean(pick(fields, ["Case Size", "Case", "Size"])),
+      condition: clean(pick(fields, ["Condition"])),
+      contents: clean(pick(fields, ["Contents", "Box/Papers", "Box & Papers", "Set"])),
       listingId: sku
     }
   };
 }
 
+function sortNewestAvailableThenNewestSold(a, b) {
+  const aSoldGroup = isSoldGroup(a.status) ? 1 : 0;
+  const bSoldGroup = isSoldGroup(b.status) ? 1 : 0;
+
+  if (aSoldGroup !== bSoldGroup) return aSoldGroup - bSoldGroup;
+
+  const aTime = Number(a.createdAt || 0);
+  const bTime = Number(b.createdAt || 0);
+  if (aTime !== bTime) return bTime - aTime;
+
+  return String(b.listingId || "").localeCompare(String(a.listingId || ""));
+}
+
+function isSoldGroup(status) {
+  return ["sold", "reserved"].includes(String(status || "").toLowerCase());
+}
+
+function normaliseStatus(status) {
+  const cleanStatus = String(status || "available").toLowerCase().trim();
+
+  if (["sold", "sale agreed", "completed"].includes(cleanStatus)) return "sold";
+  if (["reserved", "reserve", "on hold", "hold", "resolved"].includes(cleanStatus)) return "reserved";
+  return "available";
+}
+
 function buildCardImageUrl(cloudName, sku) {
   const publicId = `watches/${sku}/01`;
   const transform = "f_auto,q_auto,dpr_auto,w_900,h_1125,c_fill,g_auto";
-
   return cloudinaryUrl(cloudName, publicId, transform);
 }
 
 function buildGalleryUrls(cloudName, sku, imageCount) {
-  const count = Math.max(1, Math.min(Number(imageCount || 1), 30));
+  const count = Math.max(1, Math.min(toNumber(imageCount, 1), 30));
 
   return Array.from({ length: count }, (_, index) => {
     const imageNumber = String(index + 1).padStart(2, "0");
     const publicId = `watches/${sku}/${imageNumber}`;
     const transform = "f_auto,q_auto,dpr_auto,w_1800,c_limit";
-
     return cloudinaryUrl(cloudName, publicId, transform);
   });
 }
 
 function cloudinaryUrl(cloudName, publicId, transform) {
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transform}/${publicId}`;
+}
+
+function pick(source, names) {
+  if (!source || typeof source !== "object") return "";
+
+  for (const name of names) {
+    if (source[name] !== undefined && source[name] !== null && String(source[name]).trim() !== "") {
+      return source[name];
+    }
+  }
+
+  const normalised = {};
+  for (const [key, value] of Object.entries(source)) {
+    normalised[normaliseKey(key)] = value;
+  }
+
+  for (const name of names) {
+    const value = normalised[normaliseKey(name)];
+    if (value !== undefined && value !== null && String(value).trim() !== "") {
+      return value;
+    }
+  }
+
+  return "";
+}
+
+function normaliseKey(value) {
+  return String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
 function normalisePrice(value) {
@@ -194,6 +246,11 @@ function normalisePrice(value) {
   const number = Number(cleaned);
 
   return Number.isFinite(number) ? number : 0;
+}
+
+function toNumber(value, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
 }
 
 function clean(value) {
