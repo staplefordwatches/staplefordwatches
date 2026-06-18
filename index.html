@@ -5796,12 +5796,15 @@ html body .lightbox-detail-contact-email svg{
 
 
 /* ========================================================================
-   STAPLEFORD CONTENT INTERACTION POLICY
-   Proper fix: one authoritative site-wide rule for selection, copy, drag,
-   long-press callouts and casual image saving. Keep this as the LAST CSS
-   block so later component styles cannot re-enable selection accidentally.
+   STAPLEFORD WORLD-CLASS CONTENT PROTECTION POLICY
+   Single authoritative policy. This lives at the very end of the stylesheet
+   so component rules cannot accidentally re-enable copy/select/drag behaviour.
+
+   Purpose: premium retail/gallery UX and casual theft deterrence.
+   Scope: public-facing site content. Real form controls remain usable.
    ======================================================================== */
-:root{
+html,
+body{
   -webkit-touch-callout:none !important;
   -webkit-user-select:none !important;
   -moz-user-select:none !important;
@@ -5809,9 +5812,8 @@ html body .lightbox-detail-contact-email svg{
   user-select:none !important;
 }
 
-html,
-body,
-body *:not(input):not(textarea):not(select):not(option):not([contenteditable="true"]):not([contenteditable=""]):not([data-allow-select="true"]){
+html *,
+body *{
   -webkit-touch-callout:none !important;
   -webkit-user-select:none !important;
   -moz-user-select:none !important;
@@ -5825,7 +5827,8 @@ select,
 option,
 [contenteditable="true"],
 [contenteditable=""],
-[data-allow-select="true"]{
+[data-allow-select="true"],
+[data-allow-select="true"] *{
   -webkit-touch-callout:default !important;
   -webkit-user-select:text !important;
   -moz-user-select:text !important;
@@ -5838,28 +5841,23 @@ picture,
 svg,
 .image img,
 .product-image img,
+.lightbox img,
 .lightbox-stage img,
-.lightbox-image-wrap img,
-.stapleford-preview-slide img,
 .lightbox-related-image img,
-[data-protected-media="true"]{
-  -webkit-touch-callout:none !important;
-  -webkit-user-select:none !important;
-  -moz-user-select:none !important;
-  -ms-user-select:none !important;
-  user-select:none !important;
+.stapleford-preview-slide img{
   -webkit-user-drag:none !important;
+  -khtml-user-drag:none !important;
   user-drag:none !important;
+  -webkit-touch-callout:none !important;
   pointer-events:none !important;
 }
 
 .image,
 .product-image,
 .lightbox-image-wrap,
-.stapleford-preview-slide,
+.lightbox-stage,
 .lightbox-related-image,
-.watch-card,
-.card{
+.stapleford-preview-slide{
   -webkit-touch-callout:none !important;
   -webkit-user-select:none !important;
   -moz-user-select:none !important;
@@ -7326,7 +7324,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false">
       ${isAvailable ? `<a class="merchant-product-link" href="${safeProductLink}" aria-label="Product link for ${safeProductName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
@@ -7809,129 +7807,155 @@ loadWatches();
     else if(reduceMotionQuery.addListener) reduceMotionQuery.addListener(onMotionChange);
   }
 })();
-
-
+</script>
+<script id="stapleford-world-class-content-protection">
 /* ========================================================================
-   STAPLEFORD CONTENT INTERACTION POLICY
-   Proper fix: capture-phase behaviour guard. This is intentionally central
-   and document-level so dynamically-rendered products/lightbox images are
-   protected without per-component patches.
+   STAPLEFORD WORLD-CLASS CONTENT PROTECTION POLICY
+   One central runtime guard for selection, copy, cut, drag, context menus,
+   iOS long-press save affordances, and dynamically-created gallery images.
    ======================================================================== */
-(function staplefordContentInteractionPolicy(){
+(function(){
   'use strict';
 
-  var FORM_SELECTOR = 'input, textarea, select, option, [contenteditable="true"], [contenteditable=""], [data-allow-select="true"]';
-  var MEDIA_SELECTOR = 'img, picture, svg, .image, .product-image, .lightbox-image-wrap, .stapleford-preview-slide, .lightbox-related-image, [data-protected-media="true"]';
+  var EDITABLE_SELECTOR = 'input, textarea, select, option, [contenteditable="true"], [contenteditable=""], [data-allow-select="true"]';
+  var PROTECTED_MEDIA_SELECTOR = 'img, picture, svg, canvas, .image, .product-image, .lightbox-image-wrap, .lightbox-stage, .lightbox-related-image, .stapleford-preview-slide, [data-protected-media="true"]';
+
+  document.documentElement.classList.add('stapleford-content-protected');
 
   function closest(target, selector){
     return !!(target && target.closest && target.closest(selector));
   }
 
   function isEditable(target){
-    return closest(target, FORM_SELECTOR);
+    return closest(target, EDITABLE_SELECTOR);
   }
 
-  function isProtectedMedia(target){
-    return closest(target, MEDIA_SELECTOR);
-  }
-
-  function stop(event){
-    if(!event) return;
-    event.preventDefault();
-  }
-
-  function stopHard(event){
+  function hardStop(event){
     if(!event) return;
     event.preventDefault();
     event.stopPropagation();
     if(event.stopImmediatePropagation) event.stopImmediatePropagation();
+    return false;
   }
 
   function clearSelection(){
-    var selection = window.getSelection && window.getSelection();
-    if(selection && selection.rangeCount) selection.removeAllRanges();
+    try{
+      var selection = window.getSelection && window.getSelection();
+      if(selection && selection.rangeCount) selection.removeAllRanges();
+    }catch(error){}
   }
 
-  function protectImage(img){
-    if(!img || img.nodeType !== 1) return;
-    img.setAttribute('draggable', 'false');
-    img.setAttribute('data-protected-media', 'true');
-    img.setAttribute('oncontextmenu', 'return false');
-    img.setAttribute('ondragstart', 'return false');
-    img.setAttribute('onselectstart', 'return false');
+  function protectMediaElement(el){
+    if(!el || el.nodeType !== 1) return;
+    el.setAttribute('data-protected-media', 'true');
+    el.setAttribute('draggable', 'false');
+    el.draggable = false;
+    el.addEventListener('dragstart', hardStop, true);
+    el.addEventListener('contextmenu', hardStop, true);
+    el.addEventListener('selectstart', hardStop, true);
   }
 
   function protectTree(root){
     if(!root || root.nodeType !== 1) return;
-    if(root.matches && root.matches('img')) protectImage(root);
+    if(root.matches && root.matches(PROTECTED_MEDIA_SELECTOR)) protectMediaElement(root);
     if(root.querySelectorAll){
-      root.querySelectorAll('img').forEach(protectImage);
+      root.querySelectorAll(PROTECTED_MEDIA_SELECTOR).forEach(protectMediaElement);
     }
   }
 
-  // Initial pass.
   protectTree(document.documentElement);
 
-  // Dynamically-rendered product cards, lightbox images and related products.
-  if(window.MutationObserver && document.documentElement){
+  if(window.MutationObserver){
     new MutationObserver(function(mutations){
       mutations.forEach(function(mutation){
-        mutation.addedNodes.forEach(protectTree);
+        mutation.addedNodes && mutation.addedNodes.forEach(protectTree);
       });
     }).observe(document.documentElement, { childList:true, subtree:true });
   }
 
-  // Stop text becoming selectable. Forms remain usable if added later.
-  ['selectstart', 'selectionchange'].forEach(function(type){
-    document.addEventListener(type, function(event){
-      var target = event && event.target;
-      if(isEditable(target)) return;
-      if(type === 'selectstart') stopHard(event);
-      clearSelection();
-    }, true);
-  });
-
-  // Stop browser copy/cut/save-image affordances for public page content.
-  ['copy', 'cut', 'dragstart'].forEach(function(type){
-    document.addEventListener(type, function(event){
-      if(isEditable(event.target)) return;
-      stopHard(event);
-      clearSelection();
-    }, true);
-  });
-
-  // Right-click / long-press menu: block globally outside form fields. This is
-  // what prevents casual “Save image as…” rather than just changing the cursor.
-  document.addEventListener('contextmenu', function(event){
-    if(isEditable(event.target)) return;
-    stopHard(event);
+  // Do not allow text selection to begin. This is stronger than CSS alone and
+  // catches browser edge cases where the selection starts before styles settle.
+  document.addEventListener('selectstart', function(event){
+    if(isEditable(event.target)) return true;
+    clearSelection();
+    return hardStop(event);
   }, true);
 
-  // Mouse/touch selection often begins before CSS alone can stop it.
-  ['mousedown', 'pointerdown', 'touchstart'].forEach(function(type){
+  // If anything still creates a selection, remove it immediately.
+  document.addEventListener('selectionchange', function(){
+    if(isEditable(document.activeElement)) return;
+    clearSelection();
+  }, true);
+
+  // Block copy/cut from public content even if a browser/extension creates a range.
+  ['copy', 'cut'].forEach(function(type){
     document.addEventListener(type, function(event){
-      if(isEditable(event.target)) return;
-      if(event.button && event.button !== 0) stopHard(event);
+      if(isEditable(event.target)) return true;
+      clearSelection();
+      if(event.clipboardData) event.clipboardData.setData('text/plain', '');
+      return hardStop(event);
+    }, true);
+  });
+
+  // Block image dragging and link/media drag-save behaviour.
+  document.addEventListener('dragstart', function(event){
+    if(isEditable(event.target)) return true;
+    return hardStop(event);
+  }, true);
+
+  // Block right-click / long-press menus site-wide outside form fields.
+  // This removes the normal Save Image As / Copy Image / Copy affordances.
+  document.addEventListener('contextmenu', function(event){
+    if(isEditable(event.target)) return true;
+    return hardStop(event);
+  }, true);
+
+  // Defensive: stop non-primary mouse menu paths and clear accidental selection
+  // after pointer/touch interactions without breaking links/buttons.
+  ['pointerdown', 'mousedown', 'touchstart', 'pointerup', 'mouseup', 'touchend'].forEach(function(type){
+    document.addEventListener(type, function(event){
+      if(isEditable(event.target)) return true;
+      if((type === 'pointerdown' || type === 'mousedown') && typeof event.button === 'number' && event.button !== 0){
+        return hardStop(event);
+      }
       window.setTimeout(clearSelection, 0);
+      return true;
     }, { capture:true, passive:false });
   });
 
-  // Keyboard shortcuts that create/copy selections or trigger page save/print.
+  // Keyboard shortcuts that copy/select/save/print public content.
   document.addEventListener('keydown', function(event){
-    if(isEditable(event.target)) return;
+    if(isEditable(event.target)) return true;
     var key = String(event.key || '').toLowerCase();
     if((event.metaKey || event.ctrlKey) && ['a', 'c', 'x', 's', 'p'].indexOf(key) !== -1){
-      stopHard(event);
       clearSelection();
+      return hardStop(event);
     }
+    return true;
   }, true);
 
-  // Defensive cleanup for browsers/extensions that create a selection anyway.
-  document.addEventListener('mouseup', function(event){
-    if(isEditable(event.target)) return;
-    window.setTimeout(clearSelection, 0);
-  }, true);
+  // Legacy IE/WebKit hooks still seen in embedded browsers.
+  document.onselectstart = function(event){
+    if(event && isEditable(event.target)) return true;
+    clearSelection();
+    return false;
+  };
+  document.oncopy = function(event){
+    if(event && isEditable(event.target)) return true;
+    clearSelection();
+    return false;
+  };
+  document.oncut = document.oncopy;
+  document.ondragstart = function(event){
+    if(event && isEditable(event.target)) return true;
+    return false;
+  };
+  document.oncontextmenu = function(event){
+    if(event && isEditable(event.target)) return true;
+    return false;
+  };
 })();
+</script>
 
-</script></body>
+</body>
 </html>
