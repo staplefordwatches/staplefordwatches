@@ -5793,6 +5793,45 @@ html body .lightbox-detail-contact-email svg{
   height:17px !important;
 }
 
+
+/* Content interaction policy
+   Keeps the retail page from feeling like a selectable document and removes
+   the browser's casual save/drag affordances for product imagery. This is a
+   single site policy, not a per-component override. */
+html,
+body,
+body *:not(input):not(textarea):not(select):not(option):not([contenteditable="true"]):not([data-allow-select]){
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+}
+
+input,
+textarea,
+select,
+option,
+[contenteditable="true"],
+[data-allow-select]{
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text;
+  -webkit-touch-callout:default;
+}
+
+img,
+[data-protected-media],
+.image,
+.lightbox-image-wrap,
+.stapleford-preview-slide,
+.lightbox-related-image{
+  -webkit-user-drag:none;
+  user-drag:none;
+  -webkit-touch-callout:none;
+}
+
 </style></head>
 <body>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
@@ -6511,6 +6550,63 @@ let lightboxTitle = "";
 let lightboxWatch = null;
 let lightboxDetailsManuallyHidden = false;
 
+
+/* Content interaction policy: centralised image/text protection. */
+const CONTENT_PROTECTION_SELECTABLE = 'input, textarea, select, option, [contenteditable="true"], [data-allow-select]';
+const CONTENT_PROTECTION_MEDIA = 'img, [data-protected-media], .image, .lightbox-image-wrap, .stapleford-preview-slide, .lightbox-related-image, .lightbox-related-card';
+
+function contentPolicyAllowsSelection(target){
+  return !!(target && target.closest && target.closest(CONTENT_PROTECTION_SELECTABLE));
+}
+
+function contentPolicyIsProtectedMedia(target){
+  return !!(target && target.closest && target.closest(CONTENT_PROTECTION_MEDIA));
+}
+
+function protectImageElement(img){
+  if(!img || img.nodeType !== 1) return;
+  img.draggable = false;
+  img.setAttribute('draggable', 'false');
+  img.setAttribute('data-protected-media', 'true');
+}
+
+function protectContent(root){
+  if(!root || !root.querySelectorAll) return;
+  root.querySelectorAll('img').forEach(protectImageElement);
+}
+
+protectImageElement(lightboxImage);
+protectContent(document);
+
+document.addEventListener('contextmenu', (event) => {
+  if(contentPolicyIsProtectedMedia(event.target)) event.preventDefault();
+}, true);
+
+document.addEventListener('dragstart', (event) => {
+  if(contentPolicyIsProtectedMedia(event.target)) event.preventDefault();
+}, true);
+
+document.addEventListener('selectstart', (event) => {
+  if(!contentPolicyAllowsSelection(event.target)) event.preventDefault();
+}, true);
+
+document.addEventListener('copy', (event) => {
+  if(!contentPolicyAllowsSelection(event.target)) event.preventDefault();
+}, true);
+
+if(window.MutationObserver && document.body){
+  new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if(node.nodeType !== 1) return;
+        if(node.matches && node.matches('img')) protectImageElement(node);
+        protectContent(node);
+      });
+    });
+  }).observe(document.body, { childList:true, subtree:true });
+}
+
+
 function setText(el, value){
   if(el) el.textContent = value || "";
 }
@@ -6673,7 +6769,7 @@ function renderRelatedWatches(currentWatch){
     img.alt = getProductDisplayName(w);
     img.loading = "lazy";
     img.decoding = "async";
-    img.draggable = false;
+    protectImageElement(img);
 
     const imageWrap = document.createElement("span");
     imageWrap.className = "lightbox-related-image";
@@ -6803,6 +6899,7 @@ function renderSwipePreviewTrack(){
     img.alt = `${lightboxTitle} image ${((index % lightboxImages.length) + 1)}`;
     img.loading = index < 2 ? "eager" : "lazy";
     img.decoding = "async";
+    protectImageElement(img);
     slide.appendChild(img);
     track.appendChild(slide);
   });
@@ -6855,6 +6952,7 @@ function renderLightbox(){
         img.alt = "";
         img.loading = "lazy";
         img.decoding = "async";
+        protectImageElement(img);
         thumb.appendChild(img);
         thumbs.appendChild(thumb);
       });
@@ -7252,7 +7350,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" data-protected-media="true">
       ${isAvailable ? `<a class="merchant-product-link" href="${safeProductLink}" aria-label="Product link for ${safeProductName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
@@ -7283,6 +7381,8 @@ function render(){
       </div>
     </div>
   `;
+
+  protectContent(div);
 
   const image = div.querySelector('.image');
   if(isAvailable){
