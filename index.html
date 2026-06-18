@@ -5794,15 +5794,20 @@ html body .lightbox-detail-contact-email svg{
 }
 
 </style>
-<!-- STAPLEFORD_NO_COPY_LOCK_CSS_START -->
-<style id="stapleford-no-copy-lock-css">
-  /* Stapleford no-copy lock: final, site-wide, Subdial-style behaviour. */
+
+<!-- STAPLEFORD_SUBDIAL_LOCK_CSS_START -->
+<style id="stapleford-subdial-lock-css">
+  /*
+    Stapleford / Subdial-style content lock.
+    Purpose: remove normal browser copy/save interactions across the public storefront.
+  */
   html,
   body,
   body *,
   body *::before,
   body *::after {
     -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
     -moz-user-select: none !important;
     -ms-user-select: none !important;
     user-select: none !important;
@@ -5815,7 +5820,9 @@ html body .lightbox-detail-contact-email svg{
   picture,
   svg,
   canvas,
-  video {
+  video,
+  a,
+  button {
     -webkit-user-drag: none !important;
     user-drag: none !important;
     -webkit-touch-callout: none !important;
@@ -5831,107 +5838,165 @@ html body .lightbox-detail-contact-email svg{
     color: inherit !important;
   }
 </style>
-<!-- STAPLEFORD_NO_COPY_LOCK_CSS_END -->
+<!-- STAPLEFORD_SUBDIAL_LOCK_CSS_END -->
 
 </head>
-<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" oncopy="return false" oncut="return false">
-
-<!-- STAPLEFORD_NO_COPY_LOCK_JS_START -->
-<script id="stapleford-no-copy-lock-js">
+<body oncontextmenu="return false" oncopy="return false" oncut="return false" onselectstart="return false" ondragstart="return false" style="-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important;">
+<!-- STAPLEFORD_SUBDIAL_LOCK_JS_START -->
+<script id="stapleford-subdial-lock-js">
 (function () {
   'use strict';
 
+  var LOCK_STYLE_ID = 'stapleford-subdial-lock-css';
   var BLOCKED_EVENTS = [
     'contextmenu',
     'copy',
     'cut',
     'dragstart',
-    'selectstart'
+    'selectstart',
+    'beforecopy',
+    'beforecut'
   ];
 
-  function stop(e) {
-    if (!e) return false;
-    e.preventDefault();
-    e.stopPropagation();
-    if (typeof e.stopImmediatePropagation === 'function') {
-      e.stopImmediatePropagation();
+  function clearSelection() {
+    try {
+      var selection = window.getSelection && window.getSelection();
+      if (selection && selection.removeAllRanges) selection.removeAllRanges();
+    } catch (error) {}
+
+    try {
+      if (document.selection && document.selection.empty) document.selection.empty();
+    } catch (error) {}
+  }
+
+  function stopEvent(event) {
+    if (!event) return false;
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof event.stopImmediatePropagation === 'function') {
+      event.stopImmediatePropagation();
     }
     clearSelection();
     return false;
   }
 
-  function clearSelection() {
+  function hardLockElement(element) {
+    if (!element || element.nodeType !== 1) return;
+
+    element.setAttribute('unselectable', 'on');
+
     try {
-      var sel = window.getSelection && window.getSelection();
-      if (sel && sel.removeAllRanges) sel.removeAllRanges();
-    } catch (err) {}
-    try {
-      if (document.selection && document.selection.empty) document.selection.empty();
-    } catch (err) {}
+      element.style.setProperty('-webkit-user-select', 'none', 'important');
+      element.style.setProperty('-moz-user-select', 'none', 'important');
+      element.style.setProperty('-ms-user-select', 'none', 'important');
+      element.style.setProperty('user-select', 'none', 'important');
+      element.style.setProperty('-webkit-touch-callout', 'none', 'important');
+      element.style.setProperty('-webkit-user-drag', 'none', 'important');
+      element.style.setProperty('user-drag', 'none', 'important');
+    } catch (error) {}
+
+    var tag = element.tagName ? element.tagName.toLowerCase() : '';
+    if (tag === 'img' || tag === 'picture' || tag === 'svg' || tag === 'canvas' || tag === 'video' || tag === 'a') {
+      element.setAttribute('draggable', 'false');
+      element.setAttribute('aria-dropeffect', 'none');
+    }
+
+    element.oncontextmenu = function () { return false; };
+    element.oncopy = function () { return false; };
+    element.oncut = function () { return false; };
+    element.ondragstart = function () { return false; };
+    element.onselectstart = function () { return false; };
   }
 
-  BLOCKED_EVENTS.forEach(function (name) {
-    document.addEventListener(name, stop, true);
-    window.addEventListener(name, stop, true);
-  });
+  function hardLockTree(root) {
+    if (!root) return;
 
-  document.addEventListener('keydown', function (e) {
-    var key = String(e.key || '').toLowerCase();
-    var mod = e.ctrlKey || e.metaKey;
-    if (mod && (key === 'a' || key === 'c' || key === 'x' || key === 's' || key === 'p' || key === 'u')) {
-      stop(e);
+    if (root.nodeType === 1) hardLockElement(root);
+
+    var nodes = [];
+    try {
+      nodes = root.querySelectorAll ? root.querySelectorAll('*') : [];
+    } catch (error) {}
+
+    for (var i = 0; i < nodes.length; i += 1) {
+      hardLockElement(nodes[i]);
     }
-  }, true);
+  }
 
-  document.addEventListener('mousedown', function () {
-    clearSelection();
-  }, true);
+  function installEventLocks() {
+    for (var i = 0; i < BLOCKED_EVENTS.length; i += 1) {
+      document.addEventListener(BLOCKED_EVENTS[i], stopEvent, true);
+      window.addEventListener(BLOCKED_EVENTS[i], stopEvent, true);
+    }
 
-  document.addEventListener('mouseup', function () {
-    clearSelection();
-  }, true);
+    document.addEventListener('selectionchange', function () {
+      clearSelection();
+    }, true);
 
-  document.addEventListener('touchend', function () {
-    clearSelection();
-  }, true);
+    document.addEventListener('keydown', function (event) {
+      var key = String(event.key || '').toLowerCase();
+      var mod = event.ctrlKey || event.metaKey;
 
-  function protectImages(root) {
-    root = root || document;
-    var images = root.querySelectorAll ? root.querySelectorAll('img, picture, svg, canvas, video') : [];
-    images.forEach(function (el) {
-      el.setAttribute('draggable', 'false');
-      el.setAttribute('aria-dropeffect', 'none');
-      el.oncontextmenu = function () { return false; };
-      el.ondragstart = function () { return false; };
-      el.onselectstart = function () { return false; };
+      if (mod && (
+        key === 'a' ||
+        key === 'c' ||
+        key === 'x' ||
+        key === 's' ||
+        key === 'p' ||
+        key === 'u'
+      )) {
+        stopEvent(event);
+      }
+    }, true);
+
+    document.addEventListener('mousedown', clearSelection, true);
+    document.addEventListener('mouseup', clearSelection, true);
+    document.addEventListener('touchstart', clearSelection, true);
+    document.addEventListener('touchend', clearSelection, true);
+    document.addEventListener('pointerup', clearSelection, true);
+  }
+
+  function installObserver() {
+    if (!window.MutationObserver) return;
+
+    var observer = new MutationObserver(function (mutations) {
+      for (var i = 0; i < mutations.length; i += 1) {
+        var added = mutations[i].addedNodes || [];
+        for (var j = 0; j < added.length; j += 1) {
+          hardLockTree(added[j]);
+        }
+      }
+      clearSelection();
     });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  function boot() {
+    hardLockTree(document.documentElement);
+    installEventLocks();
+    installObserver();
+    clearSelection();
+
+    // Extra iOS/Safari safety net for long-press selection handles.
+    window.setInterval(function () {
+      hardLockTree(document.body || document.documentElement);
+      clearSelection();
+    }, 500);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      protectImages(document);
-    });
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
   } else {
-    protectImages(document);
+    boot();
   }
-
-  new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-      mutation.addedNodes.forEach(function (node) {
-        if (!node || node.nodeType !== 1) return;
-        if (node.matches && node.matches('img, picture, svg, canvas, video')) {
-          protectImages(node.parentNode || document);
-        } else {
-          protectImages(node);
-        }
-      });
-    });
-  }).observe(document.documentElement, { childList: true, subtree: true });
-
-  setInterval(clearSelection, 250);
 })();
 </script>
-<!-- STAPLEFORD_NO_COPY_LOCK_JS_END -->
+<!-- STAPLEFORD_SUBDIAL_LOCK_JS_END -->
+
 
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
 <svg aria-hidden="true" class="logo-mark" focusable="false" viewbox="0 0 4356 5399" xmlns="http://www.w3.org/2000/svg">
@@ -5953,7 +6018,7 @@ html body .lightbox-detail-contact-email svg{
 <div class="lightbox-image-wrap">
 <button aria-label="Previous image" class="lightbox-prev" type="button">‹</button>
 <div class="lightbox-status-badge" hidden="" id="lightboxStatusBadge">RESERVED</div>
-<img alt="" id="lightboxImage" src=""/>
+<img alt="" id="lightboxImage" src=""/ draggable="false" oncontextmenu="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;" ondragstart="return false;">
 <button aria-label="Next image" class="lightbox-next" type="button">›</button>
 </div>
 <div class="lightbox-meta" id="lightboxMeta"></div>
@@ -7390,7 +7455,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;">
+      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${safeProductLink}" aria-label="Product link for ${safeProductName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
