@@ -6074,7 +6074,7 @@ html body .lightbox-detail-contact-email svg{
 let watches = [];
 let watchesLoaded = false;
 
-const WATCHES_CACHE_KEY = "stapleford_watches_cache_v3";
+const WATCHES_CACHE_KEY = "stapleford_watches_cache_v2";
 const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const WATCHES_FETCH_TIMEOUT_MS = 18000;
 const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
@@ -6085,7 +6085,17 @@ function hasUsableWatches(value){
 
 function renderLoadedWatches(nextWatches){
   if(!hasUsableWatches(nextWatches)) return false;
-  watches = nextWatches;
+
+  // The order from /api/watches is the Airtable view order. Keep it as a
+  // permanent tie-breaker so the website can group by status without losing
+  // the top-to-bottom Airtable sequence.
+  watches = nextWatches.map((watch, index) => ({
+    ...watch,
+    _airtableEntryOrder: Number.isFinite(Number(watch?._airtableEntryOrder))
+      ? Number(watch._airtableEntryOrder)
+      : index
+  }));
+
   prepareWatches();
   updateProductStructuredData();
   watchesLoaded = true;
@@ -6164,9 +6174,7 @@ async function loadWatches(){
     const galleryEl = document.getElementById("gallery");
     const cachedWatches = getCachedWatches();
 
-    if(cachedWatches){
-      renderLoadedWatches(cachedWatches);
-    } else if(galleryEl){
+    if(galleryEl){
       galleryEl.innerHTML = '';
     }
 
@@ -6186,17 +6194,19 @@ async function loadWatches(){
     }
 
     if(freshWatches){
-      const freshSignature = JSON.stringify(freshWatches);
-      const currentSignature = hasUsableWatches(watches) ? JSON.stringify(watches) : "";
       saveCachedWatches(freshWatches);
-
-      if(freshSignature !== currentSignature){
-        renderLoadedWatches(freshWatches);
-      }
+      renderLoadedWatches(freshWatches);
       return;
     }
 
-    if(!cachedWatches && galleryEl){
+    // Only fall back to localStorage if the live Airtable/API request fails.
+    // This prevents a saved old order being shown instead of the current Airtable order.
+    if(cachedWatches){
+      renderLoadedWatches(cachedWatches);
+      return;
+    }
+
+    if(galleryEl){
       galleryEl.innerHTML = '';
     }
 
@@ -6535,6 +6545,10 @@ function getStructuredProductData(w){
 
 function prepareWatches(){
   watches.forEach((watch, index) => {
+    if(!Number.isFinite(Number(watch._airtableEntryOrder))){
+      watch._airtableEntryOrder = index;
+    }
+
     const listingId = watch.listingId || watch.id || `SW${String(index + 1).padStart(3, "0")}`;
     watch.listingId = listingId;
     watch.id = watch.id || listingId;
@@ -6635,80 +6649,6 @@ function getWatchYear(w){
   const rawYear = w.specs && w.specs.year ? String(w.specs.year).trim() : "";
   const match = rawYear.match(/\d{4}/);
   return match ? parseInt(match[0], 10) : 0;
-}
-
-const LISTING_ORDER_FIELDS = [
-  "websiteOrder",
-  "Website Order",
-  "sortOrder",
-  "Sort Order",
-  "displayOrder",
-  "Display Order",
-  "airtableOrder",
-  "Airtable Order",
-  "airtableIndex",
-  "Airtable Index",
-  "rowIndex",
-  "Row Index",
-  "position",
-  "Position",
-  "order",
-  "Order"
-];
-
-const LISTING_CREATED_FIELDS = [
-  "createdTime",
-  "Created Time",
-  "createdAt",
-  "Created At",
-  "dateAdded",
-  "Date Added",
-  "listedAt",
-  "Listed At",
-  "listedDate",
-  "Listed Date"
-];
-
-function getFirstFieldValue(w, fieldNames){
-  for(const fieldName of fieldNames){
-    if(w?.[fieldName] !== undefined && w?.[fieldName] !== null && String(w[fieldName]).trim()) return w[fieldName];
-    if(w?.specs?.[fieldName] !== undefined && w?.specs?.[fieldName] !== null && String(w.specs[fieldName]).trim()) return w.specs[fieldName];
-  }
-  return "";
-}
-
-function getListingOrderNumber(w){
-  const rawValue = getFirstFieldValue(w, LISTING_ORDER_FIELDS);
-  if(rawValue === "") return null;
-  const numberValue = Number(String(rawValue).replace(/[^0-9.-]/g, ""));
-  return Number.isFinite(numberValue) ? numberValue : null;
-}
-
-function getListingCreatedTimestamp(w){
-  const rawValue = getFirstFieldValue(w, LISTING_CREATED_FIELDS);
-  if(rawValue === "") return null;
-  const timestamp = Date.parse(String(rawValue));
-  return Number.isFinite(timestamp) ? timestamp : null;
-}
-
-function compareDefaultListingOrder(a, b, aIndex, bIndex){
-  const aOrder = getListingOrderNumber(a);
-  const bOrder = getListingOrderNumber(b);
-
-  if(aOrder !== null || bOrder !== null){
-    if(aOrder === null) return 1;
-    if(bOrder === null) return -1;
-    if(aOrder !== bOrder) return aOrder - bOrder;
-  }
-
-  const aCreated = getListingCreatedTimestamp(a);
-  const bCreated = getListingCreatedTimestamp(b);
-
-  if(aCreated !== null && bCreated !== null && aCreated !== bCreated){
-    return bCreated - aCreated;
-  }
-
-  return aIndex - bIndex;
 }
 
 function getEnquiryData(w){
@@ -7447,6 +7387,46 @@ function safeHttpUrl(value, fallback = ""){
   }
 }
 
+function getListingStatus(w){
+  return String(w?.status || "").trim().toLowerCase();
+}
+
+function isSoldOrReservedListing(w){
+  return ["sold", "reserved"].includes(getListingStatus(w));
+}
+
+function orderByAirtableEntryWithSoldReservedLast(items){
+  // Do not sort by date, price, ID, created time, or JavaScript object order here.
+  // The incoming array from /api/watches is already the Airtable top-to-bottom order.
+  const availableFirst = [];
+  const soldReservedLast = [];
+
+  items.forEach((watch) => {
+    if(isSoldOrReservedListing(watch)){
+      soldReservedLast.push(watch);
+    } else {
+      availableFirst.push(watch);
+    }
+  });
+
+  return availableFirst.concat(soldReservedLast);
+}
+
+function applySelectedSort(items){
+  const sorted = [...items];
+
+  switch(currentSort){
+    case "price-low": sorted.sort((a,b)=>a.price-b.price); break;
+    case "price-high": sorted.sort((a,b)=>b.price-a.price); break;
+    case "brand-az": sorted.sort((a,b)=>a.brand.localeCompare(b.brand)); break;
+    case "brand-za": sorted.sort((a,b)=>b.brand.localeCompare(a.brand)); break;
+    case "new-old": sorted.sort((a,b)=>getWatchYear(b)-getWatchYear(a)); break;
+    case "old-new": sorted.sort((a,b)=>getWatchYear(a)-getWatchYear(b)); break;
+  }
+
+  return sorted;
+}
+
 function render(){
  let items=[...watches];
 
@@ -7466,20 +7446,11 @@ function render(){
   });
  }
 
- const baseOrder = new Map(items.map((item, index) => [item, index]));
- const baseIndex = item => baseOrder.get(item) ?? 0;
-
- switch(currentSort){
-  case "price-low": items.sort((a,b)=>a.price-b.price); break;
-  case "price-high": items.sort((a,b)=>b.price-a.price); break;
-  case "brand-az": items.sort((a,b)=>a.brand.localeCompare(b.brand)); break;
-  case "brand-za": items.sort((a,b)=>b.brand.localeCompare(a.brand)); break;
-  case "new-old": items.sort((a,b)=>getWatchYear(b)-getWatchYear(a)); break;
-  case "old-new": items.sort((a,b)=>getWatchYear(a)-getWatchYear(b)); break;
-  default: items.sort((a,b)=>compareDefaultListingOrder(a, b, baseIndex(a), baseIndex(b))); break;
+ if(currentSort !== "default"){
+  items = applySelectedSort(items);
  }
 
- items.sort((a,b)=>Number(["sold", "reserved"].includes(a.status)) - Number(["sold", "reserved"].includes(b.status)));
+ items = orderByAirtableEntryWithSoldReservedLast(items);
 
  gallery.innerHTML="";
 
