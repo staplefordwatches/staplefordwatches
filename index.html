@@ -6074,7 +6074,7 @@ html body .lightbox-detail-contact-email svg{
 let watches = [];
 let watchesLoaded = false;
 
-const WATCHES_CACHE_KEY = "stapleford_watches_cache_v2";
+const WATCHES_CACHE_KEY = "stapleford_watches_cache_v3";
 const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const WATCHES_FETCH_TIMEOUT_MS = 18000;
 const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
@@ -6086,9 +6086,8 @@ function hasUsableWatches(value){
 function renderLoadedWatches(nextWatches){
   if(!hasUsableWatches(nextWatches)) return false;
 
-  // The order from /api/watches is the Airtable view order. Keep it as a
-  // permanent tie-breaker so the website can group by status without losing
-  // the top-to-bottom Airtable sequence.
+  // Keep the API/Airtable order as a tie-breaker, but let Bump Date control
+  // the default storefront order when it is present.
   watches = nextWatches.map((watch, index) => ({
     ...watch,
     _airtableEntryOrder: Number.isFinite(Number(watch?._airtableEntryOrder))
@@ -7387,6 +7386,17 @@ function safeHttpUrl(value, fallback = ""){
   }
 }
 
+const WATCH_BUMP_DATE_FIELDS = [
+  "bumpDate",
+  "Bump Date",
+  "bump date",
+  "Bumped At",
+  "Website Bump Date",
+  "websiteBumpDate",
+  "Sort Date",
+  "sortDate"
+];
+
 function getListingStatus(w){
   return String(w?.status || "").trim().toLowerCase();
 }
@@ -7395,9 +7405,50 @@ function isSoldOrReservedListing(w){
   return ["sold", "reserved"].includes(getListingStatus(w));
 }
 
-function orderByAirtableEntryWithSoldReservedLast(items){
-  // Do not sort by date, price, ID, created time, or JavaScript object order here.
-  // The incoming array from /api/watches is already the Airtable top-to-bottom order.
+function getRawFieldValue(source, aliases){
+  if(!source || typeof source !== "object") return "";
+
+  for(const alias of aliases){
+    if(source[alias] !== undefined && source[alias] !== null && String(source[alias]).trim()){
+      return source[alias];
+    }
+  }
+
+  const wanted = aliases.map(normalizeFieldName);
+  for(const [key, value] of Object.entries(source)){
+    if(value === undefined || value === null || !String(value).trim()) continue;
+    if(wanted.includes(normalizeFieldName(key))) return value;
+  }
+
+  return "";
+}
+
+function getWatchBumpTimestamp(w){
+  const sources = [w, w?.fields, w?.rawFields, w?.airtableFields];
+
+  for(const source of sources){
+    const value = getRawFieldValue(source, WATCH_BUMP_DATE_FIELDS);
+    if(!value) continue;
+
+    const timestamp = Date.parse(String(value));
+    if(Number.isFinite(timestamp)) return timestamp;
+  }
+
+  return 0;
+}
+
+function getAirtableEntryOrder(w){
+  const order = Number(w?._airtableEntryOrder);
+  return Number.isFinite(order) ? order : 0;
+}
+
+function compareByBumpDateThenAirtableOrder(a, b){
+  const bumpDiff = getWatchBumpTimestamp(b) - getWatchBumpTimestamp(a);
+  if(bumpDiff) return bumpDiff;
+  return getAirtableEntryOrder(a) - getAirtableEntryOrder(b);
+}
+
+function orderByBumpDateWithSoldReservedLast(items, useBumpDateSort = true){
   const availableFirst = [];
   const soldReservedLast = [];
 
@@ -7408,6 +7459,11 @@ function orderByAirtableEntryWithSoldReservedLast(items){
       availableFirst.push(watch);
     }
   });
+
+  if(useBumpDateSort){
+    availableFirst.sort(compareByBumpDateThenAirtableOrder);
+    soldReservedLast.sort(compareByBumpDateThenAirtableOrder);
+  }
 
   return availableFirst.concat(soldReservedLast);
 }
@@ -7450,7 +7506,7 @@ function render(){
   items = applySelectedSort(items);
  }
 
- items = orderByAirtableEntryWithSoldReservedLast(items);
+ items = orderByBumpDateWithSoldReservedLast(items, currentSort === "default");
 
  gallery.innerHTML="";
 
