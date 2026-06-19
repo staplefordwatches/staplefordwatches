@@ -6074,7 +6074,7 @@ html body .lightbox-detail-contact-email svg{
 let watches = [];
 let watchesLoaded = false;
 
-const WATCHES_CACHE_KEY = "stapleford_watches_cache_v4_bump_date";
+const WATCHES_CACHE_KEY = "stapleford_watches_cache_v6_bump_date_fixed";
 const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const WATCHES_FETCH_TIMEOUT_MS = 18000;
 const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
@@ -6086,9 +6086,9 @@ function hasUsableWatches(value){
 function renderLoadedWatches(nextWatches){
   if(!hasUsableWatches(nextWatches)) return false;
 
-  // The order from /api/watches is the Airtable view order. Keep it as a
-  // permanent tie-breaker so the website can group by status without losing
-  // the top-to-bottom Airtable sequence.
+  // Bump Date fix:
+  // The API should now send bumpDate from Airtable. The front end also looks
+  // for common variants just in case the raw Airtable fields are included.
   watches = nextWatches.map((watch, index) => {
     const entryOrder = Number.isFinite(Number(watch?._airtableEntryOrder))
       ? Number(watch._airtableEntryOrder)
@@ -6097,10 +6097,6 @@ function renderLoadedWatches(nextWatches){
     preparedWatch._bumpTimestamp = getWatchBumpTimestamp(preparedWatch);
     return preparedWatch;
   });
-
-  if(watches.length && !watches.some(watch => getWatchBumpTimestamp(watch))){
-    console.warn("Bump Date was not found in /api/watches. Add bumpDate/Bump Date to the API response, or sort the Airtable view by Bump Date newest first.", watches[0]);
-  }
 
   prepareWatches();
   updateProductStructuredData();
@@ -6540,7 +6536,7 @@ function getStructuredProductData(w){
       "url": productUrl,
       "priceCurrency": "GBP",
       "price": String(w.price),
-      "availability": w.status === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      "availability": getListingStatus(w) === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       "itemCondition": "https://schema.org/UsedCondition",
       "seller": { "@type": "Organization", "@id": "https://staplefordwatches.co.uk/#organization", "name": "Stapleford Watches" },
       "shippingDetails": { ...STAPLEFORD_SHIPPING_DETAILS },
@@ -6854,7 +6850,7 @@ function renderRelatedWatches(currentWatch){
     if(!w) return;
     const watchId = String(w.listingId || w.id || "");
     if(watchId && watchId === currentId) return;
-    if(w.status !== "available") return;
+    if(getListingStatus(w) !== "available") return;
 
     if(String(w.brand || "").toLowerCase() === String(currentWatch.brand || "").toLowerCase()){
       sameBrand.push(w);
@@ -6868,7 +6864,7 @@ function renderRelatedWatches(currentWatch){
       if(!w) return;
       const watchId = String(w.listingId || w.id || "");
       if(watchId && watchId === currentId) return;
-      if(w.status === "available") return;
+      if(getListingStatus(w) === "available") return;
       otherFallback.push(w);
     });
   }
@@ -6916,7 +6912,7 @@ function renderRelatedWatches(currentWatch){
 
     const price = document.createElement("span");
     price.className = "lightbox-related-price";
-    price.textContent = ["sold", "reserved"].includes(w.status) ? String(w.status || "sold").toUpperCase() : (w.price ? `£${formatPounds(w.price)}` : "PRICE ON REQUEST");
+    price.textContent = ["sold", "reserved"].includes(getListingStatus(w)) ? getListingStatus(w).toUpperCase() : (w.price ? `£${formatPounds(w.price)}` : "PRICE ON REQUEST");
 
     meta.append(brand, title, price);
     button.append(imageWrap, meta);
@@ -7491,7 +7487,7 @@ function compareByBumpDateThenAirtableOrder(a, b){
   return getAirtableEntryOrder(a) - getAirtableEntryOrder(b);
 }
 
-function orderByBumpDateWithSoldReservedLast(items, useBumpDateSort = true){
+function orderByBumpDateWithSoldReservedLast(items){
   const availableFirst = [];
   const soldReservedLast = [];
 
@@ -7503,10 +7499,8 @@ function orderByBumpDateWithSoldReservedLast(items, useBumpDateSort = true){
     }
   });
 
-  if(useBumpDateSort){
-    availableFirst.sort(compareByBumpDateThenAirtableOrder);
-    soldReservedLast.sort(compareByBumpDateThenAirtableOrder);
-  }
+  availableFirst.sort(compareByBumpDateThenAirtableOrder);
+  soldReservedLast.sort(compareByBumpDateThenAirtableOrder);
 
   return availableFirst.concat(soldReservedLast);
 }
@@ -7550,7 +7544,7 @@ function render(){
   items = applySelectedSort(items);
  }
 
- items = orderByBumpDateWithSoldReservedLast(items, currentSort === "default");
+ items = orderByBumpDateWithSoldReservedLast(items);
 
  gallery.innerHTML="";
 
