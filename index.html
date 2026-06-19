@@ -6074,7 +6074,7 @@ html body .lightbox-detail-contact-email svg{
 let watches = [];
 let watchesLoaded = false;
 
-const WATCHES_CACHE_KEY = "stapleford_watches_cache_v3";
+const WATCHES_CACHE_KEY = "stapleford_watches_cache_v4_bump_date";
 const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const WATCHES_FETCH_TIMEOUT_MS = 18000;
 const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
@@ -6086,14 +6086,21 @@ function hasUsableWatches(value){
 function renderLoadedWatches(nextWatches){
   if(!hasUsableWatches(nextWatches)) return false;
 
-  // Keep the API/Airtable order as a tie-breaker, but let Bump Date control
-  // the default storefront order when it is present.
-  watches = nextWatches.map((watch, index) => ({
-    ...watch,
-    _airtableEntryOrder: Number.isFinite(Number(watch?._airtableEntryOrder))
+  // The order from /api/watches is the Airtable view order. Keep it as a
+  // permanent tie-breaker so the website can group by status without losing
+  // the top-to-bottom Airtable sequence.
+  watches = nextWatches.map((watch, index) => {
+    const entryOrder = Number.isFinite(Number(watch?._airtableEntryOrder))
       ? Number(watch._airtableEntryOrder)
-      : index
-  }));
+      : index;
+    const preparedWatch = { ...watch, _airtableEntryOrder: entryOrder };
+    preparedWatch._bumpTimestamp = getWatchBumpTimestamp(preparedWatch);
+    return preparedWatch;
+  });
+
+  if(watches.length && !watches.some(watch => getWatchBumpTimestamp(watch))){
+    console.warn("Bump Date was not found in /api/watches. Add bumpDate/Bump Date to the API response, or sort the Airtable view by Bump Date newest first.", watches[0]);
+  }
 
   prepareWatches();
   updateProductStructuredData();
@@ -7389,32 +7396,35 @@ function safeHttpUrl(value, fallback = ""){
 const WATCH_BUMP_DATE_FIELDS = [
   "bumpDate",
   "Bump Date",
-  "bump date",
+  "Bump date",
+  "BumpDate",
+  "bump_date",
+  "bump-date",
   "Bumped At",
+  "Last Bumped",
   "Website Bump Date",
-  "websiteBumpDate",
+  "Website Sort Date",
   "Sort Date",
   "sortDate"
 ];
 
 function getListingStatus(w){
-  return String(w?.status || "").trim().toLowerCase();
+  return String(w?.status || w?.Status || w?.fields?.Status || "").trim().toLowerCase();
 }
 
 function isSoldOrReservedListing(w){
   return ["sold", "reserved"].includes(getListingStatus(w));
 }
 
-function getRawFieldValue(source, aliases){
+function getRawBumpDateValue(source){
   if(!source || typeof source !== "object") return "";
 
-  for(const alias of aliases){
-    if(source[alias] !== undefined && source[alias] !== null && String(source[alias]).trim()){
-      return source[alias];
-    }
+  for(const fieldName of WATCH_BUMP_DATE_FIELDS){
+    const direct = source[fieldName];
+    if(direct !== undefined && direct !== null && String(direct).trim()) return direct;
   }
 
-  const wanted = aliases.map(normalizeFieldName);
+  const wanted = WATCH_BUMP_DATE_FIELDS.map(normalizeFieldName);
   for(const [key, value] of Object.entries(source)){
     if(value === undefined || value === null || !String(value).trim()) continue;
     if(wanted.includes(normalizeFieldName(key))) return value;
@@ -7423,15 +7433,48 @@ function getRawFieldValue(source, aliases){
   return "";
 }
 
+function parseBumpDate(value){
+  if(value === undefined || value === null || value === "") return 0;
+  if(value instanceof Date) return value.getTime() || 0;
+
+  const raw = String(value).trim();
+  if(!raw) return 0;
+
+  const nativeTimestamp = Date.parse(raw);
+  if(Number.isFinite(nativeTimestamp)) return nativeTimestamp;
+
+  // Fallback for UK-style dates such as 19/06/2026 or 19/06/2026 14:30.
+  const ukDate = raw.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})(?:\s+(\d{1,2})(?::(\d{2}))?)?$/);
+  if(ukDate){
+    const day = Number(ukDate[1]);
+    const month = Number(ukDate[2]) - 1;
+    let year = Number(ukDate[3]);
+    if(year < 100) year += 2000;
+    const hour = Number(ukDate[4] || 0);
+    const minute = Number(ukDate[5] || 0);
+    const timestamp = new Date(year, month, day, hour, minute).getTime();
+    return Number.isFinite(timestamp) ? timestamp : 0;
+  }
+
+  return 0;
+}
+
 function getWatchBumpTimestamp(w){
-  const sources = [w, w?.fields, w?.rawFields, w?.airtableFields];
+  if(Number.isFinite(Number(w?._bumpTimestamp))) return Number(w._bumpTimestamp);
+
+  const sources = [
+    w,
+    w?.fields,
+    w?.rawFields,
+    w?.airtableFields,
+    w?.record?.fields,
+    w?.airtable?.fields
+  ];
 
   for(const source of sources){
-    const value = getRawFieldValue(source, WATCH_BUMP_DATE_FIELDS);
-    if(!value) continue;
-
-    const timestamp = Date.parse(String(value));
-    if(Number.isFinite(timestamp)) return timestamp;
+    const value = getRawBumpDateValue(source);
+    const timestamp = parseBumpDate(value);
+    if(timestamp) return timestamp;
   }
 
   return 0;
@@ -7488,7 +7531,8 @@ function render(){
 
  if(showAvailable || showSold){
   items = items.filter(w => {
-    return (showAvailable && w.status === "available") || (showSold && ["sold", "reserved"].includes(w.status));
+    const listingStatus = getListingStatus(w);
+    return (showAvailable && listingStatus === "available") || (showSold && ["sold", "reserved"].includes(listingStatus));
   });
  }
 
@@ -7536,8 +7580,9 @@ function render(){
   div.dataset.productLink = w.productLink;
   div.dataset.imageLink = w.imageLink;
   div.dataset.reference = getWatchReference(w);
-  const isAvailable = w.status === "available";
-  const isReserved = w.status === "reserved";
+  const listingStatus = getListingStatus(w);
+  const isAvailable = listingStatus === "available";
+  const isReserved = listingStatus === "reserved";
   const reference = getWatchReference(w);
   const productName = getProductDisplayName(w);
   const productDisplayTitle = getProductDisplayTitleWithoutBrand(w);
@@ -7547,7 +7592,7 @@ function render(){
   const safeListingId = escapeHtml(w.listingId);
   const safeBrand = escapeHtml(String(w.brand || "").toUpperCase());
   const safeProductDisplayTitle = escapeHtml(productDisplayTitle);
-  const safePrice = escapeHtml(w.status==="sold" ? "SOLD" : w.status==="reserved" ? "RESERVED" : (Number(w.price) > 0 ? "£"+Number(w.price).toLocaleString() : "PRICE ON REQUEST"));
+  const safePrice = escapeHtml(listingStatus==="sold" ? "SOLD" : listingStatus==="reserved" ? "RESERVED" : (Number(w.price) > 0 ? "£"+Number(w.price).toLocaleString() : "PRICE ON REQUEST"));
   const safeSpecs = {
     reference: escapeHtml(w.specs?.reference || ""),
     year: escapeHtml(w.specs?.year || ""),
@@ -7558,7 +7603,7 @@ function render(){
   };
 
   div.innerHTML=`
-    <div class="image ${w.status==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
+    <div class="image ${listingStatus==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
       <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${safeProductLink}" aria-label="Product link for ${safeProductName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
