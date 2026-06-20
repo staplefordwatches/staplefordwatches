@@ -6074,7 +6074,7 @@ html body .lightbox-detail-contact-email svg{
 let watches = [];
 let watchesLoaded = false;
 
-const WATCHES_CACHE_KEY = "stapleford_watches_cache_v6_bump_date_fixed";
+const WATCHES_CACHE_KEY = "stapleford_watches_cache_v7_standard_sort";
 const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const WATCHES_FETCH_TIMEOUT_MS = 18000;
 const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
@@ -6086,17 +6086,12 @@ function hasUsableWatches(value){
 function renderLoadedWatches(nextWatches){
   if(!hasUsableWatches(nextWatches)) return false;
 
-  // Bump Date fix:
-  // The API should now send bumpDate from Airtable. The front end also looks
-  // for common variants just in case the raw Airtable fields are included.
-  watches = nextWatches.map((watch, index) => {
-    const entryOrder = Number.isFinite(Number(watch?._airtableEntryOrder))
+  watches = nextWatches.map((watch, index) => ({
+    ...watch,
+    _airtableEntryOrder: Number.isFinite(Number(watch?._airtableEntryOrder))
       ? Number(watch._airtableEntryOrder)
-      : index;
-    const preparedWatch = { ...watch, _airtableEntryOrder: entryOrder };
-    preparedWatch._bumpTimestamp = getWatchBumpTimestamp(preparedWatch);
-    return preparedWatch;
-  });
+      : index
+  }));
 
   prepareWatches();
   updateProductStructuredData();
@@ -7389,21 +7384,6 @@ function safeHttpUrl(value, fallback = ""){
   }
 }
 
-const WATCH_BUMP_DATE_FIELDS = [
-  "bumpDate",
-  "Bump Date",
-  "Bump date",
-  "BumpDate",
-  "bump_date",
-  "bump-date",
-  "Bumped At",
-  "Last Bumped",
-  "Website Bump Date",
-  "Website Sort Date",
-  "Sort Date",
-  "sortDate"
-];
-
 function getListingStatus(w){
   return String(w?.status || w?.Status || w?.fields?.Status || "").trim().toLowerCase();
 }
@@ -7412,82 +7392,7 @@ function isSoldOrReservedListing(w){
   return ["sold", "reserved"].includes(getListingStatus(w));
 }
 
-function getRawBumpDateValue(source){
-  if(!source || typeof source !== "object") return "";
-
-  for(const fieldName of WATCH_BUMP_DATE_FIELDS){
-    const direct = source[fieldName];
-    if(direct !== undefined && direct !== null && String(direct).trim()) return direct;
-  }
-
-  const wanted = WATCH_BUMP_DATE_FIELDS.map(normalizeFieldName);
-  for(const [key, value] of Object.entries(source)){
-    if(value === undefined || value === null || !String(value).trim()) continue;
-    if(wanted.includes(normalizeFieldName(key))) return value;
-  }
-
-  return "";
-}
-
-function parseBumpDate(value){
-  if(value === undefined || value === null || value === "") return 0;
-  if(value instanceof Date) return value.getTime() || 0;
-
-  const raw = String(value).trim();
-  if(!raw) return 0;
-
-  const nativeTimestamp = Date.parse(raw);
-  if(Number.isFinite(nativeTimestamp)) return nativeTimestamp;
-
-  // Fallback for UK-style dates such as 19/06/2026 or 19/06/2026 14:30.
-  const ukDate = raw.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})(?:\s+(\d{1,2})(?::(\d{2}))?)?$/);
-  if(ukDate){
-    const day = Number(ukDate[1]);
-    const month = Number(ukDate[2]) - 1;
-    let year = Number(ukDate[3]);
-    if(year < 100) year += 2000;
-    const hour = Number(ukDate[4] || 0);
-    const minute = Number(ukDate[5] || 0);
-    const timestamp = new Date(year, month, day, hour, minute).getTime();
-    return Number.isFinite(timestamp) ? timestamp : 0;
-  }
-
-  return 0;
-}
-
-function getWatchBumpTimestamp(w){
-  if(Number.isFinite(Number(w?._bumpTimestamp))) return Number(w._bumpTimestamp);
-
-  const sources = [
-    w,
-    w?.fields,
-    w?.rawFields,
-    w?.airtableFields,
-    w?.record?.fields,
-    w?.airtable?.fields
-  ];
-
-  for(const source of sources){
-    const value = getRawBumpDateValue(source);
-    const timestamp = parseBumpDate(value);
-    if(timestamp) return timestamp;
-  }
-
-  return 0;
-}
-
-function getAirtableEntryOrder(w){
-  const order = Number(w?._airtableEntryOrder);
-  return Number.isFinite(order) ? order : 0;
-}
-
-function compareByBumpDateThenAirtableOrder(a, b){
-  const bumpDiff = getWatchBumpTimestamp(b) - getWatchBumpTimestamp(a);
-  if(bumpDiff) return bumpDiff;
-  return getAirtableEntryOrder(a) - getAirtableEntryOrder(b);
-}
-
-function orderByBumpDateWithSoldReservedLast(items){
+function orderWithSoldReservedLast(items){
   const availableFirst = [];
   const soldReservedLast = [];
 
@@ -7498,9 +7403,6 @@ function orderByBumpDateWithSoldReservedLast(items){
       availableFirst.push(watch);
     }
   });
-
-  availableFirst.sort(compareByBumpDateThenAirtableOrder);
-  soldReservedLast.sort(compareByBumpDateThenAirtableOrder);
 
   return availableFirst.concat(soldReservedLast);
 }
@@ -7544,7 +7446,7 @@ function render(){
   items = applySelectedSort(items);
  }
 
- items = orderByBumpDateWithSoldReservedLast(items);
+ items = orderWithSoldReservedLast(items);
 
  gallery.innerHTML="";
 
