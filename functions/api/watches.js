@@ -1,71 +1,68 @@
 export default async function handler(req, res) {
   try {
-    const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
-    const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-    const AIRTABLE_TABLE_NAME = process.env.AIRTABLE_TABLE_NAME || "Watches";
-    const AIRTABLE_VIEW = process.env.AIRTABLE_VIEW || "Grid view";
+    const token = process.env.AIRTABLE_TOKEN;
+    const baseId = process.env.AIRTABLE_BASE_ID;
+    const table = process.env.AIRTABLE_TABLE_NAME || "Watches";
+    const view = process.env.AIRTABLE_VIEW || "Grid view";
 
-    if (!AIRTABLE_TOKEN || !AIRTABLE_BASE_ID) {
-      return res.status(500).json({
-        error: "Missing Airtable environment variables"
-      });
-    }
-
-    const url = new URL(
-      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`
-    );
-
+    const url = new URL(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`);
     url.searchParams.set("pageSize", "100");
-    if (AIRTABLE_VIEW) url.searchParams.set("view", AIRTABLE_VIEW);
+    if (view) url.searchParams.set("view", view);
 
-    const airtableRes = await fetch(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${AIRTABLE_TOKEN}`
-      }
+    const r = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` }
     });
 
-    const text = await airtableRes.text();
-
-    if (!airtableRes.ok) {
-      return res.status(airtableRes.status).json({
-        error: "Could not load watches",
-        detail: `Airtable error ${airtableRes.status}: ${text}`
-      });
+    const text = await r.text();
+    if (!r.ok) {
+      return res.status(r.status).json({ error: "Could not load watches", detail: text });
     }
 
     const data = JSON.parse(text);
 
-    const watches = (data.records || [])
-      .map((record) => {
-        const f = record.fields || {};
+    const get = (f, names) => {
+      for (const name of names) {
+        if (f[name] !== undefined && f[name] !== null && String(f[name]).trim() !== "") return f[name];
+      }
+      return "";
+    };
 
-        return {
-          id: record.id,
-          brand: f.Brand || f.brand || "",
-          model: f.Model || f.model || "",
-          reference: f.Reference || f.reference || "",
-          year: f.Year || f.year || "",
-          price: f.Price || f.price || "",
-          status: f.Status || f.status || "Available",
-          description: f.Description || f.description || "",
-          images:
-            f.Images ||
-            f.images ||
-            f.Image ||
-            f.image ||
-            []
-        };
-      })
-      .filter((watch) => {
-        const status = String(watch.status || "").toLowerCase();
-        return status !== "hidden" && status !== "draft";
-      });
+    const getImages = (value) => {
+      if (!value) return [];
+      if (Array.isArray(value)) {
+        return value.map(x => x?.url || x).filter(Boolean);
+      }
+      return [String(value)];
+    };
 
-    return res.status(200).json({ watches });
-  } catch (err) {
-    return res.status(500).json({
-      error: "Could not load watches",
-      detail: err.message
+    const watches = (data.records || []).map((record, index) => {
+      const f = record.fields || {};
+
+      const images = getImages(get(f, ["Images", "Image", "Photos", "Photo", "Cloudinary", "Cloudinary URL", "Image URL"]));
+
+      return {
+        id: record.id,
+        listingId: get(f, ["Listing ID", "ListingId", "ID"]) || record.id,
+        brand: get(f, ["Brand", "brand"]),
+        title: get(f, ["Title", "Model", "Watch", "Name", "model"]),
+        price: get(f, ["Price", "price"]),
+        status: get(f, ["Status", "status"]) || "Available",
+        description: get(f, ["Description", "description"]),
+        image: images[0] || "",
+        images,
+        specs: {
+          reference: get(f, ["Reference", "Reference Number", "Ref", "Reference No"]),
+          year: get(f, ["Year", "year"]),
+          caseSize: get(f, ["Case Size", "CaseSize"]),
+          condition: get(f, ["Condition", "condition"]),
+          contents: get(f, ["Contents", "Box/Papers", "Set"])
+        },
+        _airtableEntryOrder: index
+      };
     });
+
+    res.status(200).json({ watches });
+  } catch (e) {
+    res.status(500).json({ error: "Could not load watches", detail: e.message });
   }
 }
