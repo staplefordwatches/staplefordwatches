@@ -71,7 +71,7 @@ export default async function handler(req, res) {
       })
       .filter(watch => watch.brand || watch.title || watch.price);
 
-    return Response.json(watches);
+    return Response.json({ watches });
   } catch (e) {
     return Response.json(
       { error: "Could not load watches", detail: e.message },
