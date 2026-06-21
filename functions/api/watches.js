@@ -50,7 +50,8 @@ export async function onRequest(context) {
 
         return {
           id: record.id,
-          listingId: sku || record.id,
+          listingId: record.id,
+          sku: sku,
           brand: get(f, ["Brand", "brand"]),
           title: get(f, ["Title", "Model", "Watch", "Name", "model"]),
           price: get(f, ["Price", "price"]),
