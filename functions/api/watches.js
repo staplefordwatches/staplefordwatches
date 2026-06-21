@@ -7,15 +7,7 @@ export async function onRequest(context) {
     const cloudName = context.env.CLOUDINARY_CLOUD_NAME || "dvm4pgghh";
 
     if (!token || !baseId) {
-      return Response.json(
-        {
-          ok: false,
-          error: "Missing Airtable settings",
-          hasToken: Boolean(token),
-          hasBaseId: Boolean(baseId)
-        },
-        { status: 500 }
-      );
+      return Response.json({ ok: false, error: "Missing Airtable settings" }, { status: 500 });
     }
 
     const url = new URL(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`);
@@ -23,21 +15,14 @@ export async function onRequest(context) {
     if (view) url.searchParams.set("view", view);
 
     const airtableResponse = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     });
 
     const airtableText = await airtableResponse.text();
 
     if (!airtableResponse.ok) {
       return Response.json(
-        {
-          ok: false,
-          error: "Could not load watches from Airtable",
-          status: airtableResponse.status,
-          detail: airtableText
-        },
+        { ok: false, error: "Could not load watches from Airtable", detail: airtableText },
         { status: airtableResponse.status }
       );
     }
@@ -47,16 +32,8 @@ export async function onRequest(context) {
     const get = (fields, names) => {
       for (const name of names) {
         const value = fields[name];
-
-        if (
-          value !== undefined &&
-          value !== null &&
-          String(value).trim() !== ""
-        ) {
-          return value;
-        }
+        if (value !== undefined && value !== null && String(value).trim() !== "") return value;
       }
-
       return "";
     };
 
@@ -73,12 +50,10 @@ export async function onRequest(context) {
 
     const buildImages = (sku, imageCount) => {
       const count = Number(imageCount || 0);
-
       if (!sku || !count) return [];
 
       return Array.from({ length: count }, (_, index) => {
         const num = String(index + 1).padStart(2, "0");
-
         return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/watches/${encodeURIComponent(sku)}/${num}`;
       });
     };
@@ -111,41 +86,21 @@ export async function onRequest(context) {
         ]));
 
         const price = numberValue(get(fields, ["Price", "price"]));
-
         const status = clean(get(fields, ["Status", "status"])) || "Available";
 
         const description = clean(get(fields, [
+          "Watch Description",
           "Description",
           "description",
           "Details",
           "Notes"
         ]));
 
-        const reference = clean(get(fields, [
-          "Reference",
-          "Reference Number",
-          "Ref",
-          "Reference No"
-        ]));
-
+        const reference = clean(get(fields, ["Reference", "Reference Number", "Ref", "Reference No"]));
         const year = clean(get(fields, ["Year", "year"]));
-
-        const caseSize = clean(get(fields, [
-          "Case Size",
-          "CaseSize",
-          "Size"
-        ]));
-
-        const condition = clean(get(fields, [
-          "Condition",
-          "condition"
-        ]));
-
-        const contents = clean(get(fields, [
-          "Contents",
-          "Box/Papers",
-          "Set"
-        ]));
+        const caseSize = clean(get(fields, ["Case Size", "CaseSize", "Size"]));
+        const condition = clean(get(fields, ["Condition", "condition"]));
+        const contents = clean(get(fields, ["Contents", "Box/Papers", "Set"]));
 
         const imageCount = get(fields, [
           "Image Count",
@@ -160,7 +115,7 @@ export async function onRequest(context) {
 
         return {
           id: record.id,
-          listingId: record.id,
+          listingId: sku || record.id,
           airtableId: record.id,
 
           sku,
@@ -201,9 +156,7 @@ export async function onRequest(context) {
           _airtableEntryOrder: index
         };
       })
-      .filter((watch) => {
-        return watch.brand || watch.title || watch.price || watch.sku;
-      });
+      .filter((watch) => watch.brand || watch.title || watch.price || watch.sku);
 
     return Response.json({
       ok: true,
@@ -214,11 +167,7 @@ export async function onRequest(context) {
     });
   } catch (error) {
     return Response.json(
-      {
-        ok: false,
-        error: "Could not load watches",
-        detail: error.message
-      },
+      { ok: false, error: "Could not load watches", detail: error.message },
       { status: 500 }
     );
   }
