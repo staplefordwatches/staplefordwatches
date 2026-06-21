@@ -4,6 +4,7 @@ export async function onRequest(context) {
     const baseId = context.env.AIRTABLE_BASE_ID;
     const table = context.env.AIRTABLE_TABLE_NAME || "Watches";
     const view = context.env.AIRTABLE_VIEW || "Grid view";
+    const cloudName = context.env.CLOUDINARY_CLOUD_NAME || "dvm4pgghh";
 
     const url = new URL(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`);
     url.searchParams.set("pageSize", "100");
@@ -26,41 +27,48 @@ export async function onRequest(context) {
 
     const get = (f, names) => {
       for (const name of names) {
-        if (f[name] !== undefined && f[name] !== null && String(f[name]).trim() !== "") return f[name];
+        if (f[name] !== undefined && f[name] !== null && String(f[name]).trim() !== "") {
+          return f[name];
+        }
       }
       return "";
     };
 
-    const getImages = (value) => {
-      if (!value) return [];
-      if (Array.isArray(value)) return value.map(x => x?.url || x).filter(Boolean);
-      return [String(value)];
-    };
+    const watches = (data.records || [])
+      .map((record, index) => {
+        const f = record.fields || {};
 
-    const watches = (data.records || []).map((record, index) => {
-      const f = record.fields || {};
-      const images = getImages(get(f, ["Images", "Image", "Photos", "Photo", "Cloudinary", "Cloudinary URL", "Image URL"]));
+        const sku = get(f, ["SKU", "Sku", "sku", "Cloudinary Folder", "Folder"]);
+        const imageCount = Number(get(f, ["Image Count", "ImageCount", "Images Count"]) || 0);
 
-      return {
-        id: record.id,
-        listingId: get(f, ["Listing ID", "ListingId", "ID"]) || record.id,
-        brand: get(f, ["Brand", "brand"]),
-        title: get(f, ["Title", "Model", "Watch", "Name", "model"]),
-        price: get(f, ["Price", "price"]),
-        status: get(f, ["Status", "status"]) || "Available",
-        description: get(f, ["Description", "description"]),
-        image: images[0] || "",
-        images,
-        specs: {
-          reference: get(f, ["Reference", "Reference Number", "Ref", "Reference No"]),
-          year: get(f, ["Year", "year"]),
-          caseSize: get(f, ["Case Size", "CaseSize"]),
-          condition: get(f, ["Condition", "condition"]),
-          contents: get(f, ["Contents", "Box/Papers", "Set"])
-        },
-        _airtableEntryOrder: index
-      };
-    });
+        const images = sku && imageCount
+          ? Array.from({ length: imageCount }, (_, i) => {
+              const num = String(i + 1).padStart(2, "0");
+              return `https://res.cloudinary.com/${cloudName}/image/upload/watches/${sku}/${num}`;
+            })
+          : [];
+
+        return {
+          id: record.id,
+          listingId: sku || record.id,
+          brand: get(f, ["Brand", "brand"]),
+          title: get(f, ["Title", "Model", "Watch", "Name", "model"]),
+          price: get(f, ["Price", "price"]),
+          status: get(f, ["Status", "status"]) || "Available",
+          description: get(f, ["Description", "description"]),
+          image: images[0] || "",
+          images,
+          specs: {
+            reference: get(f, ["Reference", "Reference Number", "Ref", "Reference No"]),
+            year: get(f, ["Year", "year"]),
+            caseSize: get(f, ["Case Size", "CaseSize"]),
+            condition: get(f, ["Condition", "condition"]),
+            contents: get(f, ["Contents", "Box/Papers", "Set"])
+          },
+          _airtableEntryOrder: index
+        };
+      })
+      .filter(watch => watch.brand || watch.title || watch.price);
 
     return Response.json(watches);
   } catch (e) {
