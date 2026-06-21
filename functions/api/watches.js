@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export async function onRequest(context) {
   try {
     const token = context.env.AIRTABLE_TOKEN;
     const baseId = context.env.AIRTABLE_BASE_ID;
@@ -6,75 +6,219 @@ export default async function handler(req, res) {
     const view = context.env.AIRTABLE_VIEW || "Grid view";
     const cloudName = context.env.CLOUDINARY_CLOUD_NAME || "dvm4pgghh";
 
+    if (!token || !baseId) {
+      return Response.json(
+        {
+          ok: false,
+          error: "Missing Airtable settings",
+          hasToken: Boolean(token),
+          hasBaseId: Boolean(baseId)
+        },
+        { status: 500 }
+      );
+    }
+
     const url = new URL(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`);
     url.searchParams.set("pageSize", "100");
     if (view) url.searchParams.set("view", view);
 
-    const r = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` }
+    const airtableResponse = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
-    const text = await r.text();
+    const airtableText = await airtableResponse.text();
 
-    if (!r.ok) {
+    if (!airtableResponse.ok) {
       return Response.json(
-        { error: "Could not load watches", detail: text },
-        { status: r.status }
+        {
+          ok: false,
+          error: "Could not load watches from Airtable",
+          status: airtableResponse.status,
+          detail: airtableText
+        },
+        { status: airtableResponse.status }
       );
     }
 
-    const data = JSON.parse(text);
+    const airtableData = JSON.parse(airtableText);
 
-    const get = (f, names) => {
+    const get = (fields, names) => {
       for (const name of names) {
-        if (f[name] !== undefined && f[name] !== null && String(f[name]).trim() !== "") {
-          return f[name];
+        const value = fields[name];
+
+        if (
+          value !== undefined &&
+          value !== null &&
+          String(value).trim() !== ""
+        ) {
+          return value;
         }
       }
+
       return "";
     };
 
-    const watches = (data.records || [])
+    const clean = (value) => {
+      if (value === undefined || value === null) return "";
+      return String(value).trim();
+    };
+
+    const numberValue = (value) => {
+      if (value === undefined || value === null || value === "") return "";
+      const n = Number(value);
+      return Number.isNaN(n) ? value : n;
+    };
+
+    const buildImages = (sku, imageCount) => {
+      const count = Number(imageCount || 0);
+
+      if (!sku || !count) return [];
+
+      return Array.from({ length: count }, (_, index) => {
+        const num = String(index + 1).padStart(2, "0");
+
+        return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/watches/${encodeURIComponent(sku)}/${num}`;
+      });
+    };
+
+    const watches = (airtableData.records || [])
       .map((record, index) => {
-        const f = record.fields || {};
+        const fields = record.fields || {};
 
-        const sku = get(f, ["SKU", "Sku", "sku", "Cloudinary Folder", "Folder"]);
-        const imageCount = Number(get(f, ["Image Count", "ImageCount", "Images Count"]) || 0);
+        const sku = clean(get(fields, [
+          "SKU",
+          "Sku",
+          "sku",
+          "Stock Number",
+          "Stock No",
+          "Stock ID",
+          "Cloudinary Folder",
+          "Folder",
+          "Image Folder"
+        ]));
 
-        const images = sku && imageCount
-          ? Array.from({ length: imageCount }, (_, i) => {
-              const num = String(i + 1).padStart(2, "0");
-              return `https://res.cloudinary.com/${cloudName}/image/upload/watches/${sku}/${num}`;
-            })
-          : [];
+        const brand = clean(get(fields, ["Brand", "brand"]));
+
+        const title = clean(get(fields, [
+          "Title",
+          "Model",
+          "Watch",
+          "Name",
+          "model",
+          "name"
+        ]));
+
+        const price = numberValue(get(fields, ["Price", "price"]));
+
+        const status = clean(get(fields, ["Status", "status"])) || "Available";
+
+        const description = clean(get(fields, [
+          "Description",
+          "description",
+          "Details",
+          "Notes"
+        ]));
+
+        const reference = clean(get(fields, [
+          "Reference",
+          "Reference Number",
+          "Ref",
+          "Reference No"
+        ]));
+
+        const year = clean(get(fields, ["Year", "year"]));
+
+        const caseSize = clean(get(fields, [
+          "Case Size",
+          "CaseSize",
+          "Size"
+        ]));
+
+        const condition = clean(get(fields, [
+          "Condition",
+          "condition"
+        ]));
+
+        const contents = clean(get(fields, [
+          "Contents",
+          "Box/Papers",
+          "Set"
+        ]));
+
+        const imageCount = get(fields, [
+          "Image Count",
+          "ImageCount",
+          "Images Count",
+          "Photo Count",
+          "PhotoCount"
+        ]);
+
+        const images = buildImages(sku, imageCount);
+        const mainImage = images[0] || "";
 
         return {
           id: record.id,
           listingId: record.id,
-          sku: sku,
-          brand: get(f, ["Brand", "brand"]),
-          title: get(f, ["Title", "Model", "Watch", "Name", "model"]),
-          price: get(f, ["Price", "price"]),
-          status: get(f, ["Status", "status"]) || "Available",
-          description: get(f, ["Description", "description"]),
-          image: images[0] || "",
+          airtableId: record.id,
+
+          sku,
+          brand,
+          title,
+          model: title,
+          name: title,
+
+          price,
+          status,
+          description,
+
+          image: mainImage,
+          imageUrl: mainImage,
+          mainImage,
+          mainImageUrl: mainImage,
+          thumbnail: mainImage,
           images,
+          gallery: images,
+
           specs: {
-            reference: get(f, ["Reference", "Reference Number", "Ref", "Reference No"]),
-            year: get(f, ["Year", "year"]),
-            caseSize: get(f, ["Case Size", "CaseSize"]),
-            condition: get(f, ["Condition", "condition"]),
-            contents: get(f, ["Contents", "Box/Papers", "Set"])
+            reference,
+            year,
+            caseSize,
+            condition,
+            contents
           },
+
+          reference,
+          year,
+          caseSize,
+          condition,
+          contents,
+
+          sold: status.toLowerCase().includes("sold"),
+          reserved: status.toLowerCase().includes("reserved"),
+
           _airtableEntryOrder: index
         };
       })
-      .filter(watch => watch.brand || watch.title || watch.price);
+      .filter((watch) => {
+        return watch.brand || watch.title || watch.price || watch.sku;
+      });
 
-    return Response.json({ watches });
-  } catch (e) {
+    return Response.json({
+      ok: true,
+      count: watches.length,
+      watches,
+      items: watches,
+      data: watches
+    });
+  } catch (error) {
     return Response.json(
-      { error: "Could not load watches", detail: e.message },
+      {
+        ok: false,
+        error: "Could not load watches",
+        detail: error.message
+      },
       { status: 500 }
     );
   }
