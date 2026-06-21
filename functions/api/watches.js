@@ -1,4 +1,4 @@
-export async function onRequest(context) {
+export default async function handler(req, res) {
   try {
     const token = context.env.AIRTABLE_TOKEN;
     const baseId = context.env.AIRTABLE_BASE_ID;
