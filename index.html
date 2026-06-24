@@ -5840,6 +5840,96 @@ html body .lightbox-detail-contact-email svg{
 </style>
 <!-- STAPLEFORD_SUBDIAL_LOCK_CSS_END -->
 
+
+
+<!-- Stapleford performance + neat specification overflow fix -->
+<link rel="preconnect" href="https://v5.airtableusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//v5.airtableusercontent.com">
+<link rel="preconnect" href="https://dl.airtable.com" crossorigin>
+<link rel="dns-prefetch" href="//dl.airtable.com">
+<link rel="preload" href="/fonts/fonnts.com-SweetSansProRegular.otf" as="font" type="font/otf" crossorigin>
+<style id="stapleford-speed-and-spec-fix">
+  .card{
+    content-visibility:auto;
+    contain-intrinsic-size:420px 520px;
+  }
+
+  .image img{
+    backface-visibility:hidden;
+    transform:translateZ(0);
+  }
+
+  .spec-overlay{
+    justify-content:flex-start !important;
+    overflow:hidden !important;
+    max-height:100% !important;
+    min-height:0 !important;
+  }
+
+  .spec-overlay .spec-hide{
+    flex:0 0 auto !important;
+  }
+
+  .spec-list{
+    display:block !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    max-height:calc(100% - 28px) !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding-right:4px !important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+  }
+
+  .spec-row{
+    display:grid !important;
+    grid-template-columns:minmax(74px, auto) minmax(0, 1fr) !important;
+    align-items:start !important;
+    gap:8px !important;
+  }
+
+  .spec-label,
+  .spec-value{
+    min-width:0 !important;
+  }
+
+  .spec-value,
+  .watch-reference,
+  .lightbox-detail-reference,
+  .lightbox-detail-year,
+  .lightbox-detail-contents,
+  .lightbox-detail-specs dd{
+    max-width:100% !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+    word-break:break-word !important;
+    hyphens:auto !important;
+  }
+
+  .lightbox-detail-specs{
+    grid-template-columns:minmax(86px, max-content) minmax(0, 1fr) !important;
+    max-height:min(42vh, 360px) !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding-right:4px !important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+  }
+
+  .lightbox-detail-specs dt,
+  .lightbox-detail-specs dd{
+    min-width:0 !important;
+  }
+
+  @media (max-width:767px){
+    .card{ contain-intrinsic-size:330px 430px; }
+    .spec-row{ grid-template-columns:minmax(66px, auto) minmax(0, 1fr) !important; }
+    .spec-list{ max-height:calc(100% - 26px) !important; }
+  }
+</style>
 </head>
 <body oncontextmenu="return false" oncopy="return false" oncut="return false" onselectstart="return false" ondragstart="return false" style="-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important;">
 <!-- STAPLEFORD_SUBDIAL_LOCK_JS_START -->
@@ -6018,7 +6108,7 @@ html body .lightbox-detail-contact-email svg{
 <div class="lightbox-image-wrap">
 <button aria-label="Previous image" class="lightbox-prev" type="button">‹</button>
 <div class="lightbox-status-badge" hidden="" id="lightboxStatusBadge">RESERVED</div>
-<img alt="" id="lightboxImage" src=""/ draggable="false" oncontextmenu="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;" ondragstart="return false;">
+<img alt="" id="lightboxImage" src="" decoding="async" draggable="false" oncontextmenu="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;" ondragstart="return false;">
 <button aria-label="Next image" class="lightbox-next" type="button">›</button>
 </div>
 <div class="lightbox-meta" id="lightboxMeta"></div>
@@ -6076,8 +6166,8 @@ let watchesLoaded = false;
 
 const WATCHES_CACHE_KEY = "stapleford_watches_cache_v7_standard_sort";
 const WATCHES_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
-const WATCHES_FETCH_TIMEOUT_MS = 18000;
-const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 450, 1200, 2600];
+const WATCHES_FETCH_TIMEOUT_MS = 6500;
+const WATCHES_FETCH_RETRY_DELAYS_MS = [0, 700];
 
 function hasUsableWatches(value){
   return Array.isArray(value) && value.length > 0;
@@ -6094,10 +6184,17 @@ function renderLoadedWatches(nextWatches){
   }));
 
   prepareWatches();
-  updateProductStructuredData();
   watchesLoaded = true;
   render();
   openProductFromCurrentUrl(true);
+
+  const refreshStructuredData = () => updateProductStructuredData();
+  if("requestIdleCallback" in window){
+    window.requestIdleCallback(refreshStructuredData, { timeout: 2000 });
+  } else {
+    window.setTimeout(refreshStructuredData, 0);
+  }
+
   return true;
 }
 
@@ -6130,12 +6227,12 @@ function delay(ms){
 async function fetchWatchesOnce(attemptIndex){
   const controller = window.AbortController ? new AbortController() : null;
   const timeoutId = controller ? window.setTimeout(() => controller.abort(), WATCHES_FETCH_TIMEOUT_MS) : null;
-  const url = `/api/watches?sw=${Date.now()}-${attemptIndex}`;
+  const url = attemptIndex === 0 ? `/api/watches` : `/api/watches?retry=${attemptIndex}`;
 
   try{
     const response = await fetch(url, {
       headers: { "Accept": "application/json" },
-      cache: "no-store",
+      cache: attemptIndex === 0 ? "default" : "no-cache",
       ...(controller ? { signal: controller.signal } : {})
     });
 
@@ -6170,8 +6267,13 @@ async function loadWatches(){
   watchesLoadPromise = (async () => {
     const galleryEl = document.getElementById("gallery");
     const cachedWatches = getCachedWatches();
+    let renderedFromCache = false;
 
-    if(galleryEl){
+    // Speed first: show the saved catalogue immediately, then refresh in the background.
+    // This removes the blank-page wait when /api/watches or Airtable is slow.
+    if(cachedWatches){
+      renderedFromCache = renderLoadedWatches(cachedWatches);
+    } else if(galleryEl){
       galleryEl.innerHTML = '';
     }
 
@@ -6196,14 +6298,7 @@ async function loadWatches(){
       return;
     }
 
-    // Only fall back to localStorage if the live Airtable/API request fails.
-    // This prevents a saved old order being shown instead of the current Airtable order.
-    if(cachedWatches){
-      renderLoadedWatches(cachedWatches);
-      return;
-    }
-
-    if(galleryEl){
+    if(!renderedFromCache && galleryEl){
       galleryEl.innerHTML = '';
     }
 
@@ -7462,6 +7557,7 @@ function render(){
  ensureListingLimitMatchesViewport();
  const hasHiddenListings = items.length > visibleListingLimit;
  const visibleItems = items.slice(0, visibleListingLimit);
+ const fragment = document.createDocumentFragment();
 
  if(showMoreWrap && showMoreBtn){
   showMoreWrap.hidden = !hasHiddenListings;
@@ -7500,7 +7596,7 @@ function render(){
 
   div.innerHTML=`
     <div class="image ${listingStatus==="sold"?"sold":""} ${isReserved?"reserved":""} ${isAvailable?"available":""}">
-      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i<4?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" draggable="false" oncontextmenu="return false;" ondragstart="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;">
+      <img src="${safeImageUrl}" alt="${safeProductName} (${safeListingId})" loading="${i===0?'eager':'lazy'}" fetchpriority="${i===0?'high':'auto'}" decoding="async" sizes="(max-width: 640px) calc((100vw - 10px) / 2), (max-width: 935px) calc((100vw - 4px) / 3), 311px" draggable="false" oncontextmenu="return false;" ondragstart="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;">
       ${isAvailable ? `<a class="merchant-product-link" href="${safeProductLink}" aria-label="Product link for ${safeProductName}"></a>` : ""}
       ${isReserved ? `<div class="status-badge">RESERVED</div>` : ""}
       ${isAvailable ? `
@@ -7576,8 +7672,10 @@ function render(){
     openListing(event);
   });
 
-  gallery.appendChild(div);
+  fragment.appendChild(div);
  });
+
+ gallery.appendChild(fragment);
 }
 
 
