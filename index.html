@@ -6679,6 +6679,20 @@ body.site-menu-open.site-menu-closing .site-menu-title:visited{
     padding-top:0 !important;
   }
 }
+
+/* STAPLEFORD UPDATE: hide logo while fullscreen menu is open */
+.site-header .logo{
+  transition:opacity 220ms ease, visibility 220ms ease !important;
+}
+
+body.site-menu-preopen .site-header .logo,
+body.site-menu-open .site-header .logo,
+body.site-menu-closing .site-header .logo{
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+
 </style>
 
 <body oncontextmenu="return false" oncopy="return false" oncut="return false" onselectstart="return false" ondragstart="return false" style="-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important;">
