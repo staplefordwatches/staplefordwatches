@@ -6874,6 +6874,7 @@ body.site-menu-closing .site-header .logo{
 <button class="site-menu-title" data-menu-target="sell" type="button">SELL</button>
 <button class="site-menu-title" data-menu-target="faqs" type="button">FAQs</button>
 <a class="site-menu-title site-menu-contact" href="mailto:ben@staplefordwatches.co.uk">CONTACT</a>
+<button class="site-menu-title site-menu-search-title" data-menu-target="search" type="button">SEARCH</button>
 </div>
 </div>
 </nav>
@@ -9199,13 +9200,13 @@ loadWatches();
   transition:
     opacity 240ms ease,
     transform 520ms cubic-bezier(.16,1,.3,1),
-    padding-bottom 260ms ease !important;
+    padding-bottom 260ms ease,
+    color 240ms ease !important;
 }
 
 .site-menu-primary.menu-page-mode .site-menu-title:not(.is-menu-page-active){
   opacity:.42 !important;
 }
-
 
 body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   transition-delay:0ms !important;
@@ -9219,6 +9220,22 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 .site-menu-primary.menu-page-mode .site-menu-title.is-menu-page-active{
   opacity:1 !important;
   padding-bottom:clamp(10px, 1.15vh, 16px) !important;
+}
+
+.site-menu-search-title,
+.site-menu-search-title:link,
+.site-menu-search-title:visited{
+  color:rgba(0,0,0,.34) !important;
+}
+
+.site-menu-search-title:hover,
+.site-menu-search-title:focus-visible{
+  color:rgba(0,0,0,.52) !important;
+  opacity:1 !important;
+}
+
+.site-menu-primary.menu-page-mode .site-menu-search-title.is-menu-page-active{
+  color:rgba(0,0,0,.48) !important;
 }
 
 .site-menu-page-copy{
@@ -9244,7 +9261,8 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 .site-menu-page-copy p,
 .site-menu-page-copy li,
 .site-menu-page-copy a,
-.site-menu-page-copy button{
+.site-menu-page-copy button,
+.site-menu-page-copy input{
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
   font-size:clamp(12px, 1.34vw, 14px) !important;
   line-height:1.72 !important;
@@ -9313,6 +9331,47 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   outline:0 !important;
 }
 
+.site-menu-search-form{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+  margin-top:18px !important;
+  width:min(100%, 460px) !important;
+}
+
+.site-menu-search-input{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(0,0,0,.72) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  padding:7px 0 8px !important;
+  outline:0 !important;
+  font-size:13px !important;
+  line-height:1.2 !important;
+  letter-spacing:.03em !important;
+  text-transform:uppercase !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+}
+
+.site-menu-search-input::placeholder{
+  color:rgba(0,0,0,.38) !important;
+  opacity:1 !important;
+}
+
+.site-menu-search-submit{
+  flex:0 0 auto !important;
+}
+
+.site-menu-search-submit::after{
+  content:"→";
+  display:inline-block;
+  margin-left:8px;
+  transform:translateY(-1px);
+}
+
 .site-menu-title.is-menu-page-moving{
   pointer-events:none !important;
 }
@@ -9327,7 +9386,8 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   .site-menu-page-copy p,
   .site-menu-page-copy li,
   .site-menu-page-copy a,
-  .site-menu-page-copy button{
+  .site-menu-page-copy button,
+  .site-menu-page-copy input{
     font-size:12px !important;
     line-height:1.66 !important;
   }
@@ -9335,6 +9395,11 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   .site-menu-page-actions{
     gap:10px 16px !important;
     margin-top:16px !important;
+  }
+
+  .site-menu-search-form{
+    gap:10px !important;
+    width:100% !important;
   }
 }
 
@@ -9354,7 +9419,9 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   var PRIMARY_SELECTOR = '.site-menu-primary';
   var TITLE_SELECTOR = '.site-menu-title';
   var COPY_ID = 'siteMenuPageCopy';
+  var SEARCH_INPUT_ID = 'siteMenuPageSearchInput';
   var MOVE_MS = 540;
+  var resetTimer = null;
 
   var content = {
     about: {
@@ -9397,6 +9464,12 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
         { label:'Email', href:'mailto:ben@staplefordwatches.co.uk' },
         { label:'WhatsApp', href:'https://wa.me/447438196047' }
       ]
+    },
+    search: {
+      body: [
+        'Search the current selection by brand. Enter a brand name and the menu will return to the watches with matching results shown.'
+      ],
+      search:true
     }
   };
 
@@ -9418,12 +9491,26 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     return String(item.textContent || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '');
   }
 
-  function setContactAsPage(primary){
+  function ensureSearchHeading(primary){
+    if(!primary || primary.querySelector('[data-menu-target="search"]')) return;
+    var contact = primary.querySelector('[data-menu-target="contact"], .site-menu-contact');
+    var search = document.createElement('button');
+    search.className = 'site-menu-title site-menu-search-title';
+    search.type = 'button';
+    search.setAttribute('data-menu-target', 'search');
+    search.textContent = 'SEARCH';
+    if(contact && contact.nextSibling) primary.insertBefore(search, contact.nextSibling);
+    else primary.appendChild(search);
+  }
+
+  function setMenuItemsAsPages(primary){
     if(!primary) return;
     getTitles(primary).forEach(function(item){
-      if(getKey(item) === 'contact'){
-        item.setAttribute('data-menu-target', 'contact');
+      var key = getKey(item);
+      if(content[key]){
+        item.setAttribute('data-menu-target', key);
         item.setAttribute('aria-controls', COPY_ID);
+        if(item.tagName && item.tagName.toLowerCase() === 'a') item.setAttribute('role', 'button');
       }
     });
   }
@@ -9464,6 +9551,13 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     html += data.body.map(function(text){
       return '<p>' + escapeHtml(text) + '</p>';
     }).join('');
+
+    if(data.search){
+      html += '<form class="site-menu-search-form" data-menu-page-search-form>';
+      html += '<input autocomplete="off" class="site-menu-search-input" id="' + SEARCH_INPUT_ID + '" placeholder="BRAND" type="search">';
+      html += '<button class="site-menu-page-action site-menu-search-submit" type="submit">Search</button>';
+      html += '</form>';
+    }
 
     if(data.actions && data.actions.length){
       html += '<div class="site-menu-page-actions">';
@@ -9521,6 +9615,38 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     });
   }
 
+  function restoreOriginalOrder(primary, animate){
+    if(!primary) return;
+
+    var copy = byId(COPY_ID);
+    var titles = getTitles(primary);
+    var firstMap = animate ? firstRects(titles, copy) : null;
+
+    titles.sort(function(a,b){ return getOriginalIndex(a) - getOriginalIndex(b); });
+    titles.forEach(function(item){
+      item.classList.remove('is-menu-page-active');
+      item.removeAttribute('aria-current');
+      primary.appendChild(item);
+    });
+
+    primary.classList.remove('menu-page-mode');
+
+    if(copy){
+      copy.classList.remove('is-visible');
+      if(copy.parentNode){
+        if(animate){
+          window.setTimeout(function(){
+            if(copy.parentNode) copy.parentNode.removeChild(copy);
+          }, 260);
+        }else{
+          copy.parentNode.removeChild(copy);
+        }
+      }
+    }
+
+    if(animate && firstMap) playFlip(firstMap, titles, copy);
+  }
+
   function arrange(primary, active){
     var titles = getTitles(primary);
     var copy = ensureCopy(primary);
@@ -9548,6 +9674,10 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 
     window.setTimeout(function(){
       copy.classList.add('is-visible');
+      if(key === 'search'){
+        var input = byId(SEARCH_INPUT_ID);
+        if(input){ try{ input.focus({ preventScroll:true }); }catch(error){ input.focus(); } }
+      }
     }, 170);
   }
 
@@ -9564,9 +9694,35 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     }
   }
 
+  function submitSearch(form){
+    var input = form ? form.querySelector('.site-menu-search-input') : null;
+    var value = input ? String(input.value || '').trim() : '';
+
+    try{ searchQuery = value; }catch(error){ window.searchQuery = value; }
+    try{ if(typeof setPage === 'function') setPage('buy'); }catch(error){}
+    try{ if(typeof resetListingLimit === 'function') resetListingLimit(); }catch(error){}
+    try{ if(typeof render === 'function') render(); }catch(error){}
+
+    var toggle = byId('menuToggle');
+    if(toggle && (document.body.classList.contains('site-menu-open') || document.body.classList.contains('site-menu-preopen'))) toggle.click();
+
+    window.setTimeout(function(){
+      try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(error){ window.scrollTo(0,0); }
+    }, 680);
+  }
+
   function handleMenuPageClick(event){
     var menu = byId(MENU_ID);
     if(!menu) return;
+
+    var form = event.target.closest && event.target.closest('[data-menu-page-search-form]');
+    if(form && menu.contains(form) && event.type === 'submit'){
+      event.preventDefault();
+      event.stopPropagation();
+      if(event.stopImmediatePropagation) event.stopImmediatePropagation();
+      submitSearch(form);
+      return;
+    }
 
     var action = event.target.closest && event.target.closest('[data-menu-page-action]');
     if(action && menu.contains(action)){
@@ -9588,17 +9744,56 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     event.stopPropagation();
     if(event.stopImmediatePropagation) event.stopImmediatePropagation();
 
+    if(title.classList.contains('is-menu-page-active')){
+      restoreOriginalOrder(primary, true);
+      return;
+    }
+
     arrange(primary, title);
+  }
+
+  function handleSubmit(event){
+    var menu = byId(MENU_ID);
+    if(!menu) return;
+    var form = event.target && event.target.closest && event.target.closest('[data-menu-page-search-form]');
+    if(!form || !menu.contains(form)) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if(event.stopImmediatePropagation) event.stopImmediatePropagation();
+    submitSearch(form);
+  }
+
+  function syncResetObserver(primary){
+    if(!window.MutationObserver || !primary) return;
+
+    var wasOpen = document.body.classList.contains('site-menu-open') || document.body.classList.contains('site-menu-preopen') || document.body.classList.contains('site-menu-opening');
+    var observer = new MutationObserver(function(){
+      var isOpen = document.body.classList.contains('site-menu-open') || document.body.classList.contains('site-menu-preopen') || document.body.classList.contains('site-menu-opening');
+      if(isOpen !== wasOpen){
+        wasOpen = isOpen;
+        if(resetTimer) window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(function(){
+          resetTimer = null;
+          restoreOriginalOrder(primary, false);
+        }, isOpen ? 0 : 120);
+      }
+    });
+
+    observer.observe(document.body, { attributes:true, attributeFilter:['class'] });
   }
 
   function boot(){
     var primary = getPrimary();
     if(!primary) return;
 
+    ensureSearchHeading(primary);
     rememberOriginalOrder(primary);
-    setContactAsPage(primary);
+    setMenuItemsAsPages(primary);
+    restoreOriginalOrder(primary, false);
 
     document.addEventListener('click', handleMenuPageClick, true);
+    document.addEventListener('submit', handleSubmit, true);
+    syncResetObserver(primary);
   }
 
   if(document.readyState === 'loading'){
