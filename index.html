@@ -6218,25 +6218,37 @@ body.site-menu-open .menu-toggle-icon span:last-child{
 </style>
 
 
-<style id="stapleford-menu-v7-professional-page-css">
-/* V7: true standalone menu page. Full white viewport, no content behind, no search. */
+<style id="stapleford-menu-v8-own-page-css">
+/* V8: standalone Safari-safe menu page + clean socials row. */
 :root{
+  --site-menu-window-height:100vh;
   --site-menu-header-safe:112px;
   --site-menu-rail:max(14px, calc((100vw - var(--max-width)) / 2 + 14px));
   --site-menu-right-pad:max(20px, calc((100vw - var(--max-width)) / 2 + 20px));
-  --site-menu-top-space:clamp(46px, 7vh, 86px);
-  --site-menu-bottom-space:64px;
+  --site-menu-top-space:clamp(50px, 8vh, 92px);
+  --site-menu-bottom-space:max(76px, calc(56px + env(safe-area-inset-bottom, 0px)));
   --site-menu-column-width:min(620px, calc(100vw - var(--site-menu-rail) - var(--site-menu-right-pad)));
 }
 
 html.site-menu-open,
 body.site-menu-open{
   overflow:hidden !important;
-  height:100% !important;
+  overscroll-behavior:none !important;
+  background:#fff !important;
 }
 
-.site-header{
-  z-index:1000004 !important;
+body.site-menu-open > :not(.site-header):not(.site-menu-page):not(script):not(style){
+  visibility:hidden !important;
+}
+
+body.site-menu-open .site-header{
+  position:fixed !important;
+  top:8px !important;
+  left:50% !important;
+  width:min(100vw,var(--max-width)) !important;
+  margin:0 !important;
+  transform:translateX(-50%) !important;
+  z-index:1000006 !important;
   background:#fff !important;
   isolation:isolate !important;
 }
@@ -6248,6 +6260,7 @@ body.site-menu-open .site-header::before{
   right:0;
   top:0;
   height:var(--site-menu-header-safe);
+  min-height:calc(86px + env(safe-area-inset-top, 0px));
   background:#fff;
   z-index:-1;
   pointer-events:none;
@@ -6269,7 +6282,7 @@ body.site-menu-open .site-header::before{
   outline:0 !important;
   box-shadow:none !important;
   cursor:default !important;
-  z-index:1000005 !important;
+  z-index:1000007 !important;
 }
 
 .menu-toggle:active,
@@ -6311,9 +6324,10 @@ body.site-menu-open .menu-toggle-icon span:last-child{ transform:translateY(0) r
   position:fixed !important;
   inset:0 !important;
   width:100vw !important;
-  height:100dvh !important;
+  height:calc(var(--site-menu-window-height) + 120px) !important;
   min-height:100vh !important;
-  z-index:1000002 !important;
+  min-height:100svh !important;
+  z-index:1000004 !important;
   background:#fff !important;
   color:#000 !important;
   padding:0 !important;
@@ -6324,8 +6338,9 @@ body.site-menu-open .menu-toggle-icon span:last-child{ transform:translateY(0) r
   pointer-events:none !important;
   opacity:1 !important;
   transform:none !important;
-  transition:visibility 0s linear 280ms !important;
+  transition:visibility 0s linear 240ms !important;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  contain:layout paint style !important;
 }
 
 body.site-menu-open .site-menu-page{
@@ -6340,11 +6355,10 @@ body.site-menu-open .site-menu-page{
   left:0 !important;
   right:0 !important;
   top:var(--site-menu-header-safe) !important;
-  bottom:0 !important;
-  width:100% !important;
-  height:auto !important;
+  height:calc(var(--site-menu-window-height) - var(--site-menu-header-safe)) !important;
   min-height:0 !important;
   max-width:none !important;
+  width:100% !important;
   margin:0 !important;
   padding:var(--site-menu-top-space) var(--site-menu-right-pad) var(--site-menu-bottom-space) var(--site-menu-rail) !important;
   display:block !important;
@@ -6375,7 +6389,7 @@ body.site-menu-open .site-menu-page{
   padding:0 !important;
   text-align:left !important;
   opacity:0 !important;
-  transform:translateX(-22px) !important;
+  transform:translateX(-18px) !important;
   transition:opacity 280ms ease, transform 420ms cubic-bezier(.22,1,.36,1) !important;
 }
 
@@ -6391,6 +6405,7 @@ body.site-menu-open .site-menu-primary{
   width:100% !important;
   max-width:100% !important;
   min-width:0 !important;
+  box-sizing:border-box !important;
   margin:0 !important;
   padding:0 0 clamp(12px, 1.35vh, 18px) 0 !important;
   border:0 !important;
@@ -6417,7 +6432,9 @@ body.site-menu-open .site-menu-primary{
 }
 
 .site-menu-title:hover,
-.site-menu-title:focus-visible{
+.site-menu-title:focus-visible,
+.site-menu-social-link:hover,
+.site-menu-social-link:focus-visible{
   opacity:.62 !important;
   outline:0 !important;
   box-shadow:none !important;
@@ -6425,8 +6442,39 @@ body.site-menu-open .site-menu-primary{
 
 .site-menu-contact{
   margin:0 !important;
-  padding-bottom:clamp(18px, 2.2vh, 24px) !important;
+  padding-bottom:clamp(18px, 2.2vh, 26px) !important;
   border-bottom:1px solid rgba(0,0,0,.90) !important;
+}
+
+.site-menu-socials{
+  width:100% !important;
+  max-width:100% !important;
+  margin:clamp(34px, 5.8vh, 58px) 0 0 0 !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:clamp(18px, 3vw, 34px) !important;
+  flex-wrap:nowrap !important;
+  text-align:left !important;
+}
+
+.site-menu-social-link,
+.site-menu-social-link:link,
+.site-menu-social-link:visited{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  color:#000 !important;
+  text-decoration:none !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:clamp(11px, 1.25vw, 13px) !important;
+  line-height:1 !important;
+  letter-spacing:.085em !important;
+  text-transform:uppercase !important;
+  white-space:nowrap !important;
+  cursor:default !important;
 }
 
 .site-menu-search,
@@ -6437,8 +6485,8 @@ body.site-menu-open .site-menu-primary{
 @media (max-width:767px){
   :root{
     --site-menu-right-pad:20px;
-    --site-menu-top-space:clamp(52px, 7.5vh, 82px);
-    --site-menu-bottom-space:58px;
+    --site-menu-top-space:clamp(58px, 8.5vh, 88px);
+    --site-menu-bottom-space:max(70px, calc(54px + env(safe-area-inset-bottom, 0px)));
   }
 
   .menu-toggle{
@@ -6455,20 +6503,36 @@ body.site-menu-open .site-menu-primary{
   }
 
   .site-menu-contact{
-    padding-bottom:20px !important;
+    padding-bottom:22px !important;
+  }
+
+  .site-menu-socials{
+    margin-top:44px !important;
+    gap:20px !important;
+  }
+
+  .site-menu-social-link,
+  .site-menu-social-link:link,
+  .site-menu-social-link:visited{
+    font-size:11px !important;
+    letter-spacing:.075em !important;
   }
 }
 
 @media (max-height:620px){
   :root{
-    --site-menu-top-space:36px;
-    --site-menu-bottom-space:48px;
+    --site-menu-top-space:40px;
+    --site-menu-bottom-space:max(62px, calc(44px + env(safe-area-inset-bottom, 0px)));
   }
 
   .site-menu-title,
   .site-menu-title:link,
   .site-menu-title:visited{
     padding-bottom:10px !important;
+  }
+
+  .site-menu-socials{
+    margin-top:34px !important;
   }
 }
 </style>
@@ -6654,6 +6718,11 @@ body.site-menu-open .site-menu-primary{
 <button class="site-menu-title" data-menu-target="sell" type="button">SELL</button>
 <button class="site-menu-title" data-menu-target="faqs" type="button">FAQs</button>
 <a class="site-menu-title site-menu-contact" href="mailto:ben@staplefordwatches.co.uk">CONTACT</a>
+<div aria-label="Social links" class="site-menu-socials">
+<a class="site-menu-social-link" href="https://wa.me/447438196047" rel="noopener" target="_blank">WHATSAPP</a>
+<a class="site-menu-social-link" href="mailto:ben@staplefordwatches.co.uk">EMAIL</a>
+<a class="site-menu-social-link" href="https://www.instagram.com/staplefordwatches/" rel="noopener" target="_blank">INSTAGRAM</a>
+</div>
 </div>
 </div>
 </nav>
@@ -8659,12 +8728,23 @@ loadWatches();
 </script>
 
 
-<script id="stapleford-menu-v7-professional-page-js">
+<script id="stapleford-menu-v8-own-page-js">
 (function(){
   'use strict';
 
+  var savedScrollY = 0;
+  var bodyLocked = false;
+
   function qs(selector){ return document.querySelector(selector); }
   function byId(id){ return document.getElementById(id); }
+
+  function syncMenuViewport(){
+    var root = document.documentElement;
+    var height = window.innerHeight || document.documentElement.clientHeight || 0;
+    if(height > 0){
+      root.style.setProperty('--site-menu-window-height', Math.ceil(height) + 'px');
+    }
+  }
 
   function syncMenuGeometry(){
     var header = qs('.site-header');
@@ -8672,10 +8752,12 @@ loadWatches();
     var icon = toggle ? toggle.querySelector('.menu-toggle-icon') : null;
     var root = document.documentElement;
 
+    syncMenuViewport();
+
     if(header && header.getBoundingClientRect){
       var headerBox = header.getBoundingClientRect();
       if(headerBox.bottom > 0){
-        root.style.setProperty('--site-menu-header-safe', Math.ceil(headerBox.bottom) + 'px');
+        root.style.setProperty('--site-menu-header-safe', Math.ceil(headerBox.bottom + 14) + 'px');
       }
     }
 
@@ -8687,12 +8769,53 @@ loadWatches();
     }
   }
 
+  function lockBody(){
+    if(bodyLocked) return;
+    savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    document.body.dataset.siteMenuScrollY = String(savedScrollY);
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + savedScrollY + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+    bodyLocked = true;
+  }
+
+  function unlockBody(){
+    if(!bodyLocked) return;
+    var y = parseInt(document.body.dataset.siteMenuScrollY || String(savedScrollY), 10) || 0;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    delete document.body.dataset.siteMenuScrollY;
+    bodyLocked = false;
+    window.scrollTo(0, y);
+  }
+
   function setMenuOpen(open){
     var menu = byId('siteMenu');
     var toggle = byId('menuToggle');
+
     syncMenuGeometry();
-    document.documentElement.classList.toggle('site-menu-open', open);
-    document.body.classList.toggle('site-menu-open', open);
+
+    if(open){
+      document.documentElement.classList.add('site-menu-open');
+      document.body.classList.add('site-menu-open');
+      lockBody();
+      if(menu) menu.scrollTop = 0;
+      window.requestAnimationFrame(function(){
+        syncMenuGeometry();
+        window.requestAnimationFrame(syncMenuGeometry);
+      });
+    }else{
+      document.documentElement.classList.remove('site-menu-open');
+      document.body.classList.remove('site-menu-open');
+      unlockBody();
+      window.requestAnimationFrame(syncMenuGeometry);
+    }
+
     if(menu) menu.setAttribute('aria-hidden', open ? 'false' : 'true');
     if(toggle){
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -8716,13 +8839,31 @@ loadWatches();
     try{ if(typeof render === 'function') render(); }catch(error){}
   }
 
+  function preventBehindPageTouch(event){
+    if(!document.body.classList.contains('site-menu-open')) return;
+    if(event.target && event.target.closest && event.target.closest('#siteMenu, #menuToggle, .site-header')) return;
+    event.preventDefault();
+  }
+
   function bindMenu(){
     var toggle = byId('menuToggle');
     var menu = byId('siteMenu');
 
     syncMenuGeometry();
     window.addEventListener('resize', syncMenuGeometry, { passive:true });
-    window.addEventListener('orientationchange', syncMenuGeometry, { passive:true });
+    window.addEventListener('orientationchange', function(){
+      window.setTimeout(syncMenuGeometry, 80);
+      window.setTimeout(syncMenuGeometry, 320);
+    }, { passive:true });
+    window.addEventListener('pageshow', syncMenuGeometry, { passive:true });
+    document.addEventListener('touchmove', preventBehindPageTouch, { passive:false });
+
+    if(window.visualViewport){
+      try{
+        window.visualViewport.addEventListener('resize', syncMenuGeometry, { passive:true });
+        window.visualViewport.addEventListener('scroll', syncMenuGeometry, { passive:true });
+      }catch(error){}
+    }
 
     if(window.ResizeObserver){
       try{
@@ -8771,8 +8912,8 @@ loadWatches();
       }, true);
 
       menu.addEventListener('click', function(event){
-        var contact = event.target.closest('a[href]');
-        if(contact) setMenuOpen(false);
+        var link = event.target.closest('a[href]');
+        if(link) setMenuOpen(false);
       }, true);
     }
 
