@@ -6218,52 +6218,72 @@ body.site-menu-open .menu-toggle-icon span:last-child{
 </style>
 
 
-<style id="stapleford-menu-v8-own-page-css">
-/* V8: standalone Safari-safe menu page + clean socials row. */
+<style id="stapleford-menu-v10-own-page-scroll-css">
+/* V10: real menu page state. Body scrolls, header scrolls away, no fixed overlay/inner scroll. */
 :root{
-  --site-menu-window-height:100vh;
-  --site-menu-header-safe:112px;
   --site-menu-rail:max(14px, calc((100vw - var(--max-width)) / 2 + 14px));
-  --site-menu-right-pad:max(20px, calc((100vw - var(--max-width)) / 2 + 20px));
-  --site-menu-top-space:clamp(50px, 8vh, 92px);
-  --site-menu-bottom-space:max(76px, calc(56px + env(safe-area-inset-bottom, 0px)));
+  --site-menu-right-pad:max(22px, calc((100vw - var(--max-width)) / 2 + 22px));
+  --site-menu-top-space:clamp(56px, 10vh, 104px);
+  --site-menu-bottom-space:max(120px, calc(96px + env(safe-area-inset-bottom, 0px)));
   --site-menu-column-width:min(620px, calc(100vw - var(--site-menu-rail) - var(--site-menu-right-pad)));
 }
 
 html.site-menu-open,
 body.site-menu-open{
-  overflow:hidden !important;
-  overscroll-behavior:none !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  overscroll-behavior-y:auto !important;
   background:#fff !important;
+  min-height:100% !important;
+  height:auto !important;
+}
+
+body.site-menu-open{
+  position:static !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  width:auto !important;
+  min-height:100vh !important;
+  min-height:100svh !important;
 }
 
 body.site-menu-open > :not(.site-header):not(.site-menu-page):not(script):not(style){
-  visibility:hidden !important;
+  display:none !important;
+}
+
+.site-header{
+  width:min(100vw,var(--max-width));
+  margin:8px auto 0;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+  background:#fff;
 }
 
 body.site-menu-open .site-header{
-  position:fixed !important;
-  top:8px !important;
-  left:50% !important;
+  position:relative !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
   width:min(100vw,var(--max-width)) !important;
-  margin:0 !important;
-  transform:translateX(-50%) !important;
-  z-index:1000006 !important;
+  margin:8px auto 0 !important;
+  transform:none !important;
+  z-index:20 !important;
   background:#fff !important;
-  isolation:isolate !important;
+  isolation:auto !important;
 }
 
 body.site-menu-open .site-header::before{
-  content:"";
-  position:fixed;
-  left:0;
-  right:0;
-  top:0;
-  height:var(--site-menu-header-safe);
-  min-height:calc(86px + env(safe-area-inset-top, 0px));
-  background:#fff;
-  z-index:-1;
-  pointer-events:none;
+  content:none !important;
+  display:none !important;
+}
+
+body.site-menu-open .site-header .logo{
+  position:relative !important;
+  z-index:1 !important;
 }
 
 .menu-toggle{
@@ -6282,7 +6302,8 @@ body.site-menu-open .site-header::before{
   outline:0 !important;
   box-shadow:none !important;
   cursor:default !important;
-  z-index:1000007 !important;
+  z-index:25 !important;
+  -webkit-tap-highlight-color:transparent !important;
 }
 
 .menu-toggle:active,
@@ -6321,58 +6342,54 @@ body.site-menu-open .menu-toggle-icon span:first-child{ transform:translateY(0) 
 body.site-menu-open .menu-toggle-icon span:last-child{ transform:translateY(0) rotate(-45deg) !important; }
 
 .site-menu-page{
-  position:fixed !important;
-  inset:0 !important;
-  width:100vw !important;
-  height:calc(var(--site-menu-window-height) + 120px) !important;
-  min-height:100vh !important;
-  min-height:100svh !important;
-  z-index:1000004 !important;
+  display:none !important;
+  position:relative !important;
+  inset:auto !important;
+  width:100% !important;
+  min-height:calc(100vh - 98px) !important;
+  min-height:calc(100svh - 98px) !important;
+  height:auto !important;
+  z-index:10 !important;
   background:#fff !important;
   color:#000 !important;
   padding:0 !important;
   margin:0 !important;
-  overflow:hidden !important;
+  overflow:visible !important;
   -webkit-overflow-scrolling:auto !important;
   visibility:hidden !important;
   pointer-events:none !important;
   opacity:1 !important;
   transform:none !important;
-  transition:visibility 0s linear 240ms !important;
+  transition:none !important;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
-  contain:layout paint style !important;
+  contain:none !important;
 }
 
 body.site-menu-open .site-menu-page{
+  display:block !important;
   visibility:visible !important;
   pointer-events:auto !important;
   transform:none !important;
-  transition:visibility 0s linear 0s !important;
 }
 
 .site-menu-scroll{
-  position:absolute !important;
-  left:0 !important;
-  right:0 !important;
-  top:var(--site-menu-header-safe) !important;
-  height:calc(var(--site-menu-window-height) - var(--site-menu-header-safe)) !important;
-  min-height:0 !important;
-  max-width:none !important;
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
   width:100% !important;
+  max-width:none !important;
+  min-height:calc(100vh - 98px) !important;
+  min-height:calc(100svh - 98px) !important;
+  height:auto !important;
   margin:0 !important;
   padding:var(--site-menu-top-space) var(--site-menu-right-pad) var(--site-menu-bottom-space) var(--site-menu-rail) !important;
   display:block !important;
-  overflow-x:hidden !important;
-  overflow-y:auto !important;
-  overscroll-behavior:contain !important;
-  -webkit-overflow-scrolling:touch !important;
-  scrollbar-width:none !important;
+  overflow:visible !important;
+  overscroll-behavior:auto !important;
+  -webkit-overflow-scrolling:auto !important;
+  scrollbar-width:auto !important;
   background:#fff !important;
-}
-
-.site-menu-scroll::-webkit-scrollbar{
-  width:0 !important;
-  height:0 !important;
 }
 
 .site-menu-primary{
@@ -6389,8 +6406,8 @@ body.site-menu-open .site-menu-page{
   padding:0 !important;
   text-align:left !important;
   opacity:0 !important;
-  transform:translateX(-18px) !important;
-  transition:opacity 280ms ease, transform 420ms cubic-bezier(.22,1,.36,1) !important;
+  transform:translateX(-14px) !important;
+  transition:opacity 260ms ease, transform 360ms cubic-bezier(.22,1,.36,1) !important;
 }
 
 body.site-menu-open .site-menu-primary{
@@ -6444,17 +6461,17 @@ body.site-menu-open .site-menu-primary{
   border-bottom:1px solid rgba(0,0,0,.90) !important;
 }
 
-
 .site-menu-search,
-.site-menu-brand-suggestions{
+.site-menu-brand-suggestions,
+.site-menu-socials{
   display:none !important;
 }
 
 @media (max-width:767px){
   :root{
     --site-menu-right-pad:20px;
-    --site-menu-top-space:clamp(58px, 8.5vh, 88px);
-    --site-menu-bottom-space:max(70px, calc(54px + env(safe-area-inset-bottom, 0px)));
+    --site-menu-top-space:clamp(60px, 12vh, 96px);
+    --site-menu-bottom-space:max(130px, calc(104px + env(safe-area-inset-bottom, 0px)));
   }
 
   .menu-toggle{
@@ -6475,16 +6492,16 @@ body.site-menu-open .site-menu-primary{
   }
 }
 
-@media (max-height:620px){
+@media (max-height:460px){
   :root{
-    --site-menu-top-space:40px;
-    --site-menu-bottom-space:max(62px, calc(44px + env(safe-area-inset-bottom, 0px)));
+    --site-menu-top-space:56px;
+    --site-menu-bottom-space:max(150px, calc(118px + env(safe-area-inset-bottom, 0px)));
   }
 
   .site-menu-title,
   .site-menu-title:link,
   .site-menu-title:visited{
-    padding-bottom:10px !important;
+    padding-bottom:12px !important;
   }
 }
 </style>
@@ -8675,38 +8692,28 @@ loadWatches();
 </script>
 
 
-<script id="stapleford-menu-v8-own-page-js">
+<script id="stapleford-menu-v10-own-page-scroll-js">
 (function(){
   'use strict';
 
   var savedScrollY = 0;
-  var bodyLocked = false;
 
   function qs(selector){ return document.querySelector(selector); }
   function byId(id){ return document.getElementById(id); }
 
-  function syncMenuViewport(){
-    var root = document.documentElement;
-    var height = window.innerHeight || document.documentElement.clientHeight || 0;
-    if(height > 0){
-      root.style.setProperty('--site-menu-window-height', Math.ceil(height) + 'px');
-    }
+  function clearOldBodyLock(){
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    delete document.body.dataset.siteMenuScrollY;
   }
 
   function syncMenuGeometry(){
-    var header = qs('.site-header');
     var toggle = byId('menuToggle');
     var icon = toggle ? toggle.querySelector('.menu-toggle-icon') : null;
     var root = document.documentElement;
-
-    syncMenuViewport();
-
-    if(header && header.getBoundingClientRect){
-      var headerBox = header.getBoundingClientRect();
-      if(headerBox.bottom > 0){
-        root.style.setProperty('--site-menu-header-safe', Math.ceil(headerBox.bottom + 14) + 'px');
-      }
-    }
 
     if(icon && icon.getBoundingClientRect){
       var iconBox = icon.getBoundingClientRect();
@@ -8716,31 +8723,6 @@ loadWatches();
     }
   }
 
-  function lockBody(){
-    if(bodyLocked) return;
-    savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    document.body.dataset.siteMenuScrollY = String(savedScrollY);
-    document.body.style.position = 'fixed';
-    document.body.style.top = '-' + savedScrollY + 'px';
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.width = '100%';
-    bodyLocked = true;
-  }
-
-  function unlockBody(){
-    if(!bodyLocked) return;
-    var y = parseInt(document.body.dataset.siteMenuScrollY || String(savedScrollY), 10) || 0;
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.body.style.width = '';
-    delete document.body.dataset.siteMenuScrollY;
-    bodyLocked = false;
-    window.scrollTo(0, y);
-  }
-
   function setMenuOpen(open){
     var menu = byId('siteMenu');
     var toggle = byId('menuToggle');
@@ -8748,19 +8730,25 @@ loadWatches();
     syncMenuGeometry();
 
     if(open){
+      savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      clearOldBodyLock();
       document.documentElement.classList.add('site-menu-open');
       document.body.classList.add('site-menu-open');
-      lockBody();
       if(menu) menu.scrollTop = 0;
       window.requestAnimationFrame(function(){
+        clearOldBodyLock();
         syncMenuGeometry();
+        window.scrollTo(0, 0);
         window.requestAnimationFrame(syncMenuGeometry);
       });
     }else{
       document.documentElement.classList.remove('site-menu-open');
       document.body.classList.remove('site-menu-open');
-      unlockBody();
-      window.requestAnimationFrame(syncMenuGeometry);
+      clearOldBodyLock();
+      window.requestAnimationFrame(function(){
+        syncMenuGeometry();
+        window.scrollTo(0, savedScrollY || 0);
+      });
     }
 
     if(menu) menu.setAttribute('aria-hidden', open ? 'false' : 'true');
@@ -8786,39 +8774,23 @@ loadWatches();
     try{ if(typeof render === 'function') render(); }catch(error){}
   }
 
-  function preventBehindPageTouch(event){
-    if(!document.body.classList.contains('site-menu-open')) return;
-    if(event.target && event.target.closest && event.target.closest('#siteMenu, #menuToggle, .site-header')) return;
-    event.preventDefault();
-  }
-
   function bindMenu(){
     var toggle = byId('menuToggle');
     var menu = byId('siteMenu');
 
+    clearOldBodyLock();
     syncMenuGeometry();
+
     window.addEventListener('resize', syncMenuGeometry, { passive:true });
     window.addEventListener('orientationchange', function(){
       window.setTimeout(syncMenuGeometry, 80);
       window.setTimeout(syncMenuGeometry, 320);
     }, { passive:true });
     window.addEventListener('pageshow', syncMenuGeometry, { passive:true });
-    document.addEventListener('touchmove', preventBehindPageTouch, { passive:false });
 
     if(window.visualViewport){
       try{
         window.visualViewport.addEventListener('resize', syncMenuGeometry, { passive:true });
-        window.visualViewport.addEventListener('scroll', syncMenuGeometry, { passive:true });
-      }catch(error){}
-    }
-
-    if(window.ResizeObserver){
-      try{
-        var header = qs('.site-header');
-        if(header){
-          var observer = new ResizeObserver(syncMenuGeometry);
-          observer.observe(header);
-        }
       }catch(error){}
     }
 
