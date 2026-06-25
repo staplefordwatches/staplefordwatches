@@ -5931,7 +5931,7 @@ html body .lightbox-detail-contact-email svg{
   }
 
 
-/* HAMBURGER ICON ONLY: thick rectangular icon, left aligned with centered logo */
+/* TWO-LINE MENU ICON: left aligned with centered logo, toggles into a cross */
 .site-header{
   width:min(100vw,var(--max-width));
   margin:8px auto 0;
@@ -5960,25 +5960,52 @@ html body .lightbox-detail-contact-email svg{
   background:transparent;
   color:#000;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:4px;
   padding:0;
   margin:0;
   cursor:default;
   appearance:none;
   -webkit-appearance:none;
   -webkit-tap-highlight-color:transparent;
-  z-index:2;
+  z-index:4;
 }
 
-.menu-toggle span{
+.menu-toggle-icon{
+  position:relative;
+  display:block;
+  width:22px;
+  height:14px;
+}
+
+.menu-toggle-icon span{
+  position:absolute;
+  left:0;
   display:block;
   width:22px;
   height:3px;
   background:currentColor;
   border-radius:0;
+  transform-origin:center;
+  transition:top 220ms ease, transform 220ms ease;
+}
+
+.menu-toggle-icon span:first-child{
+  top:2px;
+}
+
+.menu-toggle-icon span:last-child{
+  top:9px;
+}
+
+body.site-menu-open .menu-toggle-icon span:first-child{
+  top:5.5px;
+  transform:rotate(45deg);
+}
+
+body.site-menu-open .menu-toggle-icon span:last-child{
+  top:5.5px;
+  transform:rotate(-45deg);
 }
 
 .menu-toggle:focus,
@@ -5988,17 +6015,71 @@ html body .lightbox-detail-contact-email svg{
   box-shadow:none;
 }
 
+.site-menu{
+  width:min(100vw,var(--max-width));
+  margin:0 auto;
+  padding:18px 6px 22px;
+  background:#fff;
+  border-top:1px solid rgba(0,0,0,0.08);
+  border-bottom:1px solid rgba(0,0,0,0.08);
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  position:relative;
+  z-index:3;
+}
+
+.site-menu[hidden]{
+  display:none !important;
+}
+
+.site-menu-inner{
+  display:grid;
+  gap:14px;
+  max-width:220px;
+}
+
+.site-menu-link,
+.site-menu-link:link,
+.site-menu-link:visited{
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  color:#000;
+  text-align:left;
+  text-decoration:none;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:11px;
+  line-height:1.2;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  cursor:default;
+  appearance:none;
+  -webkit-appearance:none;
+}
+
+.site-menu-link:hover{
+  opacity:.62;
+}
+
+body.site-menu-open .site-header{
+  margin-bottom:0;
+}
+
 @media (max-width:767px){
   .menu-toggle{
     left:12px;
     width:40px;
     height:40px;
-    gap:4px;
   }
 
-  .menu-toggle span{
+  .menu-toggle-icon,
+  .menu-toggle-icon span{
     width:22px;
-    height:3px;
+  }
+
+  .site-menu{
+    padding:18px 12px 22px;
   }
 }
 </style>
@@ -6161,10 +6242,11 @@ html body .lightbox-detail-contact-email svg{
 
 
 <header class="site-header" aria-label="Site header">
-<button aria-label="Open menu" class="menu-toggle" id="menuToggle" type="button">
-<span aria-hidden="true"></span>
-<span aria-hidden="true"></span>
-<span aria-hidden="true"></span>
+<button aria-controls="siteMenu" aria-expanded="false" aria-label="Open menu" class="menu-toggle" id="menuToggle" type="button">
+<span class="menu-toggle-icon" aria-hidden="true">
+<span></span>
+<span></span>
+</span>
 </button>
 <button aria-label="Return to buy page" class="logo" id="logoHome" type="button">
 <svg aria-hidden="true" class="logo-mark" focusable="false" viewbox="0 0 4356 5399" xmlns="http://www.w3.org/2000/svg">
@@ -6173,6 +6255,14 @@ html body .lightbox-detail-contact-email svg{
 </svg>
 </button>
 </header>
+<nav aria-label="Main menu" class="site-menu" hidden id="siteMenu">
+<div class="site-menu-inner">
+<button class="site-menu-link" data-menu-target="buy" type="button">Buy watches</button>
+<button class="site-menu-link" data-menu-target="delivery" type="button">Delivery</button>
+<button class="site-menu-link" data-menu-target="returns" type="button">Returns</button>
+<a class="site-menu-link" href="mailto:ben@staplefordwatches.co.uk">Contact</a>
+</div>
+</nav>
 <main class="buy-page" id="buyPage">
 <div class="grid" id="gallery"></div>
 <div class="show-more-wrap" hidden="" id="showMoreWrap">
@@ -8160,5 +8250,68 @@ loadWatches();
     else if(reduceMotionQuery.addListener) reduceMotionQuery.addListener(onMotionChange);
   }
 })();
-</script></body>
+</script>
+
+<script id="stapleford-menu-toggle-js">
+(function(){
+  function initStaplefordMenu(){
+    var toggle = document.getElementById('menuToggle');
+    var menu = document.getElementById('siteMenu');
+    if(!toggle || !menu) return;
+
+    function setMenuOpen(isOpen){
+      document.body.classList.toggle('site-menu-open', isOpen);
+      menu.hidden = !isOpen;
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    }
+
+    toggle.addEventListener('click', function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      setMenuOpen(!document.body.classList.contains('site-menu-open'));
+    });
+
+    menu.addEventListener('click', function(event){
+      var link = event.target.closest('[data-menu-target]');
+      if(!link) return;
+      event.preventDefault();
+      var target = link.getAttribute('data-menu-target');
+      setMenuOpen(false);
+
+      if(target === 'buy'){
+        if(typeof setPage === 'function') setPage('buy');
+        if(typeof closeLightbox === 'function'){
+          var lightbox = document.getElementById('lightbox');
+          if(lightbox && lightbox.classList.contains('open')) closeLightbox();
+        }
+        window.scrollTo({ top:0, behavior:'smooth' });
+        return;
+      }
+
+      if((target === 'delivery' || target === 'returns') && typeof openInfoSection === 'function'){
+        openInfoSection(target);
+        return;
+      }
+    });
+
+    document.addEventListener('click', function(event){
+      if(!document.body.classList.contains('site-menu-open')) return;
+      if(event.target.closest('#siteMenu') || event.target.closest('#menuToggle')) return;
+      setMenuOpen(false);
+    });
+
+    document.addEventListener('keydown', function(event){
+      if(event.key === 'Escape') setMenuOpen(false);
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initStaplefordMenu);
+  }else{
+    initStaplefordMenu();
+  }
+})();
+</script>
+</body>
 </html>
