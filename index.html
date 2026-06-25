@@ -6538,6 +6538,126 @@ body.site-menu-open .menu-toggle.is-closing .menu-toggle-icon span:last-child{
   transform:translateY(5px) rotate(0deg) !important;
 }
 </style>
+<style id="stapleford-menu-v12-left-swoosh-css">
+/* V12: premium own-page left swoosh. Listings stay hidden; the menu becomes the screen. */
+:root{
+  --site-menu-swoosh-ms:620ms;
+  --site-menu-content-ms:520ms;
+}
+
+html.site-menu-preopen,
+body.site-menu-preopen,
+html.site-menu-closing,
+body.site-menu-closing{
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  background:#fff !important;
+}
+
+body.site-menu-preopen > :not(.site-header):not(.site-menu-page):not(script):not(style),
+body.site-menu-closing > :not(.site-header):not(.site-menu-page):not(script):not(style){
+  display:none !important;
+}
+
+.site-menu-page{
+  transform:translate3d(-104vw,0,0) !important;
+  clip-path:inset(0 100% 0 0) !important;
+  opacity:1 !important;
+  will-change:transform, clip-path !important;
+  transition:
+    transform var(--site-menu-swoosh-ms) cubic-bezier(.16,1,.3,1),
+    clip-path var(--site-menu-swoosh-ms) cubic-bezier(.16,1,.3,1) !important;
+}
+
+body.site-menu-preopen .site-menu-page,
+body.site-menu-closing .site-menu-page{
+  display:block !important;
+  visibility:visible !important;
+  pointer-events:none !important;
+}
+
+body.site-menu-open .site-menu-page{
+  display:block !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transform:translate3d(0,0,0) !important;
+  clip-path:inset(0 0 0 0) !important;
+}
+
+body.site-menu-open.site-menu-closing .site-menu-page{
+  pointer-events:none !important;
+  transform:translate3d(-104vw,0,0) !important;
+  clip-path:inset(0 100% 0 0) !important;
+  transition:
+    transform 540ms cubic-bezier(.7,0,.2,1),
+    clip-path 540ms cubic-bezier(.7,0,.2,1) !important;
+}
+
+.site-menu-scroll{
+  transform:translate3d(-20px,0,0) !important;
+  opacity:0 !important;
+  will-change:transform, opacity !important;
+  transition:
+    transform var(--site-menu-content-ms) cubic-bezier(.16,1,.3,1) 120ms,
+    opacity 260ms ease 120ms !important;
+}
+
+body.site-menu-open .site-menu-scroll{
+  transform:translate3d(0,0,0) !important;
+  opacity:1 !important;
+}
+
+body.site-menu-open.site-menu-closing .site-menu-scroll{
+  transform:translate3d(-24px,0,0) !important;
+  opacity:0 !important;
+  transition:
+    transform 300ms cubic-bezier(.7,0,.2,1),
+    opacity 180ms ease !important;
+}
+
+.site-menu-title,
+.site-menu-title:link,
+.site-menu-title:visited{
+  opacity:0 !important;
+  transform:translate3d(-32px,0,0) !important;
+  transition:
+    transform 620ms cubic-bezier(.16,1,.3,1),
+    opacity 300ms ease !important;
+  will-change:transform, opacity !important;
+}
+
+body.site-menu-open .site-menu-title,
+body.site-menu-open .site-menu-title:link,
+body.site-menu-open .site-menu-title:visited{
+  opacity:1 !important;
+  transform:translate3d(0,0,0) !important;
+}
+
+body.site-menu-open .site-menu-title:nth-child(1){ transition-delay:150ms !important; }
+body.site-menu-open .site-menu-title:nth-child(2){ transition-delay:190ms !important; }
+body.site-menu-open .site-menu-title:nth-child(3){ transition-delay:230ms !important; }
+body.site-menu-open .site-menu-title:nth-child(4){ transition-delay:270ms !important; }
+body.site-menu-open .site-menu-title:nth-child(5){ transition-delay:310ms !important; }
+
+body.site-menu-open.site-menu-closing .site-menu-title,
+body.site-menu-open.site-menu-closing .site-menu-title:link,
+body.site-menu-open.site-menu-closing .site-menu-title:visited{
+  opacity:0 !important;
+  transform:translate3d(-22px,0,0) !important;
+  transition-delay:0ms !important;
+  transition-duration:220ms, 160ms !important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .site-menu-page,
+  .site-menu-scroll,
+  .site-menu-title,
+  .menu-toggle .menu-toggle-icon span{
+    transition:none !important;
+  }
+}
+</style>
+
 <body oncontextmenu="return false" oncopy="return false" oncut="return false" onselectstart="return false" ondragstart="return false" style="-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important;">
 <!-- STAPLEFORD_SUBDIAL_LOCK_JS_START -->
 <script id="stapleford-subdial-lock-js">
@@ -8722,15 +8842,35 @@ loadWatches();
 </script>
 
 
-<script id="stapleford-menu-v11-own-page-scroll-js">
+<script id="stapleford-menu-v12-own-page-swoosh-js">
 (function(){
   'use strict';
 
   var savedScrollY = 0;
   var closeTimer = null;
+  var openTimer = null;
+  var SWOOSH_MS = 640;
   var ICON_CLOSE_MS = 285;
 
   function byId(id){ return document.getElementById(id); }
+
+  function eachRootClass(fn){
+    fn(document.documentElement);
+    fn(document.body);
+  }
+
+  function addRootClass(name){
+    eachRootClass(function(el){ if(el) el.classList.add(name); });
+  }
+
+  function removeRootClass(name){
+    eachRootClass(function(el){ if(el) el.classList.remove(name); });
+  }
+
+  function clearTimers(){
+    if(closeTimer){ window.clearTimeout(closeTimer); closeTimer = null; }
+    if(openTimer){ window.clearTimeout(openTimer); openTimer = null; }
+  }
 
   function clearOldBodyLock(){
     document.body.style.position = '';
@@ -8754,12 +8894,14 @@ loadWatches();
     }
   }
 
-  function hardCloseAfterIcon(){
+  function finishClosed(){
     var menu = byId('siteMenu');
     var toggle = byId('menuToggle');
 
-    document.documentElement.classList.remove('site-menu-open');
-    document.body.classList.remove('site-menu-open');
+    removeRootClass('site-menu-open');
+    removeRootClass('site-menu-preopen');
+    removeRootClass('site-menu-closing');
+    removeRootClass('site-menu-opening');
     clearOldBodyLock();
 
     if(toggle){
@@ -8776,16 +8918,18 @@ loadWatches();
     });
   }
 
+  function finishOpen(){
+    removeRootClass('site-menu-preopen');
+    removeRootClass('site-menu-opening');
+    syncMenuGeometry();
+  }
+
   function setMenuOpen(open){
     var menu = byId('siteMenu');
     var toggle = byId('menuToggle');
 
     syncMenuGeometry();
-
-    if(closeTimer){
-      window.clearTimeout(closeTimer);
-      closeTimer = null;
-    }
+    clearTimers();
 
     if(open){
       savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -8798,23 +8942,30 @@ loadWatches();
         toggle.setAttribute('aria-label', 'Close menu');
       }
 
-      document.documentElement.classList.add('site-menu-open');
-      document.body.classList.add('site-menu-open');
       if(menu){
         menu.scrollTop = 0;
         menu.setAttribute('aria-hidden', 'false');
       }
 
+      addRootClass('site-menu-preopen');
+      removeRootClass('site-menu-closing');
+      addRootClass('site-menu-opening');
+
       window.requestAnimationFrame(function(){
         clearOldBodyLock();
         syncMenuGeometry();
         window.scrollTo(0, 0);
-        window.requestAnimationFrame(syncMenuGeometry);
+        window.requestAnimationFrame(function(){
+          addRootClass('site-menu-open');
+          openTimer = window.setTimeout(function(){
+            openTimer = null;
+            finishOpen();
+          }, SWOOSH_MS + 80);
+        });
       });
       return;
     }
 
-    // Close professionally: animate X back to hamburger first, then reveal/restore the page.
     if(toggle){
       toggle.classList.remove('is-open');
       toggle.classList.add('is-closing');
@@ -8822,10 +8973,14 @@ loadWatches();
       toggle.setAttribute('aria-label', 'Open menu');
     }
 
+    removeRootClass('site-menu-opening');
+    removeRootClass('site-menu-preopen');
+    addRootClass('site-menu-closing');
+
     closeTimer = window.setTimeout(function(){
       closeTimer = null;
-      hardCloseAfterIcon();
-    }, ICON_CLOSE_MS);
+      finishClosed();
+    }, Math.max(SWOOSH_MS, ICON_CLOSE_MS) + 40);
   }
 
   function closeProductIfOpen(){
@@ -8842,6 +8997,10 @@ loadWatches();
     try{ showSold = false; }catch(error){}
     try{ if(typeof resetListingLimit === 'function') resetListingLimit(); }catch(error){}
     try{ if(typeof render === 'function') render(); }catch(error){}
+  }
+
+  function afterClose(fn){
+    window.setTimeout(fn, SWOOSH_MS + 70);
   }
 
   function bindMenu(){
@@ -8874,15 +9033,12 @@ loadWatches();
         event.preventDefault();
         event.stopPropagation();
 
-        var isOpen = document.body.classList.contains('site-menu-open');
+        var isOpen = document.body.classList.contains('site-menu-open') || document.body.classList.contains('site-menu-preopen');
 
-        // If user taps during the return animation, reopen cleanly instead of leaving a blank state.
-        if(toggle.classList.contains('is-closing')){
-          if(closeTimer){
-            window.clearTimeout(closeTimer);
-            closeTimer = null;
-          }
+        if(toggle.classList.contains('is-closing') || document.body.classList.contains('site-menu-closing')){
+          clearTimers();
           toggle.classList.remove('is-closing');
+          removeRootClass('site-menu-closing');
           setMenuOpen(true);
           return;
         }
@@ -8901,7 +9057,7 @@ loadWatches();
         var target = targetButton.getAttribute('data-menu-target');
         setMenuOpen(false);
 
-        window.setTimeout(function(){
+        afterClose(function(){
           if(target === 'buy'){
             resetBuyPage();
             try{ if(typeof setPage === 'function') setPage('buy'); }catch(error){}
@@ -8918,7 +9074,7 @@ loadWatches();
 
           try{ if(typeof openInfoSection === 'function') openInfoSection(target); }catch(error){}
           try{ window.history.pushState({ page:target }, '', '#' + target); }catch(error){ window.location.hash = target; }
-        }, ICON_CLOSE_MS + 10);
+        });
       }, true);
 
       menu.addEventListener('click', function(event){
@@ -8929,7 +9085,7 @@ loadWatches();
     }
 
     document.addEventListener('keydown', function(event){
-      if(event.key === 'Escape' && document.body.classList.contains('site-menu-open')) setMenuOpen(false);
+      if(event.key === 'Escape' && (document.body.classList.contains('site-menu-open') || document.body.classList.contains('site-menu-preopen'))) setMenuOpen(false);
     }, true);
   }
 
