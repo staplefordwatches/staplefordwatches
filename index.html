@@ -6508,6 +6508,36 @@ body.site-menu-open .site-menu-primary{
 
 
 </head>
+
+<style id="stapleford-menu-v11-icon-return-css">
+/* V11: keep the close interaction premium: X animates back to hamburger before page scroll is restored. */
+.menu-toggle .menu-toggle-icon span{
+  opacity:1 !important;
+  visibility:visible !important;
+  will-change:transform !important;
+  transition:transform 260ms cubic-bezier(.22,1,.36,1), opacity 160ms ease !important;
+}
+
+.menu-toggle.is-open .menu-toggle-icon span:first-child,
+body.site-menu-open .menu-toggle.is-open .menu-toggle-icon span:first-child{
+  transform:translateY(0) rotate(45deg) !important;
+}
+
+.menu-toggle.is-open .menu-toggle-icon span:last-child,
+body.site-menu-open .menu-toggle.is-open .menu-toggle-icon span:last-child{
+  transform:translateY(0) rotate(-45deg) !important;
+}
+
+.menu-toggle.is-closing .menu-toggle-icon span:first-child,
+body.site-menu-open .menu-toggle.is-closing .menu-toggle-icon span:first-child{
+  transform:translateY(-5px) rotate(0deg) !important;
+}
+
+.menu-toggle.is-closing .menu-toggle-icon span:last-child,
+body.site-menu-open .menu-toggle.is-closing .menu-toggle-icon span:last-child{
+  transform:translateY(5px) rotate(0deg) !important;
+}
+</style>
 <body oncontextmenu="return false" oncopy="return false" oncut="return false" onselectstart="return false" ondragstart="return false" style="-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important;">
 <!-- STAPLEFORD_SUBDIAL_LOCK_JS_START -->
 <script id="stapleford-subdial-lock-js">
@@ -8692,13 +8722,14 @@ loadWatches();
 </script>
 
 
-<script id="stapleford-menu-v10-own-page-scroll-js">
+<script id="stapleford-menu-v11-own-page-scroll-js">
 (function(){
   'use strict';
 
   var savedScrollY = 0;
+  var closeTimer = null;
+  var ICON_CLOSE_MS = 285;
 
-  function qs(selector){ return document.querySelector(selector); }
   function byId(id){ return document.getElementById(id); }
 
   function clearOldBodyLock(){
@@ -8723,39 +8754,78 @@ loadWatches();
     }
   }
 
+  function hardCloseAfterIcon(){
+    var menu = byId('siteMenu');
+    var toggle = byId('menuToggle');
+
+    document.documentElement.classList.remove('site-menu-open');
+    document.body.classList.remove('site-menu-open');
+    clearOldBodyLock();
+
+    if(toggle){
+      toggle.classList.remove('is-open');
+      toggle.classList.remove('is-closing');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+    }
+    if(menu) menu.setAttribute('aria-hidden', 'true');
+
+    window.requestAnimationFrame(function(){
+      syncMenuGeometry();
+      window.scrollTo(0, savedScrollY || 0);
+    });
+  }
+
   function setMenuOpen(open){
     var menu = byId('siteMenu');
     var toggle = byId('menuToggle');
 
     syncMenuGeometry();
 
+    if(closeTimer){
+      window.clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+
     if(open){
       savedScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       clearOldBodyLock();
+
+      if(toggle){
+        toggle.classList.remove('is-closing');
+        toggle.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close menu');
+      }
+
       document.documentElement.classList.add('site-menu-open');
       document.body.classList.add('site-menu-open');
-      if(menu) menu.scrollTop = 0;
+      if(menu){
+        menu.scrollTop = 0;
+        menu.setAttribute('aria-hidden', 'false');
+      }
+
       window.requestAnimationFrame(function(){
         clearOldBodyLock();
         syncMenuGeometry();
         window.scrollTo(0, 0);
         window.requestAnimationFrame(syncMenuGeometry);
       });
-    }else{
-      document.documentElement.classList.remove('site-menu-open');
-      document.body.classList.remove('site-menu-open');
-      clearOldBodyLock();
-      window.requestAnimationFrame(function(){
-        syncMenuGeometry();
-        window.scrollTo(0, savedScrollY || 0);
-      });
+      return;
     }
 
-    if(menu) menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    // Close professionally: animate X back to hamburger first, then reveal/restore the page.
     if(toggle){
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      toggle.classList.remove('is-open');
+      toggle.classList.add('is-closing');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
     }
+
+    closeTimer = window.setTimeout(function(){
+      closeTimer = null;
+      hardCloseAfterIcon();
+    }, ICON_CLOSE_MS);
   }
 
   function closeProductIfOpen(){
@@ -8781,6 +8851,11 @@ loadWatches();
     clearOldBodyLock();
     syncMenuGeometry();
 
+    if(toggle){
+      toggle.classList.remove('is-open');
+      toggle.classList.remove('is-closing');
+    }
+
     window.addEventListener('resize', syncMenuGeometry, { passive:true });
     window.addEventListener('orientationchange', function(){
       window.setTimeout(syncMenuGeometry, 80);
@@ -8798,7 +8873,21 @@ loadWatches();
       toggle.addEventListener('click', function(event){
         event.preventDefault();
         event.stopPropagation();
-        setMenuOpen(!document.body.classList.contains('site-menu-open'));
+
+        var isOpen = document.body.classList.contains('site-menu-open');
+
+        // If user taps during the return animation, reopen cleanly instead of leaving a blank state.
+        if(toggle.classList.contains('is-closing')){
+          if(closeTimer){
+            window.clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+          toggle.classList.remove('is-closing');
+          setMenuOpen(true);
+          return;
+        }
+
+        setMenuOpen(!isOpen);
       }, true);
     }
 
@@ -8812,32 +8901,35 @@ loadWatches();
         var target = targetButton.getAttribute('data-menu-target');
         setMenuOpen(false);
 
-        if(target === 'buy'){
-          resetBuyPage();
-          try{ if(typeof setPage === 'function') setPage('buy'); }catch(error){}
-          closeProductIfOpen();
-          try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(error){ window.scrollTo(0,0); }
-          return;
-        }
+        window.setTimeout(function(){
+          if(target === 'buy'){
+            resetBuyPage();
+            try{ if(typeof setPage === 'function') setPage('buy'); }catch(error){}
+            closeProductIfOpen();
+            try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(error){ window.scrollTo(0,0); }
+            return;
+          }
 
-        if(target === 'faqs'){
-          try{ if(typeof openInfoSection === 'function') openInfoSection('delivery'); }catch(error){}
-          try{ window.history.pushState({ page:'faqs' }, '', '#faqs'); }catch(error){ window.location.hash = 'faqs'; }
-          return;
-        }
+          if(target === 'faqs'){
+            try{ if(typeof openInfoSection === 'function') openInfoSection('delivery'); }catch(error){}
+            try{ window.history.pushState({ page:'faqs' }, '', '#faqs'); }catch(error){ window.location.hash = 'faqs'; }
+            return;
+          }
 
-        try{ if(typeof openInfoSection === 'function') openInfoSection(target); }catch(error){}
-        try{ window.history.pushState({ page:target }, '', '#' + target); }catch(error){ window.location.hash = target; }
+          try{ if(typeof openInfoSection === 'function') openInfoSection(target); }catch(error){}
+          try{ window.history.pushState({ page:target }, '', '#' + target); }catch(error){ window.location.hash = target; }
+        }, ICON_CLOSE_MS + 10);
       }, true);
 
       menu.addEventListener('click', function(event){
         var link = event.target.closest('a[href]');
-        if(link) setMenuOpen(false);
+        if(!link) return;
+        setMenuOpen(false);
       }, true);
     }
 
     document.addEventListener('keydown', function(event){
-      if(event.key === 'Escape') setMenuOpen(false);
+      if(event.key === 'Escape' && document.body.classList.contains('site-menu-open')) setMenuOpen(false);
     }, true);
   }
 
