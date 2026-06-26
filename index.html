@@ -6507,6 +6507,59 @@ body.site-menu-open .site-menu-primary{
 </style>
 
 
+
+<style id="stapleford-faq-spacing-polish-css">
+/* FAQ divider + spacing polish: keep the end gap identical to the FAQ rhythm. */
+.site-menu-page-copy[data-menu-copy="faqs"]{
+  padding-bottom:0 !important;
+  margin-bottom:clamp(14px, 1.35vh, 18px) !important;
+  border-bottom:0 !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-list{
+  margin-top:2px !important;
+  margin-bottom:0 !important;
+  max-width:620px !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item{
+  border-top:1px solid rgba(0,0,0,.16) !important;
+  border-bottom:0 !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child{
+  border-bottom:0 !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary{
+  padding:15px 0 13px !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer{
+  padding:1px 0 18px !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child .site-menu-faq-answer{
+  padding-bottom:18px !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p{
+  line-height:1.7 !important;
+}
+
+@media (max-width:767px){
+  .site-menu-page-copy[data-menu-copy="faqs"]{
+    margin-bottom:14px !important;
+    padding-bottom:0 !important;
+    border-bottom:0 !important;
+  }
+
+  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer,
+  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child .site-menu-faq-answer{
+    padding-bottom:16px !important;
+  }
+}
+</style>
 </head>
 
 <style id="stapleford-menu-v11-icon-return-css">
@@ -9571,7 +9624,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     buy: {
       html: [
         '<p>Browse the current selection of available watches <button class="site-menu-inline-link" data-menu-page-action="close-buy" type="button">here</button>.</p>',
-        '<p>If you require specific images or would like a video of the timepiece, please contact us.</p>'
+        '<p>If you require further images or would like a video of a specific timepiece, please contact us.</p>'
       ]
     },
     sell: {
@@ -9684,6 +9737,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 
   function renderCopy(copy, key){
     var data = content[key] || content.about;
+    copy.setAttribute('data-menu-copy', key || 'about');
     var html = '';
 
     if(data.body && data.body.length){
