@@ -7311,6 +7311,16 @@ html body .lightbox.open .lightbox-detail-contents-copy{
 </section>
 </aside>
 </div>
+<footer class="site-footer lightbox-site-footer" aria-label="Product page footer">
+<div class="footer-inner">
+<div class="footer-copy"><span>© 2026 STAPLEFORD WATCHES</span></div>
+<div class="footer-links">
+<a href="https://wa.me/447438196047">WHATSAPP</a>
+<a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a>
+<a href="https://instagram.com/staplefordwatches">INSTAGRAM</a>
+</div>
+</div>
+</footer>
 </div>
 </div>
 
@@ -12457,6 +12467,152 @@ html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbo
 }
 </style>
 <!-- STAPLEFORD_CONTACT_ICON_OUTLINE_RESTORE_END -->
+
+
+<!-- STAPLEFORD_GLOBAL_FOOTER_ALL_PAGES_START -->
+<style id="stapleford-global-footer-all-pages-css">
+/* Global footer rule: visible on every public page/view, hidden only on the menu page. */
+html body > footer.site-footer,
+html body #lightbox .lightbox-site-footer{
+  background:#fff !important;
+  color:#000 !important;
+  box-sizing:border-box !important;
+}
+
+html body #lightbox .lightbox-site-footer{
+  display:block !important;
+  visibility:visible !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:clamp(30px, 4vw, 64px) 0 0 !important;
+  padding:clamp(24px, 3vw, 40px) 0 0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+html body #lightbox .lightbox-site-footer .footer-inner{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column-reverse !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:8px !important;
+  box-sizing:border-box !important;
+}
+
+html body #lightbox .lightbox-site-footer .footer-copy,
+html body #lightbox .lightbox-site-footer .footer-links{
+  width:100% !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  letter-spacing:normal !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+
+html body #lightbox .lightbox-site-footer .footer-links{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  flex-wrap:wrap !important;
+  gap:8px 12px !important;
+}
+
+html body #lightbox .lightbox-site-footer .footer-links a,
+html body #lightbox .lightbox-site-footer .footer-links a:link,
+html body #lightbox .lightbox-site-footer .footer-links a:visited,
+html body #lightbox .lightbox-site-footer .footer-links a:hover,
+html body #lightbox .lightbox-site-footer .footer-links a:active{
+  color:#000 !important;
+  text-decoration:none !important;
+  font:inherit !important;
+  letter-spacing:inherit !important;
+  text-transform:uppercase !important;
+}
+
+/* Product listing pages are rendered inside #lightbox, so keep that footer alive while the main page footer is hidden. */
+html body.product-page-open #lightbox .lightbox-site-footer,
+html body.product-page-open #lightbox.open .lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-site-footer{
+  display:block !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+
+/* The menu is the one exception: no footer in the menu view. */
+html.site-menu-open body > footer.site-footer,
+html body.site-menu-open > footer.site-footer,
+html.site-menu-open body #lightbox .lightbox-site-footer,
+html body.site-menu-open #lightbox .lightbox-site-footer,
+html.site-menu-preopen body > footer.site-footer,
+html body.site-menu-preopen > footer.site-footer,
+html.site-menu-opening body > footer.site-footer,
+html body.site-menu-opening > footer.site-footer{
+  display:none !important;
+  visibility:hidden !important;
+}
+
+@media (max-width:767px){
+  html body #lightbox .lightbox-site-footer{
+    margin-top:28px !important;
+    padding-top:22px !important;
+  }
+  html body #lightbox .lightbox-site-footer .footer-inner{
+    flex-direction:column-reverse !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+  }
+  html body #lightbox .lightbox-site-footer .footer-links{
+    justify-content:flex-start !important;
+    gap:8px 12px !important;
+  }
+}
+</style>
+<script id="stapleford-global-footer-all-pages-js">
+(function(){
+  'use strict';
+
+  var FOOTER_HTML = '<footer class="site-footer lightbox-site-footer" aria-label="Product page footer">' +
+    '<div class="footer-inner">' +
+    '<div class="footer-copy"><span>© 2026 STAPLEFORD WATCHES</span></div>' +
+    '<div class="footer-links">' +
+    '<a href="https://wa.me/447438196047">WHATSAPP</a>' +
+    '<a href="mailto:ben@staplefordwatches.co.uk">EMAIL</a>' +
+    '<a href="https://instagram.com/staplefordwatches">INSTAGRAM</a>' +
+    '</div></div></footer>';
+
+  function ensureProductFooter(){
+    var lightbox = document.getElementById('lightbox');
+    if(!lightbox) return;
+
+    var existing = lightbox.querySelector('.lightbox-site-footer');
+    if(existing){
+      var copy = existing.querySelector('.footer-copy');
+      if(copy) copy.innerHTML = '<span>© 2026 STAPLEFORD WATCHES</span>';
+      return;
+    }
+
+    var inner = lightbox.querySelector('.lightbox-inner') || lightbox;
+    inner.insertAdjacentHTML('beforeend', FOOTER_HTML);
+  }
+
+  function boot(){
+    ensureProductFooter();
+    document.querySelectorAll('footer .footer-monogram, .lightbox-site-footer .footer-monogram').forEach(function(el){ el.remove(); });
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
+  else boot();
+
+  document.addEventListener('click', function(){ window.setTimeout(boot, 0); }, true);
+})();
+</script>
+<!-- STAPLEFORD_GLOBAL_FOOTER_ALL_PAGES_END -->
 
 </body>
 </html>
