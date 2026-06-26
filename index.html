@@ -6507,59 +6507,6 @@ body.site-menu-open .site-menu-primary{
 </style>
 
 
-
-<style id="stapleford-faq-spacing-polish-css">
-/* FAQ divider + spacing polish: keep the end gap identical to the FAQ rhythm. */
-.site-menu-page-copy[data-menu-copy="faqs"]{
-  padding-bottom:0 !important;
-  margin-bottom:clamp(14px, 1.35vh, 18px) !important;
-  border-bottom:0 !important;
-}
-
-.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-list{
-  margin-top:2px !important;
-  margin-bottom:0 !important;
-  max-width:620px !important;
-}
-
-.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item{
-  border-top:1px solid rgba(0,0,0,.16) !important;
-  border-bottom:0 !important;
-}
-
-.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child{
-  border-bottom:0 !important;
-}
-
-.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary{
-  padding:15px 0 13px !important;
-}
-
-.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer{
-  padding:1px 0 18px !important;
-}
-
-.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child .site-menu-faq-answer{
-  padding-bottom:18px !important;
-}
-
-.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p{
-  line-height:1.7 !important;
-}
-
-@media (max-width:767px){
-  .site-menu-page-copy[data-menu-copy="faqs"]{
-    margin-bottom:14px !important;
-    padding-bottom:0 !important;
-    border-bottom:0 !important;
-  }
-
-  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer,
-  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child .site-menu-faq-answer{
-    padding-bottom:16px !important;
-  }
-}
-</style>
 </head>
 
 <style id="stapleford-menu-v11-icon-return-css">
@@ -9624,7 +9571,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     buy: {
       html: [
         '<p>Browse the current selection of available watches <button class="site-menu-inline-link" data-menu-page-action="close-buy" type="button">here</button>.</p>',
-        '<p>If you require further images or would like a video of a specific timepiece, please contact us.</p>'
+        '<p>For further images or a video of a specific timepiece, please contact us quoting the relevant Listing ID.</p>'
       ]
     },
     sell: {
@@ -10354,6 +10301,152 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 })();
 </script>
 <!-- STAPLEFORD_PROFESSIONAL_SEARCH_AND_TYPE_FIX_END -->
+
+
+<!-- STAPLEFORD_FAQ_NO_LINES_SPACING_START -->
+<style id="stapleford-faq-no-lines-spacing-css">
+/* FAQ polish: no divider lines, just consistent premium spacing around the subtext. */
+.site-menu-page-copy[data-menu-copy="faqs"]{
+  padding-bottom:0 !important;
+  margin-bottom:clamp(18px, 2vh, 24px) !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-list,
+.site-menu-faq-list{
+  display:grid !important;
+  gap:clamp(16px, 1.8vh, 22px) !important;
+  width:100% !important;
+  max-width:620px !important;
+  margin:4px 0 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item,
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:first-child,
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child,
+.site-menu-faq-item,
+.site-menu-faq-item:first-child,
+.site-menu-faq-item:last-child{
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-top:0 !important;
+  border-bottom:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+  background:transparent !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary,
+.site-menu-faq-item summary{
+  display:flex !important;
+  align-items:flex-start !important;
+  justify-content:space-between !important;
+  gap:18px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:11.5px !important;
+  line-height:1.45 !important;
+  font-weight:600 !important;
+  letter-spacing:.045em !important;
+  text-transform:none !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary strong,
+.site-menu-faq-item summary strong{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:inherit !important;
+  line-height:inherit !important;
+  font-weight:600 !important;
+  letter-spacing:inherit !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary::after,
+.site-menu-faq-item summary::after{
+  content:"+" !important;
+  flex:0 0 auto !important;
+  width:14px !important;
+  margin-top:1px !important;
+  text-align:right !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:14px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item[open] summary::after,
+.site-menu-faq-item[open] summary::after{
+  content:"−" !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer,
+.site-menu-faq-answer{
+  margin:0 !important;
+  padding:7px 0 0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p,
+.site-menu-faq-answer p{
+  margin:0 !important;
+  padding:0 !important;
+  max-width:620px !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:11.5px !important;
+  line-height:1.72 !important;
+  font-weight:400 !important;
+  letter-spacing:.018em !important;
+  text-transform:none !important;
+  color:rgba(0,0,0,.76) !important;
+  opacity:1 !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p + p,
+.site-menu-faq-answer p + p{
+  margin-top:10px !important;
+}
+
+.site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer strong,
+.site-menu-faq-answer strong{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-weight:500 !important;
+  font-size:inherit !important;
+  line-height:inherit !important;
+  letter-spacing:inherit !important;
+}
+
+@media (max-width:767px){
+  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-list,
+  .site-menu-faq-list{
+    gap:16px !important;
+    margin-top:3px !important;
+  }
+
+  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary,
+  .site-menu-faq-item summary,
+  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p,
+  .site-menu-faq-answer p{
+    font-size:12px !important;
+    line-height:1.66 !important;
+  }
+
+  .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer,
+  .site-menu-faq-answer{
+    padding-top:6px !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_FAQ_NO_LINES_SPACING_END -->
 
 </body>
 </html>
