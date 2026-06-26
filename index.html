@@ -11440,5 +11440,82 @@ body.site-menu-opening.site-menu-can-scroll{
 </script>
 <!-- STAPLEFORD_FINAL_BRAND_POLISH_END -->
 
+
+<!-- STAPLEFORD_FOOTER_CHAT_REFINEMENT_START -->
+<style id="stapleford-footer-chat-refinement-css">
+/* Remove the heavy floating-chat shadow and keep the footer links above the copyright on desktop as well as mobile. */
+html body .stapleford-chat-pop,
+html body .stapleford-chat-pop:link,
+html body .stapleford-chat-pop:visited,
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:focus-visible,
+html body .stapleford-chat-pop:active{
+  box-shadow:none !important;
+}
+
+html body .stapleford-chat-pop__active{
+  box-shadow:none !important;
+}
+
+html body > footer.site-footer .footer-inner{
+  flex-direction:column-reverse !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:8px !important;
+}
+
+html body > footer.site-footer .footer-links{
+  justify-content:flex-start !important;
+  gap:8px 12px !important;
+}
+
+html body > footer.site-footer .footer-copy,
+html body > footer.site-footer .footer-links{
+  width:100% !important;
+}
+
+@media (min-width:768px){
+  html body > footer.site-footer{
+    padding-right:clamp(12px, 2vw, 24px) !important;
+    padding-left:6px !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_FOOTER_CHAT_REFINEMENT_END -->
+
+
+
+<!-- STAPLEFORD_CHAT_ICON_ALIGNMENT_START -->
+<style id="stapleford-chat-icon-alignment-css">
+/* Final optical alignment for the green live-dot beside CHAT TO US. */
+html body .stapleford-chat-pop,
+html body .stapleford-chat-pop:link,
+html body .stapleford-chat-pop:visited,
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:focus-visible,
+html body .stapleford-chat-pop:active{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  line-height:1 !important;
+}
+
+html body .stapleford-chat-pop__active{
+  display:block !important;
+  align-self:center !important;
+  margin:0 !important;
+  transform:translateY(-1px) !important;
+}
+
+html body .stapleford-chat-pop__label{
+  display:inline-flex !important;
+  align-items:center !important;
+  height:1em !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+}
+</style>
+<!-- STAPLEFORD_CHAT_ICON_ALIGNMENT_END -->
+
 </body>
 </html>
