@@ -71,7 +71,7 @@
   "@id": "https://staplefordwatches.co.uk/#site-navigation",
   "name": "Stapleford Watches main navigation",
   "itemListElement": [
-    { "@type": "SiteNavigationElement", "position": 1, "name": "Buy Watches", "url": "https://staplefordwatches.co.uk/" },
+    { "@type": "SiteNavigationElement", "position": 1, "name": "Buy Watches", "url": "https://staplefordwatches.co.uk/buy/" },
     { "@type": "SiteNavigationElement", "position": 2, "name": "About", "url": "https://staplefordwatches.co.uk/about/" },
     { "@type": "SiteNavigationElement", "position": 3, "name": "Sell Your Watch", "url": "https://staplefordwatches.co.uk/sell/" },
     { "@type": "SiteNavigationElement", "position": 4, "name": "FAQs", "url": "https://staplefordwatches.co.uk/faqs/" },
@@ -7025,7 +7025,7 @@ body.site-menu-closing .site-header .logo{
 <div class="site-menu-scroll">
 <div aria-label="Main navigation" class="site-menu-primary">
 <a class="site-menu-title" data-menu-target="about" href="/about/">ABOUT</a>
-<a class="site-menu-title" data-menu-target="buy" href="/">BUY</a>
+<a class="site-menu-title" data-menu-target="buy" href="/buy/">BUY</a>
 <a class="site-menu-title" data-menu-target="sell" href="/sell/">SELL</a>
 <a class="site-menu-title" data-menu-target="faqs" href="/faqs/">FAQs</a>
 <a class="site-menu-title site-menu-contact" data-menu-target="contact" href="/contact/">CONTACT</a>
@@ -7485,7 +7485,7 @@ function clearProductBrowserUrl(replace = false){
   if(!hadProductUrl) return;
   const method = replace ? "replaceState" : "pushState";
   try{
-    window.history[method]({ page:"buy" }, "", "/");
+    window.history[method]({ page:"buy" }, "", "/buy/");
   } catch {}
   updateProductSeoHead(null);
 }
@@ -9332,6 +9332,7 @@ loadWatches();
             resetBuyPage();
             try{ if(typeof setPage === 'function') setPage('buy'); }catch(error){}
             closeProductIfOpen();
+            try{ window.history.pushState({ page:'buy' }, '', '/buy/'); }catch(error){ window.location.href = '/buy/'; }
             try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(error){ window.scrollTo(0,0); }
             return;
           }
@@ -9735,7 +9736,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   var resetTimer = null;
 
   var menuRoutes = {
-    buy: '/',
+    buy: '/buy/',
     about: '/about/',
     sell: '/sell/',
     faqs: '/faqs/',
@@ -11188,6 +11189,92 @@ html body > footer.site-footer .footer-monogram{
 }
 </style>
 <!-- STAPLEFORD_REFERENCE_STYLE_MAIN_FOOTER_END -->
+
+
+<!-- STAPLEFORD_CHAT_POPUP_START -->
+<style id="stapleford-chat-popup-css">
+html body .stapleford-chat-pop,
+html body .stapleford-chat-pop:link,
+html body .stapleford-chat-pop:visited,
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:active{
+  position:fixed !important;
+  right:clamp(12px, 2.1vw, 24px) !important;
+  bottom:clamp(14px, 2.1vw, 24px) !important;
+  z-index:999998 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:9px !important;
+  min-height:40px !important;
+  padding:11px 14px !important;
+  border:1px solid rgba(0,0,0,.12) !important;
+  border-radius:2px !important;
+  background:rgba(255,255,255,.94) !important;
+  color:#000 !important;
+  box-shadow:0 14px 36px rgba(0,0,0,.10) !important;
+  backdrop-filter:blur(14px) !important;
+  -webkit-backdrop-filter:blur(14px) !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:lowercase !important;
+  text-decoration:none !important;
+  cursor:pointer !important;
+  pointer-events:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+  transition:transform .2s ease, box-shadow .2s ease, background .2s ease !important;
+}
+
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:focus-visible{
+  transform:translateY(-2px) !important;
+  background:#fff !important;
+  box-shadow:0 18px 44px rgba(0,0,0,.14) !important;
+  outline:none !important;
+}
+
+html body .stapleford-chat-pop__active{
+  width:7px !important;
+  height:7px !important;
+  flex:0 0 7px !important;
+  border-radius:999px !important;
+  background:#39ff14 !important;
+  box-shadow:0 0 0 1px rgba(57,255,20,.28) !important;
+}
+
+html body .stapleford-chat-pop__label{
+  display:inline-block !important;
+  white-space:nowrap !important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  html body .stapleford-chat-pop{
+    transition:none !important;
+  }
+}
+
+@media (max-width:520px){
+  html body .stapleford-chat-pop,
+  html body .stapleford-chat-pop:link,
+  html body .stapleford-chat-pop:visited{
+    right:10px !important;
+    bottom:10px !important;
+    min-height:40px !important;
+    padding:10px 12px 10px 11px !important;
+    font-size:11px !important;
+  }
+}
+</style>
+<a class="stapleford-chat-pop" href="https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%27d%20like%20to%20chat%20about%20a%20watch." target="_blank" rel="noopener" aria-label="Chat to us on WhatsApp">
+  <span class="stapleford-chat-pop__active" aria-hidden="true"></span>
+  <span class="stapleford-chat-pop__label">chat to us</span>
+</a>
+<!-- STAPLEFORD_CHAT_POPUP_END -->
 
 </body>
 </html>
