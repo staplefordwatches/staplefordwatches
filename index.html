@@ -12152,5 +12152,242 @@ html body .site-menu-page-copy .site-menu-policy p{
 </style>
 <!-- STAPLEFORD_TERMS_PRIVACY_UPDATE_END -->
 
+
+
+<!-- STAPLEFORD_PRODUCT_NEED_HELP_POPUP_START -->
+<style id="stapleford-product-need-help-popup-css">
+/* Keep the original CHAT TO US button on the home/buy pages, but hide it while an individual listing is open. */
+html body.product-page-open .stapleford-chat-pop{
+  display:none !important;
+}
+
+/* Remove the pale border from the original floating chat box and the small contact boxes. */
+html body .stapleford-chat-pop,
+html body .stapleford-chat-pop:link,
+html body .stapleford-chat-pop:visited,
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:focus-visible,
+html body .stapleford-chat-pop:active,
+html body .lightbox-detail-contact-link,
+html body .lightbox-detail-contact-link:link,
+html body .lightbox-detail-contact-link:visited,
+html body .lightbox-detail-contact-link:hover,
+html body .lightbox-detail-contact-link:focus-visible,
+html body .lightbox-detail-contact-link:active{
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+html body .stapleford-product-help-pop,
+html body .stapleford-product-help-pop:link,
+html body .stapleford-product-help-pop:visited,
+html body .stapleford-product-help-pop:hover,
+html body .stapleford-product-help-pop:focus-visible,
+html body .stapleford-product-help-pop:active{
+  position:fixed !important;
+  right:clamp(12px, 2.1vw, 24px) !important;
+  bottom:clamp(14px, 2.1vw, 24px) !important;
+  z-index:1000000 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:40px !important;
+  padding:12px 15px !important;
+  border:0 !important;
+  border-radius:2px !important;
+  background:#0057ff !important;
+  color:#fff !important;
+  box-shadow:none !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  text-decoration:none !important;
+  cursor:pointer !important;
+  pointer-events:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+  transition:transform .2s ease, opacity .2s ease !important;
+}
+
+html body .stapleford-product-help-pop:hover,
+html body .stapleford-product-help-pop:focus-visible{
+  transform:translateY(-2px) !important;
+  background:#0057ff !important;
+  color:#fff !important;
+  outline:none !important;
+}
+
+html body.product-page-open.stapleford-product-help-visible .stapleford-product-help-pop{
+  display:inline-flex !important;
+}
+
+html body .stapleford-product-help-pop__label{
+  display:inline-flex !important;
+  align-items:center !important;
+  height:1em !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  color:#fff !important;
+}
+
+@media (max-width:520px){
+  html body .stapleford-product-help-pop,
+  html body .stapleford-product-help-pop:link,
+  html body .stapleford-product-help-pop:visited{
+    right:10px !important;
+    bottom:10px !important;
+    min-height:40px !important;
+    padding:11px 13px !important;
+    font-size:11px !important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html body .stapleford-product-help-pop{
+    transition:none !important;
+  }
+}
+</style>
+<a class="stapleford-product-help-pop" id="staplefordProductHelpPop" href="https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%20need%20help%20with%20a%20listing%20on%20your%20website." target="_blank" rel="noopener" aria-label="NEED HELP? MESSAGE STAPLEFORD WATCHES ON WHATSAPP">
+  <span class="stapleford-product-help-pop__label">NEED HELP?</span>
+</a>
+<script id="stapleford-product-need-help-popup-js">
+(function(){
+  'use strict';
+
+  var MOBILE_QUERY = window.matchMedia ? window.matchMedia('(max-width: 767px)') : null;
+  var RAF = 0;
+
+  function qs(id){ return document.getElementById(id); }
+
+  function isMobile(){
+    return MOBILE_QUERY ? MOBILE_QUERY.matches : ((window.innerWidth || document.documentElement.clientWidth || 0) <= 767);
+  }
+
+  function isProductOpen(){
+    var lightbox = qs('lightbox');
+    return !!(document.body && document.body.classList.contains('product-page-open') && lightbox && lightbox.classList.contains('open'));
+  }
+
+  function cleanText(value){
+    return String(value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function getListingId(){
+    var buy = qs('lightboxDetailBuy');
+    var id = buy && buy.dataset ? cleanText(buy.dataset.watchId) : '';
+    if(id) return id;
+
+    var specs = qs('lightboxDetailSpecs');
+    if(specs){
+      var terms = specs.querySelectorAll('dt');
+      for(var i = 0; i < terms.length; i += 1){
+        if(cleanText(terms[i].textContent).toUpperCase() === 'LISTING ID'){
+          var dd = terms[i].nextElementSibling;
+          if(dd) return cleanText(dd.textContent);
+        }
+      }
+    }
+
+    var pathMatch = String(window.location.pathname || '').match(/\/watch\/([^/]+)/i);
+    return pathMatch ? decodeURIComponent(pathMatch[1]) : '';
+  }
+
+  function getWatchName(){
+    var brand = cleanText(qs('lightboxDetailBrand') && qs('lightboxDetailBrand').textContent);
+    var title = cleanText(qs('lightboxDetailTitle') && qs('lightboxDetailTitle').textContent);
+    return [brand, title].filter(Boolean).join(' ');
+  }
+
+  function updateHref(){
+    var help = qs('staplefordProductHelpPop');
+    if(!help) return;
+
+    var listingId = getListingId();
+    var watchName = getWatchName();
+    var message = 'Hi Stapleford Watches, I need help with';
+
+    if(listingId){
+      message += ' listing ' + listingId;
+    }else{
+      message += ' this listing';
+    }
+
+    if(watchName){
+      message += ' — ' + watchName;
+    }
+
+    message += '. Could you tell me more about it?';
+    help.href = 'https://wa.me/447438196047?text=' + encodeURIComponent(message);
+  }
+
+  function buyButtonHasBeenPassed(){
+    var buy = qs('lightboxDetailBuy');
+    if(!buy || buy.hidden || buy.offsetParent === null) return true;
+    var rect = buy.getBoundingClientRect();
+    return rect.bottom <= 0;
+  }
+
+  function updateVisibilityNow(){
+    RAF = 0;
+    if(!document.body) return;
+
+    updateHref();
+
+    var shouldShow = false;
+    if(isProductOpen()){
+      shouldShow = !isMobile() || buyButtonHasBeenPassed();
+    }
+
+    document.body.classList.toggle('stapleford-product-help-visible', !!shouldShow);
+  }
+
+  function requestUpdate(){
+    if(RAF) return;
+    RAF = window.requestAnimationFrame(updateVisibilityNow);
+  }
+
+  function bind(){
+    var lightbox = qs('lightbox');
+
+    requestUpdate();
+    window.setTimeout(requestUpdate, 80);
+    window.setTimeout(requestUpdate, 350);
+
+    if(lightbox){
+      lightbox.addEventListener('scroll', requestUpdate, { passive:true });
+      lightbox.addEventListener('click', function(){ window.setTimeout(requestUpdate, 0); }, true);
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive:true });
+    window.addEventListener('resize', requestUpdate, { passive:true });
+    window.addEventListener('orientationchange', requestUpdate, { passive:true });
+    window.addEventListener('popstate', function(){ window.setTimeout(requestUpdate, 60); }, { passive:true });
+    document.addEventListener('stapleford:product-opened', function(){
+      window.setTimeout(requestUpdate, 0);
+      window.setTimeout(requestUpdate, 120);
+    });
+
+    if(MOBILE_QUERY){
+      if(MOBILE_QUERY.addEventListener) MOBILE_QUERY.addEventListener('change', requestUpdate);
+      else if(MOBILE_QUERY.addListener) MOBILE_QUERY.addListener(requestUpdate);
+    }
+
+    if(window.MutationObserver && document.body){
+      var observer = new MutationObserver(requestUpdate);
+      observer.observe(document.body, { attributes:true, attributeFilter:['class'] });
+    }
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, { once:true });
+  else bind();
+})();
+</script>
+<!-- STAPLEFORD_PRODUCT_NEED_HELP_POPUP_END -->
+
 </body>
 </html>
