@@ -6962,6 +6962,93 @@ body.site-menu-closing .site-header .logo{
 }
 </style>
 
+
+<style id="stapleford-good-to-know-refinement-css">
+/* STAPLEFORD UPDATE: refined good-to-know spacing, cleaner tick-badge icons, and collapsible condition/contents sections. */
+html body.product-page-open .lightbox.open .lightbox-detail-trust-list,
+html body .lightbox.open .lightbox-detail-trust-list{
+  margin:18px 0 0 !important;
+  padding:14px 0 14px !important;
+  gap:10px !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+  border-bottom:0 !important;
+}
+
+html body.product-page-open .lightbox.open .lightbox-detail-trust-list + .lightbox-detail-description-toggle,
+html body .lightbox.open .lightbox-detail-trust-list + .lightbox-detail-description-toggle{
+  margin-top:12px !important;
+}
+
+html body.product-page-open .lightbox.open .lightbox-detail-condition-section,
+html body.product-page-open .lightbox.open .lightbox-detail-contents-section,
+html body .lightbox.open .lightbox-detail-condition-section,
+html body .lightbox.open .lightbox-detail-contents-section{
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+}
+
+html body.product-page-open .lightbox.open .lightbox-detail-condition-toggle,
+html body.product-page-open .lightbox.open .lightbox-detail-contents-toggle,
+html body .lightbox.open .lightbox-detail-condition-toggle,
+html body .lightbox.open .lightbox-detail-contents-toggle{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  width:100% !important;
+  min-height:34px !important;
+  margin:12px 0 0 !important;
+  padding:10px 0 0 !important;
+  border:0 !important;
+  border-top:1px solid rgba(0,0,0,.14) !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1.2 !important;
+  letter-spacing:.06em !important;
+  font-weight:500 !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  cursor:default !important;
+}
+
+html body.product-page-open .lightbox.open .lightbox-detail-condition-copy,
+html body.product-page-open .lightbox.open .lightbox-detail-contents-copy,
+html body .lightbox.open .lightbox-detail-condition-copy,
+html body .lightbox.open .lightbox-detail-contents-copy{
+  margin:10px 0 0 !important;
+  padding:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.55 !important;
+  font-weight:400 !important;
+  letter-spacing:.02em !important;
+  text-transform:none !important;
+  color:#000 !important;
+  white-space:pre-line !important;
+  opacity:.82 !important;
+}
+
+.lightbox-detail-condition-copy[hidden],
+.lightbox-detail-contents-copy[hidden]{
+  display:none !important;
+}
+
+@media (max-width:767px){
+  html body.product-page-open .lightbox.open .lightbox-detail-trust-list,
+  html body .lightbox.open .lightbox-detail-trust-list{
+    margin-top:16px !important;
+    padding:13px 0 13px !important;
+    gap:9px !important;
+  }
+}
+</style>
+
 <body>
 <!-- STAPLEFORD_SUBDIAL_LOCK_JS_START -->
 <script id="stapleford-subdial-lock-js">
@@ -7193,12 +7280,12 @@ body.site-menu-closing .site-header .logo{
 <button aria-expanded="true" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span>HIDE DESCRIPTION ↓</span></button>
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
 <section class="lightbox-detail-condition-section" hidden="" id="lightboxDetailConditionSection">
-<div class="lightbox-detail-section-heading">CONDITION</div>
-<div class="lightbox-detail-condition-copy" id="lightboxDetailConditionCopy"></div>
+<button aria-expanded="false" class="lightbox-detail-policy-toggle lightbox-detail-condition-toggle" id="lightboxDetailConditionToggle" type="button"><span class="condition-heading-label">CONDITION ↑</span></button>
+<div class="lightbox-detail-condition-copy" hidden="" id="lightboxDetailConditionCopy"></div>
 </section>
 <section class="lightbox-detail-contents-section" hidden="" id="lightboxDetailContentsSection">
-<div class="lightbox-detail-section-heading">CONTENTS</div>
-<div class="lightbox-detail-contents-copy" id="lightboxDetailContentsCopy"></div>
+<button aria-expanded="false" class="lightbox-detail-policy-toggle lightbox-detail-contents-toggle" id="lightboxDetailContentsToggle" type="button"><span class="contents-heading-label">CONTENTS ↑</span></button>
+<div class="lightbox-detail-contents-copy" hidden="" id="lightboxDetailContentsCopy"></div>
 </section>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span class="spec-heading-label">SPECIFICATION ↑</span><span aria-hidden="true" class="spec-heading-icon"><svg focusable="false" viewbox="0 0 24 24"><path d="M6 4.5h9l3 3V19.5H6z"></path><path d="M15 4.5v3h3"></path><path d="M9 11h6"></path><path d="M9 14h6"></path><path d="M9 17h4"></path></svg></span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
@@ -7950,8 +8037,10 @@ const lightboxDetailTrustList = document.getElementById("lightboxDetailTrustList
 const lightboxDetailDescriptionToggle = document.getElementById("lightboxDetailDescriptionToggle");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
 const lightboxDetailConditionSection = document.getElementById("lightboxDetailConditionSection");
+const lightboxDetailConditionToggle = document.getElementById("lightboxDetailConditionToggle");
 const lightboxDetailConditionCopy = document.getElementById("lightboxDetailConditionCopy");
 const lightboxDetailContentsSection = document.getElementById("lightboxDetailContentsSection");
+const lightboxDetailContentsToggle = document.getElementById("lightboxDetailContentsToggle");
 const lightboxDetailContentsCopy = document.getElementById("lightboxDetailContentsCopy");
 const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
 const lightboxDetailEnquire = document.getElementById("lightboxDetailEnquire");
@@ -8035,6 +8124,19 @@ function setLightboxPolicyOpen(section, isOpen){
     toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     const text = isOpen ? `HIDE ${label} ↓` : `${label} ↑`;
     toggle.innerHTML = `<span class="policy-heading-label">${text}</span>${getLightboxPolicyIcon(section)}`;
+  }
+}
+
+function setLightboxExtraInfoOpen(section, isOpen){
+  const isContents = section === "contents";
+  const panel = isContents ? lightboxDetailContentsCopy : lightboxDetailConditionCopy;
+  const toggle = isContents ? lightboxDetailContentsToggle : lightboxDetailConditionToggle;
+  const label = isContents ? "CONTENTS" : "CONDITION";
+
+  if(panel) panel.hidden = !isOpen;
+  if(toggle){
+    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    toggle.innerHTML = `<span class="${isContents ? "contents" : "condition"}-heading-label">${isOpen ? `HIDE ${label} ↓` : `${label} ↑`}</span>`;
   }
 }
 
@@ -8317,7 +8419,7 @@ function getWatchFeatureItems(w){
 
 function getWatchFeatureIcon(icon){
   if(icon === "document-check"){
-    return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M7 3.5h9l3 3v14H7z"></path><path d="M16 3.5v3h3"></path><path d="M10 10h5"></path><path d="M10 13h4"></path><circle cx="6.8" cy="17.2" r="3.2"></circle><path d="M5.4 17.2l.9.9 1.8-2"></path></svg>';
+    return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M7 3.5h9l3 3v14H7z"></path><path d="M16 3.5v3h3"></path><path d="M10 10h5"></path><path d="M10 13h4"></path><circle cx="6.8" cy="17.2" r="3.75" style="fill:#fff;stroke:none"></circle><circle cx="6.8" cy="17.2" r="3.2"></circle><path d="M5.4 17.2l.9.9 1.8-2"></path></svg>';
   }
   if(icon === "parcel"){
     return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 7.5 12 3l8 4.5-8 4.5z"></path><path d="M4 7.5v9l8 4.5 8-4.5v-9"></path><path d="M12 12v9"></path><path d="M8.2 5.2 16 9.7"></path></svg>';
@@ -8325,7 +8427,7 @@ function getWatchFeatureIcon(icon){
   if(icon === "shield-box"){
     return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 8.2 12 4l7 4.2v4.9c0 3.7-2.4 6.3-7 7.9-4.6-1.6-7-4.2-7-7.9z"></path><path d="M9.2 12.4 11.2 14.4 15.2 10.2"></path></svg>';
   }
-  return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M7 3.5h10v13l-5-2.8-5 2.8z"></path><circle cx="16.5" cy="7.5" r="3.2"></circle><path d="M15.2 7.5l.8.8 1.7-1.9"></path></svg>';
+  return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M7 3.5h10v13l-5-2.8-5 2.8z"></path><circle cx="16.5" cy="7.5" r="3.75" style="fill:#fff;stroke:none"></circle><circle cx="16.5" cy="7.5" r="3.2"></circle><path d="M15.2 7.5l.8.8 1.7-1.9"></path></svg>';
 }
 
 function renderLightboxTrustList(w){
@@ -8349,9 +8451,11 @@ function renderLightboxConditionAndContents(w){
 
   if(lightboxDetailConditionCopy) lightboxDetailConditionCopy.textContent = conditionNotes;
   if(lightboxDetailConditionSection) lightboxDetailConditionSection.hidden = !conditionNotes;
+  setLightboxExtraInfoOpen("condition", false);
 
   if(lightboxDetailContentsCopy) lightboxDetailContentsCopy.textContent = contentsNotes;
   if(lightboxDetailContentsSection) lightboxDetailContentsSection.hidden = !contentsNotes;
+  setLightboxExtraInfoOpen("contents", false);
 }
 
 function renderLightboxDetails(){
@@ -8649,6 +8753,18 @@ lightboxDetailDescriptionToggle?.addEventListener("click", (e) => {
   e.stopPropagation();
   const isOpen = lightboxDetailDescription && !lightboxDetailDescription.hidden;
   setLightboxDescriptionOpen(!isOpen);
+});
+
+lightboxDetailConditionToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = lightboxDetailConditionCopy && !lightboxDetailConditionCopy.hidden;
+  setLightboxExtraInfoOpen("condition", !isOpen);
+});
+
+lightboxDetailContentsToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = lightboxDetailContentsCopy && !lightboxDetailContentsCopy.hidden;
+  setLightboxExtraInfoOpen("contents", !isOpen);
 });
 
 lightboxDetailSpecToggle?.addEventListener("click", (e) => {
