@@ -9331,6 +9331,31 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   outline:0 !important;
 }
 
+.site-menu-inline-link,
+.site-menu-inline-link:hover,
+.site-menu-inline-link:focus-visible{
+  display:inline !important;
+  width:auto !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#000 !important;
+  font:inherit !important;
+  letter-spacing:inherit !important;
+  text-transform:none !important;
+  text-decoration:underline !important;
+  text-underline-offset:2px !important;
+  cursor:default !important;
+  opacity:.78 !important;
+}
+
+.site-menu-inline-link:hover,
+.site-menu-inline-link:focus-visible{
+  opacity:1 !important;
+  outline:0 !important;
+}
+
 .site-menu-search-form{
   display:flex !important;
   align-items:center !important;
@@ -9363,17 +9388,113 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 
 .site-menu-search-submit{
   flex:0 0 auto !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:28px !important;
+  height:28px !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#000 !important;
+  cursor:default !important;
+  opacity:1 !important;
 }
 
-.site-menu-search-submit::after{
-  content:"→";
-  display:inline-block;
-  margin-left:8px;
-  transform:translateY(-1px);
+.site-menu-search-submit svg{
+  width:17px !important;
+  height:17px !important;
+  display:block !important;
+  fill:none !important;
+  stroke:currentColor !important;
+  stroke-width:1.7 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
+}
+
+.site-menu-search-submit:hover,
+.site-menu-search-submit:focus-visible{
+  opacity:.58 !important;
+  outline:0 !important;
 }
 
 .site-menu-title.is-menu-page-moving{
   pointer-events:none !important;
+}
+
+
+.site-menu-faq-list{
+  display:grid !important;
+  gap:0 !important;
+  width:100% !important;
+  max-width:620px !important;
+}
+
+.site-menu-faq-item{
+  border-top:1px solid rgba(0,0,0,.14) !important;
+  padding:0 !important;
+}
+
+.site-menu-faq-item:last-child{
+  border-bottom:1px solid rgba(0,0,0,.14) !important;
+}
+
+.site-menu-faq-item summary{
+  list-style:none !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:18px !important;
+  padding:14px 0 !important;
+  cursor:default !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.35 !important;
+  font-weight:600 !important;
+  letter-spacing:.07em !important;
+  text-transform:none !important;
+}
+
+.site-menu-faq-item summary::-webkit-details-marker{
+  display:none !important;
+}
+
+.site-menu-faq-item summary::after{
+  content:"+" !important;
+  flex:0 0 auto !important;
+  font-size:14px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  transform:translateY(-1px) !important;
+}
+
+.site-menu-faq-item[open] summary::after{
+  content:"−" !important;
+}
+
+.site-menu-faq-item summary strong{
+  font-weight:600 !important;
+}
+
+.site-menu-faq-answer{
+  padding:0 0 16px !important;
+}
+
+.site-menu-faq-answer p{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+.site-menu-faq-answer p + p{
+  margin-top:12px !important;
+}
+
+.site-menu-faq-answer a,
+.site-menu-faq-answer a:visited{
+  color:inherit !important;
+  text-decoration:underline !important;
+  text-underline-offset:2px !important;
 }
 
 @media (max-width:767px){
@@ -9426,17 +9547,13 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   var content = {
     about: {
       body: [
-        'Stapleford Watches is an independent UK watch business focused on pre-owned luxury watches, considered sourcing and clear advice.',
-        'The aim is simple: carefully selected watches, straightforward communication and a buying experience that feels personal rather than transactional.'
+        'Stapleford Watches is an independent, UK-based specialist dedicated to sourcing and curating unique, historically significant timepieces across both modern and vintage collections. Whether you are purchasing your first luxury watch or adding to an established collection, we aim to offer a distinctive selection from exceptional brands.'
       ]
     },
     buy: {
-      body: [
-        'Browse the current selection of available watches, or enquire directly if there is a specific reference you are looking for.',
-        'Every watch is presented with clear photography, key specification and direct contact options before purchase.'
-      ],
-      actions: [
-        { label:'View watches', type:'close-buy' }
+      html: [
+        '<p>Browse the current selection of available watches <button class="site-menu-inline-link" data-menu-page-action="close-buy" type="button">here</button>.</p>',
+        '<p>If you require specific images or would like a video of the timepiece, please contact us.</p>'
       ]
     },
     sell: {
@@ -9445,14 +9562,20 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
         'You will receive a considered response, with a realistic view of market value and the best route forward.'
       ],
       actions: [
-        { label:'Email details', href:'mailto:ben@staplefordwatches.co.uk?subject=Sell%20my%20watch&body=Hi%20Stapleford%20Watches,%0A%0AI%20would%20like%20to%20sell%20my%20watch.%0A%0ABrand:%0AModel:%0AReference:%0AYear:%0ACondition:%0ABox%20/%20papers:%0AAsking%20price:%0A%0AThanks' },
+        { label:'Email', href:'mailto:ben@staplefordwatches.co.uk?subject=Sell%20my%20watch&body=Hi%20Stapleford%20Watches,%0A%0AI%20would%20like%20to%20sell%20my%20watch.%0A%0ABrand:%0AModel:%0AReference:%0AYear:%0ACondition:%0ABox%20/%20papers:%0AAsking%20price:%0A%0AThanks' },
         { label:'WhatsApp', href:'https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%20would%20like%20to%20sell%20my%20watch.' }
       ]
     },
     faqs: {
-      body: [
-        'Common questions around delivery, returns, payment and sourcing can be answered before you commit to a watch.',
-        'UK delivery is complimentary, and return details are shown clearly on product pages so there are no surprises.'
+      html: [
+        '<div class="site-menu-faq-list">',
+        '<details class="site-menu-faq-item"><summary><strong>How do I know if the watch is authentic?</strong></summary><div class="site-menu-faq-answer"><p>Each watch is carefully inspected in-house before sale to verify its authenticity, accuracy and condition.</p></div></details>',
+        '<details class="site-menu-faq-item"><summary><strong>Do you offer any additional services?</strong></summary><div class="site-menu-faq-answer"><p>We offer a range of services including watch restoration, servicing, polishing and valuations. If you have a specific request, please get in touch via one of our communication channels.</p></div></details>',
+        '<details class="site-menu-faq-item"><summary><strong>Do you provide any warranty on your watches?</strong></summary><div class="site-menu-faq-answer"><p>We provide a 12-month warranty on all watches, in conjunction with any remaining manufacturer’s warranty where applicable.</p><p>Please note that our warranty covers mechanical defects only and does not cover damage caused by the buyer. For vintage models, we cannot guarantee waterproofness or precise timekeeping unless the watch has been serviced and such requests have been approved by our watchmaker.</p></div></details>',
+        '<details class="site-menu-faq-item"><summary><strong>What forms of payment do you accept?</strong></summary><div class="site-menu-faq-answer"><p>We accept bank transfers, PayPal and credit cards through our platform.</p></div></details>',
+        '<details class="site-menu-faq-item"><summary><strong>What is your method of delivery?</strong></summary><div class="site-menu-faq-answer"><p><strong>UK:</strong> We offer complimentary next-day delivery within the UK. We aim to dispatch all orders on the same day that cleared funds are received. Parcels will require a signature upon delivery, and tracking information will be provided on the date of dispatch.</p><p>Collection is also available upon request. Please contact us for more information.</p><p><strong>International:</strong> Please contact us for a shipping quote. International shipments may be subject to customs duties, taxes and import fees levied by the destination country. These charges are the responsibility of the buyer.</p></div></details>',
+        '<details class="site-menu-faq-item"><summary><strong>What is your returns policy?</strong></summary><div class="site-menu-faq-answer"><p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p><p>To be eligible for a return, your item must be unused and in the same condition in which you received it, including the original packaging and any additional accessories where applicable.</p><p>When returning your item, please ensure that you use a tracked and fully insured delivery method.</p><p>Returns are subject to inspection upon receipt.</p><p>To process a return, please contact us via email or phone/WhatsApp:</p><p>ben@staplefordwatches.co.uk<br>+44 7438 196047</p></div></details>',
+        '</div>'
       ]
     },
     contact: {
@@ -9466,9 +9589,6 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       ]
     },
     search: {
-      body: [
-        'Search the current selection by brand. Enter a brand name and the menu will return to the watches with matching results shown.'
-      ],
       search:true
     }
   };
@@ -9548,14 +9668,20 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     var data = content[key] || content.about;
     var html = '';
 
-    html += data.body.map(function(text){
-      return '<p>' + escapeHtml(text) + '</p>';
-    }).join('');
+    if(data.body && data.body.length){
+      html += data.body.map(function(text){
+        return '<p>' + escapeHtml(text) + '</p>';
+      }).join('');
+    }
+
+    if(data.html && data.html.length){
+      html += data.html.join('');
+    }
 
     if(data.search){
       html += '<form class="site-menu-search-form" data-menu-page-search-form>';
-      html += '<input autocomplete="off" class="site-menu-search-input" id="' + SEARCH_INPUT_ID + '" placeholder="BRAND" type="search">';
-      html += '<button class="site-menu-page-action site-menu-search-submit" type="submit">Search</button>';
+      html += '<input autocomplete="off" aria-label="Search watches" class="site-menu-search-input" id="' + SEARCH_INPUT_ID + '" placeholder="SEARCH" type="search">';
+      html += '<button aria-label="Submit search" class="site-menu-search-submit" type="submit"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5L21 21"></path></svg></button>';
       html += '</form>';
     }
 
