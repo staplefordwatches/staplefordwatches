@@ -13045,5 +13045,135 @@ html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec
 </style>
 <!-- STAPLEFORD_ALL_PRODUCTS_SPEC_POPOUT_TIGHT_OVERRIDE_END -->
 
+
+<!-- STAPLEFORD_ALL_PRODUCTS_SPEC_POPOUT_PREMIUM_BALANCE_START -->
+<style id="stapleford-all-products-spec-popout-premium-balance">
+/* Premium balanced SPEC pop-out for the all-products/listing grid only.
+   Top-aligned like before, but with calmer spacing and stronger hierarchy. */
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-overlay,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-overlay{
+  justify-content:flex-start !important;
+  align-items:stretch !important;
+  padding:12px 13px !important;
+  overflow:hidden !important;
+  max-height:100% !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-hide,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-hide{
+  flex:0 0 auto !important;
+  align-self:flex-start !important;
+  margin:0 0 10px 0 !important;
+  padding:0 !important;
+  font-size:10px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.055em !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-list,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-list{
+  display:grid !important;
+  grid-auto-rows:min-content !important;
+  align-content:start !important;
+  width:100% !important;
+  max-width:100% !important;
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  max-height:calc(100% - 24px) !important;
+  gap:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:0 2px 0 0 !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-row,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-row{
+  display:grid !important;
+  grid-template-columns:minmax(84px, auto) minmax(0, 1fr) !important;
+  align-items:start !important;
+  column-gap:10px !important;
+  row-gap:0 !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:6px 0 5px !important;
+  line-height:1.22 !important;
+  border-top:1px solid rgba(0,0,0,0.12) !important;
+  box-sizing:border-box !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-row:first-child,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-row:first-child{
+  padding-top:0 !important;
+  border-top:0 !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-label,
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-value,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-label,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-value{
+  font-size:10.5px !important;
+  line-height:1.22 !important;
+  letter-spacing:0.025em !important;
+  min-width:0 !important;
+  max-width:100% !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-label,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-label{
+  opacity:0.56 !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-value,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-value{
+  text-align:right !important;
+  white-space:normal !important;
+  overflow-wrap:anywhere !important;
+}
+
+@media (max-width:767px){
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-overlay,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-overlay{
+    padding:9px 10px !important;
+  }
+
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-hide,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-hide{
+    margin-bottom:7px !important;
+    font-size:9px !important;
+    line-height:1.12 !important;
+  }
+
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-list,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-list{
+    max-height:calc(100% - 18px) !important;
+    padding-right:1px !important;
+  }
+
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-row,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-row{
+    grid-template-columns:minmax(66px, auto) minmax(0, 1fr) !important;
+    column-gap:7px !important;
+    padding:4px 0 4px !important;
+    line-height:1.14 !important;
+  }
+
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-label,
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-value,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-label,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-value{
+    font-size:9px !important;
+    line-height:1.14 !important;
+    letter-spacing:0.018em !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_ALL_PRODUCTS_SPEC_POPOUT_PREMIUM_BALANCE_END -->
+
 </body>
 </html>
