@@ -352,7 +352,7 @@ body{
   gap:0;
 }
 
-..enquire-link-inline{
+.enquire-link-inline{
   color:#000;
   text-decoration:none;
   font-size:11px;
@@ -12161,19 +12161,13 @@ html body.product-page-open .stapleford-chat-pop{
   display:none !important;
 }
 
-/* Remove pale borders/rounding from floating and contact boxes. */
+/* Remove pale borders/rounding from the floating chat only. Keep individual listing WhatsApp/email icon outlines. */
 html body .stapleford-chat-pop,
 html body .stapleford-chat-pop:link,
 html body .stapleford-chat-pop:visited,
 html body .stapleford-chat-pop:hover,
 html body .stapleford-chat-pop:focus-visible,
-html body .stapleford-chat-pop:active,
-html body .lightbox-detail-contact-link,
-html body .lightbox-detail-contact-link:link,
-html body .lightbox-detail-contact-link:visited,
-html body .lightbox-detail-contact-link:hover,
-html body .lightbox-detail-contact-link:focus-visible,
-html body .lightbox-detail-contact-link:active{
+html body .stapleford-chat-pop:active{
   border:0 !important;
   border-radius:0 !important;
   box-shadow:none !important;
@@ -12425,6 +12419,44 @@ html body .stapleford-product-help-pop__label{
 })();
 </script>
 <!-- STAPLEFORD_PRODUCT_NEED_HELP_POPUP_END -->
+
+
+<!-- STAPLEFORD_CONTACT_ICON_OUTLINE_RESTORE_START -->
+<style id="stapleford-contact-icon-outline-restore-css">
+/* Restore the visible box outlines around WhatsApp and email icons on individual listing pages. */
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp:link,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email:link,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp:visited,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email:visited,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp:hover,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email:hover,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp:focus-visible,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email:focus-visible,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp:active,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email:active{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  color:#000 !important;
+  text-decoration:none !important;
+  border:1px solid rgba(0,0,0,0.18) !important;
+  border-radius:2px !important;
+  background:rgba(255,255,255,0.82) !important;
+  box-shadow:none !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp:hover,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email:hover,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-whatsapp:active,
+html body.product-page-open #lightbox.open .lightbox-detail-contact-link.lightbox-detail-contact-email:active{
+  background:rgba(255,255,255,0.82) !important;
+  border-color:rgba(0,0,0,0.18) !important;
+}
+</style>
+<!-- STAPLEFORD_CONTACT_ICON_OUTLINE_RESTORE_END -->
 
 </body>
 </html>
