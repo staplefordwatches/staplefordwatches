@@ -60,7 +60,7 @@
     "merchantReturnDays": 14,
     "returnMethod": "https://schema.org/ReturnByMail",
     "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
-    "merchantReturnLink": "https://staplefordwatches.co.uk/#returns"
+    "merchantReturnLink": "https://staplefordwatches.co.uk/terms-and-conditions/"
   }
 }
 </script>
@@ -76,7 +76,9 @@
     { "@type": "SiteNavigationElement", "position": 3, "name": "Sell Your Watch", "url": "https://staplefordwatches.co.uk/sell/" },
     { "@type": "SiteNavigationElement", "position": 4, "name": "FAQs", "url": "https://staplefordwatches.co.uk/faqs/" },
     { "@type": "SiteNavigationElement", "position": 5, "name": "Contact", "url": "https://staplefordwatches.co.uk/contact/" },
-    { "@type": "SiteNavigationElement", "position": 6, "name": "Search", "url": "https://staplefordwatches.co.uk/search/" }
+    { "@type": "SiteNavigationElement", "position": 6, "name": "Search", "url": "https://staplefordwatches.co.uk/search/" },
+    { "@type": "SiteNavigationElement", "position": 7, "name": "Terms and Conditions", "url": "https://staplefordwatches.co.uk/terms-and-conditions/" },
+    { "@type": "SiteNavigationElement", "position": 8, "name": "Privacy Policy", "url": "https://staplefordwatches.co.uk/privacy-policy/" }
   ]
 }
 </script>
@@ -6800,6 +6802,9 @@ body.site-menu-open .site-menu-title:nth-child(2){ transition-delay:190ms !impor
 body.site-menu-open .site-menu-title:nth-child(3){ transition-delay:230ms !important; }
 body.site-menu-open .site-menu-title:nth-child(4){ transition-delay:270ms !important; }
 body.site-menu-open .site-menu-title:nth-child(5){ transition-delay:310ms !important; }
+body.site-menu-open .site-menu-title:nth-child(6){ transition-delay:350ms !important; }
+body.site-menu-open .site-menu-title:nth-child(7){ transition-delay:390ms !important; }
+body.site-menu-open .site-menu-title:nth-child(8){ transition-delay:430ms !important; }
 
 body.site-menu-open.site-menu-closing .site-menu-title,
 body.site-menu-open.site-menu-closing .site-menu-title:link,
@@ -7030,6 +7035,8 @@ body.site-menu-closing .site-header .logo{
 <a class="site-menu-title" data-menu-target="faqs" href="/faqs/">FAQs</a>
 <a class="site-menu-title site-menu-contact" data-menu-target="contact" href="/contact/">CONTACT</a>
 <a class="site-menu-title site-menu-search-title" data-menu-target="search" href="/search/">SEARCH</a>
+<a class="site-menu-title site-menu-legal-title" data-menu-target="terms" href="/terms-and-conditions/">T&amp;CS</a>
+<a class="site-menu-title site-menu-legal-title" data-menu-target="privacy" href="/privacy-policy/">PRIVACY POLICY</a>
 </div>
 </div>
 </nav>
@@ -7088,15 +7095,15 @@ body.site-menu-closing .site-header .logo{
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-delivery"><svg focusable="false" viewbox="0 0 24 24"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailDelivery">
-<p><strong>UK:</strong> We offer complimentary next-day delivery within the UK.</p>
-<p>Collection is also available upon request.</p>
-<p><strong>International:</strong> Please contact us for a shipping quote.</p>
-
+<p>Complimentary insured UK delivery after dispatch. Orders are sent using a tracked and insured service and require a signature on delivery.</p>
+<p>International delivery and collection may be available by prior arrangement.</p>
+<p>For more information, please refer to our T&amp;Cs.</p>
 </div>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailReturnsToggle" type="button"><span class="policy-heading-label">RETURNS ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-returns"><svg focusable="false" viewbox="0 0 24 24"><path d="M9 7 5 11l4 4"></path><path d="M5 11h10a4.5 4.5 0 1 1 0 9h-3"></path></svg></span></button>
 <div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailReturns">
-<p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p>
-
+<p>If you purchase from us online, please contact us within 14 days of receiving your watch if you wish to request a return.</p>
+<p>Returned watches must be in the same condition as received and include any box, papers, links, accessories and documents supplied.</p>
+<p>For more information, please refer to our T&amp;Cs.</p>
 </div>
 <section class="lightbox-related" hidden="" id="lightboxRelated">
 <h2 class="lightbox-related-title">YOU MIGHT ALSO LIKE</h2>
@@ -7289,7 +7296,7 @@ const STAPLEFORD_RETURN_POLICY = {
   "merchantReturnDays": 14,
   "returnMethod": "https://schema.org/ReturnByMail",
   "returnFees": "https://schema.org/ReturnShippingFees",
-  "merchantReturnLink": "https://staplefordwatches.co.uk/#returns"
+  "merchantReturnLink": "https://staplefordwatches.co.uk/terms-and-conditions/"
 };
 
 
@@ -7454,10 +7461,36 @@ function ensureMeta(selector, attrs){
   return el;
 }
 
+function getDefaultSeoForCurrentPath(){
+  const home = {
+    title: "Stapleford Watches | Pre-Owned Luxury Watches",
+    description: "Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more.",
+    path: "/"
+  };
+
+  const pageSeo = {
+    "/buy/": { title: "Buy", description: home.description, path: "/buy/" },
+    "/about/": { title: "About", description: "Learn about Stapleford Watches, an independent UK-based specialist in pre-owned luxury watches.", path: "/about/" },
+    "/sell/": { title: "Sell", description: "Sell or part-exchange your luxury watch with Stapleford Watches. Send details for a considered response and realistic market view.", path: "/sell/" },
+    "/faqs/": { title: "FAQs", description: "Frequently asked questions about authenticity, warranty, payment, delivery and returns at Stapleford Watches.", path: "/faqs/" },
+    "/contact/": { title: "Contact", description: "Contact Stapleford Watches for availability, sourcing requests, selling enquiries and support.", path: "/contact/" },
+    "/search/": { title: "Search", description: "Search the current Stapleford Watches selection by brand, model, reference or listing status.", path: "/search/" },
+    "/terms-and-conditions/": { title: "Terms & Conditions", description: "Read the Stapleford Watches terms and conditions, including payment, delivery, returns, warranty and product condition information.", path: "/terms-and-conditions/" },
+    "/terms/": { title: "Terms & Conditions", description: "Read the Stapleford Watches terms and conditions, including payment, delivery, returns, warranty and product condition information.", path: "/terms-and-conditions/" },
+    "/tcs/": { title: "Terms & Conditions", description: "Read the Stapleford Watches terms and conditions, including payment, delivery, returns, warranty and product condition information.", path: "/terms-and-conditions/" },
+    "/privacy-policy/": { title: "Privacy Policy", description: "Read the Stapleford Watches privacy policy, including how enquiries, payments, essential cookies and customer details are handled.", path: "/privacy-policy/" },
+    "/privacy/": { title: "Privacy Policy", description: "Read the Stapleford Watches privacy policy, including how enquiries, payments, essential cookies and customer details are handled.", path: "/privacy-policy/" }
+  };
+
+  const path = String(window.location.pathname || "/").replace(/\/index\.html$/i, "/").replace(/\/+$/, "/") || "/";
+  return pageSeo[path] || home;
+}
+
 function updateProductSeoHead(w){
-  const title = w ? `${getProductDisplayName(w)}`.trim() : "Stapleford Watches | Pre-Owned Luxury Watches";
-  const description = w ? (w.description || getWatchDescription(w)) : "Stapleford Watches";
-  const url = w ? getProductCanonicalUrl(w) : SITE_ORIGIN + "/";
+  const fallbackSeo = getDefaultSeoForCurrentPath();
+  const title = w ? `${getProductDisplayName(w)}`.trim() : fallbackSeo.title;
+  const description = w ? (w.description || getWatchDescription(w)) : fallbackSeo.description;
+  const url = w ? getProductCanonicalUrl(w) : SITE_ORIGIN + fallbackSeo.path;
   const image = w ? getImageLink(w) : "";
 
   document.title = title;
@@ -7700,11 +7733,12 @@ function goToHomeListings(){
   if(typeof closeLightbox === "function" && lightbox?.classList.contains("open")) closeLightbox(false);
   setPage("buy");
   render();
-  updateProductSeoHead(null);
 
   if(window.history?.pushState){
-    try{ window.history.pushState({ page:"buy" }, "", "/"); } catch {}
+    try{ window.history.pushState({ page:"home" }, "", "/"); } catch {}
   }
+
+  updateProductSeoHead(null);
 
   requestAnimationFrame(() => window.scrollTo(0, 0));
 }
@@ -9736,39 +9770,54 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   var resetTimer = null;
 
   var menuRoutes = {
-    buy: '/buy/',
-    about: '/about/',
-    sell: '/sell/',
-    faqs: '/faqs/',
-    contact: '/contact/',
-    search: '/search/'
+      "home": "/",
+      "buy": "/buy/",
+      "about": "/about/",
+      "sell": "/sell/",
+      "faqs": "/faqs/",
+      "contact": "/contact/",
+      "search": "/search/",
+      "terms": "/terms-and-conditions/",
+      "privacy": "/privacy-policy/"
   };
 
   var menuSeo = {
-    buy: {
-      title: 'Stapleford Watches | Pre-Owned Luxury Watches',
-      description: 'Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more.'
-    },
-    about: {
-      title: 'About | Stapleford Watches',
-      description: 'Learn about Stapleford Watches, an independent UK-based specialist in pre-owned luxury watches.'
-    },
-    sell: {
-      title: 'Sell Your Watch | Stapleford Watches',
-      description: 'Sell or part-exchange your luxury watch with Stapleford Watches. Send details for a considered response and realistic market view.'
-    },
-    faqs: {
-      title: 'FAQs | Stapleford Watches',
-      description: 'Frequently asked questions about authenticity, warranty, payment, delivery and returns at Stapleford Watches.'
-    },
-    contact: {
-      title: 'Contact | Stapleford Watches',
-      description: 'Contact Stapleford Watches for availability, sourcing requests, selling enquiries and support.'
-    },
-    search: {
-      title: 'Search Watches | Stapleford Watches',
-      description: 'Search the current Stapleford Watches selection by brand, model, reference or listing status.'
-    }
+      "home": {
+          "title": "Stapleford Watches | Pre-Owned Luxury Watches",
+          "description": "Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more."
+      },
+      "buy": {
+          "title": "Buy",
+          "description": "Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more."
+      },
+      "about": {
+          "title": "About",
+          "description": "Learn about Stapleford Watches, an independent UK-based specialist in pre-owned luxury watches."
+      },
+      "sell": {
+          "title": "Sell",
+          "description": "Sell or part-exchange your luxury watch with Stapleford Watches. Send details for a considered response and realistic market view."
+      },
+      "faqs": {
+          "title": "FAQs",
+          "description": "Frequently asked questions about authenticity, warranty, payment, delivery and returns at Stapleford Watches."
+      },
+      "contact": {
+          "title": "Contact",
+          "description": "Contact Stapleford Watches for availability, sourcing requests, selling enquiries and support."
+      },
+      "search": {
+          "title": "Search",
+          "description": "Search the current Stapleford Watches selection by brand, model, reference or listing status."
+      },
+      "terms": {
+          "title": "Terms & Conditions",
+          "description": "Read the Stapleford Watches terms and conditions, including payment, delivery, returns, warranty and product condition information."
+      },
+      "privacy": {
+          "title": "Privacy Policy",
+          "description": "Read the Stapleford Watches privacy policy, including how enquiries, payments, essential cookies and customer details are handled."
+      }
   };
 
   function getSiteOrigin(){
@@ -9787,7 +9836,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   }
 
   function updateMenuSeo(key){
-    key = menuSeo[key] ? key : 'buy';
+    key = menuSeo[key] ? key : 'home';
     var seo = menuSeo[key];
     var route = menuRoutes[key] || '/';
     var url = getSiteOrigin().replace(/\/+$/,'') + route;
@@ -9807,8 +9856,10 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     if(path === '/faqs/') return 'faqs';
     if(path === '/contact/') return 'contact';
     if(path === '/search/') return 'search';
+    if(path === '/terms-and-conditions/' || path === '/terms/' || path === '/tcs/' || path === '/terms-conditions/') return 'terms';
+    if(path === '/privacy-policy/' || path === '/privacy/') return 'privacy';
     if(path === '/buy/') return 'buy';
-    if(path === '/') return 'buy';
+    if(path === '/') return 'home';
     return '';
   }
 
@@ -9821,52 +9872,140 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   }
 
   var content = {
-    about: {
-      body: [
-        'Stapleford Watches is an independent, UK-based specialist dedicated to sourcing and curating unique, historically significant timepieces across both modern and vintage collections. Whether you are purchasing your first luxury watch or adding to an established collection, we aim to offer a distinctive selection from exceptional brands.'
-      ]
-    },
-    buy: {
-      html: [
-        '<p>Browse the current selection of available watches <button class="site-menu-inline-link" data-menu-page-action="close-buy" type="button">here</button>.</p>',
-        '<p>For additional images, a video, or further details on a specific timepiece, please contact us with the relevant Listing ID.</p>'
-      ]
-    },
-    sell: {
-      body: [
-        'Looking to sell or part-exchange? Send the brand, model, reference, year, condition and what is included with the watch.',
-        'You will receive a considered response, with a realistic view of market value and the best route forward.'
-      ],
-      actions: [
-        { label:'Email', href:'mailto:ben@staplefordwatches.co.uk?subject=Sell%20my%20watch&body=Hi%20Stapleford%20Watches,%0A%0AI%20would%20like%20to%20sell%20my%20watch.%0A%0ABrand:%0AModel:%0AReference:%0AYear:%0ACondition:%0ABox%20/%20papers:%0AAsking%20price:%0A%0AThanks' },
-        { label:'WhatsApp', href:'https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%20would%20like%20to%20sell%20my%20watch.' }
-      ]
-    },
-    faqs: {
-      html: [
-        '<div class="site-menu-faq-list">',
-        '<details class="site-menu-faq-item"><summary><strong>How do I know if the watch is authentic?</strong></summary><div class="site-menu-faq-answer"><p>Each watch is carefully inspected in-house before sale to verify its authenticity, accuracy and condition.</p></div></details>',
-        '<details class="site-menu-faq-item"><summary><strong>Do you offer any additional services?</strong></summary><div class="site-menu-faq-answer"><p>We offer a range of services including watch restoration, servicing, polishing and valuations. If you have a specific request, please get in touch via one of our communication channels.</p></div></details>',
-        '<details class="site-menu-faq-item"><summary><strong>Do you provide any warranty on your watches?</strong></summary><div class="site-menu-faq-answer"><p>We provide a 12-month warranty on all watches, in conjunction with any remaining manufacturer’s warranty where applicable.</p><p>Please note that our warranty covers mechanical defects only and does not cover damage caused by the buyer. For vintage models, we cannot guarantee waterproofness or precise timekeeping unless the watch has been serviced and such requests have been approved by our watchmaker.</p></div></details>',
-        '<details class="site-menu-faq-item"><summary><strong>What forms of payment do you accept?</strong></summary><div class="site-menu-faq-answer"><p>We accept bank transfers, PayPal and credit cards through our platform.</p></div></details>',
-        '<details class="site-menu-faq-item"><summary><strong>What is your method of delivery?</strong></summary><div class="site-menu-faq-answer"><p><strong>UK:</strong> We offer complimentary next-day delivery within the UK. We aim to dispatch all orders on the same day that cleared funds are received. Parcels will require a signature upon delivery, and tracking information will be provided on the date of dispatch.</p><p>Collection is also available upon request. Please contact us for more information.</p><p><strong>International:</strong> Please contact us for a shipping quote. International shipments may be subject to customs duties, taxes and import fees levied by the destination country. These charges are the responsibility of the buyer.</p></div></details>',
-        '<details class="site-menu-faq-item"><summary><strong>What is your returns policy?</strong></summary><div class="site-menu-faq-answer"><p>We are confident that you will love your new timepiece. However, if for any reason you are not satisfied with your purchase, please contact us within 14 days of receipt.</p><p>To be eligible for a return, your item must be unused and in the same condition in which you received it, including the original packaging and any additional accessories where applicable.</p><p>When returning your item, please ensure that you use a tracked and fully insured delivery method.</p><p>Returns are subject to inspection upon receipt.</p><p>To process a return, please contact us via email or phone/WhatsApp:</p><p>ben@staplefordwatches.co.uk<br>+44 7438 196047</p></div></details>',
-        '</div>'
-      ]
-    },
-    contact: {
-      body: [
-        'For availability, sourcing requests, selling enquiries or anything else, contact Stapleford Watches directly.',
-        'Messages are handled personally, so include as much detail as possible and the relevant watch reference where applicable.'
-      ],
-      actions: [
-        { label:'Email', href:'mailto:ben@staplefordwatches.co.uk' },
-        { label:'WhatsApp', href:'https://wa.me/447438196047' }
-      ]
-    },
-    search: {
-      search:true
-    }
+      "about": {
+          "body": [
+              "Stapleford Watches is an independent, UK-based specialist dedicated to sourcing and curating unique, historically significant timepieces across both modern and vintage collections. Whether you are purchasing your first luxury watch or adding to an established collection, we aim to offer a distinctive selection from exceptional brands."
+          ]
+      },
+      "buy": {
+          "html": [
+              "<p>Browse the current selection of available watches <button class=\"site-menu-inline-link\" data-menu-page-action=\"close-buy\" type=\"button\">here</button>.</p>",
+              "<p>For additional images, a video, or further details on a specific timepiece, please contact us with the relevant Listing ID.</p>"
+          ]
+      },
+      "sell": {
+          "body": [
+              "Looking to sell or part-exchange? Send the brand, model, reference, year, condition and what is included with the watch.",
+              "You will receive a considered response, with a realistic view of market value and the best route forward."
+          ],
+          "actions": [
+              {
+                  "label": "Email",
+                  "href": "mailto:ben@staplefordwatches.co.uk?subject=Sell%20my%20watch&body=Hi%20Stapleford%20Watches,%0A%0AI%20would%20like%20to%20sell%20my%20watch.%0A%0ABrand:%0AModel:%0AReference:%0AYear:%0ACondition:%0ABox%20/%20papers:%0AAsking%20price:%0A%0AThanks"
+              },
+              {
+                  "label": "WhatsApp",
+                  "href": "https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%20would%20like%20to%20sell%20my%20watch."
+              }
+          ]
+      },
+      "faqs": {
+          "html": [
+              "<div class=\"site-menu-faq-list\">",
+              "<details class=\"site-menu-faq-item\"><summary><strong>How do I know if the watch is authentic?</strong></summary><div class=\"site-menu-faq-answer\"><p>Each watch is carefully inspected in-house before sale to verify its authenticity and condition.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>Do you offer any additional services?</strong></summary><div class=\"site-menu-faq-answer\"><p>We can assist with sourcing, valuations and other watch-related requests. Please get in touch with details of what you need.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>Do your watches come with warranty?</strong></summary><div class=\"site-menu-faq-answer\"><p>Warranty is only provided on listings expressly marked as having warranty. Where stated, this is a 12-month mechanical warranty.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>What forms of payment do you accept?</strong></summary><div class=\"site-menu-faq-answer\"><p>We accept secure online card payments through Stripe Checkout. Bank transfer may also be accepted by prior arrangement.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>What is your method of delivery?</strong></summary><div class=\"site-menu-faq-answer\"><p>We offer complimentary insured UK delivery after dispatch. Orders are sent using a tracked and insured service and require a signature on delivery.</p><p>International delivery may be available by prior arrangement.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>What is your returns policy?</strong></summary><div class=\"site-menu-faq-answer\"><p>If you purchase from us online, please contact us within 14 days of receiving your watch if you wish to request a return.</p><p>Returned watches must be in the same condition as received and include any box, papers, links, accessories and documents supplied.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "</div>"
+          ]
+      },
+      "contact": {
+          "body": [
+              "For availability, sourcing requests, selling enquiries or anything else, contact Stapleford Watches directly.",
+              "Messages are handled personally, so include as much detail as possible and the relevant watch reference where applicable."
+          ],
+          "actions": [
+              {
+                  "label": "Email",
+                  "href": "mailto:ben@staplefordwatches.co.uk"
+              },
+              {
+                  "label": "WhatsApp",
+                  "href": "https://wa.me/447438196047"
+              }
+          ]
+      },
+      "search": {
+          "search": true
+      },
+      "terms": {
+          "html": [
+              "<div class=\"site-menu-policy\">",
+              "<p>Last updated: June 2026</p>",
+              "<h3>Business details</h3>",
+              "<p>Business address: 124 City Road, London, United Kingdom, EC1V 2NX.</p>",
+              "<p>Email: ben@staplefordwatches.co.uk<br>Telephone / WhatsApp: +44 7438 196047<br>VAT registration number: 520 4679 02</p>",
+              "<h3>About these terms</h3>",
+              "<p>These terms apply when you buy a watch from Stapleford Watches through staplefordwatches.co.uk, by payment link, by phone, by email, by WhatsApp or by any other distance method.</p>",
+              "<h3>Watch listings and condition</h3>",
+              "<p>We aim to describe each watch accurately, including its age, condition, accessories and any known material points. Many watches are pre-owned and may show signs of previous wear, polishing, servicing, replacement parts or age-related condition.</p>",
+              "<p>Photographs form part of the listing. Please review the full description and images before purchasing and contact us before payment if you need further images, videos or information.</p>",
+              "<h3>Vintage, older and unserviced watches</h3>",
+              "<p>Some vintage, older or unserviced pieces may be sold without warranty. This will be made clear in the individual listing. Timekeeping, water resistance and cosmetic condition should be considered in light of the watch\u2019s age, service history and description.</p>",
+              "<h3>Pricing and VAT</h3>",
+              "<p>Prices are shown in pounds sterling. Unless stated otherwise, the price shown is the price payable for the watch, excluding any international duties, taxes, import VAT or clearance fees.</p>",
+              "<h3>Payment</h3>",
+              "<p>We accept secure online card payments through Stripe Checkout. Bank transfer may also be accepted by prior arrangement.</p>",
+              "<p>Orders will only be dispatched once cleared funds have been received and any required checks have been completed.</p>",
+              "<h3>Delivery</h3>",
+              "<p>We offer complimentary insured UK delivery after dispatch. Orders are sent using a tracked and insured service and require a signature on delivery.</p>",
+              "<p>We aim to dispatch promptly once cleared funds and any required checks have been completed. Delivery times are estimates and may be affected by courier availability, bank holidays, security checks or circumstances outside our control.</p>",
+              "<p>International delivery may be available by prior arrangement. Customers outside the UK are responsible for customs duties, taxes, import VAT, clearance charges and local fees unless expressly stated otherwise.</p>",
+              "<h3>Collection</h3>",
+              "<p>Collection may be available by prior arrangement. Please contact us before purchasing if you would like to discuss collection.</p>",
+              "<h3>Returns</h3>",
+              "<p>If you purchase from us online, by phone or at a distance, please contact us within 14 days of receiving your watch if you wish to request a return.</p>",
+              "<p>Returned watches must be in the same condition as received and include any box, papers, manuals, warranty cards, links, accessories, packaging and documents supplied with the watch.</p>",
+              "<p>You may inspect the watch, but it must not be worn, used, altered, sized, adjusted, polished, opened, serviced, repaired or tampered with.</p>",
+              "<p>Returns must be sent using a tracked and fully insured delivery method. You are responsible for return delivery costs unless we agree otherwise.</p>",
+              "<p>Returns are subject to inspection upon receipt. Refunds will be made to the original payment method where possible.</p>",
+              "<h3>Warranty</h3>",
+              "<p>Warranty is only provided on listings expressly marked as having warranty. Where stated, this is a 12-month mechanical warranty.</p>",
+              "<p>The 12-month mechanical warranty covers mechanical issues arising from normal use during the warranty period.</p>",
+              "<p>It does not cover accidental damage, misuse, neglect, theft, loss, water damage, wear and tear, cosmetic condition, straps, bracelets, clasps, glass, bezels, crowns, seals, batteries, or damage caused by third-party repairs, servicing, polishing, opening or alteration.</p>",
+              "<p>Unless expressly stated in writing, water resistance is not guaranteed on pre-owned, vintage, older or unserviced watches.</p>",
+              "<h3>Manufacturer warranty</h3>",
+              "<p>Where a watch has remaining manufacturer warranty, this will be stated where known. Manufacturer warranty cover is provided by the manufacturer and may be subject to its own terms, exclusions and transfer rules.</p>",
+              "<h3>Governing law</h3>",
+              "<p>These terms are governed by the laws of England and Wales.</p>",
+              "</div>"
+          ]
+      },
+      "privacy": {
+          "html": [
+              "<div class=\"site-menu-policy\">",
+              "<p>Last updated: June 2026</p>",
+              "<h3>Who we are</h3>",
+              "<p>Business address: 124 City Road, London, United Kingdom, EC1V 2NX.<br>Email: ben@staplefordwatches.co.uk<br>Telephone / WhatsApp: +44 7438 196047<br>VAT registration number: 520 4679 02</p>",
+              "<h3>Information we collect</h3>",
+              "<p>We may collect your name, email address, phone number, billing and delivery address, payment and transaction information, enquiry details, messages and information needed to process orders, respond to enquiries, arrange delivery, manage returns, prevent fraud and keep business records.</p>",
+              "<p>If you contact us about buying, selling or valuing a watch, we may also collect watch details, photographs, reference numbers, condition notes, box and papers information, service history and any information you choose to provide.</p>",
+              "<h3>How we collect information</h3>",
+              "<p>We collect information when you contact us by email, phone, WhatsApp or website form, when you buy through Stripe Checkout, or when you provide details about a watch.</p>",
+              "<h3>How we use information</h3>",
+              "<p>We use information to respond to enquiries, provide watch information or estimates, process purchases, arrange payment and delivery, manage returns, provide customer support, prevent fraud, keep accounting and VAT records, and protect our business.</p>",
+              "<h3>Payments</h3>",
+              "<p>Online payments are processed through Stripe Checkout. Stripe may collect and process payment details, billing information, transaction details, device information and fraud prevention information. We do not intentionally collect or store your full card number on our website.</p>",
+              "<h3>Email and WhatsApp</h3>",
+              "<p>If you contact us by email or WhatsApp, or ask us to contact you by those methods, we may use them to respond to your enquiry, discuss a watch, arrange a transaction or provide customer service. Please do not send unnecessary sensitive personal information.</p>",
+              "<h3>Sharing information</h3>",
+              "<p>We may share information with Stripe, delivery and insurance providers, website hosting, email and IT service providers, accountants, professional advisers, HMRC, regulators, law enforcement or fraud prevention bodies where required or appropriate.</p>",
+              "<p>We do not sell personal information.</p>",
+              "<h3>How long we keep information</h3>",
+              "<p>We keep information only for as long as necessary. Enquiry information may be kept for up to 24 months after last contact. Customer, payment, VAT, return and accounting records may be kept for up to 7 years. We may keep information for longer where needed for legal, tax, accounting, fraud prevention or dispute reasons.</p>",
+              "<h3>Cookies</h3>",
+              "<p>We do not currently use analytics cookies, advertising cookies, remarketing cookies, tracking pixels or marketing cookies.</p>",
+              "<p>Our website may use strictly necessary cookies or similar technologies required for basic website operation, security, forms, checkout, payment processing and fraud prevention. Stripe Checkout may also use cookies or similar technologies when you are redirected to Stripe to make a payment.</p>",
+              "<p>If we later add analytics, advertising or marketing tools, we will update this policy and ask for consent where required.</p>",
+              "<h3>Your choices</h3>",
+              "<p>You can contact us at ben@staplefordwatches.co.uk to ask about the personal information we hold, request correction or deletion, object to certain uses, or raise a privacy concern.</p>",
+              "<h3>Changes</h3>",
+              "<p>We may update this Privacy Policy from time to time. The latest version will be posted on this page.</p>",
+              "</div>"
+          ]
+      }
   };
 
   function byId(id){ return document.getElementById(id); }
@@ -10205,9 +10344,9 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     var title = primary.querySelector('[data-menu-target="' + key + '"]');
     if(!title) return;
 
-    if(key === 'buy'){
+    if(key === 'home' || key === 'buy'){
       restoreOriginalOrder(primary, false);
-      updateMenuSeo('buy');
+      updateMenuSeo(key);
       return;
     }
 
@@ -10228,10 +10367,10 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     var primary = getPrimary();
     if(!primary) return;
     var key = routeKeyFromPath();
-    if(!key){ updateMenuSeo('buy'); return; }
-    if(key === 'buy'){
+    if(!key){ updateMenuSeo('home'); return; }
+    if(key === 'home' || key === 'buy'){
       restoreOriginalOrder(primary, false);
-      updateMenuSeo('buy');
+      updateMenuSeo(key);
       return;
     }
     openMenuRoute(primary, key, false);
@@ -10251,8 +10390,8 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     syncResetObserver(primary);
 
     var initialRouteKey = routeKeyFromPath();
-    if(initialRouteKey && initialRouteKey !== 'buy') openMenuRoute(primary, initialRouteKey, true);
-    else updateMenuSeo('buy');
+    if(initialRouteKey && initialRouteKey !== 'home' && initialRouteKey !== 'buy') openMenuRoute(primary, initialRouteKey, true);
+    else updateMenuSeo(initialRouteKey || 'home');
 
     window.addEventListener('popstate', syncRouteFromBrowser, false);
   }
@@ -11516,6 +11655,65 @@ html body .stapleford-chat-pop__label{
 }
 </style>
 <!-- STAPLEFORD_CHAT_ICON_ALIGNMENT_END -->
+
+
+<!-- STAPLEFORD_TERMS_PRIVACY_UPDATE_START -->
+<style id="stapleford-terms-privacy-update-css">
+html body .site-menu-title.site-menu-legal-title,
+html body .site-menu-title.site-menu-legal-title:link,
+html body .site-menu-title.site-menu-legal-title:visited{
+  font-size:clamp(13px, 1.65vw, 18px) !important;
+  line-height:1.15 !important;
+  letter-spacing:.12em !important;
+  font-weight:500 !important;
+  padding-bottom:8px !important;
+  color:rgba(0,0,0,.52) !important;
+}
+html body .site-menu-search-title + .site-menu-legal-title{
+  margin-top:clamp(12px, 1.6vh, 20px) !important;
+}
+html body .site-menu-title.site-menu-legal-title:hover,
+html body .site-menu-title.site-menu-legal-title:focus-visible,
+html body .site-menu-primary.menu-page-mode .site-menu-title.site-menu-legal-title.is-menu-page-active{
+  color:#000 !important;
+  opacity:1 !important;
+}
+html body .site-menu-page-copy .site-menu-policy{
+  max-width:660px !important;
+}
+html body .site-menu-page-copy .site-menu-policy h2,
+html body .site-menu-page-copy .site-menu-policy h3{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-weight:500 !important;
+  color:#000 !important;
+  text-transform:uppercase !important;
+}
+html body .site-menu-page-copy .site-menu-policy h2{
+  margin:0 0 14px !important;
+  font-size:clamp(14px, 1.7vw, 18px) !important;
+  line-height:1.2 !important;
+  letter-spacing:.10em !important;
+}
+html body .site-menu-page-copy .site-menu-policy h3{
+  margin:18px 0 6px !important;
+  font-size:clamp(11px, 1.25vw, 13px) !important;
+  line-height:1.25 !important;
+  letter-spacing:.11em !important;
+}
+html body .site-menu-page-copy .site-menu-policy p{
+  max-width:660px !important;
+  margin-bottom:10px !important;
+}
+@media (max-width:767px){
+  html body .site-menu-title.site-menu-legal-title,
+  html body .site-menu-title.site-menu-legal-title:link,
+  html body .site-menu-title.site-menu-legal-title:visited{
+    font-size:12px !important;
+    padding-bottom:8px !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_TERMS_PRIVACY_UPDATE_END -->
 
 </body>
 </html>
