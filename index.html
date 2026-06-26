@@ -10765,7 +10765,7 @@ html body .site-menu-page-copy .site-menu-status-filter input:checked{
   border-color:#111 !important;
   background:#111 !important;
   background-color:#111 !important;
-  box-shadow:inset 0 0 0 2px #fff !important;
+  box-shadow:none !important;
 }
 
 html body .site-menu-status-filter input:focus,
@@ -10780,7 +10780,7 @@ html body .site-menu-status-filter input:checked:focus,
 html body .site-menu-status-filter input:checked:focus-visible,
 html body .site-menu-page-copy .site-menu-status-filter input:checked:focus,
 html body .site-menu-page-copy .site-menu-status-filter input:checked:focus-visible{
-  box-shadow:inset 0 0 0 2px #fff !important;
+  box-shadow:none !important;
 }
 
 html body .site-menu-status-filter span,
@@ -10851,6 +10851,66 @@ html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p{
 }
 </style>
 <!-- STAPLEFORD_FAQ_COMPACT_SPACING_FINAL_END -->
+
+
+<!-- STAPLEFORD_REQUESTED_FAQ_SEARCH_FINAL_TWEAKS_START -->
+<style id="stapleford-requested-faq-search-final-tweaks-css">
+/* Requested tweak: add breathing room after the returns-policy FAQ before the next menu heading. */
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child{
+  margin-bottom:clamp(16px, 1.8vh, 24px) !important;
+}
+
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item:last-child .site-menu-faq-answer{
+  padding-bottom:clamp(18px, 2.1vh, 26px) !important;
+}
+
+/* Keep FAQ answer copy matched to the other menu subtext. */
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p,
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer a{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:clamp(12px, 1.34vw, 14px) !important;
+  line-height:1.72 !important;
+  font-weight:400 !important;
+  letter-spacing:.018em !important;
+  text-transform:none !important;
+  color:#000 !important;
+  opacity:.78 !important;
+}
+
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer strong{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-weight:500 !important;
+}
+
+/* Requested tweak: selected Available / Sold boxes are solid black. */
+html body .site-menu-status-filter input[type="checkbox"],
+html body .site-menu-page-copy .site-menu-status-filter input[type="checkbox"]{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  border:1px solid rgba(0,0,0,.42) !important;
+  border-radius:0 !important;
+  background:#fff !important;
+  background-color:#fff !important;
+  box-shadow:none !important;
+}
+
+html body .site-menu-status-filter input[type="checkbox"]:checked,
+html body .site-menu-page-copy .site-menu-status-filter input[type="checkbox"]:checked{
+  border-color:#000 !important;
+  background:#000 !important;
+  background-color:#000 !important;
+  box-shadow:none !important;
+}
+
+html body .site-menu-status-filter input[type="checkbox"]:focus,
+html body .site-menu-status-filter input[type="checkbox"]:focus-visible,
+html body .site-menu-page-copy .site-menu-status-filter input[type="checkbox"]:focus,
+html body .site-menu-page-copy .site-menu-status-filter input[type="checkbox"]:focus-visible{
+  outline:0 !important;
+  box-shadow:none !important;
+}
+</style>
+<!-- STAPLEFORD_REQUESTED_FAQ_SEARCH_FINAL_TWEAKS_END -->
 
 </body>
 </html>
