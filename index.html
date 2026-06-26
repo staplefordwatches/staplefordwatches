@@ -12467,14 +12467,14 @@ html body .lightbox-site-footer .footer-links{
 
 
 <!-- STAPLEFORD_PRODUCT_PAGE_SPLIT_SCROLL_PRO_FIX_START -->
-<style id="stapleford-product-page-elite-split-scroll-css">
+<style id="stapleford-product-page-split-scroll-pro-fix-css">
 /*
-  Elite desktop product view.
-  The desktop product overlay is a true 50/50 viewport split:
-  - left 50vw: locked image, never scrolls, never reveals white beneath;
-  - right 50vw: the only scrollable pane, using the browser's native scrollbar at the far right edge;
-  - no fake centred/inset scroll column, no overlay/page scroll, no wheel redirection from the left side;
-  - mobile and tablet retain the existing stacked product page.
+  Product listing desktop layout, rebuilt cleanly:
+  - The product view itself never scrolls on desktop.
+  - The image column is locked to the left side of the viewport.
+  - The detail column is the only scrolling area, and its scrollbar sits on the browser's right edge.
+  - The image is full-height, so there is no blank space beneath it during hard wheel/trackpad scrolling.
+  - Tablet and mobile keep the existing stacked behaviour.
 */
 @media (min-width:1024px){
   html.product-page-open,
@@ -12488,23 +12488,15 @@ html body .lightbox-site-footer .footer-links{
     background:#fff !important;
   }
 
-  body.product-page-open > *:not(#lightbox):not(script):not(style):not(template){
-    display:none !important;
-    visibility:hidden !important;
-  }
-
   body.product-page-open #lightbox,
   body.product-page-open #lightbox.open,
   html body.product-page-open .lightbox.open{
     display:block !important;
-    visibility:visible !important;
     position:fixed !important;
     inset:0 !important;
     width:100vw !important;
     height:100vh !important;
     height:100dvh !important;
-    min-height:100vh !important;
-    min-height:100dvh !important;
     max-width:none !important;
     max-height:100dvh !important;
     padding:0 !important;
@@ -12514,17 +12506,6 @@ html body .lightbox-site-footer .footer-links{
     -webkit-overflow-scrolling:auto !important;
     background:#fff !important;
     isolation:isolate !important;
-    z-index:2147483647 !important;
-  }
-
-  body.product-page-open #lightbox.open::before,
-  html body.product-page-open .lightbox.open::before{
-    content:"" !important;
-    position:fixed !important;
-    inset:0 !important;
-    background:#fff !important;
-    z-index:-1 !important;
-    pointer-events:none !important;
   }
 
   body.product-page-open #lightbox.open .lightbox-inner,
@@ -12548,14 +12529,22 @@ html body .lightbox-site-footer .footer-links{
 
   body.product-page-open #lightbox.open .lightbox-stage,
   html body.product-page-open .lightbox.open .lightbox-stage{
+    --sw-product-image-width:50vw;
     position:fixed !important;
     inset:0 !important;
-    display:block !important;
+    display:grid !important;
+    grid-template-columns:minmax(0, var(--sw-product-image-width)) minmax(0, calc(100vw - var(--sw-product-image-width))) !important;
+    grid-template-rows:100dvh !important;
+    grid-template-areas:"product-image product-details" !important;
+    column-gap:0 !important;
+    row-gap:0 !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
     width:100vw !important;
+    max-width:none !important;
     height:100vh !important;
     height:100dvh !important;
     min-height:0 !important;
-    max-width:none !important;
     max-height:100dvh !important;
     margin:0 !important;
     padding:0 !important;
@@ -12567,18 +12556,18 @@ html body .lightbox-site-footer .footer-links{
 
   body.product-page-open #lightbox.open .lightbox-image-wrap,
   html body.product-page-open .lightbox.open .lightbox-image-wrap{
-    position:fixed !important;
-    top:0 !important;
-    right:auto !important;
-    bottom:0 !important;
-    left:0 !important;
+    grid-area:product-image !important;
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
     display:block !important;
-    width:50vw !important;
-    min-width:50vw !important;
-    max-width:50vw !important;
+    align-self:stretch !important;
+    justify-self:stretch !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
     height:100vh !important;
     height:100dvh !important;
-    min-height:100vh !important;
     min-height:100dvh !important;
     max-height:100dvh !important;
     aspect-ratio:auto !important;
@@ -12590,10 +12579,8 @@ html body .lightbox-site-footer .footer-links{
     box-shadow:none !important;
     overflow:hidden !important;
     overscroll-behavior:none !important;
-    touch-action:none !important;
     background:#fff !important;
     box-sizing:border-box !important;
-    z-index:1 !important;
   }
 
   body.product-page-open #lightbox.open img#lightboxImage,
@@ -12620,8 +12607,6 @@ html body .lightbox-site-footer .footer-links{
     object-position:center center !important;
     transform:none !important;
     transform-origin:center center !important;
-    -webkit-user-drag:none !important;
-    user-select:none !important;
   }
 
   body.product-page-open #lightbox.open .stapleford-preview-track,
@@ -12637,7 +12622,6 @@ html body .lightbox-site-footer .footer-links{
     padding:0 !important;
     overflow:hidden !important;
     background:#fff !important;
-    will-change:transform !important;
   }
 
   body.product-page-open #lightbox.open .stapleford-preview-slide,
@@ -12657,21 +12641,23 @@ html body .lightbox-site-footer .footer-links{
 
   body.product-page-open #lightbox.open .lightbox-detail-panel,
   html body.product-page-open .lightbox.open .lightbox-detail-panel{
-    position:fixed !important;
-    top:0 !important;
-    right:0 !important;
-    bottom:0 !important;
+    grid-area:product-details !important;
+    position:relative !important;
+    top:auto !important;
+    right:auto !important;
+    bottom:auto !important;
     left:auto !important;
-    display:block !important;
-    width:50vw !important;
-    min-width:50vw !important;
-    max-width:50vw !important;
+    align-self:stretch !important;
+    justify-self:stretch !important;
+    width:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
     height:100vh !important;
     height:100dvh !important;
     min-height:0 !important;
     max-height:100dvh !important;
     margin:0 !important;
-    padding:clamp(74px, 5.6vw, 108px) clamp(48px, 5.4vw, 88px) clamp(56px, 5vw, 86px) clamp(48px, 5.4vw, 88px) !important;
+    padding:clamp(76px, 6.2vw, 112px) clamp(38px, 4.2vw, 76px) clamp(54px, 5.2vw, 88px) clamp(44px, 4.8vw, 88px) !important;
     border:0 !important;
     border-radius:0 !important;
     outline:0 !important;
@@ -12680,31 +12666,44 @@ html body .lightbox-site-footer .footer-links{
     overflow-x:hidden !important;
     overscroll-behavior:contain !important;
     -webkit-overflow-scrolling:touch !important;
-    scrollbar-width:auto !important;
     scrollbar-gutter:auto !important;
     background:#fff !important;
     box-sizing:border-box !important;
-    pointer-events:auto !important;
-    z-index:2 !important;
   }
 
-  body.product-page-open #lightbox.open .lightbox-detail-panel > *,
-  html body.product-page-open .lightbox.open .lightbox-detail-panel > *{
-    width:100% !important;
-    max-width:min(560px, 100%) !important;
-    box-sizing:border-box !important;
+  body.product-page-open #lightbox.open .lightbox-detail-panel::-webkit-scrollbar,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel::-webkit-scrollbar{
+    width:8px !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel::-webkit-scrollbar-track,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel::-webkit-scrollbar-track{
+    background:transparent !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel::-webkit-scrollbar-thumb,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel::-webkit-scrollbar-thumb{
+    background:rgba(0,0,0,.24) !important;
+    border:2px solid #fff !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel > *{
+    max-width:560px !important;
   }
 
   body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
   html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related{
     width:100% !important;
-    max-width:min(560px, 100%) !important;
+    max-width:560px !important;
     margin:18px 0 0 !important;
   }
 
-  body.product-page-open #lightbox.open .lightbox-related-grid,
-  html body.product-page-open .lightbox.open .lightbox-related-grid{
-    max-width:100% !important;
+  body.product-page-open #lightbox.open .lightbox-detail-reopen,
+  html body.product-page-open .lightbox.open .lightbox-detail-reopen{
+    position:fixed !important;
+    right:clamp(36px, 4vw, 72px) !important;
+    bottom:clamp(28px, 3vw, 46px) !important;
+    z-index:60 !important;
   }
 
   body.product-page-open #lightbox.open .lightbox-close,
@@ -12716,54 +12715,28 @@ html body .lightbox-site-footer .footer-links{
   html body.product-page-open .lightbox.open .lightbox-close:focus,
   html body.product-page-open .lightbox.open .lightbox-close:active{
     position:fixed !important;
-    top:clamp(22px, 2.4vw, 34px) !important;
-    right:clamp(24px, 3.2vw, 48px) !important;
-    z-index:5 !important;
-    display:inline-block !important;
-    width:auto !important;
-    min-width:0 !important;
-    height:auto !important;
-    min-height:0 !important;
-    padding:0 !important;
-    margin:0 !important;
-    border:0 !important;
-    border-radius:0 !important;
+    top:clamp(22px, 2.5vw, 36px) !important;
+    right:clamp(30px, 3.5vw, 58px) !important;
+    z-index:70 !important;
     background:transparent !important;
-    box-shadow:none !important;
-    outline:none !important;
-    color:#000 !important;
-    opacity:1 !important;
-    transform:none !important;
-    font-family:"Sweet Sans Pro", Arial, sans-serif !important;
-    font-size:10px !important;
-    font-weight:500 !important;
-    line-height:1 !important;
-    letter-spacing:.08em !important;
-    text-transform:uppercase !important;
-    text-align:right !important;
-    text-decoration:none !important;
-    cursor:default !important;
-    -webkit-appearance:none !important;
-    appearance:none !important;
   }
 
-  body.product-page-open #lightbox.open .lightbox-detail-reopen,
-  html body.product-page-open .lightbox.open .lightbox-detail-reopen,
   body.product-page-open #lightbox.open .lightbox-site-footer,
-  html body.product-page-open .lightbox.open .lightbox-site-footer,
+  html body.product-page-open .lightbox.open .lightbox-site-footer{
+    display:none !important;
+  }
+
   body.product-page-open #lightbox.open .lightbox-prev,
   body.product-page-open #lightbox.open .lightbox-next,
   html body.product-page-open .lightbox.open .lightbox-prev,
-  html body.product-page-open .lightbox.open .lightbox-next,
-  body.product-page-open #lightbox.open .lightbox-thumbs,
-  html body.product-page-open .lightbox.open .lightbox-thumbs{
-    display:none !important;
-    visibility:hidden !important;
-    pointer-events:none !important;
+  html body.product-page-open .lightbox.open .lightbox-next{
+    height:100dvh !important;
+    top:0 !important;
+    transform:none !important;
   }
 }
 
-/* Menu sub-text restoration: protects the dynamically injected menu copy from being hidden by later overrides. */
+/* Menu sub-text restoration: this protects the dynamically injected menu copy from being hidden by later overrides. */
 body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-page-copy,
 body.site-menu-preopen .site-menu-primary.menu-page-mode .site-menu-page-copy,
 body.site-menu-opening .site-menu-primary.menu-page-mode .site-menu-page-copy,
