@@ -12463,5 +12463,254 @@ html body .lightbox-site-footer .footer-links{
 </style>
 <!-- STAPLEFORD_FOOTER_CONTENT_REMOVAL_END -->
 
+
+
+<!-- STAPLEFORD_SPEC_AND_PRODUCT_SCROLL_FIX_START -->
+<style id="stapleford-spec-and-product-scroll-fix">
+/* Remove the internal/momentum scroll from the small SPEC overlay and keep it visually centred. */
+html body #gallery.grid .image.available .spec-overlay,
+html body .image.available .spec-overlay{
+  justify-content:center !important;
+  align-items:stretch !important;
+  overflow:hidden !important;
+  padding:12px !important;
+  touch-action:none !important;
+  overscroll-behavior:none !important;
+  -webkit-overflow-scrolling:auto !important;
+}
+
+html body #gallery.grid .image.available .spec-overlay .spec-hide,
+html body .image.available .spec-overlay .spec-hide{
+  flex:0 0 auto !important;
+  align-self:flex-start !important;
+  margin:0 0 10px 0 !important;
+}
+
+html body #gallery.grid .image.available .spec-list,
+html body .image.available .spec-list{
+  display:grid !important;
+  width:100% !important;
+  max-width:100% !important;
+  flex:0 0 auto !important;
+  gap:6px !important;
+  max-height:none !important;
+  overflow:visible !important;
+  overflow-x:visible !important;
+  overflow-y:visible !important;
+  padding:0 !important;
+  margin:0 !important;
+  overscroll-behavior:none !important;
+  -webkit-overflow-scrolling:auto !important;
+  scrollbar-width:none !important;
+  touch-action:none !important;
+  box-sizing:border-box !important;
+}
+
+html body #gallery.grid .image.available .spec-list::-webkit-scrollbar,
+html body .image.available .spec-list::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+html body #gallery.grid .image.available .spec-row,
+html body .image.available .spec-row{
+  display:grid !important;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1fr) !important;
+  align-items:start !important;
+  gap:12px !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:6px 0 0 !important;
+  box-sizing:border-box !important;
+}
+
+html body #gallery.grid .image.available .spec-label,
+html body #gallery.grid .image.available .spec-value,
+html body .image.available .spec-label,
+html body .image.available .spec-value{
+  min-width:0 !important;
+  max-width:100% !important;
+}
+
+html body #gallery.grid .image.available .spec-label,
+html body .image.available .spec-label{
+  text-align:left !important;
+}
+
+html body #gallery.grid .image.available .spec-value,
+html body .image.available .spec-value{
+  text-align:right !important;
+}
+
+@media (max-width:767px){
+  html body #gallery.grid .image.available .spec-overlay,
+  html body .image.available .spec-overlay{
+    padding:10px !important;
+  }
+  html body #gallery.grid .image.available .spec-list,
+  html body .image.available .spec-list{
+    gap:5px !important;
+  }
+  html body #gallery.grid .image.available .spec-row,
+  html body .image.available .spec-row{
+    gap:8px !important;
+    padding-top:5px !important;
+  }
+}
+
+/* Desktop product pages: the page itself no longer scrolls; the image fills the left side and only the details column scrolls. */
+@media (min-width:1024px){
+  html.product-page-open,
+  html.product-page-open body,
+  body.product-page-open{
+    overflow:hidden !important;
+    height:100vh !important;
+    height:100dvh !important;
+    background:#fff !important;
+  }
+
+  html body.product-page-open #lightbox,
+  html body.product-page-open #lightbox.open,
+  html body.product-page-open .lightbox.open{
+    display:block !important;
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    height:100dvh !important;
+    min-height:100vh !important;
+    min-height:100dvh !important;
+    padding:0 !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    background:#fff !important;
+    overscroll-behavior:none !important;
+    -webkit-overflow-scrolling:auto !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-inner,
+  html body.product-page-open .lightbox.open .lightbox-inner{
+    display:block !important;
+    width:100vw !important;
+    max-width:none !important;
+    height:100vh !important;
+    height:100dvh !important;
+    min-height:100vh !important;
+    min-height:100dvh !important;
+    max-height:100vh !important;
+    max-height:100dvh !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    background:#fff !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    display:grid !important;
+    grid-template-columns:minmax(0, 1fr) clamp(420px, 38vw, 560px) !important;
+    grid-template-areas:"product-image product-details" !important;
+    grid-template-rows:100vh !important;
+    grid-template-rows:100dvh !important;
+    column-gap:clamp(48px, 5vw, 88px) !important;
+    row-gap:0 !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
+    width:100vw !important;
+    max-width:none !important;
+    height:100vh !important;
+    height:100dvh !important;
+    max-height:100vh !important;
+    max-height:100dvh !important;
+    margin:0 !important;
+    padding:0 clamp(28px, 4vw, 64px) 0 0 !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+    background:#fff !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    grid-area:product-image !important;
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:100vh !important;
+    height:100dvh !important;
+    min-height:100vh !important;
+    min-height:100dvh !important;
+    max-height:100vh !important;
+    max-height:100dvh !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:0 !important;
+    background:transparent !important;
+    position:relative !important;
+    top:auto !important;
+    align-self:stretch !important;
+    box-sizing:border-box !important;
+  }
+
+  html body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    min-width:100% !important;
+    min-height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:none !important;
+    background:transparent !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    grid-area:product-details !important;
+    position:relative !important;
+    top:auto !important;
+    width:100% !important;
+    max-width:none !important;
+    height:100vh !important;
+    height:100dvh !important;
+    min-height:0 !important;
+    max-height:100vh !important;
+    max-height:100dvh !important;
+    margin:0 !important;
+    padding:clamp(64px, 5vw, 92px) 0 clamp(48px, 5vw, 80px) !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    align-self:stretch !important;
+    box-sizing:border-box !important;
+    border:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-panel::-webkit-scrollbar,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel::-webkit-scrollbar{
+    width:0 !important;
+    height:0 !important;
+  }
+
+  html body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    scrollbar-width:none !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_SPEC_AND_PRODUCT_SCROLL_FIX_END -->
+
 </body>
 </html>
