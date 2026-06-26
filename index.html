@@ -11270,11 +11270,175 @@ html body .stapleford-chat-pop__label{
   }
 }
 </style>
-<a class="stapleford-chat-pop" href="https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%27d%20like%20to%20chat%20about%20a%20watch." target="_blank" rel="noopener" aria-label="Chat to us on WhatsApp">
+<a class="stapleford-chat-pop" href="https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%27d%20like%20to%20chat%20about%20a%20watch." target="_blank" rel="noopener" aria-label="CHAT TO US ON WHATSAPP">
   <span class="stapleford-chat-pop__active" aria-hidden="true"></span>
-  <span class="stapleford-chat-pop__label">chat to us</span>
+  <span class="stapleford-chat-pop__label">CHAT TO US</span>
 </a>
 <!-- STAPLEFORD_CHAT_POPUP_END -->
+
+
+
+<!-- STAPLEFORD_FINAL_BRAND_POLISH_START -->
+<style id="stapleford-final-brand-polish-css">
+/* Final brand polish: keep short pages premium, pin the footer to the page bottom, and keep the WhatsApp chat label uppercase. */
+html,
+body{
+  min-height:100% !important;
+}
+
+body{
+  min-height:100vh !important;
+  min-height:100svh !important;
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+html body > main.buy-page{
+  flex:1 0 auto !important;
+  width:100% !important;
+}
+
+html body > footer.site-footer{
+  flex:0 0 auto !important;
+}
+
+html body.no-results-active > main.buy-page{
+  display:flex !important;
+  flex:1 0 auto !important;
+  flex-direction:column !important;
+}
+
+html body.no-results-active > main.buy-page .no-results{
+  flex:1 0 auto !important;
+  min-height:0 !important;
+  width:100% !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:clamp(56px, 11vh, 120px) 12px clamp(42px, 8vh, 96px) !important;
+  text-transform:uppercase !important;
+}
+
+html body .stapleford-chat-pop,
+html body .stapleford-chat-pop:link,
+html body .stapleford-chat-pop:visited,
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:active,
+html body .stapleford-chat-pop__label{
+  text-transform:uppercase !important;
+}
+
+/* Menu polish: no visible page scrollbar unless the open menu actually needs vertical scrolling. */
+html.site-menu-open:not(.site-menu-can-scroll),
+html.site-menu-preopen:not(.site-menu-can-scroll),
+html.site-menu-opening:not(.site-menu-can-scroll),
+body.site-menu-open:not(.site-menu-can-scroll),
+body.site-menu-preopen:not(.site-menu-can-scroll),
+body.site-menu-opening:not(.site-menu-can-scroll){
+  overflow-y:hidden !important;
+  scrollbar-gutter:auto !important;
+}
+
+html.site-menu-open.site-menu-can-scroll,
+html.site-menu-preopen.site-menu-can-scroll,
+html.site-menu-opening.site-menu-can-scroll,
+body.site-menu-open.site-menu-can-scroll,
+body.site-menu-preopen.site-menu-can-scroll,
+body.site-menu-opening.site-menu-can-scroll{
+  overflow-y:auto !important;
+  scrollbar-gutter:auto !important;
+}
+</style>
+<script id="stapleford-final-menu-scroll-polish-js">
+(function(){
+  'use strict';
+
+  var RAF = 0;
+  var DELAYS = [0, 80, 240, 720];
+  var ROOT_CLASS = 'site-menu-can-scroll';
+  var OPEN_CLASSES = ['site-menu-open', 'site-menu-preopen', 'site-menu-opening'];
+
+  function rootToggle(on){
+    [document.documentElement, document.body].forEach(function(el){
+      if(el) el.classList.toggle(ROOT_CLASS, !!on);
+    });
+  }
+
+  function menuIsOpen(){
+    var body = document.body;
+    if(!body) return false;
+    return OPEN_CLASSES.some(function(name){ return body.classList.contains(name); });
+  }
+
+  function viewportHeight(){
+    if(window.visualViewport && window.visualViewport.height) return window.visualViewport.height;
+    return window.innerHeight || document.documentElement.clientHeight || 0;
+  }
+
+  function measureNeedsScroll(){
+    if(!menuIsOpen()) return false;
+
+    var root = document.documentElement;
+    var body = document.body;
+    var menu = document.getElementById('siteMenu');
+    var menuScroll = menu ? menu.querySelector('.site-menu-scroll') : null;
+    var viewport = viewportHeight();
+    var docHeight = Math.max(root ? root.scrollHeight : 0, body ? body.scrollHeight : 0);
+
+    if(menuScroll && menuScroll.getBoundingClientRect){
+      var rect = menuScroll.getBoundingClientRect();
+      docHeight = Math.max(docHeight, rect.bottom + (window.pageYOffset || 0));
+    }else if(menu && menu.getBoundingClientRect){
+      var menuRect = menu.getBoundingClientRect();
+      docHeight = Math.max(docHeight, menuRect.bottom + (window.pageYOffset || 0));
+    }
+
+    return docHeight > viewport + 2;
+  }
+
+  function updateNow(){
+    RAF = 0;
+    rootToggle(measureNeedsScroll());
+  }
+
+  function requestUpdate(){
+    if(RAF) return;
+    RAF = window.requestAnimationFrame(updateNow);
+  }
+
+  function updateSeries(){
+    DELAYS.forEach(function(delay){ window.setTimeout(requestUpdate, delay); });
+  }
+
+  function boot(){
+    updateSeries();
+
+    ['resize', 'orientationchange', 'pageshow', 'popstate'].forEach(function(type){
+      window.addEventListener(type, updateSeries, { passive:true });
+    });
+
+    if(window.visualViewport){
+      try{ window.visualViewport.addEventListener('resize', updateSeries, { passive:true }); }catch(error){}
+    }
+
+    document.addEventListener('click', updateSeries, true);
+    document.addEventListener('submit', updateSeries, true);
+
+    if(window.MutationObserver){
+      var observer = new MutationObserver(updateSeries);
+      observer.observe(document.documentElement, { attributes:true, attributeFilter:['class'] });
+      if(document.body) observer.observe(document.body, { attributes:true, childList:true, subtree:true, attributeFilter:['class', 'style', 'hidden', 'aria-hidden'] });
+    }
+
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(updateSeries).catch(function(){});
+    }
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
+  else boot();
+})();
+</script>
+<!-- STAPLEFORD_FINAL_BRAND_POLISH_END -->
 
 </body>
 </html>
