@@ -12694,160 +12694,158 @@ html body.site-menu-opening > footer.site-footer{
 
 
 
-<!-- STAPLEFORD_DESKTOP_FOOTER_PROFESSIONAL_RESOLVE_START -->
-<style id="stapleford-desktop-footer-professional-resolve-css">
-/* Desktop/tablet footer correction only. Mobile footer rules are intentionally left untouched. */
-@media (min-width:768px){
-  :root{
-    --sw-footer-desktop-width:var(--sw-page-width, min(calc(100vw - 80px), 1360px));
-    --sw-footer-desktop-max:var(--sw-page-max, 1360px);
-  }
+<!-- STAPLEFORD_PRODUCT_FOOTER_FULL_WIDTH_FIX_START -->
+<style id="stapleford-product-footer-full-width-fix-css">
+/* Final product-listing footer fix: keep the footer out of the product-details/right column.
+   It sits as a full-width row below the product content, aligned to the same page rail as the main footer. */
+html body.product-page-open #lightbox.open .lightbox-inner,
+html body.product-page-open .lightbox.open .lightbox-inner{
+  display:block !important;
+}
 
-  /* Main buy/home/search footer: same page rail as the gallery, with controlled premium breathing room. */
-  html body > footer.site-footer:not(.lightbox-site-footer){
-    width:var(--sw-footer-desktop-width) !important;
-    max-width:var(--sw-footer-desktop-max) !important;
-    margin:clamp(18px, 2vw, 28px) auto clamp(20px, 2.4vw, 32px) !important;
-    padding:0 !important;
-    align-self:center !important;
-  }
+html body.product-page-open #lightbox.open .lightbox-inner > .lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-inner > .lightbox-site-footer,
+html body #lightbox.open .lightbox-inner > .lightbox-site-footer{
+  display:block !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  width:var(--sw-footer-width, min(calc(100vw - 80px), 1360px)) !important;
+  max-width:var(--sw-footer-max, 1360px) !important;
+  margin:clamp(34px, 4vw, 56px) auto clamp(24px, 3vw, 42px) !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+  background:#fff !important;
+  border:0 !important;
+  box-shadow:none !important;
+  clear:both !important;
+}
 
-  html body > footer.site-footer:not(.lightbox-site-footer) .footer-inner{
-    width:100% !important;
+html body.product-page-open #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-inner,
+html body.product-page-open .lightbox.open .lightbox-inner > .lightbox-site-footer .footer-inner,
+html body #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-inner{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column-reverse !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:8px !important;
+  box-sizing:border-box !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-copy,
+html body.product-page-open #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-links,
+html body.product-page-open .lightbox.open .lightbox-inner > .lightbox-site-footer .footer-copy,
+html body.product-page-open .lightbox.open .lightbox-inner > .lightbox-site-footer .footer-links,
+html body #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-copy,
+html body #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-links{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  letter-spacing:normal !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+  text-align:left !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-links,
+html body.product-page-open .lightbox.open .lightbox-inner > .lightbox-site-footer .footer-links,
+html body #lightbox.open .lightbox-inner > .lightbox-site-footer .footer-links{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  flex-wrap:wrap !important;
+  gap:8px 12px !important;
+}
+
+html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer,
+html body #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer{
+  display:none !important;
+}
+
+@media (max-width:1023px){
+  html body.product-page-open #lightbox.open .lightbox-inner > .lightbox-site-footer,
+  html body.product-page-open .lightbox.open .lightbox-inner > .lightbox-site-footer,
+  html body #lightbox.open .lightbox-inner > .lightbox-site-footer{
+    width:calc(100vw - 32px) !important;
+    max-width:640px !important;
+    margin:28px auto 22px !important;
+  }
+}
+
+@media (max-width:767px){
+  html body.product-page-open #lightbox.open .lightbox-inner > .lightbox-site-footer,
+  html body.product-page-open .lightbox.open .lightbox-inner > .lightbox-site-footer,
+  html body #lightbox.open .lightbox-inner > .lightbox-site-footer{
+    width:calc(100vw - 32px) !important;
     max-width:none !important;
-    margin:0 !important;
-    padding:0 !important;
-  }
-
-  /* Product page: put the footer on the details rail, not underneath the image column height. */
-  html body.product-page-open #lightbox.open .lightbox-inner,
-  html body.product-page-open .lightbox.open .lightbox-inner{
-    padding-bottom:clamp(26px, 3vw, 42px) !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column,
-  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column,
-  html body .lightbox.open .lightbox-stage > .lightbox-detail-column{
-    grid-area:product-details !important;
-    width:100% !important;
-    max-width:none !important;
-    margin:0 !important;
-    padding:0 !important;
-    align-self:start !important;
-    display:block !important;
-    box-sizing:border-box !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-detail-panel,
-  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-detail-panel,
-  html body .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-detail-panel{
-    grid-area:auto !important;
-    width:100% !important;
-    max-width:none !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer,
-  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer,
-  html body .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer{
-    display:block !important;
-    visibility:visible !important;
-    width:100% !important;
-    max-width:none !important;
-    margin:clamp(22px, 2.3vw, 34px) 0 0 !important;
-    padding:0 !important;
-    background:#fff !important;
-    border:0 !important;
-    box-shadow:none !important;
-    pointer-events:auto !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-inner,
-  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-inner,
-  html body .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-inner{
-    width:100% !important;
-    max-width:none !important;
-    margin:0 !important;
-    padding:0 !important;
-    display:flex !important;
-    flex-direction:column-reverse !important;
-    align-items:flex-start !important;
-    justify-content:flex-start !important;
-    gap:8px !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-copy,
-  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-links,
-  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-copy,
-  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-links,
-  html body .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-copy,
-  html body .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-links{
-    width:100% !important;
-    max-width:none !important;
-    margin:0 !important;
-    padding:0 !important;
-    text-align:left !important;
-  }
-
-  html body.product-page-open #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-links,
-  html body.product-page-open .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-links,
-  html body .lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-site-footer .footer-links{
-    justify-content:flex-start !important;
-    gap:8px 12px !important;
+    margin:22px auto 16px !important;
   }
 }
 </style>
-<script id="stapleford-desktop-footer-professional-resolve-js">
+<script id="stapleford-product-footer-full-width-fix-js">
 (function(){
   'use strict';
 
-  function placeProductFooter(){
+  function moveProductFooterOutOfDetailsColumn(){
     var lightbox = document.getElementById('lightbox');
     if(!lightbox) return;
 
     var inner = lightbox.querySelector('.lightbox-inner');
     var stage = lightbox.querySelector('.lightbox-stage');
-    var details = document.getElementById('lightboxDetails');
     var footer = lightbox.querySelector('.lightbox-site-footer');
-    if(!inner || !stage || !details || !footer) return;
+    if(!inner || !stage || !footer) return;
 
-    var isDesktop = window.matchMedia && window.matchMedia('(min-width: 768px)').matches;
-    var column = stage.querySelector(':scope > .lightbox-detail-column');
-
-    if(isDesktop){
-      if(!column){
-        column = document.createElement('div');
-        column.className = 'lightbox-detail-column';
-        stage.appendChild(column);
-      }
-      if(details.parentNode !== column) column.appendChild(details);
-      if(footer.parentNode !== column) column.appendChild(footer);
-    }else{
-      var reopen = document.getElementById('lightboxDetailsReopen');
-      if(details.parentNode !== stage){
-        if(reopen && reopen.parentNode === stage && reopen.nextSibling){
-          stage.insertBefore(details, reopen.nextSibling);
-        }else{
-          stage.appendChild(details);
-        }
-      }
-      if(footer.parentNode !== inner) inner.appendChild(footer);
-      if(column && !column.children.length) column.remove();
+    /* The footer must be a sibling after the product grid, never inside the details/right column. */
+    if(footer.parentNode !== inner){
+      if(stage.nextSibling) inner.insertBefore(footer, stage.nextSibling);
+      else inner.appendChild(footer);
+    }else if(footer.previousElementSibling !== stage){
+      if(stage.nextSibling) inner.insertBefore(footer, stage.nextSibling);
+      else inner.appendChild(footer);
     }
+
+    footer.style.removeProperty('display');
+    footer.style.removeProperty('visibility');
+    footer.removeAttribute('hidden');
+  }
+
+  function scheduleMove(delay){
+    window.setTimeout(moveProductFooterOutOfDetailsColumn, delay || 0);
   }
 
   function boot(){
-    placeProductFooter();
-    window.setTimeout(placeProductFooter, 0);
+    moveProductFooterOutOfDetailsColumn();
+    scheduleMove(0);
+    scheduleMove(50);
+    scheduleMove(250);
   }
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
   else boot();
+
   window.addEventListener('resize', boot, { passive:true });
   window.addEventListener('orientationchange', boot, { passive:true });
-  document.addEventListener('click', function(){ window.setTimeout(placeProductFooter, 0); }, true);
+  window.addEventListener('pageshow', boot, { passive:true });
+  document.addEventListener('click', function(){ scheduleMove(40); }, true);
+
+  if(window.MutationObserver){
+    var observer = new MutationObserver(function(){ scheduleMove(0); });
+    if(document.documentElement){
+      observer.observe(document.documentElement, { childList:true, subtree:true });
+    }
+  }
 })();
 </script>
-<!-- STAPLEFORD_DESKTOP_FOOTER_PROFESSIONAL_RESOLVE_END -->
+<!-- STAPLEFORD_PRODUCT_FOOTER_FULL_WIDTH_FIX_END -->
 
 </body>
 </html>
