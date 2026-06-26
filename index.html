@@ -6532,7 +6532,7 @@ body.site-menu-open .site-menu-primary{
 }
 
 .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary{
-  padding:15px 0 13px !important;
+  padding:8px 0 8px !important;
 }
 
 .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer{
@@ -9610,7 +9610,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   align-items:center !important;
   justify-content:space-between !important;
   gap:18px !important;
-  padding:14px 0 !important;
+  padding:8px 0 !important;
   cursor:default !important;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
   font-size:11px !important;
@@ -10519,7 +10519,7 @@ html body .site-menu-page-copy{
 }
 
 html body .site-menu-faq-item summary{
-  padding:13px 0 8px !important;
+  padding:6px 0 6px !important;
 }
 
 html body .site-menu-faq-answer{
@@ -10811,6 +10811,46 @@ html body .site-menu-page-copy .site-menu-status-filter span{
 }
 </style>
 <!-- STAPLEFORD_SEARCH_STATUS_UNDERBOX_POLISH_END -->
+
+
+<!-- STAPLEFORD_FAQ_COMPACT_SPACING_FINAL_START -->
+<style id="stapleford-faq-compact-spacing-final-css">
+/* Final FAQ spacing override: this targets the live menu FAQ markup, not the older .info-item FAQ block. */
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-list{
+  gap:0 !important;
+  row-gap:0 !important;
+}
+
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item{
+  margin:0 !important;
+  padding:0 !important;
+}
+
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary{
+  padding:6px 0 !important;
+  min-height:0 !important;
+  line-height:1.22 !important;
+}
+
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary strong{
+  line-height:1.22 !important;
+}
+
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer{
+  padding:0 0 10px !important;
+}
+
+html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-answer p{
+  line-height:1.55 !important;
+}
+
+@media (max-width:767px){
+  html body .site-menu-page-copy[data-menu-copy="faqs"] .site-menu-faq-item summary{
+    padding:5px 0 !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_FAQ_COMPACT_SPACING_FINAL_END -->
 
 </body>
 </html>
