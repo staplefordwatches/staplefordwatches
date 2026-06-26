@@ -6695,24 +6695,53 @@ body.site-menu-closing .site-header .logo{
 
 </style>
 
-<body oncontextmenu="return false" oncopy="return false" oncut="return false" onselectstart="return false" ondragstart="return false" style="-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-user-drag:none!important;">
+<body>
 <!-- STAPLEFORD_SUBDIAL_LOCK_JS_START -->
 <script id="stapleford-subdial-lock-js">
 (function () {
   'use strict';
 
-  var LOCK_STYLE_ID = 'stapleford-subdial-lock-css';
+  /*
+    Image/media protection only.
+    This must NEVER lock inputs, forms, buttons inside forms, or editable text fields.
+    The previous version hard-locked every new DOM node, which stopped the Search field from behaving like a real input.
+  */
+
   var BLOCKED_EVENTS = [
     'contextmenu',
     'copy',
     'cut',
     'dragstart',
-    'selectstart',
     'beforecopy',
     'beforecut'
   ];
 
-  function clearSelection() {
+  function isEditableTarget(node) {
+    if (!node || node.nodeType !== 1) return false;
+    try {
+      return !!(
+        node.closest('input, textarea, select, option, [contenteditable="true"], [contenteditable=""], .site-menu-search-form, .site-menu-search-form *')
+      );
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function shouldProtect(node) {
+    if (!node || node.nodeType !== 1 || isEditableTarget(node)) return false;
+
+    var tag = node.tagName ? node.tagName.toLowerCase() : '';
+    if (tag === 'img' || tag === 'picture' || tag === 'svg' || tag === 'canvas' || tag === 'video') return true;
+
+    try {
+      return !!node.closest('.image, .product-image, .lightbox-image-wrap, .lightbox-stage');
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function clearSelectionUnlessEditing(event) {
+    if (event && isEditableTarget(event.target)) return;
     try {
       var selection = window.getSelection && window.getSelection();
       if (selection && selection.removeAllRanges) selection.removeAllRanges();
@@ -6723,21 +6752,19 @@ body.site-menu-closing .site-header .logo{
     } catch (error) {}
   }
 
-  function stopEvent(event) {
-    if (!event) return false;
+  function stopProtectedEvent(event) {
+    if (!event || isEditableTarget(event.target)) return true;
+    if (!shouldProtect(event.target)) return true;
+
     event.preventDefault();
     event.stopPropagation();
-    if (typeof event.stopImmediatePropagation === 'function') {
-      event.stopImmediatePropagation();
-    }
-    clearSelection();
+    if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+    clearSelectionUnlessEditing(event);
     return false;
   }
 
-  function hardLockElement(element) {
-    if (!element || element.nodeType !== 1) return;
-
-    element.setAttribute('unselectable', 'on');
+  function protectElement(element) {
+    if (!shouldProtect(element)) return;
 
     try {
       element.style.setProperty('-webkit-user-select', 'none', 'important');
@@ -6750,96 +6777,62 @@ body.site-menu-closing .site-header .logo{
     } catch (error) {}
 
     var tag = element.tagName ? element.tagName.toLowerCase() : '';
-    if (tag === 'img' || tag === 'picture' || tag === 'svg' || tag === 'canvas' || tag === 'video' || tag === 'a') {
+    if (tag === 'img' || tag === 'picture' || tag === 'svg' || tag === 'canvas' || tag === 'video') {
       element.setAttribute('draggable', 'false');
       element.setAttribute('aria-dropeffect', 'none');
     }
-
-    element.oncontextmenu = function () { return false; };
-    element.oncopy = function () { return false; };
-    element.oncut = function () { return false; };
-    element.ondragstart = function () { return false; };
-    element.onselectstart = function () { return false; };
   }
 
-  function hardLockTree(root) {
+  function protectTree(root) {
     if (!root) return;
-
-    if (root.nodeType === 1) hardLockElement(root);
+    if (root.nodeType === 1) protectElement(root);
 
     var nodes = [];
-    try {
-      nodes = root.querySelectorAll ? root.querySelectorAll('*') : [];
-    } catch (error) {}
+    try { nodes = root.querySelectorAll ? root.querySelectorAll('img, picture, svg, canvas, video, .image, .product-image, .lightbox-image-wrap, .lightbox-stage') : []; } catch (error) {}
 
-    for (var i = 0; i < nodes.length; i += 1) {
-      hardLockElement(nodes[i]);
-    }
+    for (var i = 0; i < nodes.length; i += 1) protectElement(nodes[i]);
   }
 
   function installEventLocks() {
     for (var i = 0; i < BLOCKED_EVENTS.length; i += 1) {
-      document.addEventListener(BLOCKED_EVENTS[i], stopEvent, true);
-      window.addEventListener(BLOCKED_EVENTS[i], stopEvent, true);
+      document.addEventListener(BLOCKED_EVENTS[i], stopProtectedEvent, true);
+      window.addEventListener(BLOCKED_EVENTS[i], stopProtectedEvent, true);
     }
 
     document.addEventListener('selectionchange', function () {
-      clearSelection();
+      var active = document.activeElement;
+      if (!isEditableTarget(active)) clearSelectionUnlessEditing();
     }, true);
 
     document.addEventListener('keydown', function (event) {
+      if (isEditableTarget(event.target)) return;
       var key = String(event.key || '').toLowerCase();
       var mod = event.ctrlKey || event.metaKey;
-
-      if (mod && (
-        key === 'a' ||
-        key === 'c' ||
-        key === 'x' ||
-        key === 's' ||
-        key === 'p' ||
-        key === 'u'
-      )) {
-        stopEvent(event);
+      if (mod && (key === 'a' || key === 'c' || key === 'x' || key === 's' || key === 'p' || key === 'u')) {
+        stopProtectedEvent(event);
       }
     }, true);
 
-    document.addEventListener('mousedown', clearSelection, true);
-    document.addEventListener('mouseup', clearSelection, true);
-    document.addEventListener('touchstart', clearSelection, true);
-    document.addEventListener('touchend', clearSelection, true);
-    document.addEventListener('pointerup', clearSelection, true);
+    ['mousedown','mouseup','touchstart','touchend','pointerup'].forEach(function(type){
+      document.addEventListener(type, clearSelectionUnlessEditing, true);
+    });
   }
 
   function installObserver() {
     if (!window.MutationObserver) return;
-
     var observer = new MutationObserver(function (mutations) {
       for (var i = 0; i < mutations.length; i += 1) {
         var added = mutations[i].addedNodes || [];
-        for (var j = 0; j < added.length; j += 1) {
-          hardLockTree(added[j]);
-        }
+        for (var j = 0; j < added.length; j += 1) protectTree(added[j]);
       }
-      clearSelection();
     });
-
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true
-    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
   }
 
   function boot() {
-    hardLockTree(document.documentElement);
+    protectTree(document.documentElement);
     installEventLocks();
     installObserver();
-    clearSelection();
-
-    // Extra iOS/Safari safety net for long-press selection handles.
-    window.setInterval(function () {
-      hardLockTree(document.body || document.documentElement);
-      clearSelection();
-    }, 500);
   }
 
   if (document.readyState === 'loading') {
@@ -9957,13 +9950,60 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 <!-- STAPLEFORD_MENU_PAGES_ANIMATION_END -->
 
 
-<!-- STAPLEFORD_PROFESSIONAL_SEARCH_FIX_START -->
-<style id="stapleford-professional-search-fix-css">
-/* Professional search: visibly typable, focused, and protected from menu click handling. */
+
+
+
+
+<!-- STAPLEFORD_PROFESSIONAL_SEARCH_AND_TYPE_FIX_START -->
+<style id="stapleford-professional-search-and-type-fix-css">
+/* Search must behave like a premium input, even with the wider site image-protection rules. */
+.site-menu-page-copy,
+.site-menu-page-copy *{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+}
+
+.site-menu-page-copy p,
+.site-menu-page-copy li,
+.site-menu-page-copy a,
+.site-menu-page-copy button,
+.site-menu-page-copy input,
+.site-menu-faq-answer p,
+.site-menu-faq-answer a,
+.site-menu-faq-answer strong{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.72 !important;
+  font-weight:400 !important;
+  letter-spacing:.018em !important;
+  text-transform:none !important;
+  color:#000 !important;
+}
+
+.site-menu-page-copy p,
+.site-menu-faq-answer p{
+  opacity:.78 !important;
+}
+
+.site-menu-page-copy strong,
+.site-menu-faq-answer strong{
+  font-weight:600 !important;
+}
+
+.site-menu-faq-item summary,
+.site-menu-faq-item summary strong{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1.42 !important;
+  font-weight:600 !important;
+  letter-spacing:.018em !important;
+  text-transform:none !important;
+  color:#000 !important;
+}
+
 .site-menu-search-form,
 .site-menu-page-copy .site-menu-search-form{
   position:relative !important;
-  z-index:50 !important;
+  z-index:9999 !important;
   display:flex !important;
   align-items:center !important;
   gap:14px !important;
@@ -9972,6 +10012,8 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   padding:0 !important;
   border:0 !important;
   pointer-events:auto !important;
+  -webkit-user-select:text !important;
+  user-select:text !important;
 }
 
 .site-menu-search-input,
@@ -9982,7 +10024,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   width:100% !important;
   min-width:0 !important;
   height:auto !important;
-  min-height:44px !important;
+  min-height:46px !important;
   margin:0 !important;
   padding:8px 0 10px !important;
   border:0 !important;
@@ -9997,13 +10039,14 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   opacity:1 !important;
   visibility:visible !important;
   pointer-events:auto !important;
-  user-select:text !important;
   -webkit-user-select:text !important;
+  user-select:text !important;
+  -webkit-touch-callout:default !important;
   cursor:text !important;
   appearance:none !important;
   -webkit-appearance:none !important;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
-  font-size:clamp(18px, 2.2vw, 24px) !important;
+  font-size:22px !important;
   line-height:1.2 !important;
   font-weight:400 !important;
   letter-spacing:.018em !important;
@@ -10031,7 +10074,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 .site-menu-search-submit,
 .site-menu-page-copy .site-menu-search-submit{
   position:relative !important;
-  z-index:51 !important;
+  z-index:10000 !important;
   flex:0 0 auto !important;
   width:38px !important;
   height:38px !important;
@@ -10058,84 +10101,195 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 }
 
 @media (max-width:767px){
+  .site-menu-page-copy p,
+  .site-menu-page-copy li,
+  .site-menu-page-copy a,
+  .site-menu-page-copy button,
+  .site-menu-page-copy input,
+  .site-menu-faq-item summary,
+  .site-menu-faq-item summary strong,
+  .site-menu-faq-answer p,
+  .site-menu-faq-answer a,
+  .site-menu-faq-answer strong{
+    font-size:12px !important;
+    line-height:1.68 !important;
+  }
+
   .site-menu-search-form,
   .site-menu-page-copy .site-menu-search-form{
     width:100% !important;
     gap:12px !important;
   }
+
   .site-menu-search-input,
   .site-menu-page-copy .site-menu-search-input,
   #siteMenuPageSearchInput{
-    min-height:42px !important;
+    min-height:44px !important;
     font-size:18px !important;
   }
 }
 </style>
 
-<script id="stapleford-professional-search-fix-js">
+<script id="stapleford-professional-search-and-type-fix-js">
 (function(){
   'use strict';
 
-  function enhanceSearchForm(){
-    var form = document.querySelector('[data-menu-page-search-form]');
-    if(!form || form.getAttribute('data-professional-search-ready') === 'true') return;
+  var INPUT_SELECTOR = '.site-menu-search-input, #siteMenuPageSearchInput';
+  var FORM_SELECTOR = '[data-menu-page-search-form]';
 
-    var input = form.querySelector('.site-menu-search-input');
-    var button = form.querySelector('.site-menu-search-submit');
-    if(!input) return;
+  function unlockForTyping(el){
+    if(!el || el.nodeType !== 1) return;
 
-    form.setAttribute('data-professional-search-ready', 'true');
-    input.removeAttribute('readonly');
-    input.disabled = false;
-    input.tabIndex = 0;
-    input.autocomplete = 'off';
-    input.setAttribute('autocapitalize', 'none');
-    input.setAttribute('spellcheck', 'false');
-    input.setAttribute('inputmode', 'search');
-    input.setAttribute('placeholder', 'Type brand, model or reference');
+    el.removeAttribute('readonly');
+    el.removeAttribute('disabled');
+    el.removeAttribute('unselectable');
+    el.disabled = false;
+    el.readOnly = false;
+    el.tabIndex = 0;
+    el.autocomplete = 'off';
+    el.setAttribute('autocapitalize', 'none');
+    el.setAttribute('spellcheck', 'false');
+    el.setAttribute('inputmode', 'search');
+    el.setAttribute('placeholder', 'Type brand, model or reference');
 
-    function protectPointer(event){
-      /* Keep the menu-page click handler from treating text-field interaction as navigation. */
-      event.stopPropagation();
+    el.onselectstart = null;
+    el.oncopy = null;
+    el.oncut = null;
+    el.ondragstart = null;
+    el.oncontextmenu = null;
+
+    try{
+      el.style.setProperty('-webkit-user-select', 'text', 'important');
+      el.style.setProperty('-moz-user-select', 'text', 'important');
+      el.style.setProperty('-ms-user-select', 'text', 'important');
+      el.style.setProperty('user-select', 'text', 'important');
+      el.style.setProperty('-webkit-touch-callout', 'default', 'important');
+      el.style.setProperty('pointer-events', 'auto', 'important');
+      el.style.setProperty('caret-color', '#000', 'important');
+      el.style.setProperty('-webkit-text-fill-color', '#000', 'important');
+      el.style.setProperty('color', '#000', 'important');
+    }catch(error){}
+  }
+
+  function unlockSearchTree(){
+    var form = document.querySelector(FORM_SELECTOR);
+    if(form){
+      form.removeAttribute('unselectable');
+      form.onselectstart = null;
+      try{
+        form.style.setProperty('pointer-events', 'auto', 'important');
+        form.style.setProperty('-webkit-user-select', 'text', 'important');
+        form.style.setProperty('user-select', 'text', 'important');
+      }catch(error){}
     }
 
-    ['pointerdown','mousedown','touchstart','click','dblclick'].forEach(function(type){
-      input.addEventListener(type, protectPointer, true);
-      form.addEventListener(type, function(event){
-        if(event.target === input) protectPointer(event);
-      }, true);
-    });
+    var inputs = document.querySelectorAll(INPUT_SELECTOR);
+    Array.prototype.forEach.call(inputs, unlockForTyping);
+  }
 
-    input.addEventListener('input', function(){
-      input.classList.toggle('has-value', String(input.value || '').length > 0);
-    });
+  function getSearchInput(){
+    return document.querySelector(INPUT_SELECTOR);
+  }
 
-    if(button){
-      ['pointerdown','mousedown','touchstart'].forEach(function(type){
-        button.addEventListener(type, function(event){ event.stopPropagation(); }, true);
-      });
+  function getSearchValue(){
+    var input = getSearchInput();
+    return input ? String(input.value || '').trim() : '';
+  }
+
+  function applySearch(){
+    var value = getSearchValue();
+    try{ searchQuery = value; }catch(error){ window.searchQuery = value; }
+    try{ if(typeof setPage === 'function') setPage('buy'); }catch(error){}
+    try{ if(typeof resetListingLimit === 'function') resetListingLimit(); }catch(error){}
+    try{ if(typeof render === 'function') render(); }catch(error){}
+
+    var toggle = document.getElementById('menuToggle');
+    if(toggle && (document.body.classList.contains('site-menu-open') || document.body.classList.contains('site-menu-preopen'))){
+      toggle.click();
     }
 
     window.setTimeout(function(){
+      try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(error){ window.scrollTo(0,0); }
+    }, 520);
+  }
+
+  function focusInputSoon(){
+    window.setTimeout(function(){
+      unlockSearchTree();
+      var input = getSearchInput();
+      if(!input) return;
       try{
         input.focus({ preventScroll:true });
-        var length = input.value.length;
-        input.setSelectionRange(length, length);
+        var len = input.value.length;
+        input.setSelectionRange(len, len);
       }catch(error){
         try{ input.focus(); }catch(ignore){}
       }
-    }, 40);
+    }, 60);
+  }
+
+  function bindForm(){
+    unlockSearchTree();
+    var form = document.querySelector(FORM_SELECTOR);
+    var input = getSearchInput();
+    if(!form || !input || form.getAttribute('data-search-type-fixed') === 'true') return;
+
+    form.setAttribute('data-search-type-fixed', 'true');
+
+    ['pointerdown','mousedown','touchstart','click','dblclick'].forEach(function(type){
+      form.addEventListener(type, function(event){
+        if(event.target && (event.target.matches(INPUT_SELECTOR) || event.target.closest('.site-menu-search-submit'))){
+          event.stopPropagation();
+        }
+      }, true);
+      input.addEventListener(type, function(event){
+        event.stopPropagation();
+        unlockForTyping(input);
+      }, true);
+    });
+
+    ['keydown','keypress','keyup','beforeinput','input','compositionstart','compositionupdate','compositionend'].forEach(function(type){
+      input.addEventListener(type, function(event){
+        event.stopPropagation();
+        unlockForTyping(input);
+        if(type === 'keydown' && event.key === 'Enter'){
+          event.preventDefault();
+          applySearch();
+        }
+      }, true);
+    });
+
+    form.addEventListener('submit', function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      if(event.stopImmediatePropagation) event.stopImmediatePropagation();
+      applySearch();
+    }, true);
+
+    focusInputSoon();
   }
 
   function boot(){
-    enhanceSearchForm();
+    bindForm();
+
+    document.addEventListener('click', function(event){
+      var searchTitle = event.target && event.target.closest && event.target.closest('[data-menu-target="search"]');
+      if(searchTitle) focusInputSoon();
+    }, true);
+
+    document.addEventListener('focusin', function(event){
+      if(event.target && event.target.matches && event.target.matches(INPUT_SELECTOR)){
+        unlockForTyping(event.target);
+      }
+    }, true);
+
     if(window.MutationObserver){
-      var observer = new MutationObserver(enhanceSearchForm);
+      var observer = new MutationObserver(function(){
+        bindForm();
+        unlockSearchTree();
+      });
       observer.observe(document.documentElement, { childList:true, subtree:true });
     }
-    document.addEventListener('focusin', function(event){
-      if(event.target && event.target.matches && event.target.matches('.site-menu-search-input')) enhanceSearchForm();
-    }, true);
   }
 
   if(document.readyState === 'loading'){
@@ -10145,7 +10299,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
   }
 })();
 </script>
-<!-- STAPLEFORD_PROFESSIONAL_SEARCH_FIX_END -->
+<!-- STAPLEFORD_PROFESSIONAL_SEARCH_AND_TYPE_FIX_END -->
 
 </body>
 </html>
