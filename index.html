@@ -12847,5 +12847,211 @@ html body #lightbox.open .lightbox-stage > .lightbox-detail-column > .lightbox-s
 </script>
 <!-- STAPLEFORD_PRODUCT_FOOTER_FULL_WIDTH_FIX_END -->
 
+
+
+<!-- STAPLEFORD_FOOTER_PIXEL_RAIL_FINAL_START -->
+<style id="stapleford-footer-pixel-rail-final-css">
+/*
+  Final footer rail correction.
+  The main/buy footer and product-listing footer now share the same viewport rail:
+  6px from the left edge and 20px from the bottom edge, with the same type stack and line order.
+*/
+:root{
+  --sw-footer-rail-x:6px;
+  --sw-footer-rail-bottom:20px;
+  --sw-footer-top-gap:36px;
+  --sw-footer-line-gap:8px;
+}
+
+html body > footer.site-footer,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer,
+html body.product-page-open #lightbox .lightbox-inner > footer.lightbox-site-footer,
+html body.product-page-open #lightbox.open .lightbox-inner > footer.lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-inner > footer.lightbox-site-footer{
+  display:block !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  box-sizing:border-box !important;
+  width:calc(100vw - (var(--sw-footer-rail-x) * 2)) !important;
+  max-width:none !important;
+  min-width:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  box-shadow:none !important;
+  background:#fff !important;
+  color:#000 !important;
+  clear:both !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  letter-spacing:normal !important;
+  text-transform:uppercase !important;
+}
+
+html body > footer.site-footer{
+  margin:var(--sw-footer-top-gap) var(--sw-footer-rail-x) var(--sw-footer-rail-bottom) var(--sw-footer-rail-x) !important;
+  align-self:stretch !important;
+  position:static !important;
+  inset:auto !important;
+}
+
+/* Product footer breaks out of the centred product container so its text starts on exactly the same x rail as the buy/home footer. */
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer,
+html body.product-page-open #lightbox .lightbox-inner > footer.lightbox-site-footer,
+html body.product-page-open #lightbox.open .lightbox-inner > footer.lightbox-site-footer,
+html body.product-page-open .lightbox.open .lightbox-inner > footer.lightbox-site-footer{
+  margin-top:var(--sw-footer-top-gap) !important;
+  margin-right:0 !important;
+  margin-bottom:var(--sw-footer-rail-bottom) !important;
+  margin-left:calc(50% - 50vw + var(--sw-footer-rail-x)) !important;
+  position:relative !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+}
+
+/* Remove the extra product-container bottom padding that was making the product footer sit on a different vertical rail. */
+html body.product-page-open #lightbox .lightbox-inner,
+html body.product-page-open #lightbox.open .lightbox-inner,
+html body.product-page-open .lightbox.open .lightbox-inner{
+  padding-bottom:0 !important;
+}
+
+html body > footer.site-footer .footer-inner,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-inner,
+html body.product-page-open #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-inner,
+html body.product-page-open #lightbox.open .lightbox-inner > footer.lightbox-site-footer .footer-inner,
+html body.product-page-open .lightbox.open .lightbox-inner > footer.lightbox-site-footer .footer-inner{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column-reverse !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:var(--sw-footer-line-gap) !important;
+  box-sizing:border-box !important;
+}
+
+html body > footer.site-footer .footer-copy,
+html body > footer.site-footer .footer-links,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-copy,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-links,
+html body.product-page-open #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-copy,
+html body.product-page-open #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-links,
+html body.product-page-open #lightbox.open .lightbox-inner > footer.lightbox-site-footer .footer-copy,
+html body.product-page-open #lightbox.open .lightbox-inner > footer.lightbox-site-footer .footer-links,
+html body.product-page-open .lightbox.open .lightbox-inner > footer.lightbox-site-footer .footer-copy,
+html body.product-page-open .lightbox.open .lightbox-inner > footer.lightbox-site-footer .footer-links{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  flex-wrap:wrap !important;
+  gap:8px 12px !important;
+  text-align:left !important;
+  color:#000 !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:12px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  letter-spacing:normal !important;
+  text-transform:uppercase !important;
+}
+
+html body > footer.site-footer .footer-links a,
+html body > footer.site-footer .footer-links a:link,
+html body > footer.site-footer .footer-links a:visited,
+html body > footer.site-footer .footer-links a:hover,
+html body > footer.site-footer .footer-links a:active,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-links a,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-links a:link,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-links a:visited,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-links a:hover,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-links a:active{
+  color:#000 !important;
+  text-decoration:none !important;
+  font:inherit !important;
+  line-height:1 !important;
+  letter-spacing:normal !important;
+  text-transform:uppercase !important;
+}
+
+html body > footer.site-footer .footer-monogram,
+html body #lightbox .lightbox-inner > footer.lightbox-site-footer .footer-monogram{
+  display:none !important;
+  visibility:hidden !important;
+}
+
+@media (max-width:767px){
+  :root{
+    --sw-footer-rail-x:6px;
+    --sw-footer-rail-bottom:20px;
+    --sw-footer-top-gap:30px;
+  }
+}
+</style>
+<script id="stapleford-footer-pixel-rail-final-js">
+(function(){
+  'use strict';
+
+  function normaliseFooter(footer){
+    if(!footer) return;
+    var copy = footer.querySelector('.footer-copy');
+    if(copy) copy.innerHTML = '<span>© 2026 STAPLEFORD WATCHES</span>';
+    footer.querySelectorAll('.footer-monogram').forEach(function(el){ el.remove(); });
+  }
+
+  function lockProductFooterRail(){
+    var lightbox = document.getElementById('lightbox');
+    if(!lightbox) return;
+    var inner = lightbox.querySelector('.lightbox-inner');
+    var stage = lightbox.querySelector('.lightbox-stage');
+    var footer = lightbox.querySelector('.lightbox-site-footer');
+    if(!inner || !stage || !footer) return;
+
+    if(footer.parentNode !== inner){
+      inner.insertBefore(footer, stage.nextSibling);
+    }else if(footer.previousElementSibling !== stage){
+      inner.insertBefore(footer, stage.nextSibling);
+    }
+
+    footer.removeAttribute('hidden');
+    footer.style.removeProperty('display');
+    footer.style.removeProperty('visibility');
+    normaliseFooter(footer);
+  }
+
+  function lockAllFooters(){
+    document.querySelectorAll('body > footer.site-footer').forEach(normaliseFooter);
+    lockProductFooterRail();
+  }
+
+  function schedule(){
+    window.setTimeout(lockAllFooters, 0);
+    window.setTimeout(lockAllFooters, 60);
+    window.setTimeout(lockAllFooters, 240);
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', schedule, { once:true });
+  else schedule();
+  window.addEventListener('resize', schedule, { passive:true });
+  window.addEventListener('orientationchange', schedule, { passive:true });
+  window.addEventListener('pageshow', schedule, { passive:true });
+  document.addEventListener('click', schedule, true);
+
+  if(window.MutationObserver){
+    var observer = new MutationObserver(schedule);
+    observer.observe(document.documentElement, { childList:true, subtree:true, attributes:true, attributeFilter:['class', 'style', 'hidden'] });
+  }
+})();
+</script>
+<!-- STAPLEFORD_FOOTER_PIXEL_RAIL_FINAL_END -->
+
 </body>
 </html>
