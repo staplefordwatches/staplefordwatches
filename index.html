@@ -6606,6 +6606,53 @@ body.site-menu-open .site-menu-primary{
   outline:0 !important;
 }
 </style>
+
+<style id="stapleford-search-status-filter-css">
+/* Search status filters: Available / Sold checkboxes below the search field. */
+html body .site-menu-search-form,
+html body .site-menu-page-copy .site-menu-search-form{
+  flex-wrap:wrap !important;
+  align-items:center !important;
+}
+
+html body .site-menu-status-filters{
+  flex:0 0 100% !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:18px !important;
+  padding:0 0 12px !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1 !important;
+  letter-spacing:.08em !important;
+  font-weight:500 !important;
+  text-transform:uppercase !important;
+}
+
+html body .site-menu-status-filter{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  color:#000 !important;
+  cursor:default !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+}
+
+html body .site-menu-status-filter input{
+  width:13px !important;
+  height:13px !important;
+  margin:0 !important;
+  accent-color:#000 !important;
+  cursor:default !important;
+  pointer-events:auto !important;
+}
+
+html body .site-menu-status-filter span{
+  display:inline-block !important;
+  white-space:nowrap !important;
+}
+</style>
 </head>
 
 <style id="stapleford-menu-v11-icon-return-css">
@@ -7558,8 +7605,8 @@ function updateProductStructuredData(){
 
 const gallery=document.getElementById("gallery");
 let currentSort = "default";
-let showAvailable = false;
-let showSold = false;
+let showAvailable = true;
+let showSold = true;
 let searchQuery = "";
 const showMoreWrap = document.getElementById("showMoreWrap");
 const showMoreBtn = document.getElementById("showMoreBtn");
@@ -7620,8 +7667,8 @@ function goToHomeListings(){
   if(siteMenuSearchInput) siteMenuSearchInput.value = "";
 
   currentSort = "default";
-  showAvailable = false;
-  showSold = false;
+  showAvailable = true;
+  showSold = true;
   resetListingLimit();
 
   if(typeof closeLightbox === "function" && lightbox?.classList.contains("open")) closeLightbox(false);
@@ -8481,12 +8528,12 @@ function watchMatchesSearch(w, query){
 function render(){
  let items=[...watches];
 
- if(showAvailable || showSold){
-  items = items.filter(w => {
-    const listingStatus = getListingStatus(w);
-    return (showAvailable && listingStatus === "available") || (showSold && ["sold", "reserved"].includes(listingStatus));
-  });
- }
+ items = items.filter(w => {
+  const listingStatus = getListingStatus(w);
+  const isAvailableListing = listingStatus === "available" || !["sold", "reserved"].includes(listingStatus);
+  const isSoldListing = ["sold", "reserved"].includes(listingStatus);
+  return (showAvailable && isAvailableListing) || (showSold && isSoldListing);
+ });
 
  if(searchQuery){
   items = items.filter(w => watchMatchesSearch(w, searchQuery));
@@ -9190,8 +9237,8 @@ loadWatches();
   function resetBuyPage(){
     try{ searchQuery = ''; }catch(error){ window.searchQuery = ''; }
     try{ currentSort = 'default'; }catch(error){}
-    try{ showAvailable = false; }catch(error){}
-    try{ showSold = false; }catch(error){}
+    try{ showAvailable = true; }catch(error){}
+    try{ showSold = true; }catch(error){}
     try{ if(typeof resetListingLimit === 'function') resetListingLimit(); }catch(error){}
     try{ if(typeof render === 'function') render(); }catch(error){}
   }
@@ -9670,7 +9717,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     buy: {
       html: [
         '<p>Browse the current selection of available watches <button class="site-menu-inline-link" data-menu-page-action="close-buy" type="button">here</button>.</p>',
-        '<p>If you require further images or would like a video of a specific timepiece, please contact us.</p>'
+        '<p>For additional images, a video, or further details on a specific timepiece, please contact us with the relevant Listing ID.</p>'
       ]
     },
     sell: {
@@ -9798,8 +9845,14 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 
     if(data.search){
       html += '<form class="site-menu-search-form" data-menu-page-search-form>';
+      html += '<div class="site-menu-search-box">';
       html += '<input autocomplete="off" aria-label="Search watches" class="site-menu-search-input" id="' + SEARCH_INPUT_ID + '" placeholder="SEARCH" type="search">';
       html += '<button aria-label="Submit search" class="site-menu-search-submit" type="submit"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5L21 21"></path></svg></button>';
+      html += '</div>';
+      html += '<div class="site-menu-status-filters" aria-label="Filter by availability">';
+      html += '<label class="site-menu-status-filter"><input id="siteMenuSearchAvailable" type="checkbox" value="available" checked> <span>AVAILABLE</span></label>';
+      html += '<label class="site-menu-status-filter"><input id="siteMenuSearchSold" type="checkbox" value="sold" checked> <span>SOLD</span></label>';
+      html += '</div>';
       html += '</form>';
     }
 
@@ -10236,6 +10289,8 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 
   var INPUT_SELECTOR = '.site-menu-search-input, #siteMenuPageSearchInput';
   var FORM_SELECTOR = '[data-menu-page-search-form]';
+  var AVAILABLE_CHECKBOX_ID = 'siteMenuSearchAvailable';
+  var SOLD_CHECKBOX_ID = 'siteMenuSearchSold';
 
   function unlockForTyping(el){
     if(!el || el.nodeType !== 1) return;
@@ -10296,9 +10351,32 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
     return input ? String(input.value || '').trim() : '';
   }
 
+  function syncStatusCheckboxes(){
+    var available = document.getElementById(AVAILABLE_CHECKBOX_ID);
+    var sold = document.getElementById(SOLD_CHECKBOX_ID);
+    if(available){
+      try{ available.checked = typeof showAvailable === 'boolean' ? showAvailable : true; }catch(error){ available.checked = true; }
+    }
+    if(sold){
+      try{ sold.checked = typeof showSold === 'boolean' ? showSold : true; }catch(error){ sold.checked = true; }
+    }
+  }
+
+  function getStatusPreference(){
+    var available = document.getElementById(AVAILABLE_CHECKBOX_ID);
+    var sold = document.getElementById(SOLD_CHECKBOX_ID);
+    return {
+      available: available ? !!available.checked : true,
+      sold: sold ? !!sold.checked : true
+    };
+  }
+
   function applySearch(){
     var value = getSearchValue();
+    var statusPreference = getStatusPreference();
     try{ searchQuery = value; }catch(error){ window.searchQuery = value; }
+    try{ showAvailable = statusPreference.available; }catch(error){ window.showAvailable = statusPreference.available; }
+    try{ showSold = statusPreference.sold; }catch(error){ window.showSold = statusPreference.sold; }
     try{ if(typeof setPage === 'function') setPage('buy'); }catch(error){}
     try{ if(typeof resetListingLimit === 'function') resetListingLimit(); }catch(error){}
     try{ if(typeof render === 'function') render(); }catch(error){}
@@ -10330,6 +10408,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 
   function bindForm(){
     unlockSearchTree();
+    syncStatusCheckboxes();
     var form = document.querySelector(FORM_SELECTOR);
     var input = getSearchInput();
     if(!form || !input || form.getAttribute('data-search-type-fixed') === 'true') return;
@@ -10338,7 +10417,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
 
     ['pointerdown','mousedown','touchstart','click','dblclick'].forEach(function(type){
       form.addEventListener(type, function(event){
-        if(event.target && (event.target.matches(INPUT_SELECTOR) || event.target.closest('.site-menu-search-submit'))){
+        if(event.target && (event.target.matches(INPUT_SELECTOR) || event.target.closest('.site-menu-search-submit') || event.target.closest('.site-menu-status-filter'))){
           event.stopPropagation();
         }
       }, true);
@@ -10347,6 +10426,12 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
         unlockForTyping(input);
       }, true);
     });
+
+    form.addEventListener('change', function(event){
+      if(event.target && event.target.closest('.site-menu-status-filter')){
+        event.stopPropagation();
+      }
+    }, true);
 
     ['keydown','keypress','keyup','beforeinput','input','compositionstart','compositionupdate','compositionend'].forEach(function(type){
       input.addEventListener(type, function(event){
@@ -10571,6 +10656,161 @@ html body .site-menu-page-copy .site-menu-search-submit:focus-visible{
 }
 </style>
 <!-- STAPLEFORD_MENU_AESOP_SEARCH_FINAL_FIX_END -->
+
+
+
+<!-- STAPLEFORD_SEARCH_STATUS_UNDERBOX_POLISH_START -->
+<style id="stapleford-search-status-underbox-polish-css">
+/* Keep availability filters visually under the search box, not inside the grey field. */
+html body .site-menu-search-form,
+html body .site-menu-page-copy .site-menu-search-form{
+  display:block !important;
+  width:min(100%, 430px) !important;
+  min-height:0 !important;
+  margin:10px 0 2px !important;
+  padding:0 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+html body .site-menu-search-form:focus-within,
+html body .site-menu-page-copy .site-menu-search-form:focus-within{
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+html body .site-menu-search-box,
+html body .site-menu-page-copy .site-menu-search-box{
+  display:flex !important;
+  align-items:center !important;
+  width:100% !important;
+  min-height:42px !important;
+  padding:0 11px 0 14px !important;
+  gap:8px !important;
+  background:#f4f4f2 !important;
+  background-color:#f4f4f2 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+html body .site-menu-search-box:focus-within,
+html body .site-menu-page-copy .site-menu-search-box:focus-within{
+  background:#eeeeeb !important;
+  background-color:#eeeeeb !important;
+}
+
+html body .site-menu-status-filters,
+html body .site-menu-page-copy .site-menu-status-filters{
+  width:100% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:18px !important;
+  margin:11px 0 0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1 !important;
+  letter-spacing:.11em !important;
+  font-weight:400 !important;
+  text-transform:uppercase !important;
+}
+
+html body .site-menu-status-filter,
+html body .site-menu-page-copy .site-menu-status-filter{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:7px !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:rgba(0,0,0,.70) !important;
+  cursor:default !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+}
+
+html body .site-menu-status-filter input,
+html body .site-menu-page-copy .site-menu-status-filter input{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  flex:0 0 10px !important;
+  width:10px !important;
+  height:10px !important;
+  min-width:10px !important;
+  min-height:10px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:1px solid rgba(0,0,0,.42) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  box-shadow:none !important;
+  cursor:default !important;
+  pointer-events:auto !important;
+}
+
+html body .site-menu-status-filter input:checked,
+html body .site-menu-page-copy .site-menu-status-filter input:checked{
+  border-color:#111 !important;
+  background:#111 !important;
+  background-color:#111 !important;
+  box-shadow:inset 0 0 0 2px #fff !important;
+}
+
+html body .site-menu-status-filter input:focus,
+html body .site-menu-status-filter input:focus-visible,
+html body .site-menu-page-copy .site-menu-status-filter input:focus,
+html body .site-menu-page-copy .site-menu-status-filter input:focus-visible{
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+html body .site-menu-status-filter input:checked:focus,
+html body .site-menu-status-filter input:checked:focus-visible,
+html body .site-menu-page-copy .site-menu-status-filter input:checked:focus,
+html body .site-menu-page-copy .site-menu-status-filter input:checked:focus-visible{
+  box-shadow:inset 0 0 0 2px #fff !important;
+}
+
+html body .site-menu-status-filter span,
+html body .site-menu-page-copy .site-menu-status-filter span{
+  display:inline-block !important;
+  white-space:nowrap !important;
+}
+
+@media (max-width:767px){
+  html body .site-menu-search-form,
+  html body .site-menu-page-copy .site-menu-search-form{
+    width:min(100%, 360px) !important;
+  }
+
+  html body .site-menu-search-box,
+  html body .site-menu-page-copy .site-menu-search-box{
+    min-height:40px !important;
+    padding:0 10px 0 13px !important;
+  }
+
+  html body .site-menu-status-filters,
+  html body .site-menu-page-copy .site-menu-status-filters{
+    gap:16px !important;
+    margin-top:10px !important;
+    font-size:10px !important;
+    letter-spacing:.105em !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_SEARCH_STATUS_UNDERBOX_POLISH_END -->
 
 </body>
 </html>
