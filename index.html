@@ -9104,7 +9104,6 @@ function render(){
           <div class="spec-row"><span class="spec-label">YEAR</span><span class="spec-value">${safeSpecs.year}</span></div>
           <div class="spec-row"><span class="spec-label">CASE SIZE</span><span class="spec-value">${safeSpecs.caseSize}</span></div>
           <div class="spec-row"><span class="spec-label">MOVEMENT</span><span class="spec-value">${safeSpecs.movement}</span></div>
-          <div class="spec-row"><span class="spec-label">CASE MATERIAL</span><span class="spec-value">${safeSpecs.caseMaterial}</span></div>
           <div class="spec-row"><span class="spec-label">CONDITION</span><span class="spec-value">${safeSpecs.condition}</span></div>
           <div class="spec-row"><span class="spec-label">CONTENTS</span><span class="spec-value">${safeSpecs.contents}</span></div>
           <div class="spec-row"><span class="spec-label">LISTING ID</span><span class="spec-value">${safeSpecs.listingId}</span></div>
@@ -12781,6 +12780,62 @@ html body .site-menu-page-copy a.site-menu-contact-inline-link:active{
 }
 </style>
 <!-- STAPLEFORD_REQUESTED_FIXES_20260627_END -->
+
+
+<!-- STAPLEFORD_QUICK_SPEC_TRIM_SCROLL_FIX_START -->
+<style id="stapleford-quick-spec-trim-scroll-fix">
+/* Quick-view SPEC pop-out: keep Case Material out of the card overlay and make overflow text scrollable. */
+html body #gallery.grid .image.available.show-spec .spec-overlay,
+html body .image.available.show-spec .spec-overlay{
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:flex-start !important;
+  align-items:stretch !important;
+  overflow:hidden !important;
+  max-height:100% !important;
+  min-height:0 !important;
+  touch-action:pan-y !important;
+  overscroll-behavior:contain !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+
+html body #gallery.grid .image.available.show-spec .spec-overlay .spec-hide,
+html body .image.available.show-spec .spec-overlay .spec-hide{
+  flex:0 0 auto !important;
+}
+
+html body #gallery.grid .image.available.show-spec .spec-list,
+html body .image.available.show-spec .spec-list{
+  display:grid !important;
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  max-height:calc(100% - 28px) !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding-right:4px !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+  touch-action:pan-y !important;
+  scrollbar-width:thin !important;
+}
+
+html body #gallery.grid .image.available.show-spec .spec-row,
+html body .image.available.show-spec .spec-row{
+  grid-template-columns:minmax(82px, auto) minmax(0, 1fr) !important;
+}
+
+@media (max-width:767px){
+  html body #gallery.grid .image.available.show-spec .spec-list,
+  html body .image.available.show-spec .spec-list{
+    max-height:calc(100% - 26px) !important;
+  }
+  html body #gallery.grid .image.available.show-spec .spec-row,
+  html body .image.available.show-spec .spec-row{
+    grid-template-columns:minmax(70px, auto) minmax(0, 1fr) !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_QUICK_SPEC_TRIM_SCROLL_FIX_END -->
 
 </body>
 </html>
