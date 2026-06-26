@@ -12343,6 +12343,25 @@ html body .stapleford-product-help-pop__label{
     return rect.bottom <= 0;
   }
 
+  function productHelpMobileTriggerReached(){
+    var trustList = qs('lightboxDetailTrustList');
+
+    /*
+      On mobile, show NEED HELP? when the Good to Know icon row starts to come into view.
+      Keep it visible while the customer continues down the listing, then hide it again
+      when they scroll back above that icon row.
+    */
+    if(trustList && !trustList.hidden && trustList.offsetParent !== null){
+      var rect = trustList.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      var triggerLine = Math.max(120, viewportHeight - 18);
+      return rect.top <= triggerLine;
+    }
+
+    /* If a listing has no selected icons, fall back to the previous BUY NOW trigger. */
+    return buyButtonHasBeenPassed();
+  }
+
   function updateVisibilityNow(){
     RAF = 0;
     if(!document.body) return;
@@ -12352,7 +12371,7 @@ html body .stapleford-product-help-pop__label{
 
     var shouldShow = false;
     if(isProductOpen()){
-      shouldShow = !isMobile() || buyButtonHasBeenPassed();
+      shouldShow = !isMobile() || productHelpMobileTriggerReached();
     }
 
     document.body.classList.toggle('stapleford-product-help-visible', !!shouldShow);
