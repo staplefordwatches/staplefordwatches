@@ -48,6 +48,28 @@ export async function onRequest(context) {
       return Number.isNaN(n) ? value : n;
     };
 
+    const booleanValue = (value) => {
+      if (value === true) return true;
+      if (value === false || value === undefined || value === null || value === "") return false;
+      if (Array.isArray(value)) return value.some(booleanValue);
+      if (typeof value === "number") return value > 0;
+
+      const normalized = String(value).trim().toLowerCase();
+      return [
+        "true",
+        "yes",
+        "y",
+        "1",
+        "checked",
+        "tick",
+        "ticked",
+        "on",
+        "included",
+        "include",
+        "show"
+      ].includes(normalized);
+    };
+
     const buildImages = (sku, imageCount) => {
       const count = Number(imageCount || 0);
       if (!sku || !count) return [];
@@ -96,11 +118,94 @@ export async function onRequest(context) {
           "Notes"
         ]));
 
-        const reference = clean(get(fields, ["Reference", "Reference Number", "Ref", "Reference No"]));
+        const reference = clean(get(fields, [
+          "Reference",
+          "Reference Number",
+          "Ref",
+          "Reference No"
+        ]));
+
         const year = clean(get(fields, ["Year", "year"]));
-        const caseSize = clean(get(fields, ["Case Size", "CaseSize", "Size"]));
-        const condition = clean(get(fields, ["Condition", "condition"]));
-        const contents = clean(get(fields, ["Contents", "Box/Papers", "Set"]));
+
+        const caseSize = clean(get(fields, [
+          "Case Size",
+          "CaseSize",
+          "Size"
+        ]));
+
+        const movement = clean(get(fields, [
+          "Movement",
+          "Movement Type",
+          "Calibre Type",
+          "Watch Movement"
+        ]));
+
+        const caseMaterial = clean(get(fields, [
+          "Case Material",
+          "Material",
+          "Watch Material"
+        ]));
+
+        const condition = clean(get(fields, [
+          "Condition",
+          "condition"
+        ]));
+
+        const contents = clean(get(fields, [
+          "Contents",
+          "Box/Papers",
+          "Set"
+        ]));
+
+        const conditionNotes = clean(get(fields, [
+          "Condition Notes",
+          "Condition Description",
+          "Condition Details",
+          "Condition Information",
+          "Condition Info"
+        ]));
+
+        const contentsNotes = clean(get(fields, [
+          "Contents Notes",
+          "Contents Description",
+          "Contents Details",
+          "Contents Information",
+          "Contents Info",
+          "Included Items"
+        ]));
+
+        const authenticityGuaranteed = booleanValue(get(fields, [
+          "Authenticity Guaranteed",
+          "Guaranteed Authenticity",
+          "Authenticity",
+          "Auth Guaranteed"
+        ]));
+
+        const warranty12Month = booleanValue(get(fields, [
+          "12 Month Warranty",
+          "Twelve Month Warranty",
+          "Warranty",
+          "Included Warranty"
+        ]));
+
+        const fastFreeShipping = booleanValue(get(fields, [
+          "Fast & Free Shipping",
+          "Fast and Free Shipping",
+          "Fast Free Shipping",
+          "Free Shipping",
+          "Shipping Included",
+          "Complimentary Shipping",
+          "Free Delivery"
+        ]));
+
+        const fullyInsuredDelivery = booleanValue(get(fields, [
+          "Fully Insured Delivery",
+          "Insured Delivery",
+          "Insured Shipping",
+          "Fully Insured Shipping",
+          "Worldwide Insured Shipping",
+          "Insured Worldwide Shipping"
+        ]));
 
         const imageCount = get(fields, [
           "Image Count",
@@ -140,15 +245,28 @@ export async function onRequest(context) {
             reference,
             year,
             caseSize,
+            movement,
+            caseMaterial,
             condition,
-            contents
+            contents,
+            conditionNotes,
+            contentsNotes
           },
 
           reference,
           year,
           caseSize,
+          movement,
+          caseMaterial,
           condition,
           contents,
+          conditionNotes,
+          contentsNotes,
+
+          authenticityGuaranteed,
+          warranty12Month,
+          fastFreeShipping,
+          fullyInsuredDelivery,
 
           sold: status.toLowerCase().includes("sold"),
           reserved: status.toLowerCase().includes("reserved"),
