@@ -6862,6 +6862,106 @@ body.site-menu-closing .site-header .logo{
 
 </style>
 
+
+<style id="stapleford-good-to-know-condition-css">
+/* STAPLEFORD UPDATE: per-listing trust icons and condition/contents detail sections. */
+.lightbox-detail-trust-list{
+  display:grid !important;
+  gap:9px !important;
+  padding:10px 0 12px !important;
+  margin:2px 0 10px !important;
+  border-top:1px solid rgba(0,0,0,.12) !important;
+  border-bottom:1px solid rgba(0,0,0,.12) !important;
+}
+.lightbox-detail-trust-list[hidden]{
+  display:none !important;
+}
+.lightbox-detail-trust-item{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  min-width:0 !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1.25 !important;
+  font-weight:500 !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+.lightbox-detail-trust-icon{
+  width:22px !important;
+  height:22px !important;
+  flex:0 0 22px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  color:#000 !important;
+}
+.lightbox-detail-trust-icon svg{
+  width:22px !important;
+  height:22px !important;
+  display:block !important;
+  fill:none !important;
+  stroke:currentColor !important;
+  stroke-width:1.55 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
+}
+.lightbox-detail-trust-label{
+  min-width:0 !important;
+  overflow-wrap:anywhere !important;
+}
+.lightbox-detail-condition-section,
+.lightbox-detail-contents-section{
+  padding-top:10px !important;
+  margin-top:10px !important;
+  border-top:1px solid rgba(0,0,0,.12) !important;
+}
+.lightbox-detail-condition-section[hidden],
+.lightbox-detail-contents-section[hidden]{
+  display:none !important;
+}
+.lightbox-detail-section-heading{
+  margin:0 0 7px !important;
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:10px !important;
+  line-height:1.2 !important;
+  font-weight:500 !important;
+  letter-spacing:.10em !important;
+  text-transform:uppercase !important;
+  color:#000 !important;
+}
+.lightbox-detail-condition-copy,
+.lightbox-detail-contents-copy{
+  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
+  font-size:11px !important;
+  line-height:1.55 !important;
+  font-weight:400 !important;
+  letter-spacing:.02em !important;
+  text-transform:none !important;
+  color:#000 !important;
+  white-space:pre-line !important;
+  opacity:.82 !important;
+}
+@media (max-width:767px){
+  .lightbox-detail-trust-list{
+    gap:8px !important;
+    padding:9px 0 10px !important;
+  }
+  .lightbox-detail-trust-item{
+    gap:9px !important;
+    font-size:9.5px !important;
+    letter-spacing:.07em !important;
+  }
+  .lightbox-detail-trust-icon,
+  .lightbox-detail-trust-icon svg{
+    width:20px !important;
+    height:20px !important;
+  }
+}
+</style>
+
 <body>
 <!-- STAPLEFORD_SUBDIAL_LOCK_JS_START -->
 <script id="stapleford-subdial-lock-js">
@@ -7089,8 +7189,17 @@ body.site-menu-closing .site-header .logo{
 </a>
 </div>
 </div>
+<div aria-label="Good to know" class="lightbox-detail-trust-list" hidden="" id="lightboxDetailTrustList"></div>
 <button aria-expanded="true" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span>HIDE DESCRIPTION ↓</span></button>
 <div class="lightbox-detail-description" id="lightboxDetailDescription"></div>
+<section class="lightbox-detail-condition-section" hidden="" id="lightboxDetailConditionSection">
+<div class="lightbox-detail-section-heading">CONDITION</div>
+<div class="lightbox-detail-condition-copy" id="lightboxDetailConditionCopy"></div>
+</section>
+<section class="lightbox-detail-contents-section" hidden="" id="lightboxDetailContentsSection">
+<div class="lightbox-detail-section-heading">CONTENTS</div>
+<div class="lightbox-detail-contents-copy" id="lightboxDetailContentsCopy"></div>
+</section>
 <button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span class="spec-heading-label">SPECIFICATION ↑</span><span aria-hidden="true" class="spec-heading-icon"><svg focusable="false" viewbox="0 0 24 24"><path d="M6 4.5h9l3 3V19.5H6z"></path><path d="M15 4.5v3h3"></path><path d="M9 11h6"></path><path d="M9 14h6"></path><path d="M9 17h4"></path></svg></span></button>
 <dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl>
 <button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY ↑</span><span aria-hidden="true" class="policy-heading-icon policy-heading-icon-delivery"><svg focusable="false" viewbox="0 0 24 24"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="1.7"></circle><circle cx="18" cy="18" r="1.7"></circle><path d="M5 10h5"></path></svg></span></button>
@@ -7580,6 +7689,8 @@ function getStructuredProductData(w){
   const reference = getWatchReference(w);
   const productUrl = getProductLink(w);
   const productName = getProductDisplayName(w);
+  const movement = getWatchMovement(w);
+  const caseMaterial = getWatchCaseMaterial(w);
    const productDisplayTitle = getProductDisplayTitleWithoutBrand(w);
 
   return cleanStructuredData({
@@ -7593,6 +7704,7 @@ function getStructuredProductData(w){
     "sku": w.listingId,
     "identifier": reference || w.listingId,
     "category": "Pre-owned luxury watches",
+    "material": caseMaterial || undefined,
     "description": w.description || getWatchDescription(w),
     "image": getImageLink(w),
     "url": productUrl,
@@ -7601,7 +7713,9 @@ function getStructuredProductData(w){
       reference ? { "@type": "PropertyValue", "name": "Reference Number", "value": reference } : undefined,
       w.listingId ? { "@type": "PropertyValue", "name": "Listing ID", "value": w.listingId } : undefined,
       w.specs?.year ? { "@type": "PropertyValue", "name": "Year", "value": String(w.specs.year) } : undefined,
-      w.specs?.caseSize ? { "@type": "PropertyValue", "name": "Case Size", "value": String(w.specs.caseSize) } : undefined
+      w.specs?.caseSize ? { "@type": "PropertyValue", "name": "Case Size", "value": String(w.specs.caseSize) } : undefined,
+      movement ? { "@type": "PropertyValue", "name": "Movement", "value": movement } : undefined,
+      caseMaterial ? { "@type": "PropertyValue", "name": "Case Material", "value": caseMaterial } : undefined
     ],
     "offers": {
       "@type": "Offer",
@@ -7628,7 +7742,13 @@ function prepareWatches(){
     watch.listingId = listingId;
     watch.id = watch.id || listingId;
     const reference = getWatchReference(watch);
-    watch.specs = { ...watch.specs, listingId, reference: reference || pickFirstField(watch.specs, WATCH_REFERENCE_FIELDS) || "" };
+    watch.specs = {
+      ...watch.specs,
+      listingId,
+      reference: reference || pickFirstField(watch.specs, WATCH_REFERENCE_FIELDS) || "",
+      movement: getWatchMovement(watch) || watch.specs?.movement || "",
+      caseMaterial: getWatchCaseMaterial(watch) || watch.specs?.caseMaterial || watch.specs?.material || ""
+    };
     watch.productLink = getProductLink(watch);
     watch.imageLink = getImageLink(watch);
     const airtableDescription = String(watch.description || watch.watchDescription || watch.longDescription || "").trim();
@@ -7826,8 +7946,13 @@ const lightboxDetailReference = document.getElementById("lightboxDetailReference
 const lightboxDetailYear = document.getElementById("lightboxDetailYear");
 const lightboxDetailContents = document.getElementById("lightboxDetailContents");
 const lightboxDetailPrice = document.getElementById("lightboxDetailPrice");
+const lightboxDetailTrustList = document.getElementById("lightboxDetailTrustList");
 const lightboxDetailDescriptionToggle = document.getElementById("lightboxDetailDescriptionToggle");
 const lightboxDetailDescription = document.getElementById("lightboxDetailDescription");
+const lightboxDetailConditionSection = document.getElementById("lightboxDetailConditionSection");
+const lightboxDetailConditionCopy = document.getElementById("lightboxDetailConditionCopy");
+const lightboxDetailContentsSection = document.getElementById("lightboxDetailContentsSection");
+const lightboxDetailContentsCopy = document.getElementById("lightboxDetailContentsCopy");
 const lightboxDetailBuy = document.getElementById("lightboxDetailBuy");
 const lightboxDetailEnquire = document.getElementById("lightboxDetailEnquire");
 const lightboxDetailContactOptions = document.getElementById("lightboxDetailContactOptions");
@@ -8047,6 +8172,188 @@ function renderRelatedWatches(currentWatch){
 }
 
 
+
+const WATCH_MOVEMENT_FIELDS = [
+  "movement",
+  "Movement",
+  "movementType",
+  "Movement Type",
+  "calibreType",
+  "Calibre Type",
+  "watchMovement",
+  "Watch Movement"
+];
+
+const WATCH_CASE_MATERIAL_FIELDS = [
+  "caseMaterial",
+  "Case Material",
+  "case material",
+  "material",
+  "Material",
+  "watchMaterial",
+  "Watch Material"
+];
+
+const WATCH_CONDITION_NOTE_FIELDS = [
+  "conditionDescription",
+  "Condition Description",
+  "condition description",
+  "conditionNotes",
+  "Condition Notes",
+  "condition notes",
+  "conditionDetails",
+  "Condition Details",
+  "condition information",
+  "Condition Information",
+  "conditionInfo",
+  "Condition Info"
+];
+
+const WATCH_CONTENTS_NOTE_FIELDS = [
+  "contentsDescription",
+  "Contents Description",
+  "contents description",
+  "contentsNotes",
+  "Contents Notes",
+  "contents notes",
+  "contentsDetails",
+  "Contents Details",
+  "contents information",
+  "Contents Information",
+  "contentsInfo",
+  "Contents Info",
+  "includedItems",
+  "Included Items"
+];
+
+const WATCH_FEATURE_DEFINITIONS = [
+  {
+    key:"authenticity",
+    label:"AUTHENTICITY GUARANTEED",
+    icon:"certificate",
+    aliases:["authenticityGuaranteed", "Authenticity Guaranteed", "authenticity guaranteed", "Authenticity", "Guaranteed Authenticity", "hasAuthenticity", "Auth Guaranteed"]
+  },
+  {
+    key:"warranty12Month",
+    label:"12 MONTH WARRANTY",
+    icon:"document-check",
+    aliases:["warranty12Month", "12 Month Warranty", "12 month warranty", "12 MONTH WARRANTY", "Twelve Month Warranty", "Warranty", "hasWarranty", "includeWarranty", "Included Warranty"]
+  },
+  {
+    key:"fastFreeShipping",
+    label:"FAST & FREE SHIPPING",
+    icon:"parcel",
+    aliases:["fastFreeShipping", "Fast & Free Shipping", "Fast and Free Shipping", "Fast Free Shipping", "Free Shipping", "Shipping Included", "Complimentary Shipping", "freeDelivery", "Free Delivery"]
+  },
+  {
+    key:"fullyInsuredDelivery",
+    label:"FULLY INSURED DELIVERY",
+    icon:"shield-box",
+    aliases:["fullyInsuredDelivery", "Fully Insured Delivery", "fully insured delivery", "Insured Delivery", "Insured Shipping", "Fully Insured Shipping", "Worldwide Insured Shipping", "Insured Worldwide Shipping"]
+  }
+];
+
+function pickFirstRawField(source, aliases){
+  if(!source || typeof source !== "object") return undefined;
+  const wanted = aliases.map(normalizeFieldName);
+
+  for(const alias of aliases){
+    const value = source[alias];
+    if(value !== undefined && value !== null && String(value).trim() !== "") return value;
+  }
+
+  for(const [key, value] of Object.entries(source)){
+    if(value === undefined || value === null || String(value).trim() === "") continue;
+    if(wanted.includes(normalizeFieldName(key))) return value;
+  }
+
+  return undefined;
+}
+
+function pickFirstWatchRaw(w, aliases){
+  const direct = pickFirstRawField(w, aliases);
+  if(direct !== undefined) return direct;
+  return pickFirstRawField(w?.specs, aliases);
+}
+
+function pickFirstWatchField(w, aliases){
+  const value = pickFirstWatchRaw(w, aliases);
+  if(value === undefined || value === null) return "";
+  if(Array.isArray(value)) return value.map(item => String(item || "").trim()).filter(Boolean).join(", ");
+  return String(value).trim();
+}
+
+function parseAirtableCheckbox(value){
+  if(value === true) return true;
+  if(value === false || value === undefined || value === null) return false;
+  if(Array.isArray(value)) return value.some(parseAirtableCheckbox);
+  if(typeof value === "number") return value > 0;
+  const normalized = String(value).trim().toLowerCase();
+  if(!normalized) return false;
+  if(["true", "yes", "y", "1", "checked", "tick", "ticked", "on", "included", "include", "show"].includes(normalized)) return true;
+  if(["false", "no", "n", "0", "unchecked", "off", "not included", "hide"].includes(normalized)) return false;
+  return false;
+}
+
+function getWatchMovement(w){
+  return pickFirstWatchField(w, WATCH_MOVEMENT_FIELDS);
+}
+
+function getWatchCaseMaterial(w){
+  return pickFirstWatchField(w, WATCH_CASE_MATERIAL_FIELDS);
+}
+
+function getWatchConditionNotes(w){
+  return pickFirstWatchField(w, WATCH_CONDITION_NOTE_FIELDS);
+}
+
+function getWatchContentsNotes(w){
+  return pickFirstWatchField(w, WATCH_CONTENTS_NOTE_FIELDS);
+}
+
+function getWatchFeatureItems(w){
+  return WATCH_FEATURE_DEFINITIONS.filter(item => parseAirtableCheckbox(pickFirstWatchRaw(w, item.aliases)));
+}
+
+function getWatchFeatureIcon(icon){
+  if(icon === "document-check"){
+    return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M7 3.5h9l3 3v14H7z"></path><path d="M16 3.5v3h3"></path><path d="M10 10h5"></path><path d="M10 13h4"></path><circle cx="6.8" cy="17.2" r="3.2"></circle><path d="M5.4 17.2l.9.9 1.8-2"></path></svg>';
+  }
+  if(icon === "parcel"){
+    return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 7.5 12 3l8 4.5-8 4.5z"></path><path d="M4 7.5v9l8 4.5 8-4.5v-9"></path><path d="M12 12v9"></path><path d="M8.2 5.2 16 9.7"></path></svg>';
+  }
+  if(icon === "shield-box"){
+    return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 8.2 12 4l7 4.2v4.9c0 3.7-2.4 6.3-7 7.9-4.6-1.6-7-4.2-7-7.9z"></path><path d="M9.2 12.4 11.2 14.4 15.2 10.2"></path></svg>';
+  }
+  return '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M7 3.5h10v13l-5-2.8-5 2.8z"></path><circle cx="16.5" cy="7.5" r="3.2"></circle><path d="M15.2 7.5l.8.8 1.7-1.9"></path></svg>';
+}
+
+function renderLightboxTrustList(w){
+  if(!lightboxDetailTrustList) return;
+  const items = getWatchFeatureItems(w);
+  lightboxDetailTrustList.innerHTML = "";
+  lightboxDetailTrustList.hidden = items.length === 0;
+  items.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "lightbox-detail-trust-item";
+    row.innerHTML = `<span class="lightbox-detail-trust-icon">${getWatchFeatureIcon(item.icon)}</span><span class="lightbox-detail-trust-label"></span>`;
+    const label = row.querySelector(".lightbox-detail-trust-label");
+    if(label) label.textContent = item.label;
+    lightboxDetailTrustList.appendChild(row);
+  });
+}
+
+function renderLightboxConditionAndContents(w){
+  const conditionNotes = getWatchConditionNotes(w);
+  const contentsNotes = getWatchContentsNotes(w);
+
+  if(lightboxDetailConditionCopy) lightboxDetailConditionCopy.textContent = conditionNotes;
+  if(lightboxDetailConditionSection) lightboxDetailConditionSection.hidden = !conditionNotes;
+
+  if(lightboxDetailContentsCopy) lightboxDetailContentsCopy.textContent = contentsNotes;
+  if(lightboxDetailContentsSection) lightboxDetailContentsSection.hidden = !contentsNotes;
+}
+
 function renderLightboxDetails(){
   if(!lightboxWatch || !lightboxDetails) return;
   const specs = lightboxWatch.specs || {};
@@ -8054,6 +8361,8 @@ function renderLightboxDetails(){
   const reference = getWatchReference(lightboxWatch) || specs.reference || "";
   const year = specs.year || "";
   const contents = specs.contents || "";
+  const movement = getWatchMovement(lightboxWatch) || specs.movement || "";
+  const caseMaterial = getWatchCaseMaterial(lightboxWatch) || specs.caseMaterial || specs.material || "";
   const status = String(lightboxWatch.status || "").toLowerCase();
   const isAvailable = status === "available";
   const isReserved = status === "reserved";
@@ -8075,10 +8384,12 @@ function renderLightboxDetails(){
     lightboxDetailBuy.dataset.watchId = String(lightboxWatch.listingId || lightboxWatch.id || "");
     lightboxDetailBuy.textContent = "BUY NOW";
   }
+  renderLightboxTrustList(lightboxWatch);
   const descriptionText = String(lightboxWatch.description || getWatchDescription(lightboxWatch) || "").trim();
   setText(lightboxDetailDescription, descriptionText);
   if(lightboxDetailDescriptionToggle) lightboxDetailDescriptionToggle.hidden = !descriptionText;
   setLightboxDescriptionOpen(Boolean(descriptionText));
+  renderLightboxConditionAndContents(lightboxWatch);
 
   if(lightboxDetailWhatsapp) lightboxDetailWhatsapp.href = enquiryData.whatsapp;
   if(lightboxDetailEmail) lightboxDetailEmail.href = enquiryData.email;
@@ -8088,6 +8399,8 @@ function renderLightboxDetails(){
     ["REFERENCE", specs.reference],
     ["YEAR", specs.year],
     ["CASE SIZE", specs.caseSize],
+    ["MOVEMENT", movement],
+    ["CASE MATERIAL", caseMaterial],
     ["CONDITION", specs.condition],
     ["CONTENTS", specs.contents],
     ["LISTING ID", lightboxWatch.listingId]
@@ -8651,6 +8964,8 @@ function render(){
     reference: escapeHtml(w.specs?.reference || ""),
     year: escapeHtml(w.specs?.year || ""),
     caseSize: escapeHtml(w.specs?.caseSize || ""),
+    movement: escapeHtml(getWatchMovement(w) || w.specs?.movement || ""),
+    caseMaterial: escapeHtml(getWatchCaseMaterial(w) || w.specs?.caseMaterial || w.specs?.material || ""),
     condition: escapeHtml(w.specs?.condition || ""),
     contents: escapeHtml(w.specs?.contents || ""),
     listingId: escapeHtml(w.specs?.listingId || "")
@@ -8675,6 +8990,8 @@ function render(){
           <div class="spec-row"><span class="spec-label">REFERENCE</span><span class="spec-value">${safeSpecs.reference}</span></div>
           <div class="spec-row"><span class="spec-label">YEAR</span><span class="spec-value">${safeSpecs.year}</span></div>
           <div class="spec-row"><span class="spec-label">CASE SIZE</span><span class="spec-value">${safeSpecs.caseSize}</span></div>
+          <div class="spec-row"><span class="spec-label">MOVEMENT</span><span class="spec-value">${safeSpecs.movement}</span></div>
+          <div class="spec-row"><span class="spec-label">CASE MATERIAL</span><span class="spec-value">${safeSpecs.caseMaterial}</span></div>
           <div class="spec-row"><span class="spec-label">CONDITION</span><span class="spec-value">${safeSpecs.condition}</span></div>
           <div class="spec-row"><span class="spec-label">CONTENTS</span><span class="spec-value">${safeSpecs.contents}</span></div>
           <div class="spec-row"><span class="spec-label">LISTING ID</span><span class="spec-value">${safeSpecs.listingId}</span></div>
