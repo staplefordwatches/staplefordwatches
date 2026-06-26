@@ -10309,7 +10309,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "buy": {
           "html": [
-              "<p>Browse the current selection of available watches <button class="site-menu-inline-link" data-menu-page-action="close-buy" type="button">here</button>.</p>",
+              "<p>Browse the current selection of available watches <button class=\"site-menu-inline-link\" data-menu-page-action=\"close-buy\" type=\"button\">here</button>.</p>",
               "<p>For additional images, a video, or further details on a specific timepiece, please contact us with the relevant Listing ID.</p>"
           ]
       },
@@ -10331,13 +10331,13 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "faqs": {
           "html": [
-              "<div class="site-menu-faq-list">",
-              "<details class="site-menu-faq-item"><summary><strong>How do I know if the watch is authentic?</strong></summary><div class="site-menu-faq-answer"><p>Each watch is carefully inspected in-house before sale to verify its authenticity and condition.</p></div></details>",
-              "<details class="site-menu-faq-item"><summary><strong>Do you offer any additional services?</strong></summary><div class="site-menu-faq-answer"><p>We can assist with sourcing, valuations and other watch-related requests. Please get in touch with details of what you need.</p></div></details>",
-              "<details class="site-menu-faq-item"><summary><strong>Do your watches come with warranty?</strong></summary><div class="site-menu-faq-answer"><p>Warranty is only provided on listings expressly marked as having warranty. Where stated, this is a 12-month mechanical warranty.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
-              "<details class="site-menu-faq-item"><summary><strong>What forms of payment do you accept?</strong></summary><div class="site-menu-faq-answer"><p>We accept secure online card payments through Stripe Checkout. Bank transfer may also be accepted by prior arrangement.</p></div></details>",
-              "<details class="site-menu-faq-item"><summary><strong>What is your method of delivery?</strong></summary><div class="site-menu-faq-answer"><p>We offer complimentary insured UK delivery after dispatch. Orders are sent using a tracked and insured service and require a signature on delivery.</p><p>International delivery may be available by prior arrangement.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
-              "<details class="site-menu-faq-item"><summary><strong>What is your returns policy?</strong></summary><div class="site-menu-faq-answer"><p>If you purchase from us online, please contact us within 14 days of receiving your watch if you wish to request a return.</p><p>Returned watches must be in the same condition as received and include any box, papers, links, accessories and documents supplied.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<div class=\"site-menu-faq-list\">",
+              "<details class=\"site-menu-faq-item\"><summary><strong>How do I know if the watch is authentic?</strong></summary><div class=\"site-menu-faq-answer\"><p>Each watch is carefully inspected in-house before sale to verify its authenticity and condition.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>Do you offer any additional services?</strong></summary><div class=\"site-menu-faq-answer\"><p>We can assist with sourcing, valuations and other watch-related requests. Please get in touch with details of what you need.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>Do your watches come with warranty?</strong></summary><div class=\"site-menu-faq-answer\"><p>Warranty is only provided on listings expressly marked as having warranty. Where stated, this is a 12-month mechanical warranty.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>What forms of payment do you accept?</strong></summary><div class=\"site-menu-faq-answer\"><p>We accept secure online card payments through Stripe Checkout. Bank transfer may also be accepted by prior arrangement.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>What is your method of delivery?</strong></summary><div class=\"site-menu-faq-answer\"><p>We offer complimentary insured UK delivery after dispatch. Orders are sent using a tracked and insured service and require a signature on delivery.</p><p>International delivery may be available by prior arrangement.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<details class=\"site-menu-faq-item\"><summary><strong>What is your returns policy?</strong></summary><div class=\"site-menu-faq-answer\"><p>If you purchase from us online, please contact us within 14 days of receiving your watch if you wish to request a return.</p><p>Returned watches must be in the same condition as received and include any box, papers, links, accessories and documents supplied.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
               "</div>"
           ]
       },
@@ -10362,7 +10362,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "terms": {
           "html": [
-              "<div class="site-menu-policy">",
+              "<div class=\"site-menu-policy\">",
               "<p>Last updated: June 2026</p>",
               "<h3>Business details</h3>",
               "<p>Business address: 124 City Road, London, United Kingdom, EC1V 2NX.</p>",
@@ -10405,7 +10405,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "privacy": {
           "html": [
-              "<div class="site-menu-policy">",
+              "<div class=\"site-menu-policy\">",
               "<p>Last updated: June 2026</p>",
               "<h3>Who we are</h3>",
               "<p>Business address: 124 City Road, London, United Kingdom, EC1V 2NX.<br>Email: ben@staplefordwatches.co.uk<br>Telephone / WhatsApp: +44 7438 196047<br>VAT registration number: 520 4679 02</p>",
@@ -10437,7 +10437,6 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
           ]
       }
   };
-
   function byId(id){ return document.getElementById(id); }
 
   function getPrimary(){
@@ -12462,6 +12461,289 @@ html body .lightbox-site-footer .footer-links{
 }
 </style>
 <!-- STAPLEFORD_FOOTER_CONTENT_REMOVAL_END -->
+
+<!-- STAPLEFORD_DESKTOP_SPLIT_SCROLL_AND_MENU_SUBTEXT_FIX_START -->
+<style id="stapleford-desktop-split-scroll-and-menu-subtext-fix-css">
+/*
+  Professional product-page layout fix:
+  - Desktop listing view becomes a fixed two-column canvas.
+  - The left image stays locked in place.
+  - Only the right-hand details panel scrolls.
+  - Mobile/tablet keeps the existing stacked page behaviour.
+*/
+@media (min-width:1024px){
+  html.product-page-open,
+  html.product-page-open body,
+  body.product-page-open{
+    height:100% !important;
+    max-height:100% !important;
+    overflow:hidden !important;
+    background:#fff !important;
+  }
+
+  body.product-page-open #lightbox,
+  body.product-page-open #lightbox.open,
+  html body.product-page-open .lightbox.open{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    height:100dvh !important;
+    max-height:100dvh !important;
+    padding:0 !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    background:#fff !important;
+    -webkit-overflow-scrolling:auto !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-inner,
+  html body.product-page-open .lightbox.open .lightbox-inner{
+    --sw-listing-top-gap:clamp(64px, 5vw, 92px);
+    --sw-listing-bottom-gap:clamp(40px, 4.4vw, 72px);
+    --sw-listing-side-gap:clamp(32px, 4.8vw, 64px);
+    width:100% !important;
+    max-width:1440px !important;
+    height:100vh !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    margin:0 auto !important;
+    padding:var(--sw-listing-top-gap) var(--sw-listing-side-gap) var(--sw-listing-bottom-gap) !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+    background:#fff !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-stage,
+  html body.product-page-open .lightbox.open .lightbox-stage{
+    display:grid !important;
+    grid-template-columns:minmax(0, 1fr) clamp(360px, 36vw, 520px) !important;
+    grid-template-areas:"product-image product-details" !important;
+    column-gap:clamp(36px, 4.8vw, 76px) !important;
+    row-gap:0 !important;
+    align-items:stretch !important;
+    justify-content:center !important;
+    width:100% !important;
+    max-width:100% !important;
+    height:calc(100dvh - var(--sw-listing-top-gap) - var(--sw-listing-bottom-gap)) !important;
+    min-height:0 !important;
+    max-height:calc(100dvh - var(--sw-listing-top-gap) - var(--sw-listing-bottom-gap)) !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-image-wrap,
+  html body.product-page-open .lightbox.open .lightbox-image-wrap{
+    grid-area:product-image !important;
+    align-self:stretch !important;
+    justify-self:stretch !important;
+    position:relative !important;
+    top:auto !important;
+    width:100% !important;
+    max-width:none !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:100% !important;
+    aspect-ratio:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    background:transparent !important;
+    box-sizing:border-box !important;
+  }
+
+  body.product-page-open #lightbox.open .stapleford-preview-track,
+  html body.product-page-open .lightbox.open .stapleford-preview-track,
+  body.product-page-open #lightbox.open .stapleford-preview-slide,
+  html body.product-page-open .lightbox.open .stapleford-preview-slide{
+    height:100% !important;
+    min-height:100% !important;
+    max-height:100% !important;
+  }
+
+  body.product-page-open #lightbox.open img#lightboxImage,
+  html body.product-page-open .lightbox.open img#lightboxImage,
+  body.product-page-open #lightbox.open .stapleford-preview-slide img,
+  html body.product-page-open .lightbox.open .stapleford-preview-slide img{
+    width:100% !important;
+    height:100% !important;
+    min-width:100% !important;
+    min-height:100% !important;
+    max-width:none !important;
+    max-height:none !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:none !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel{
+    grid-area:product-details !important;
+    align-self:stretch !important;
+    justify-self:stretch !important;
+    position:relative !important;
+    top:auto !important;
+    width:100% !important;
+    max-width:none !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:100% !important;
+    margin:0 !important;
+    padding:0 clamp(8px, 1.1vw, 14px) 0 0 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    overscroll-behavior:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    scrollbar-gutter:stable !important;
+    scrollbar-width:thin !important;
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+    box-sizing:border-box !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel::-webkit-scrollbar,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel::-webkit-scrollbar{
+    width:6px !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel::-webkit-scrollbar-thumb,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel::-webkit-scrollbar-thumb{
+    background:rgba(0,0,0,.22) !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel::-webkit-scrollbar-track,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel::-webkit-scrollbar-track{
+    background:transparent !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-detail-panel > .lightbox-related,
+  html body.product-page-open .lightbox.open .lightbox-detail-panel > .lightbox-related{
+    width:100% !important;
+    max-width:100% !important;
+    margin:18px 0 0 !important;
+  }
+
+  body.product-page-open #lightbox.open .lightbox-close,
+  html body.product-page-open .lightbox.open .lightbox-close{
+    position:fixed !important;
+  }
+}
+
+/* Defensive menu-copy restoration: keeps all menu sub text visible after the menu JS injects it. */
+body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-page-copy,
+body.site-menu-preopen .site-menu-primary.menu-page-mode .site-menu-page-copy,
+body.site-menu-opening .site-menu-primary.menu-page-mode .site-menu-page-copy,
+body.site-menu-open .site-menu-page-copy.is-visible,
+body.site-menu-preopen .site-menu-page-copy.is-visible,
+body.site-menu-opening .site-menu-page-copy.is-visible{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  transform:none !important;
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+  color:#000 !important;
+}
+
+body.site-menu-open .site-menu-page-copy *,
+body.site-menu-preopen .site-menu-page-copy *,
+body.site-menu-opening .site-menu-page-copy *{
+  visibility:visible !important;
+}
+
+body.site-menu-open .site-menu-page-copy p,
+body.site-menu-open .site-menu-page-copy li,
+body.site-menu-open .site-menu-page-copy a,
+body.site-menu-open .site-menu-page-copy button,
+body.site-menu-open .site-menu-faq-answer p,
+body.site-menu-open .site-menu-faq-answer a{
+  display:revert !important;
+  opacity:.78 !important;
+  color:#000 !important;
+}
+</style>
+<script id="stapleford-desktop-split-scroll-and-menu-subtext-fix-js">
+(function(){
+  'use strict';
+
+  var DESKTOP_QUERY = window.matchMedia ? window.matchMedia('(min-width: 1024px)') : null;
+
+  function isDesktop(){
+    return DESKTOP_QUERY ? DESKTOP_QUERY.matches : ((window.innerWidth || document.documentElement.clientWidth || 0) >= 1024);
+  }
+
+  function productIsOpen(){
+    var lightbox = document.getElementById('lightbox');
+    return !!(document.body && document.body.classList.contains('product-page-open') && lightbox && lightbox.classList.contains('open'));
+  }
+
+  function detailsPanel(){
+    return document.getElementById('lightboxDetails');
+  }
+
+  function refreshPreviewTrack(){
+    var wrap = document.querySelector('body.product-page-open #lightbox.open .lightbox-image-wrap');
+    var track = document.getElementById('staplefordPreviewTrack');
+    if(!wrap || !track) return;
+    var width = Math.round(wrap.clientWidth || 0);
+    if(!width) return;
+    track.querySelectorAll('.stapleford-preview-slide').forEach(function(slide){
+      slide.style.flexBasis = width + 'px';
+      slide.style.width = width + 'px';
+      slide.style.minWidth = width + 'px';
+      slide.style.maxWidth = width + 'px';
+    });
+    var index = (typeof window.lightboxIndex === 'number') ? window.lightboxIndex : 0;
+    track.style.transform = 'translate3d(' + (-index * width) + 'px, 0, 0)';
+  }
+
+  function resetDetailsScroll(){
+    var panel = detailsPanel();
+    if(panel) panel.scrollTop = 0;
+    window.setTimeout(refreshPreviewTrack, 40);
+    window.setTimeout(refreshPreviewTrack, 180);
+  }
+
+  function redirectDesktopWheel(event){
+    if(!isDesktop() || !productIsOpen()) return;
+    var panel = detailsPanel();
+    if(!panel || panel.contains(event.target)) return;
+    if(!event.deltaY) return;
+
+    var before = panel.scrollTop;
+    panel.scrollTop += event.deltaY;
+    if(panel.scrollTop !== before){
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  function bind(){
+    var lightbox = document.getElementById('lightbox');
+    if(lightbox) lightbox.addEventListener('wheel', redirectDesktopWheel, { passive:false });
+
+    document.addEventListener('stapleford:product-opened', resetDetailsScroll);
+    window.addEventListener('resize', function(){ window.setTimeout(refreshPreviewTrack, 80); }, { passive:true });
+    window.addEventListener('orientationchange', function(){ window.setTimeout(refreshPreviewTrack, 180); }, { passive:true });
+
+    if(window.MutationObserver && document.body){
+      var observer = new MutationObserver(function(){
+        if(productIsOpen()) resetDetailsScroll();
+      });
+      observer.observe(document.body, { attributes:true, attributeFilter:['class'] });
+    }
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, { once:true });
+  else bind();
+})();
+</script>
+<!-- STAPLEFORD_DESKTOP_SPLIT_SCROLL_AND_MENU_SUBTEXT_FIX_END -->
 
 </body>
 </html>
