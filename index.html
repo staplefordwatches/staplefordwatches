@@ -10316,7 +10316,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "buy": {
           "html": [
-              "<p>Browse the current selection of available watches <button class=\"site-menu-inline-link\" data-menu-page-action=\"close-buy\" type=\"button\">here</button>.</p>",
+              "<p>Browse the current selection of available watches <button class="site-menu-inline-link" data-menu-page-action="close-buy" type="button">here</button>.</p>",
               "<p>For additional images, a video, or further details on a specific timepiece, please contact us with the relevant Listing ID.</p>"
           ]
       },
@@ -10338,13 +10338,13 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "faqs": {
           "html": [
-              "<div class=\"site-menu-faq-list\">",
-              "<details class=\"site-menu-faq-item\"><summary><strong>How do I know if the watch is authentic?</strong></summary><div class=\"site-menu-faq-answer\"><p>Each watch is carefully inspected in-house before sale to verify its authenticity and condition.</p></div></details>",
-              "<details class=\"site-menu-faq-item\"><summary><strong>Do you offer any additional services?</strong></summary><div class=\"site-menu-faq-answer\"><p>We can assist with sourcing, valuations and other watch-related requests. Please get in touch with details of what you need.</p></div></details>",
-              "<details class=\"site-menu-faq-item\"><summary><strong>Do your watches come with warranty?</strong></summary><div class=\"site-menu-faq-answer\"><p>Warranty is only provided on listings expressly marked as having warranty. Where stated, this is a 12-month mechanical warranty.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
-              "<details class=\"site-menu-faq-item\"><summary><strong>What forms of payment do you accept?</strong></summary><div class=\"site-menu-faq-answer\"><p>We accept secure online card payments through Stripe Checkout. Bank transfer may also be accepted by prior arrangement.</p></div></details>",
-              "<details class=\"site-menu-faq-item\"><summary><strong>What is your method of delivery?</strong></summary><div class=\"site-menu-faq-answer\"><p>We offer complimentary insured UK delivery after dispatch. Orders are sent using a tracked and insured service and require a signature on delivery.</p><p>International delivery may be available by prior arrangement.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
-              "<details class=\"site-menu-faq-item\"><summary><strong>What is your returns policy?</strong></summary><div class=\"site-menu-faq-answer\"><p>If you purchase from us online, please contact us within 14 days of receiving your watch if you wish to request a return.</p><p>Returned watches must be in the same condition as received and include any box, papers, links, accessories and documents supplied.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<div class="site-menu-faq-list">",
+              "<details class="site-menu-faq-item"><summary><strong>How do I know if the watch is authentic?</strong></summary><div class="site-menu-faq-answer"><p>Each watch is carefully inspected in-house before sale to verify its authenticity and condition.</p></div></details>",
+              "<details class="site-menu-faq-item"><summary><strong>Do you offer any additional services?</strong></summary><div class="site-menu-faq-answer"><p>We can assist with sourcing, valuations and other watch-related requests. Please get in touch with details of what you need.</p></div></details>",
+              "<details class="site-menu-faq-item"><summary><strong>Do your watches come with warranty?</strong></summary><div class="site-menu-faq-answer"><p>Warranty is only provided on listings expressly marked as having warranty. Where stated, this is a 12-month mechanical warranty.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<details class="site-menu-faq-item"><summary><strong>What forms of payment do you accept?</strong></summary><div class="site-menu-faq-answer"><p>We accept secure online card payments through Stripe Checkout. Bank transfer may also be accepted by prior arrangement.</p></div></details>",
+              "<details class="site-menu-faq-item"><summary><strong>What is your method of delivery?</strong></summary><div class="site-menu-faq-answer"><p>We offer complimentary insured UK delivery after dispatch. Orders are sent using a tracked and insured service and require a signature on delivery.</p><p>International delivery may be available by prior arrangement.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
+              "<details class="site-menu-faq-item"><summary><strong>What is your returns policy?</strong></summary><div class="site-menu-faq-answer"><p>If you purchase from us online, please contact us within 14 days of receiving your watch if you wish to request a return.</p><p>Returned watches must be in the same condition as received and include any box, papers, links, accessories and documents supplied.</p><p>For more information, please refer to our T&Cs.</p></div></details>",
               "</div>"
           ]
       },
@@ -10369,7 +10369,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "terms": {
           "html": [
-              "<div class=\"site-menu-policy\">",
+              "<div class="site-menu-policy">",
               "<p>Last updated: June 2026</p>",
               "<h3>Business details</h3>",
               "<p>Business address: 124 City Road, London, United Kingdom, EC1V 2NX.</p>",
@@ -10412,7 +10412,7 @@ body.site-menu-open .site-menu-primary.menu-page-mode .site-menu-title{
       },
       "privacy": {
           "html": [
-              "<div class=\"site-menu-policy\">",
+              "<div class="site-menu-policy">",
               "<p>Last updated: June 2026</p>",
               "<h3>Who we are</h3>",
               "<p>Business address: 124 City Road, London, United Kingdom, EC1V 2NX.<br>Email: ben@staplefordwatches.co.uk<br>Telephone / WhatsApp: +44 7438 196047<br>VAT registration number: 520 4679 02</p>",
@@ -12156,12 +12156,12 @@ html body .site-menu-page-copy .site-menu-policy p{
 
 <!-- STAPLEFORD_PRODUCT_NEED_HELP_POPUP_START -->
 <style id="stapleford-product-need-help-popup-css">
-/* Keep the original CHAT TO US button on the home/buy pages, but hide it while an individual listing is open. */
+/* Keep CHAT TO US on the home/buy pages. Hide it while an individual listing is open. */
 html body.product-page-open .stapleford-chat-pop{
   display:none !important;
 }
 
-/* Remove the pale border from the original floating chat box and the small contact boxes. */
+/* Remove pale borders/rounding from floating and contact boxes. */
 html body .stapleford-chat-pop,
 html body .stapleford-chat-pop:link,
 html body .stapleford-chat-pop:visited,
@@ -12175,9 +12175,11 @@ html body .lightbox-detail-contact-link:hover,
 html body .lightbox-detail-contact-link:focus-visible,
 html body .lightbox-detail-contact-link:active{
   border:0 !important;
+  border-radius:0 !important;
   box-shadow:none !important;
 }
 
+/* Product-only NEED HELP button. It is moved inside #lightbox by the script, so it remains visible on individual listings. */
 html body .stapleford-product-help-pop,
 html body .stapleford-product-help-pop:link,
 html body .stapleford-product-help-pop:visited,
@@ -12187,14 +12189,14 @@ html body .stapleford-product-help-pop:active{
   position:fixed !important;
   right:clamp(12px, 2.1vw, 24px) !important;
   bottom:clamp(14px, 2.1vw, 24px) !important;
-  z-index:1000000 !important;
+  z-index:1000001 !important;
   display:none !important;
   align-items:center !important;
   justify-content:center !important;
   min-height:40px !important;
   padding:12px 15px !important;
   border:0 !important;
-  border-radius:2px !important;
+  border-radius:0 !important;
   background:#0057ff !important;
   color:#fff !important;
   box-shadow:none !important;
@@ -12221,8 +12223,9 @@ html body .stapleford-product-help-pop:focus-visible{
   outline:none !important;
 }
 
-html body.product-page-open.stapleford-product-help-visible .stapleford-product-help-pop{
+html body.product-page-open.stapleford-product-help-visible #lightbox .stapleford-product-help-pop{
   display:inline-flex !important;
+  visibility:visible !important;
 }
 
 html body .stapleford-product-help-pop__label{
@@ -12271,6 +12274,14 @@ html body .stapleford-product-help-pop__label{
   function isProductOpen(){
     var lightbox = qs('lightbox');
     return !!(document.body && document.body.classList.contains('product-page-open') && lightbox && lightbox.classList.contains('open'));
+  }
+
+  function ensureHelpInsideListing(){
+    var help = qs('staplefordProductHelpPop');
+    var lightbox = qs('lightbox');
+    if(help && lightbox && help.parentElement !== lightbox){
+      lightbox.appendChild(help);
+    }
   }
 
   function cleanText(value){
@@ -12336,6 +12347,7 @@ html body .stapleford-product-help-pop__label{
     RAF = 0;
     if(!document.body) return;
 
+    ensureHelpInsideListing();
     updateHref();
 
     var shouldShow = false;
@@ -12354,6 +12366,7 @@ html body .stapleford-product-help-pop__label{
   function bind(){
     var lightbox = qs('lightbox');
 
+    ensureHelpInsideListing();
     requestUpdate();
     window.setTimeout(requestUpdate, 80);
     window.setTimeout(requestUpdate, 350);
@@ -12378,8 +12391,13 @@ html body .stapleford-product-help-pop__label{
     }
 
     if(window.MutationObserver && document.body){
-      var observer = new MutationObserver(requestUpdate);
-      observer.observe(document.body, { attributes:true, attributeFilter:['class'] });
+      var bodyObserver = new MutationObserver(requestUpdate);
+      bodyObserver.observe(document.body, { attributes:true, attributeFilter:['class'] });
+    }
+
+    if(window.MutationObserver && lightbox){
+      var lightboxObserver = new MutationObserver(requestUpdate);
+      lightboxObserver.observe(lightbox, { attributes:true, attributeFilter:['class'] });
     }
   }
 
