@@ -13175,5 +13175,67 @@ html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec
 </style>
 <!-- STAPLEFORD_ALL_PRODUCTS_SPEC_POPOUT_PREMIUM_BALANCE_END -->
 
+
+<!-- STAPLEFORD_MENU_HOVER_AND_SPEC_SIZE_FIX_START -->
+<style id="stapleford-menu-hover-and-spec-size-fix">
+/* Requested: keep Search, T&Cs and Privacy Policy the same colour/weight on hover. */
+html body .site-menu-search-title:hover,
+html body .site-menu-search-title:focus-visible{
+  color:rgba(0,0,0,.34) !important;
+  opacity:1 !important;
+}
+
+html body .site-menu-primary.menu-page-mode .site-menu-title.site-menu-search-title:not(.is-menu-page-active):hover,
+html body .site-menu-primary.menu-page-mode .site-menu-title.site-menu-search-title:not(.is-menu-page-active):focus-visible{
+  color:rgba(0,0,0,.34) !important;
+  opacity:.42 !important;
+}
+
+html body .site-menu-title.site-menu-legal-title:hover,
+html body .site-menu-title.site-menu-legal-title:focus-visible{
+  color:rgba(0,0,0,.52) !important;
+  opacity:1 !important;
+}
+
+html body .site-menu-primary.menu-page-mode .site-menu-title.site-menu-legal-title:not(.is-menu-page-active):hover,
+html body .site-menu-primary.menu-page-mode .site-menu-title.site-menu-legal-title:not(.is-menu-page-active):focus-visible{
+  color:rgba(0,0,0,.52) !important;
+  opacity:.42 !important;
+}
+
+/* Listing-grid SPEC pop-up only: make HIDE and the spec rows match the visible SPEC button size. */
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-hide,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-hide{
+  font-size:11px !important;
+  line-height:1.15 !important;
+  letter-spacing:0.055em !important;
+}
+
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-label,
+html body:not(.product-page-open) #gallery.grid .card .image.available .spec-value,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-label,
+html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-value{
+  font-size:11px !important;
+  line-height:1.22 !important;
+}
+
+@media (max-width:767px){
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-hide,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-hide{
+    font-size:10px !important;
+    line-height:1.12 !important;
+  }
+
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-label,
+  html body:not(.product-page-open) #gallery.grid .card .image.available .spec-value,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-label,
+  html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-value{
+    font-size:10px !important;
+    line-height:1.14 !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_MENU_HOVER_AND_SPEC_SIZE_FIX_END -->
+
 </body>
 </html>
