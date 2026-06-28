@@ -13418,3 +13418,143 @@ html body .site-menu-page-copy .site-menu-policy p{
 
 </body>
 </html>
+
+
+<!-- STAPLEFORD_FROSTED_GLASS_UI_START -->
+<style id="stapleford-frosted-glass-ui-css">
+/* Frosted / blurry editorial glass treatment for Spec, Enquire and Chat UI. */
+:root{
+  --stapleford-glass-bg:rgba(255,255,255,.18);
+  --stapleford-glass-bg-strong:rgba(255,255,255,.24);
+  --stapleford-glass-border:rgba(255,255,255,.30);
+  --stapleford-glass-text:rgba(16,16,16,.92);
+  --stapleford-glass-blur:32px;
+}
+
+html body .spec-trigger,
+html body .enquire-trigger,
+html body .action-btn,
+html body .lightbox-detail-reopen,
+html body .stapleford-chat-pop,
+html body .stapleford-chat-pop:link,
+html body .stapleford-chat-pop:visited,
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:focus-visible,
+html body .stapleford-chat-pop:active{
+  background:var(--stapleford-glass-bg) !important;
+  background-color:var(--stapleford-glass-bg) !important;
+  color:var(--stapleford-glass-text) !important;
+  border:1px solid var(--stapleford-glass-border) !important;
+  box-shadow:none !important;
+  backdrop-filter:blur(var(--stapleford-glass-blur)) saturate(115%) !important;
+  -webkit-backdrop-filter:blur(var(--stapleford-glass-blur)) saturate(115%) !important;
+  text-shadow:0 1px 12px rgba(255,255,255,.34) !important;
+}
+
+html body .spec-trigger:hover,
+html body .enquire-trigger:hover,
+html body .action-btn:hover,
+html body .lightbox-detail-reopen:hover,
+html body .stapleford-chat-pop:hover,
+html body .stapleford-chat-pop:focus-visible{
+  background:var(--stapleford-glass-bg-strong) !important;
+  background-color:var(--stapleford-glass-bg-strong) !important;
+  transform:none !important;
+  box-shadow:none !important;
+}
+
+html body .spec-overlay,
+html body .enquire-overlay,
+html body .lightbox-detail-panel,
+html body.product-page-open .lightbox.open .lightbox-detail-panel,
+html body .lightbox.open .lightbox-detail-panel{
+  background:rgba(255,255,255,.16) !important;
+  background-color:rgba(255,255,255,.16) !important;
+  color:var(--stapleford-glass-text) !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  box-shadow:none !important;
+  backdrop-filter:blur(38px) saturate(112%) !important;
+  -webkit-backdrop-filter:blur(38px) saturate(112%) !important;
+  text-shadow:0 1px 14px rgba(255,255,255,.30) !important;
+  overflow:hidden !important;
+}
+
+html body .spec-overlay::before,
+html body .enquire-overlay::before,
+html body .lightbox-detail-panel::before,
+html body.product-page-open .lightbox.open .lightbox-detail-panel::before,
+html body .lightbox.open .lightbox-detail-panel::before,
+html body .spec-trigger::before,
+html body .enquire-trigger::before,
+html body .stapleford-chat-pop::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
+  mix-blend-mode:overlay;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.75) 0 1px, transparent 1.2px),
+    radial-gradient(circle at 68% 74%, rgba(0,0,0,.22) 0 .7px, transparent 1px);
+  background-size:6px 6px, 8px 8px;
+}
+
+html body .spec-trigger,
+html body .enquire-trigger,
+html body .stapleford-chat-pop{
+  position:absolute;
+}
+
+html body .stapleford-chat-pop{
+  position:fixed !important;
+  border-radius:2px !important;
+}
+
+html body .spec-trigger > *,
+html body .enquire-trigger > *,
+html body .stapleford-chat-pop > *,
+html body .spec-overlay > *,
+html body .enquire-overlay > *,
+html body .lightbox-detail-panel > *{
+  position:relative;
+  z-index:1;
+}
+
+html body .spec-row,
+html body .lightbox-detail-specs,
+html body .lightbox-detail-spec-toggle,
+html body .lightbox-detail-policy-toggle,
+html body .lightbox-detail-policy-copy{
+  border-color:rgba(0,0,0,.13) !important;
+}
+
+html body .enquire-link-inline,
+html body .lightbox-detail-contact-link,
+html body .lightbox-detail-contact-link:link,
+html body .lightbox-detail-contact-link:visited{
+  color:var(--stapleford-glass-text) !important;
+}
+
+html body .lightbox-detail-contact-link,
+html body .lightbox-detail-contact-link:link,
+html body .lightbox-detail-contact-link:visited{
+  background:rgba(255,255,255,.14) !important;
+  border:1px solid rgba(255,255,255,.26) !important;
+  backdrop-filter:blur(24px) saturate(112%) !important;
+  -webkit-backdrop-filter:blur(24px) saturate(112%) !important;
+  box-shadow:none !important;
+}
+
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  html body .spec-trigger,
+  html body .enquire-trigger,
+  html body .action-btn,
+  html body .stapleford-chat-pop,
+  html body .spec-overlay,
+  html body .enquire-overlay,
+  html body .lightbox-detail-panel{
+    background:rgba(245,245,245,.86) !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_FROSTED_GLASS_UI_END -->
