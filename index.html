@@ -13280,5 +13280,141 @@ html body .site-menu-page-copy{
 </style>
 <!-- STAPLEFORD_MENU_COPY_OPTICAL_ALIGNMENT_END -->
 
+
+
+<!-- STAPLEFORD_MENU_VERTICAL_ALIGNMENT_FINAL_START -->
+<style id="stapleford-menu-vertical-alignment-final-css">
+/* Final menu vertical alignment pass.
+   This removes the previous rightward copy nudge and puts the page copy back
+   on the same mathematical left axis as the menu headings. It also explicitly
+   includes T&Cs and Privacy Policy so those legal headings share the same axis. */
+:root{
+  --stapleford-menu-alignment-left:0px;
+}
+
+html body .site-menu-page-copy,
+html body .site-menu-page-copy[data-menu-copy="about"],
+html body .site-menu-page-copy[data-menu-copy="buy"],
+html body .site-menu-page-copy[data-menu-copy="sell"],
+html body .site-menu-page-copy[data-menu-copy="faqs"],
+html body .site-menu-page-copy[data-menu-copy="contact"],
+html body .site-menu-page-copy[data-menu-copy="search"],
+html body .site-menu-page-copy[data-menu-copy="terms"],
+html body .site-menu-page-copy[data-menu-copy="privacy"]{
+  margin-left:var(--stapleford-menu-alignment-left) !important;
+  width:min(100%, 580px) !important;
+  max-width:580px !important;
+}
+
+html body .site-menu-title.site-menu-legal-title,
+html body .site-menu-title.site-menu-legal-title:link,
+html body .site-menu-title.site-menu-legal-title:visited,
+html body .site-menu-title[data-menu-target="terms"],
+html body .site-menu-title[data-menu-target="terms"]:link,
+html body .site-menu-title[data-menu-target="terms"]:visited,
+html body .site-menu-title[data-menu-target="privacy"],
+html body .site-menu-title[data-menu-target="privacy"]:link,
+html body .site-menu-title[data-menu-target="privacy"]:visited{
+  margin-left:var(--stapleford-menu-alignment-left) !important;
+  padding-left:0 !important;
+  text-indent:0 !important;
+  transform:none !important;
+}
+
+html body .site-menu-page-copy .site-menu-policy,
+html body .site-menu-page-copy .site-menu-policy h2,
+html body .site-menu-page-copy .site-menu-policy h3,
+html body .site-menu-page-copy .site-menu-policy p{
+  margin-left:0 !important;
+  padding-left:0 !important;
+}
+
+@media (max-width:767px){
+  html body .site-menu-page-copy,
+  html body .site-menu-page-copy[data-menu-copy="about"],
+  html body .site-menu-page-copy[data-menu-copy="buy"],
+  html body .site-menu-page-copy[data-menu-copy="sell"],
+  html body .site-menu-page-copy[data-menu-copy="faqs"],
+  html body .site-menu-page-copy[data-menu-copy="contact"],
+  html body .site-menu-page-copy[data-menu-copy="search"],
+  html body .site-menu-page-copy[data-menu-copy="terms"],
+  html body .site-menu-page-copy[data-menu-copy="privacy"]{
+    margin-left:var(--stapleford-menu-alignment-left) !important;
+    width:100% !important;
+    max-width:100% !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_MENU_VERTICAL_ALIGNMENT_FINAL_END -->
+
+
+<!-- STAPLEFORD_MENU_AXIS_MICRO_ALIGNMENT_START -->
+<style id="stapleford-menu-axis-micro-alignment-css">
+/* Micro optical alignment: the previous 0px axis was slightly too far left.
+   This applies a very small rightward nudge to the menu copy and legal links
+   so their visible left edge sits on the same optical axis as the main menu headings. */
+:root{
+  --stapleford-menu-axis-optical-left:clamp(1.5px, 0.22vw, 3px);
+}
+
+html body .site-menu-page-copy,
+html body .site-menu-page-copy[data-menu-copy="about"],
+html body .site-menu-page-copy[data-menu-copy="buy"],
+html body .site-menu-page-copy[data-menu-copy="sell"],
+html body .site-menu-page-copy[data-menu-copy="faqs"],
+html body .site-menu-page-copy[data-menu-copy="contact"],
+html body .site-menu-page-copy[data-menu-copy="search"],
+html body .site-menu-page-copy[data-menu-copy="terms"],
+html body .site-menu-page-copy[data-menu-copy="privacy"]{
+  margin-left:var(--stapleford-menu-axis-optical-left) !important;
+  width:min(calc(100% - var(--stapleford-menu-axis-optical-left)), 580px) !important;
+  max-width:580px !important;
+}
+
+html body .site-menu-title.site-menu-legal-title,
+html body .site-menu-title.site-menu-legal-title:link,
+html body .site-menu-title.site-menu-legal-title:visited,
+html body .site-menu-title[data-menu-target="terms"],
+html body .site-menu-title[data-menu-target="terms"]:link,
+html body .site-menu-title[data-menu-target="terms"]:visited,
+html body .site-menu-title[data-menu-target="privacy"],
+html body .site-menu-title[data-menu-target="privacy"]:link,
+html body .site-menu-title[data-menu-target="privacy"]:visited{
+  margin-left:var(--stapleford-menu-axis-optical-left) !important;
+  padding-left:0 !important;
+  text-indent:0 !important;
+  transform:none !important;
+}
+
+html body .site-menu-page-copy .site-menu-policy,
+html body .site-menu-page-copy .site-menu-policy h2,
+html body .site-menu-page-copy .site-menu-policy h3,
+html body .site-menu-page-copy .site-menu-policy p{
+  margin-left:0 !important;
+  padding-left:0 !important;
+}
+
+@media (max-width:767px){
+  :root{
+    --stapleford-menu-axis-optical-left:clamp(1.25px, 0.65vw, 2.75px);
+  }
+
+  html body .site-menu-page-copy,
+  html body .site-menu-page-copy[data-menu-copy="about"],
+  html body .site-menu-page-copy[data-menu-copy="buy"],
+  html body .site-menu-page-copy[data-menu-copy="sell"],
+  html body .site-menu-page-copy[data-menu-copy="faqs"],
+  html body .site-menu-page-copy[data-menu-copy="contact"],
+  html body .site-menu-page-copy[data-menu-copy="search"],
+  html body .site-menu-page-copy[data-menu-copy="terms"],
+  html body .site-menu-page-copy[data-menu-copy="privacy"]{
+    margin-left:var(--stapleford-menu-axis-optical-left) !important;
+    width:calc(100% - var(--stapleford-menu-axis-optical-left)) !important;
+    max-width:100% !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_MENU_AXIS_MICRO_ALIGNMENT_END -->
+
 </body>
 </html>
