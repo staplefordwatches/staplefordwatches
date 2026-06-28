@@ -13252,5 +13252,33 @@ html body .site-menu-title[data-menu-target="about"]:visited{
 </style>
 <!-- STAPLEFORD_MENU_ABOUT_OPTICAL_ALIGNMENT_END -->
 
+
+<!-- STAPLEFORD_MENU_COPY_OPTICAL_ALIGNMENT_START -->
+<style id="stapleford-menu-copy-optical-alignment-css">
+/* V3 optical correction: moved the menu copy left from the previous version.
+   CSS can align text boxes mathematically, but visible letter ink needs a tiny
+   optical offset because heading and paragraph glyph side-bearings differ. */
+:root{
+  --stapleford-menu-copy-optical-left:clamp(3px, 0.42vw, 5px);
+}
+
+html body .site-menu-page-copy{
+  margin-left:var(--stapleford-menu-copy-optical-left) !important;
+  width:min(calc(100% - var(--stapleford-menu-copy-optical-left)), 580px) !important;
+}
+
+@media (max-width:767px){
+  :root{
+    --stapleford-menu-copy-optical-left:clamp(2px, 1.1vw, 4px);
+  }
+
+  html body .site-menu-page-copy{
+    margin-left:var(--stapleford-menu-copy-optical-left) !important;
+    width:calc(100% - var(--stapleford-menu-copy-optical-left)) !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_MENU_COPY_OPTICAL_ALIGNMENT_END -->
+
 </body>
 </html>
