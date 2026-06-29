@@ -131,7 +131,7 @@
   --product-action-rail:var(--listing-copy-rail);
   --menu-toggle-size:40px;
   --menu-icon-width:24px;
-  --menu-icon-hit-offset:8px;
+  --menu-icon-hit-offset:calc((var(--menu-toggle-size) - var(--menu-icon-width)) / 2);
   --menu-toggle-left:calc(var(--listing-copy-rail) - var(--menu-icon-hit-offset));
 }
 
@@ -380,7 +380,7 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
-  padding:12px;
+  padding:12px var(--product-action-rail);
   opacity:0;
   transform:translateY(10px);
   transition:opacity 0.25s ease, transform 0.25s ease;
@@ -485,7 +485,7 @@ body{
     font-size:10px;
     padding:7px 9px;
   }.spec-overlay{
-    padding:10px;
+    padding:10px var(--product-action-rail);
   }.spec-list, .spec-hide{
     font-size:10px;
   }.enquire-trigger{
@@ -5954,8 +5954,9 @@ html body .lightbox-detail-policy-copy p strong{
 
 /* TWO-LINE MENU: full menu page slides down, icon toggles into an X */
 .site-header{
-  width:min(100vw,var(--max-width));
-  margin:8px auto 0;
+  width:100%;
+  max-width:none;
+  margin:8px 0 0;
   position:relative;
   display:flex;
   align-items:center;
@@ -6045,7 +6046,7 @@ body.site-menu-open{
   background:#fff;
   color:#000;
   z-index:1000000;
-  padding:78px max(var(--listing-copy-rail), calc((100vw - var(--max-width)) / 2 + var(--listing-copy-rail))) 30px;
+  padding:78px var(--listing-copy-rail) 30px;
   overflow:auto;
   -webkit-overflow-scrolling:touch;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
@@ -6180,7 +6181,7 @@ body.site-menu-open .menu-toggle-icon span:last-child{
 }
 
 .site-menu-page{
-  padding:0 max(var(--listing-copy-rail), calc((100vw - var(--max-width)) / 2 + var(--listing-copy-rail))) !important;
+  padding:0 var(--listing-copy-rail) !important;
 }
 
 .site-menu-scroll{
@@ -6242,7 +6243,7 @@ body.site-menu-open .menu-toggle-icon span:last-child{
 <style id="stapleford-menu-v10-own-page-scroll-css">
 /* V10: real menu page state. Body scrolls, header scrolls away, no fixed overlay/inner scroll. */
 :root{
-  --site-menu-rail:max(var(--listing-copy-rail), calc((100vw - var(--max-width)) / 2 + var(--listing-copy-rail)));
+  --site-menu-rail:var(--listing-copy-rail);
   --site-menu-right-pad:max(22px, calc((100vw - var(--max-width)) / 2 + 22px));
   --site-menu-top-space:clamp(56px, 10vh, 104px);
   --site-menu-bottom-space:max(120px, calc(96px + env(safe-area-inset-bottom, 0px)));
@@ -6274,8 +6275,9 @@ body.site-menu-open > :not(.site-header):not(.site-menu-page):not(script):not(st
 }
 
 .site-header{
-  width:min(100vw,var(--max-width));
-  margin:8px auto 0;
+  width:100%;
+  max-width:none;
+  margin:8px 0 0;
   position:relative;
   display:flex;
   align-items:center;
@@ -6289,8 +6291,9 @@ body.site-menu-open .site-header{
   top:auto !important;
   left:auto !important;
   right:auto !important;
-  width:min(100vw,var(--max-width)) !important;
-  margin:8px auto 0 !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:8px 0 0 !important;
   transform:none !important;
   z-index:20 !important;
   background:#fff !important;
@@ -12449,7 +12452,7 @@ html body .image.available .spec-overlay{
   justify-content:center !important;
   align-items:stretch !important;
   overflow:hidden !important;
-  padding:12px !important;
+  padding:12px var(--product-action-rail) !important;
   touch-action:none !important;
   overscroll-behavior:none !important;
   -webkit-overflow-scrolling:auto !important;
@@ -12522,7 +12525,7 @@ html body .image.available .spec-value{
 @media (max-width:767px){
   html body #gallery.grid .image.available .spec-overlay,
   html body .image.available .spec-overlay{
-    padding:10px !important;
+    padding:10px var(--product-action-rail) !important;
   }
   html body #gallery.grid .image.available .spec-list,
   html body .image.available .spec-list{
@@ -12701,7 +12704,7 @@ html body .image.available .spec-overlay{
   overflow-y:auto !important;
   max-height:100% !important;
   min-height:0 !important;
-  padding:12px !important;
+  padding:12px var(--product-action-rail) !important;
   touch-action:pan-y !important;
   overscroll-behavior:contain !important;
   -webkit-overflow-scrolling:touch !important;
@@ -12768,7 +12771,7 @@ html body .site-menu-page-copy a.site-menu-contact-inline-link:active{
 @media (max-width:767px){
   html body #gallery.grid .image.available .spec-overlay,
   html body .image.available .spec-overlay{
-    padding:10px !important;
+    padding:10px var(--product-action-rail) !important;
   }
   html body #gallery.grid .image.available .spec-row,
   html body .image.available .spec-row{
@@ -12845,7 +12848,7 @@ html body .image.available.show-spec .spec-row{
 html body #gallery.grid .card .image.available.show-spec .spec-overlay{
   justify-content:flex-start !important;
   align-items:stretch !important;
-  padding:8px 10px !important;
+  padding:8px var(--product-action-rail) !important;
   overflow:hidden !important;
   max-height:100% !important;
   min-height:0 !important;
@@ -12903,7 +12906,7 @@ html body #gallery.grid .card .image.available.show-spec .spec-value{
 
 @media (max-width:767px){
   html body #gallery.grid .card .image.available.show-spec .spec-overlay{
-    padding:7px 8px !important;
+    padding:7px var(--product-action-rail) !important;
   }
 
   html body #gallery.grid .card .image.available.show-spec .spec-overlay .spec-hide{
@@ -12941,7 +12944,7 @@ html body:not(.product-page-open) #gallery.grid .card .image.available .spec-ove
 html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-overlay{
   justify-content:flex-start !important;
   align-items:stretch !important;
-  padding:6px 8px !important;
+  padding:6px var(--product-action-rail) !important;
   overflow:hidden !important;
   max-height:100% !important;
   min-height:0 !important;
@@ -13012,7 +13015,7 @@ html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec
 @media (max-width:767px){
   html body:not(.product-page-open) #gallery.grid .card .image.available .spec-overlay,
   html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-overlay{
-    padding:5px 6px !important;
+    padding:5px var(--product-action-rail) !important;
   }
 
   html body:not(.product-page-open) #gallery.grid .card .image.available .spec-hide,
@@ -13053,7 +13056,7 @@ html body:not(.product-page-open) #gallery.grid .card .image.available .spec-ove
 html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-overlay{
   justify-content:flex-start !important;
   align-items:stretch !important;
-  padding:12px 13px !important;
+  padding:12px var(--product-action-rail) !important;
   overflow:hidden !important;
   max-height:100% !important;
   min-height:0 !important;
@@ -13138,7 +13141,7 @@ html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec
 @media (max-width:767px){
   html body:not(.product-page-open) #gallery.grid .card .image.available .spec-overlay,
   html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec .spec-overlay{
-    padding:9px 10px !important;
+    padding:9px var(--product-action-rail) !important;
   }
 
   html body:not(.product-page-open) #gallery.grid .card .image.available .spec-hide,
