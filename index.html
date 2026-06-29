@@ -127,6 +127,11 @@
 :root{
   --gap:2px;
   --max-width:935px;
+  --listing-copy-rail:12px;
+  --menu-toggle-size:40px;
+  --menu-icon-width:24px;
+  --menu-icon-hit-offset:8px;
+  --menu-toggle-left:calc(var(--listing-copy-rail) - var(--menu-icon-hit-offset));
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -229,7 +234,7 @@ body{
 .info{
   display:flex;
   justify-content:space-between;
-  padding:6px;
+  padding:6px var(--listing-copy-rail);
   font-size:12px;
 }
 
@@ -5976,11 +5981,11 @@ html body .lightbox-detail-policy-copy p strong{
 
 .menu-toggle{
   position:absolute;
-  left:6px;
+  left:var(--menu-toggle-left);
   top:50%;
   transform:translateY(-50%);
-  width:40px;
-  height:40px;
+  width:var(--menu-toggle-size);
+  height:var(--menu-toggle-size);
   border:0;
   background:transparent;
   color:#000;
@@ -5999,7 +6004,7 @@ html body .lightbox-detail-policy-copy p strong{
 .menu-toggle-icon{
   position:relative;
   display:block;
-  width:24px;
+  width:var(--menu-icon-width);
   height:14px;
 }
 
@@ -6007,7 +6012,7 @@ html body .lightbox-detail-policy-copy p strong{
   position:absolute;
   left:0;
   display:block;
-  width:24px;
+  width:var(--menu-icon-width);
   height:3px;
   background:currentColor;
   border-radius:0;
@@ -6048,7 +6053,7 @@ body.site-menu-open{
   background:#fff;
   color:#000;
   z-index:1000000;
-  padding:78px max(12px, calc((100vw - var(--max-width)) / 2 + 6px)) 30px;
+  padding:78px max(var(--listing-copy-rail), calc((100vw - var(--max-width)) / 2 + var(--listing-copy-rail))) 30px;
   overflow:auto;
   -webkit-overflow-scrolling:touch;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
@@ -6111,14 +6116,14 @@ body.site-menu-open .site-menu-page{
 
 @media (max-width:767px){
   .menu-toggle{
-    left:12px;
-    width:40px;
-    height:40px;
+    left:var(--menu-toggle-left);
+    width:var(--menu-toggle-size);
+    height:var(--menu-toggle-size);
   }
 
   .menu-toggle-icon,
   .menu-toggle-icon span{
-    width:24px;
+    width:var(--menu-icon-width);
   }
 
   .site-menu-page{
@@ -6145,22 +6150,22 @@ body.site-menu-open .site-menu-page{
 }
 
 
-/* REFINEMENT: keep icon in original left position, remove bounce, centre menu headings */
+/* REFINEMENT: keep the menu icon on the shared brand rail, remove bounce, centre menu headings */
 .menu-toggle{
-  left:6px !important;
+  left:var(--menu-toggle-left) !important;
   top:50% !important;
   transform:translateY(-50%) !important;
 }
 
 .menu-toggle-icon{
-  width:24px !important;
+  width:var(--menu-icon-width) !important;
   height:18px !important;
 }
 
 .menu-toggle-icon span{
   top:50% !important;
   margin-top:-1.5px !important;
-  width:24px !important;
+  width:var(--menu-icon-width) !important;
   height:3px !important;
   transition:transform 180ms ease !important;
   will-change:transform;
@@ -6183,7 +6188,7 @@ body.site-menu-open .menu-toggle-icon span:last-child{
 }
 
 .site-menu-page{
-  padding:0 max(18px, calc((100vw - var(--max-width)) / 2 + 6px)) !important;
+  padding:0 max(var(--listing-copy-rail), calc((100vw - var(--max-width)) / 2 + var(--listing-copy-rail))) !important;
 }
 
 .site-menu-scroll{
@@ -6213,7 +6218,7 @@ body.site-menu-open .menu-toggle-icon span:last-child{
 
 @media (max-width:767px){
   .menu-toggle{
-    left:12px !important;
+    left:var(--menu-toggle-left) !important;
   }
 
   .site-menu-page{
@@ -6245,7 +6250,7 @@ body.site-menu-open .menu-toggle-icon span:last-child{
 <style id="stapleford-menu-v10-own-page-scroll-css">
 /* V10: real menu page state. Body scrolls, header scrolls away, no fixed overlay/inner scroll. */
 :root{
-  --site-menu-rail:max(14px, calc((100vw - var(--max-width)) / 2 + 14px));
+  --site-menu-rail:max(var(--listing-copy-rail), calc((100vw - var(--max-width)) / 2 + var(--listing-copy-rail)));
   --site-menu-right-pad:max(22px, calc((100vw - var(--max-width)) / 2 + 22px));
   --site-menu-top-space:clamp(56px, 10vh, 104px);
   --site-menu-bottom-space:max(120px, calc(96px + env(safe-area-inset-bottom, 0px)));
@@ -6311,10 +6316,10 @@ body.site-menu-open .site-header .logo{
 }
 
 .menu-toggle{
-  left:6px !important;
+  left:var(--menu-toggle-left) !important;
   top:50% !important;
-  width:40px !important;
-  height:40px !important;
+  width:var(--menu-toggle-size) !important;
+  height:var(--menu-toggle-size) !important;
   padding:0 !important;
   margin:0 !important;
   transform:translateY(-50%) !important;
@@ -6342,7 +6347,7 @@ body.site-menu-open .site-header .logo{
 .menu-toggle-icon{
   position:relative !important;
   display:block !important;
-  width:24px !important;
+  width:var(--menu-icon-width) !important;
   height:18px !important;
   transform:none !important;
 }
@@ -6351,7 +6356,7 @@ body.site-menu-open .site-header .logo{
   position:absolute !important;
   left:0 !important;
   top:50% !important;
-  width:24px !important;
+  width:var(--menu-icon-width) !important;
   height:3px !important;
   margin-top:-1.5px !important;
   background:#000 !important;
@@ -6499,7 +6504,7 @@ body.site-menu-open .site-menu-primary{
   }
 
   .menu-toggle{
-    left:12px !important;
+    left:var(--menu-toggle-left) !important;
   }
 
   .site-menu-title,
