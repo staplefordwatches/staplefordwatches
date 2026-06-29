@@ -6681,29 +6681,27 @@ html body .site-menu-status-filter span{
 <!-- STAPLEFORD_PAYMENT_METHODS_START -->
 <style id="stapleford-payment-methods-css">
 html body .stapleford-payments{
-  width:min(100vw,var(--max-width,935px)) !important;
-  margin:28px auto 0 !important;
-  padding:0 6px !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:28px 0 0 !important;
+  padding:16px max(6px, calc((100vw - var(--max-width,935px)) / 2 + 6px)) 14px !important;
   box-sizing:border-box !important;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
   color:#000 !important;
   text-align:left !important;
   flex:0 0 auto !important;
+  background:#eeeeee !important;
 }
 
 html body .stapleford-payments__rule{
-  display:block !important;
-  width:100% !important;
-  height:1px !important;
-  margin:0 0 12px !important;
-  background:rgba(0,0,0,.10) !important;
+  display:none !important;
 }
 
 html body .stapleford-payments__title{
   margin:0 0 8px !important;
   padding:0 !important;
   font-family:"Sweet Sans Pro", Arial, sans-serif !important;
-  font-size:12px !important;
+  font-size:11px !important;
   line-height:1.25 !important;
   font-weight:500 !important;
   letter-spacing:.04em !important;
@@ -6730,45 +6728,52 @@ html body .stapleford-payments__item{
 }
 
 html body .stapleford-payments__tile{
-  width:72px !important;
-  min-height:32px !important;
+  width:62px !important;
+  min-width:62px !important;
+  max-width:62px !important;
+  height:30px !important;
+  min-height:30px !important;
+  max-height:30px !important;
   display:flex !important;
   align-items:center !important;
   justify-content:center !important;
-  padding:5px 7px !important;
+  padding:0 !important;
   border:1px solid rgba(0,0,0,.13) !important;
-  border-radius:4px !important;
+  border-radius:3px !important;
   background:#fff !important;
   color:#000 !important;
   box-shadow:none !important;
-  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
   box-sizing:border-box !important;
+  overflow:hidden !important;
 }
 
 html body .stapleford-payments__brand{
   display:inline-flex !important;
   align-items:center !important;
   justify-content:center !important;
-  gap:4px !important;
   width:100% !important;
+  height:100% !important;
   color:#000 !important;
   text-align:center !important;
   white-space:nowrap !important;
 }
 
 html body .stapleford-payments__visa{
-  font-size:16px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:14px !important;
   line-height:1 !important;
   font-weight:700 !important;
   letter-spacing:-.08em !important;
   font-style:italic !important;
   text-transform:uppercase !important;
+  transform:skew(-7deg) !important;
 }
 
 html body .stapleford-payments__mc{
   flex-direction:column !important;
   gap:1px !important;
-  font-size:7px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:6px !important;
   line-height:1 !important;
   font-weight:400 !important;
   letter-spacing:.01em !important;
@@ -6778,8 +6783,8 @@ html body .stapleford-payments__mc{
 html body .stapleford-payments__mc-mark{
   position:relative !important;
   display:block !important;
-  width:27px !important;
-  height:15px !important;
+  width:24px !important;
+  height:13px !important;
 }
 
 html body .stapleford-payments__mc-mark::before,
@@ -6787,8 +6792,8 @@ html body .stapleford-payments__mc-mark::after{
   content:"" !important;
   position:absolute !important;
   top:0 !important;
-  width:15px !important;
-  height:15px !important;
+  width:13px !important;
+  height:13px !important;
   border-radius:999px !important;
   background:#000 !important;
   opacity:.88 !important;
@@ -6804,82 +6809,104 @@ html body .stapleford-payments__mc-mark::after{
 }
 
 html body .stapleford-payments__amex{
-  width:34px !important;
-  height:20px !important;
+  width:30px !important;
+  height:17px !important;
   display:flex !important;
   align-items:center !important;
   justify-content:center !important;
   background:#000 !important;
   color:#fff !important;
-  font-size:7px !important;
+  font-family:Arial, Helvetica, sans-serif !important;
+  font-size:6.5px !important;
   line-height:.92 !important;
   font-weight:700 !important;
   letter-spacing:-.04em !important;
   text-transform:uppercase !important;
 }
 
-html body .stapleford-payments__wallet{
-  font-size:14px !important;
+html body .stapleford-payments__applepay,
+html body .stapleford-payments__gpay{
+  gap:3px !important;
   line-height:1 !important;
-  font-weight:400 !important;
-  letter-spacing:-.03em !important;
+  letter-spacing:0 !important;
   text-transform:none !important;
+  font-synthesis:none !important;
 }
 
-html body .stapleford-payments__wallet-mark{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  width:14px !important;
-  height:14px !important;
-  font-family:Arial, sans-serif !important;
-  font-size:14px !important;
+html body .stapleford-payments__applepay{
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+  font-size:15px !important;
+  font-weight:500 !important;
+}
+
+html body .stapleford-payments__apple-symbol{
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+  font-size:16px !important;
   line-height:1 !important;
-  font-weight:700 !important;
+  font-weight:500 !important;
+  transform:translateY(-.5px) !important;
 }
 
-html body .stapleford-payments__gpay .stapleford-payments__wallet-mark{
+html body .stapleford-payments__apple-pay-text{
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+  font-size:15px !important;
+  line-height:1 !important;
+  font-weight:500 !important;
+  letter-spacing:-.02em !important;
+}
+
+html body .stapleford-payments__gpay{
+  font-family:"Google Sans", "Product Sans", Arial, Helvetica, sans-serif !important;
+  font-size:14px !important;
+  font-weight:500 !important;
+}
+
+html body .stapleford-payments__gpay-g{
+  font-family:"Google Sans", "Product Sans", Arial, Helvetica, sans-serif !important;
   font-size:15px !important;
   font-weight:700 !important;
+  line-height:1 !important;
 }
 
-html body .stapleford-payments__card svg{
-  width:30px !important;
-  height:21px !important;
-  display:block !important;
-  fill:none !important;
-  stroke:currentColor !important;
-  stroke-width:1.8 !important;
-  stroke-linecap:round !important;
-  stroke-linejoin:round !important;
+html body .stapleford-payments__gpay-text{
+  font-family:"Google Sans", "Product Sans", Arial, Helvetica, sans-serif !important;
+  font-size:14px !important;
+  font-weight:500 !important;
+  line-height:1 !important;
+  letter-spacing:-.03em !important;
 }
 
-html body .stapleford-payments__support{
-  margin:8px 0 0 !important;
-  font-family:"Sweet Sans Pro", Arial, sans-serif !important;
-  font-size:10px !important;
-  line-height:1.45 !important;
-  font-weight:400 !important;
-  letter-spacing:.02em !important;
-  text-transform:none !important;
-  color:#000 !important;
-  opacity:.58 !important;
-  text-align:left !important;
+html body .stapleford-payments__support,
+html body .stapleford-payments__card{
+  display:none !important;
+}
+
+html body .site-footer{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:#eeeeee !important;
+}
+
+html body .site-footer .footer-inner{
+  width:min(100vw,var(--max-width,935px)) !important;
+  min-height:14px !important;
+  margin:0 auto !important;
+  padding:0 6px !important;
+  box-sizing:border-box !important;
+  background:transparent !important;
 }
 
 @media (max-width:767px){
   html body .stapleford-payments{
     margin-top:24px !important;
-    padding:0 6px !important;
-  }
-
-  html body .stapleford-payments__rule{
-    margin-bottom:10px !important;
+    padding:14px 6px 12px !important;
   }
 
   html body .stapleford-payments__title{
     margin-bottom:8px !important;
-    font-size:12px !important;
+    font-size:11px !important;
     letter-spacing:.04em !important;
   }
 
@@ -6888,32 +6915,42 @@ html body .stapleford-payments__support{
   }
 
   html body .stapleford-payments__tile{
-    width:64px !important;
-    min-width:64px !important;
-    max-width:64px !important;
-    min-height:30px !important;
-    padding:5px 6px !important;
-    border-radius:4px !important;
+    width:58px !important;
+    min-width:58px !important;
+    max-width:58px !important;
+    height:28px !important;
+    min-height:28px !important;
+    max-height:28px !important;
+    border-radius:3px !important;
   }
 
   html body .stapleford-payments__visa{
-    font-size:14px !important;
-  }
-
-  html body .stapleford-payments__wallet{
     font-size:13px !important;
   }
 
-  html body .stapleford-payments__support{
-    font-size:10px !important;
+  html body .stapleford-payments__applepay{
+    font-size:14px !important;
+  }
+
+  html body .stapleford-payments__apple-symbol{
+    font-size:15px !important;
+  }
+
+  html body .stapleford-payments__apple-pay-text,
+  html body .stapleford-payments__gpay-text{
+    font-size:13px !important;
+  }
+
+  html body .stapleford-payments__gpay-g{
+    font-size:14px !important;
   }
 }
 
 @media (max-width:380px){
   html body .stapleford-payments__tile{
-    width:60px !important;
-    min-width:60px !important;
-    max-width:60px !important;
+    width:56px !important;
+    min-width:56px !important;
+    max-width:56px !important;
   }
 }
 </style>
@@ -7487,7 +7524,6 @@ html body .lightbox.open .lightbox-detail-contents-copy{
 <div class="no-results" hidden="" id="noResults">No watches found</div>
 </main>
 <section class="stapleford-payments" aria-labelledby="staplefordPaymentsTitle">
-  <span class="stapleford-payments__rule" aria-hidden="true"></span>
   <h2 class="stapleford-payments__title" id="staplefordPaymentsTitle">Stapleford Watches Accepts</h2>
   <ul class="stapleford-payments__list" aria-label="Accepted payment methods">
     <li class="stapleford-payments__item">
@@ -7510,28 +7546,15 @@ html body .lightbox.open .lightbox-detail-contents-copy{
     </li>
     <li class="stapleford-payments__item">
       <span class="stapleford-payments__tile" aria-label="Apple Pay">
-        <span class="stapleford-payments__brand stapleford-payments__wallet" aria-hidden="true"><span class="stapleford-payments__wallet-mark"></span><span>Pay</span></span>
+        <span class="stapleford-payments__brand stapleford-payments__applepay" aria-hidden="true"><span class="stapleford-payments__apple-symbol"></span><span class="stapleford-payments__apple-pay-text">Pay</span></span>
       </span>
     </li>
     <li class="stapleford-payments__item">
       <span class="stapleford-payments__tile" aria-label="Google Pay">
-        <span class="stapleford-payments__brand stapleford-payments__wallet stapleford-payments__gpay" aria-hidden="true"><span class="stapleford-payments__wallet-mark">G</span><span>Pay</span></span>
-      </span>
-    </li>
-    <li class="stapleford-payments__item">
-      <span class="stapleford-payments__tile" aria-label="Secure card payment">
-        <span class="stapleford-payments__brand stapleford-payments__card" aria-hidden="true">
-          <svg viewBox="0 0 64 44" focusable="false" role="img">
-            <rect x="5" y="8" width="54" height="32" rx="5"></rect>
-            <path d="M5 17h54"></path>
-            <path d="M13 31h13"></path>
-            <path d="M44 31h7"></path>
-          </svg>
-        </span>
+        <span class="stapleford-payments__brand stapleford-payments__gpay" aria-hidden="true"><span class="stapleford-payments__gpay-g">G</span><span class="stapleford-payments__gpay-text">Pay</span></span>
       </span>
     </li>
   </ul>
-  <p class="stapleford-payments__support">Secure online card and wallet payments are processed through Stripe Checkout.</p>
 </section>
 <footer class="site-footer" aria-label="Site footer">
 <div class="footer-inner"></div>
@@ -13704,6 +13727,38 @@ html body .site-menu-page-copy .site-menu-policy p{
 }
 </style>
 <!-- STAPLEFORD_MENU_AXIS_MICRO_ALIGNMENT_END -->
+
+
+<!-- STAPLEFORD_FULL_WIDTH_FOOTER_FILL_FIX_START -->
+<style id="stapleford-full-width-footer-fill-fix-css">
+/* Keep the payment/footer area as one grey block and remove the white strip below it. */
+html body .stapleford-payments{
+  margin-bottom:0 !important;
+  background:#eeeeee !important;
+}
+
+html body > footer.site-footer{
+  width:100vw !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 6px calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+  box-sizing:border-box !important;
+  background:#eeeeee !important;
+  color:#000 !important;
+}
+
+html body > footer.site-footer .footer-inner{
+  background:transparent !important;
+}
+
+@media (max-width:767px){
+  html body > footer.site-footer{
+    margin:0 !important;
+    padding:0 6px calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+</style>
+<!-- STAPLEFORD_FULL_WIDTH_FOOTER_FILL_FIX_END -->
 
 </body>
 </html>
