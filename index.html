@@ -13240,56 +13240,38 @@ html body:not(.product-page-open) #gallery.grid .card .image.available.show-spec
 <!-- STAPLEFORD_MENU_HOVER_AND_SPEC_SIZE_FIX_END -->
 
 
-<!-- STAPLEFORD_MENU_ABOUT_OPTICAL_ALIGNMENT_START -->
-<style id="stapleford-menu-about-optical-alignment-css">
-/* Optical correction: the Sweet Sans Pro capital A has a wider/diagonal left edge,
-   so ABOUT is nudged slightly right to visually align with the other menu headings. */
-html body .site-menu-title[data-menu-target="about"],
-html body .site-menu-title[data-menu-target="about"]:link,
-html body .site-menu-title[data-menu-target="about"]:visited{
-  padding-left:0.055em !important;
-}
-</style>
-<!-- STAPLEFORD_MENU_ABOUT_OPTICAL_ALIGNMENT_END -->
 
 
-<!-- STAPLEFORD_MENU_COPY_OPTICAL_ALIGNMENT_START -->
-<style id="stapleford-menu-copy-optical-alignment-css">
-/* V3 optical correction: moved the menu copy left from the previous version.
-   CSS can align text boxes mathematically, but visible letter ink needs a tiny
-   optical offset because heading and paragraph glyph side-bearings differ. */
-:root{
-  --stapleford-menu-copy-optical-left:clamp(3px, 0.42vw, 5px);
-}
 
-html body .site-menu-page-copy{
-  margin-left:var(--stapleford-menu-copy-optical-left) !important;
-  width:min(calc(100% - var(--stapleford-menu-copy-optical-left)), 580px) !important;
-}
 
-@media (max-width:767px){
-  :root{
-    --stapleford-menu-copy-optical-left:clamp(2px, 1.1vw, 4px);
-  }
 
-  html body .site-menu-page-copy{
-    margin-left:var(--stapleford-menu-copy-optical-left) !important;
-    width:calc(100% - var(--stapleford-menu-copy-optical-left)) !important;
-  }
-}
-</style>
-<!-- STAPLEFORD_MENU_COPY_OPTICAL_ALIGNMENT_END -->
+
 
 
 
 <!-- STAPLEFORD_MENU_VERTICAL_ALIGNMENT_FINAL_START -->
 <style id="stapleford-menu-vertical-alignment-final-css">
-/* Final menu vertical alignment pass.
-   This removes the previous rightward copy nudge and puts the page copy back
-   on the same mathematical left axis as the menu headings. It also explicitly
-   includes T&Cs and Privacy Policy so those legal headings share the same axis. */
+/* Menu visual text-axis alignment.
+   Headings and page copy share one restrained optical rail. The earlier
+   correction was too strong, so this keeps only a small glyph compensation
+   rather than pushing the copy past the visible heading edge. */
 :root{
-  --stapleford-menu-alignment-left:0px;
+  --stapleford-menu-heading-size:clamp(42px, 8.2vw, 86px);
+  --stapleford-menu-heading-ink-offset:clamp(3px, calc(var(--stapleford-menu-heading-size) * 0.055), 5px);
+  --stapleford-menu-about-optical-nudge:0.055em;
+  --stapleford-menu-alignment-left:var(--stapleford-menu-heading-ink-offset);
+}
+
+html body .site-menu-title,
+html body .site-menu-title:link,
+html body .site-menu-title:visited{
+  font-size:var(--stapleford-menu-heading-size) !important;
+}
+
+html body .site-menu-title[data-menu-target="about"],
+html body .site-menu-title[data-menu-target="about"]:link,
+html body .site-menu-title[data-menu-target="about"]:visited{
+  padding-left:var(--stapleford-menu-about-optical-nudge) !important;
 }
 
 html body .site-menu-page-copy,
@@ -13302,8 +13284,8 @@ html body .site-menu-page-copy[data-menu-copy="search"],
 html body .site-menu-page-copy[data-menu-copy="terms"],
 html body .site-menu-page-copy[data-menu-copy="privacy"]{
   margin-left:var(--stapleford-menu-alignment-left) !important;
-  width:min(100%, 580px) !important;
-  max-width:580px !important;
+  width:min(calc(100% - var(--stapleford-menu-alignment-left)), 580px) !important;
+  max-width:min(calc(100% - var(--stapleford-menu-alignment-left)), 580px) !important;
 }
 
 html body .site-menu-title.site-menu-legal-title,
@@ -13315,10 +13297,8 @@ html body .site-menu-title[data-menu-target="terms"]:visited,
 html body .site-menu-title[data-menu-target="privacy"],
 html body .site-menu-title[data-menu-target="privacy"]:link,
 html body .site-menu-title[data-menu-target="privacy"]:visited{
-  margin-left:var(--stapleford-menu-alignment-left) !important;
   padding-left:0 !important;
   text-indent:0 !important;
-  transform:none !important;
 }
 
 html body .site-menu-page-copy .site-menu-policy,
@@ -13330,6 +13310,11 @@ html body .site-menu-page-copy .site-menu-policy p{
 }
 
 @media (max-width:767px){
+  :root{
+    --stapleford-menu-heading-size:clamp(42px, 13.8vw, 64px);
+    --stapleford-menu-heading-ink-offset:clamp(2px, calc(var(--stapleford-menu-heading-size) * 0.055), 4px);
+  }
+
   html body .site-menu-page-copy,
   html body .site-menu-page-copy[data-menu-copy="about"],
   html body .site-menu-page-copy[data-menu-copy="buy"],
@@ -13340,81 +13325,16 @@ html body .site-menu-page-copy .site-menu-policy p{
   html body .site-menu-page-copy[data-menu-copy="terms"],
   html body .site-menu-page-copy[data-menu-copy="privacy"]{
     margin-left:var(--stapleford-menu-alignment-left) !important;
-    width:100% !important;
-    max-width:100% !important;
+    width:calc(100% - var(--stapleford-menu-alignment-left)) !important;
+    max-width:calc(100% - var(--stapleford-menu-alignment-left)) !important;
   }
 }
 </style>
 <!-- STAPLEFORD_MENU_VERTICAL_ALIGNMENT_FINAL_END -->
 
 
-<!-- STAPLEFORD_MENU_AXIS_MICRO_ALIGNMENT_START -->
-<style id="stapleford-menu-axis-micro-alignment-css">
-/* Micro optical alignment: the previous 0px axis was slightly too far left.
-   This applies a very small rightward nudge to the menu copy and legal links
-   so their visible left edge sits on the same optical axis as the main menu headings. */
-:root{
-  --stapleford-menu-axis-optical-left:clamp(1.5px, 0.22vw, 3px);
-}
 
-html body .site-menu-page-copy,
-html body .site-menu-page-copy[data-menu-copy="about"],
-html body .site-menu-page-copy[data-menu-copy="buy"],
-html body .site-menu-page-copy[data-menu-copy="sell"],
-html body .site-menu-page-copy[data-menu-copy="faqs"],
-html body .site-menu-page-copy[data-menu-copy="contact"],
-html body .site-menu-page-copy[data-menu-copy="search"],
-html body .site-menu-page-copy[data-menu-copy="terms"],
-html body .site-menu-page-copy[data-menu-copy="privacy"]{
-  margin-left:var(--stapleford-menu-axis-optical-left) !important;
-  width:min(calc(100% - var(--stapleford-menu-axis-optical-left)), 580px) !important;
-  max-width:580px !important;
-}
 
-html body .site-menu-title.site-menu-legal-title,
-html body .site-menu-title.site-menu-legal-title:link,
-html body .site-menu-title.site-menu-legal-title:visited,
-html body .site-menu-title[data-menu-target="terms"],
-html body .site-menu-title[data-menu-target="terms"]:link,
-html body .site-menu-title[data-menu-target="terms"]:visited,
-html body .site-menu-title[data-menu-target="privacy"],
-html body .site-menu-title[data-menu-target="privacy"]:link,
-html body .site-menu-title[data-menu-target="privacy"]:visited{
-  margin-left:var(--stapleford-menu-axis-optical-left) !important;
-  padding-left:0 !important;
-  text-indent:0 !important;
-  transform:none !important;
-}
-
-html body .site-menu-page-copy .site-menu-policy,
-html body .site-menu-page-copy .site-menu-policy h2,
-html body .site-menu-page-copy .site-menu-policy h3,
-html body .site-menu-page-copy .site-menu-policy p{
-  margin-left:0 !important;
-  padding-left:0 !important;
-}
-
-@media (max-width:767px){
-  :root{
-    --stapleford-menu-axis-optical-left:clamp(1.25px, 0.65vw, 2.75px);
-  }
-
-  html body .site-menu-page-copy,
-  html body .site-menu-page-copy[data-menu-copy="about"],
-  html body .site-menu-page-copy[data-menu-copy="buy"],
-  html body .site-menu-page-copy[data-menu-copy="sell"],
-  html body .site-menu-page-copy[data-menu-copy="faqs"],
-  html body .site-menu-page-copy[data-menu-copy="contact"],
-  html body .site-menu-page-copy[data-menu-copy="search"],
-  html body .site-menu-page-copy[data-menu-copy="terms"],
-  html body .site-menu-page-copy[data-menu-copy="privacy"]{
-    margin-left:var(--stapleford-menu-axis-optical-left) !important;
-    width:calc(100% - var(--stapleford-menu-axis-optical-left)) !important;
-    max-width:100% !important;
-  }
-}
-</style>
-<!-- STAPLEFORD_MENU_AXIS_MICRO_ALIGNMENT_END -->
 
 </body>
 </html>
