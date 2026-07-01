@@ -73,6 +73,7 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
   let activeImages = [];
   let activeImageIndex = 0;
   let activeTouchX = null;
+  let helpPopFrame = 0;
   let loadPromise = null;
 
   const REF_FIELDS = ['reference','ref','referenceNumber','referenceNo','reference number','modelReference','modelRef','model reference','watch reference','manufacturer reference','mpn','Reference','Reference Number','Reference No','Model Reference','MPN'];
@@ -432,7 +433,7 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
     if(lightbox){ lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden','false'); lightbox.scrollTop = 0; }
     document.body.classList.add('product-page-open');
     document.body.style.overflow = 'hidden';
-    updateHelpPop();
+    scheduleHelpPopUpdate();
     if(updateUrl) setProductUrl(watch);
     document.dispatchEvent(new CustomEvent('stapleford:product-opened'));
   }
@@ -526,15 +527,34 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
 
   function menuPrimary(){ return menu && menu.querySelector('.site-menu-primary'); }
   let menuOverflowRaf = 0;
+  let menuPhotoEdgeOffset = 0;
+  function menuPhotoEdgeTop(){
+    const candidates = [
+      document.body.classList.contains('product-page-open') ? document.querySelector('#lightbox .lightbox-image-wrap') : null,
+      document.querySelector('#gallery .card .image'),
+      $('gallery')
+    ];
+    for(const el of candidates){
+      if(!el) continue;
+      const rect = el.getBoundingClientRect();
+      if(rect && rect.width > 0 && rect.height > 0) return Math.max(0, Math.ceil(rect.top || 0));
+    }
+    return 0;
+  }
   function menuIsVisible(){ return document.body.classList.contains('site-menu-open') || document.body.classList.contains('site-menu-preopen') || document.body.classList.contains('site-menu-opening'); }
   function setMenuOverflowState(canScroll){
     document.documentElement.classList.toggle('site-menu-can-scroll', Boolean(canScroll));
     document.body.classList.toggle('site-menu-can-scroll', Boolean(canScroll));
   }
-  function syncMenuHeaderHeight(){
+  function syncMenuHeaderHeight(alignToPhotoEdge=false){
     const header = document.querySelector('.site-header');
     const headerBottom = header ? Math.max(0, Math.ceil(header.getBoundingClientRect().bottom || 0)) : 0;
-    document.documentElement.style.setProperty('--site-menu-header-height', `${headerBottom}px`);
+    if(alignToPhotoEdge){
+      const photoTop = menuPhotoEdgeTop();
+      menuPhotoEdgeOffset = photoTop ? Math.max(0, photoTop - headerBottom) : 0;
+    }
+    const revealTop = Math.max(headerBottom, headerBottom + menuPhotoEdgeOffset);
+    document.documentElement.style.setProperty('--site-menu-header-height', `${revealTop}px`);
   }
   function updateMenuOverflow(){
     if(!menu || !menuIsVisible()){ setMenuOverflowState(false); return; }
@@ -556,12 +576,15 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
   }
   function closeMenu(){
     if(menuOverflowRaf){ cancelAnimationFrame(menuOverflowRaf); menuOverflowRaf = 0; }
+    restoreMenu({ schedule:false });
     document.documentElement.classList.remove('site-menu-open','site-menu-preopen','site-menu-opening','site-menu-closing','site-menu-can-scroll');
     document.body.classList.remove('site-menu-open','site-menu-preopen','site-menu-opening','site-menu-closing','site-menu-can-scroll');
+    setMenuOverflowState(false);
     if(menu) menu.setAttribute('aria-hidden','true');
     if(menuToggle){ menuToggle.classList.remove('is-open','is-closing'); menuToggle.setAttribute('aria-expanded','false'); menuToggle.setAttribute('aria-label','Open menu'); }
   }
   function openMenu(){
+    syncMenuHeaderHeight(true);
     if(menu) menu.setAttribute('aria-hidden','false');
     if(menuToggle){ menuToggle.classList.add('is-open'); menuToggle.setAttribute('aria-expanded','true'); menuToggle.setAttribute('aria-label','Close menu'); }
     document.documentElement.classList.add('site-menu-open');
@@ -569,12 +592,13 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
     scheduleMenuOverflowCheck();
   }
   function toggleMenu(){ (document.body.classList.contains('site-menu-open') ? closeMenu : openMenu)(); }
-  function restoreMenu(){
+  function restoreMenu(options = {}){
     const primary = menuPrimary(); if(!primary) return;
+    const shouldSchedule = options.schedule !== false;
     const copy = $('siteMenuPageCopy'); if(copy) copy.remove();
     primary.classList.remove('menu-page-mode');
     [...primary.querySelectorAll('.site-menu-title')].sort((a,b) => Number(a.dataset.menuOriginalIndex || 0) - Number(b.dataset.menuOriginalIndex || 0)).forEach(item => { item.classList.remove('is-menu-page-active'); item.removeAttribute('aria-current'); primary.appendChild(item); });
-    scheduleMenuOverflowCheck();
+    if(shouldSchedule) scheduleMenuOverflowCheck();
   }
   function showMenuContent(key){
     const primary = menuPrimary(), data = MENU_CONTENT[key]; if(!primary || !data) return;
@@ -601,15 +625,36 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
     resetLimit(); render(); closeMenu(); setRoute('buy'); window.scrollTo({ top:0, behavior:'smooth' });
   }
 
-  function updateHelpPop(){
-    if(!helpPop) return;
-    const visible = Boolean(activeWatch && lightbox && lightbox.classList.contains('open'));
-    document.body.classList.toggle('stapleford-product-help-visible', visible);
-    if(!visible) return;
+  function isDesktopProductView(){
+    return window.matchMedia ? window.matchMedia('(min-width:1024px)').matches : window.innerWidth >= 1024;
+  }
+  function hasScrolledPastBuyNow(){
+    if(!lightbox || !lightboxBuy || lightboxBuy.hidden) return true;
+    const buyRect = lightboxBuy.getBoundingClientRect();
+    const lightboxRect = lightbox.getBoundingClientRect();
+    return buyRect.bottom <= lightboxRect.top + 1;
+  }
+  function syncHelpPopCopy(){
+    if(!helpPop || !activeWatch) return;
     const name = displayName(activeWatch);
     const message = `Hi Stapleford Watches, I need help with listing ${activeWatch.listingId || ''} — ${name}. Could you tell me more about it?`;
     helpPop.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     if(lightbox && helpPop.parentElement !== lightbox) lightbox.appendChild(helpPop);
+  }
+  function updateHelpPop(){
+    if(!helpPop) return;
+    const productOpen = Boolean(activeWatch && lightbox && lightbox.classList.contains('open'));
+    if(!productOpen){
+      document.body.classList.remove('stapleford-product-help-visible');
+      return;
+    }
+    syncHelpPopCopy();
+    const visible = isDesktopProductView() || hasScrolledPastBuyNow();
+    document.body.classList.toggle('stapleford-product-help-visible', visible);
+  }
+  function scheduleHelpPopUpdate(){
+    if(helpPopFrame) cancelAnimationFrame(helpPopFrame);
+    helpPopFrame = requestAnimationFrame(() => { helpPopFrame = 0; updateHelpPop(); });
   }
   function goHome(){
     searchQuery = ''; currentSort = 'default'; showAvailable = true; showSold = true; resetLimit(); render(); closeLightbox(false); closeMenu(); setRoute('buy'); window.scrollTo({ top:0, behavior:'smooth' });
@@ -620,7 +665,7 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
     if(menuToggle) menuToggle.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(); }, { passive:false });
     if(logoHome) logoHome.addEventListener('click', (e) => { e.preventDefault(); goHome(); });
     if(showMoreBtn) showMoreBtn.addEventListener('click', () => { visibleLimit += LOAD_MORE_COUNT; render(); });
-    window.addEventListener('resize', debounce(() => { const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); scheduleMenuOverflowCheck(); }, 160), { passive:true });
+    window.addEventListener('resize', debounce(() => { const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); scheduleMenuOverflowCheck(); scheduleHelpPopUpdate(); }, 160), { passive:true });
     window.addEventListener('orientationchange', scheduleMenuOverflowCheck, { passive:true });
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleMenuOverflowCheck).catch(() => {});
     if('ResizeObserver' in window && menu){ const menuResizeObserver = new ResizeObserver(scheduleMenuOverflowCheck); menuResizeObserver.observe(menu); const primary = menuPrimary(); if(primary) menuResizeObserver.observe(primary); }
@@ -642,6 +687,7 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
     }
     if(lightbox){
       lightbox.addEventListener('click', (e) => { if(e.target.closest('.lightbox-close')) closeLightbox(); });
+      lightbox.addEventListener('scroll', scheduleHelpPopUpdate, { passive:true });
       const wrap = lightbox.querySelector('.lightbox-image-wrap');
       if(wrap){
         wrap.addEventListener('click', (e) => { if(!e.target.closest('button')) stepImage(1); });
@@ -650,6 +696,7 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
       }
       if(lightboxRelatedGrid){ lightboxRelatedGrid.addEventListener('click', (e) => { const card = e.target.closest('.lightbox-related-card[data-watch-id]'); if(!card) return; e.preventDefault(); const watch = watchesById.get(card.dataset.watchId); if(watch) openLightbox(watch, 0, true); }); }
     }
+    if(lightboxImage) lightboxImage.addEventListener('load', scheduleHelpPopUpdate);
     if(lightboxBuy) lightboxBuy.addEventListener('click', () => checkout(lightboxBuy.dataset.watchId));
     if(lightboxDescriptionToggle) lightboxDescriptionToggle.addEventListener('click', () => setDescriptionOpen(lightboxDescription.hidden));
     if(lightboxSpecToggle) lightboxSpecToggle.addEventListener('click', () => setSpecsOpen(lightboxSpecs.hidden));
