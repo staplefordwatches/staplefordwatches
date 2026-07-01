@@ -631,8 +631,11 @@ body.site-menu-open .site-menu-scroll,body.site-menu-preopen .site-menu-scroll,b
   function hasScrolledPastBuyNow(){
     if(!lightbox || !lightboxBuy || lightboxBuy.hidden) return true;
     const buyRect = lightboxBuy.getBoundingClientRect();
-    const lightboxRect = lightbox.getBoundingClientRect();
-    return buyRect.bottom <= lightboxRect.top + 1;
+    const scrollerRect = lightbox.getBoundingClientRect();
+    const helpHeight = helpPop ? Math.max(helpPop.offsetHeight || 0, 40) : 40;
+    const edgeGap = Math.max(10, Math.min(24, window.innerWidth * 0.021));
+    const triggerLine = scrollerRect.bottom - helpHeight - edgeGap;
+    return buyRect.bottom <= triggerLine;
   }
   function syncHelpPopCopy(){
     if(!helpPop || !activeWatch) return;
