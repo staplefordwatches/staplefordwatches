@@ -112,6 +112,9 @@ html body:not(.product-page-open) #gallery.grid .card .image{
   let activeImages = [];
   let activeImageIndex = 0;
   let activeTouchX = null;
+  let activeLightboxPlaceholder = '';
+  let lightboxImageRequestId = 0;
+  const detailImagePreloadCache = new Set();
   let helpPopFrame = 0;
   let loadPromise = null;
 
@@ -188,14 +191,60 @@ html body:not(.product-page-open) #gallery.grid .card .image{
   function gridSrcset(src){ return responsiveSrcset(src, GRID_IMAGE_WIDTHS, gridImage); }
   function relatedSrcset(src){ return responsiveSrcset(src, RELATED_IMAGE_WIDTHS, relatedImage); }
   function detailSrcset(src){ return responsiveSrcset(src, DETAIL_IMAGE_WIDTHS, detailImage); }
-  function setLightboxImage(src, alt=''){
+  function detailImageSizes(){ return '(max-width: 767px) 100vw, 60vw'; }
+  function preloadDetailImage(src, priority='auto'){
+    const clean = safeUrl(src, '');
+    if(!clean) return null;
+    const url = detailImage(clean, 1600);
+    if(!url || detailImagePreloadCache.has(url)) return null;
+    detailImagePreloadCache.add(url);
+    const loader = new Image();
+    const set = detailSrcset(clean);
+    if(set){ loader.srcset = set; loader.sizes = detailImageSizes(); }
+    try{ loader.decoding = 'async'; loader.fetchPriority = priority; }catch{}
+    loader.src = url;
+    return loader;
+  }
+  function warmProductDetailImage(watch){
+    if(!watch || isUnavailable(watch)) return;
+    const list = images(watch);
+    preloadDetailImage(list[0] || watch.image || '', 'high');
+  }
+  function scheduleIdleWork(fn){
+    if('requestIdleCallback' in window) window.requestIdleCallback(fn, { timeout: 1500 });
+    else window.setTimeout(fn, 350);
+  }
+  function setLightboxImage(src, alt='', placeholder=''){
     if(!lightboxImage) return;
     const clean = safeUrl(src, '');
+    const detailSrc = detailImage(clean, 1600);
     const set = detailSrcset(clean);
-    lightboxImage.src = detailImage(clean, 1600);
-    if(set){ lightboxImage.srcset = set; lightboxImage.sizes = '(max-width: 767px) 100vw, 60vw'; }
-    else { lightboxImage.removeAttribute('srcset'); lightboxImage.removeAttribute('sizes'); }
+    const placeholderSrc = safeUrl(placeholder, '') || gridImage(clean, 900) || detailSrc;
+    const requestId = ++lightboxImageRequestId;
     if(alt) lightboxImage.alt = alt;
+    lightboxImage.removeAttribute('srcset');
+    lightboxImage.removeAttribute('sizes');
+    if(placeholderSrc && lightboxImage.src !== placeholderSrc) lightboxImage.src = placeholderSrc;
+    if(!detailSrc || detailSrc === placeholderSrc){
+      if(set){ lightboxImage.srcset = set; lightboxImage.sizes = detailImageSizes(); }
+      return;
+    }
+    const loader = new Image();
+    if(set){ loader.srcset = set; loader.sizes = detailImageSizes(); }
+    try{ loader.decoding = 'async'; loader.fetchPriority = 'high'; }catch{}
+    loader.onload = () => {
+      if(requestId !== lightboxImageRequestId || !lightboxImage) return;
+      if(set){ lightboxImage.srcset = set; lightboxImage.sizes = detailImageSizes(); }
+      else { lightboxImage.removeAttribute('srcset'); lightboxImage.removeAttribute('sizes'); }
+      lightboxImage.src = detailSrc;
+      scheduleHelpPopUpdate();
+    };
+    loader.onerror = () => {
+      if(requestId !== lightboxImageRequestId || !lightboxImage) return;
+      lightboxImage.src = detailSrc;
+    };
+    loader.src = detailSrc;
+    if(loader.complete) loader.onload();
   }
   function money(value){ const number = Number(String(value || '').replace(/[^0-9.]/g,'')); return number > 0 ? number.toLocaleString('en-GB') : ''; }
   function pickRaw(source, aliases){
@@ -390,6 +439,7 @@ html body:not(.product-page-open) #gallery.grid .card .image{
       showMoreBtn.textContent = hidden > 0 ? `SHOW MORE (${hidden})` : 'SHOW MORE';
     }
     preconnectFirstImages(visible);
+    scheduleIdleWork(() => visible.slice(0, IS_SAFARI_DESKTOP ? 2 : 3).forEach(warmProductDetailImage));
   }
   function cardHtml(watch, index){
     const s = status(watch);
@@ -474,7 +524,8 @@ html body:not(.product-page-open) #gallery.grid .card .image{
     activeImages = images(watch);
     if(!activeImages.length && watch.image) activeImages = [watch.image];
     activeImageIndex = Math.max(0, Math.min(activeImageIndex, activeImages.length - 1));
-    setLightboxImage(activeImages[activeImageIndex] || '', displayName(watch));
+    setLightboxImage(activeImages[activeImageIndex] || '', displayName(watch), activeLightboxPlaceholder);
+    activeLightboxPlaceholder = '';
     const s = status(watch);
     if(lightboxStatusBadge){ lightboxStatusBadge.hidden = !['reserved','sold'].includes(s); lightboxStatusBadge.textContent = s.toUpperCase(); }
     setText(lightboxBrand, String(watch.brand || '').toUpperCase());
@@ -533,9 +584,9 @@ html body:not(.product-page-open) #gallery.grid .card .image{
     lightboxRelated.hidden = !related.length;
     lightboxRelatedGrid.innerHTML = related.map(item => `<a class="lightbox-related-card" href="${escapeHtml(item.productLink)}" data-watch-id="${escapeHtml(item.listingId)}" aria-label="View ${escapeHtml(displayName(item))}" draggable="false"><span class="lightbox-related-image"><img src="${escapeHtml(relatedImage(safeUrl(item.image,''), 360))}" ${relatedSrcset(item.image) ? `srcset="${relatedSrcset(item.image)}"` : ''} sizes="(max-width: 640px) 50vw, 25vw" alt="${escapeHtml(displayName(item))}" loading="lazy" decoding="async" width="360" height="450" draggable="false"></span><span class="lightbox-related-meta"><span class="lightbox-related-brand">${escapeHtml(String(item.brand || '').toUpperCase())}</span><span class="lightbox-related-name">${escapeHtml(titleWithoutBrand(item).toUpperCase().slice(0, 38))}</span><span class="lightbox-related-price">${escapeHtml(isUnavailable(item) ? status(item).toUpperCase() : money(item.price) ? '£' + money(item.price) : 'PRICE ON REQUEST')}</span></span></a>`).join('');
   }
-  function openLightbox(watch, index=0, updateUrl=true){
+  function openLightbox(watch, index=0, updateUrl=true, placeholder=''){
     if(!watch || isUnavailable(watch)) return;
-    activeWatch = watch; activeImageIndex = index;
+    activeWatch = watch; activeImageIndex = index; activeLightboxPlaceholder = safeUrl(placeholder, '');
     renderLightbox();
     if(lightbox){ lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden','false'); lightbox.scrollTop = 0; }
     document.body.classList.add('product-page-open');
@@ -548,7 +599,7 @@ html body:not(.product-page-open) #gallery.grid .card .image{
     if(lightbox){ lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); }
     document.body.classList.remove('product-page-open','stapleford-product-help-visible');
     document.body.style.overflow = '';
-    activeWatch = null; activeImages = []; activeImageIndex = 0;
+    activeWatch = null; activeImages = []; activeImageIndex = 0; activeLightboxPlaceholder = '';
     if(updateUrl) setRoute('buy', true);
     updateMenuSeo(routeKey() || 'home');
   }
@@ -818,12 +869,19 @@ html body:not(.product-page-open) #gallery.grid .card .image{
         }
         if(e.target.closest('a,button')) return;
         const card = e.target.closest('.card[data-watch-id]'); if(!card) return;
-        const watch = watchesById.get(card.dataset.watchId); if(watch) openLightbox(watch, 0, true);
+        const watch = watchesById.get(card.dataset.watchId);
+        const cardImg = card.querySelector('img');
+        const placeholder = cardImg ? (cardImg.currentSrc || cardImg.src || '') : '';
+        if(watch) openLightbox(watch, 0, true, placeholder);
       });
       gallery.addEventListener('keydown', (e) => {
         if(e.key === 'Escape' && gallery.querySelector('.image.show-spec')){ closeListingSpecOverlays(); return; }
-        if((e.key === 'Enter' || e.key === ' ') && e.target.closest('.card[data-watch-id]')){ e.preventDefault(); const watch = watchesById.get(e.target.closest('.card').dataset.watchId); if(watch) openLightbox(watch, 0, true); }
+        if((e.key === 'Enter' || e.key === ' ') && e.target.closest('.card[data-watch-id]')){ e.preventDefault(); const card = e.target.closest('.card'); const watch = watchesById.get(card.dataset.watchId); const cardImg = card.querySelector('img'); const placeholder = cardImg ? (cardImg.currentSrc || cardImg.src || '') : ''; if(watch) openLightbox(watch, 0, true, placeholder); }
       });
+      const warmListing = (e) => { const card = e.target.closest('.card[data-watch-id]'); if(!card) return; warmProductDetailImage(watchesById.get(card.dataset.watchId)); };
+      gallery.addEventListener('pointerover', warmListing, { passive:true });
+      gallery.addEventListener('focusin', warmListing);
+      gallery.addEventListener('touchstart', warmListing, { passive:true });
     }
     document.addEventListener('click', (e) => { if(gallery && !gallery.contains(e.target)) closeListingSpecOverlays(); });
     if(lightbox){
@@ -835,7 +893,12 @@ html body:not(.product-page-open) #gallery.grid .card .image{
         wrap.addEventListener('pointerdown', (e) => { activeTouchX = e.clientX; });
         wrap.addEventListener('pointerup', (e) => { if(activeTouchX == null) return; const dx = e.clientX - activeTouchX; activeTouchX = null; if(Math.abs(dx) > 40) stepImage(dx < 0 ? 1 : -1); });
       }
-      if(lightboxRelatedGrid){ lightboxRelatedGrid.addEventListener('click', (e) => { const card = e.target.closest('.lightbox-related-card[data-watch-id]'); if(!card) return; e.preventDefault(); const watch = watchesById.get(card.dataset.watchId); if(watch) openLightbox(watch, 0, true); }); }
+      if(lightboxRelatedGrid){
+        lightboxRelatedGrid.addEventListener('click', (e) => { const card = e.target.closest('.lightbox-related-card[data-watch-id]'); if(!card) return; e.preventDefault(); const watch = watchesById.get(card.dataset.watchId); const cardImg = card.querySelector('img'); const placeholder = cardImg ? (cardImg.currentSrc || cardImg.src || '') : ''; if(watch) openLightbox(watch, 0, true, placeholder); });
+        const warmRelated = (e) => { const card = e.target.closest('.lightbox-related-card[data-watch-id]'); if(!card) return; warmProductDetailImage(watchesById.get(card.dataset.watchId)); };
+        lightboxRelatedGrid.addEventListener('pointerover', warmRelated, { passive:true });
+        lightboxRelatedGrid.addEventListener('focusin', warmRelated);
+      }
     }
     if(lightboxImage) lightboxImage.addEventListener('load', scheduleHelpPopUpdate);
     if(lightboxBuy) lightboxBuy.addEventListener('click', () => checkout(lightboxBuy.dataset.watchId));
