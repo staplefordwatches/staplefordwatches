@@ -400,23 +400,11 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
     };
   }
 
-  function currentGalleryColumns(){
-    if(!gallery || !window.getComputedStyle) return 3;
-    const columns = window.getComputedStyle(gallery).gridTemplateColumns.split(' ').filter(Boolean).length;
-    return columns > 0 ? columns : 3;
-  }
-  function rowAlignedCount(count){
-    const columns = currentGalleryColumns();
-    return Math.ceil(count / columns) * columns;
-  }
   function initialLimit(){
-    let limit;
-    if(window.matchMedia && window.matchMedia('(max-width: 640px)').matches) limit = LIMITS.mobile;
-    else if(window.matchMedia && window.matchMedia('(max-width: 1024px)').matches) limit = LIMITS.tablet;
-    else limit = IS_SAFARI_DESKTOP ? 18 : LIMITS.desktop;
-    return rowAlignedCount(limit);
+    if(window.matchMedia && window.matchMedia('(max-width: 640px)').matches) return LIMITS.mobile;
+    if(window.matchMedia && window.matchMedia('(max-width: 1024px)').matches) return LIMITS.tablet;
+    return IS_SAFARI_DESKTOP ? 18 : LIMITS.desktop;
   }
-  function loadMoreCount(){ return rowAlignedCount(LOAD_MORE_COUNT); }
   function resetLimit(){ visibleLimit = initialLimit(); }
   function prepare(raw){
     watches = raw.map((watch, index) => {
@@ -517,7 +505,7 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
   }
   function render(){
     if(!gallery) return;
-    visibleLimit = rowAlignedCount(Math.max(visibleLimit, initialLimit()));
+    visibleLimit = Math.max(visibleLimit, initialLimit());
     const items = filteredWatches();
     const visible = items.slice(0, visibleLimit);
     const html = visible.map(cardHtml).join('');
@@ -926,8 +914,8 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
     if(menuPrimary()) [...menuPrimary().querySelectorAll('.site-menu-title')].forEach((item, index) => { if(!item.dataset.menuOriginalIndex) item.dataset.menuOriginalIndex = String(index); });
     if(menuToggle) menuToggle.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(); }, { passive:false });
     if(logoHome) logoHome.addEventListener('click', (e) => { e.preventDefault(); goHome(); });
-    if(showMoreBtn) showMoreBtn.addEventListener('click', () => { visibleLimit += loadMoreCount(); render(); });
-    window.addEventListener('resize', debounce(() => { const before = visibleLimit; visibleLimit = rowAlignedCount(Math.max(visibleLimit, initialLimit())); if(before !== visibleLimit) render(); scheduleMenuOverflowCheck(); scheduleHelpPopUpdate(); }, 160), { passive:true });
+    if(showMoreBtn) showMoreBtn.addEventListener('click', () => { visibleLimit += LOAD_MORE_COUNT; render(); });
+    window.addEventListener('resize', debounce(() => { const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); scheduleMenuOverflowCheck(); scheduleHelpPopUpdate(); }, 160), { passive:true });
     window.addEventListener('orientationchange', scheduleMenuOverflowCheck, { passive:true });
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleMenuOverflowCheck).catch(() => {});
     if('ResizeObserver' in window && menu){ const menuResizeObserver = new ResizeObserver(scheduleMenuOverflowCheck); menuResizeObserver.observe(menu); const primary = menuPrimary(); if(primary) menuResizeObserver.observe(primary); }
