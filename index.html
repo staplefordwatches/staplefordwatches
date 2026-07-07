@@ -66,7 +66,7 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
   const FETCH_TIMEOUT = 6500;
   const PRODUCT_PREFIX = '/watches/';
   const LIMITS = { desktop: 36, tablet: 24, mobile: 16 };
-  const LOAD_MORE_COUNT = 18;
+  const LOAD_MORE_ROWS = 4;
   const IS_SAFARI = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(navigator.userAgent || '');
   const IS_SAFARI_DESKTOP = IS_SAFARI && !(navigator.maxTouchPoints > 1) && (window.matchMedia ? window.matchMedia('(min-width:1024px)').matches : window.innerWidth >= 1024);
   const $ = (id) => document.getElementById(id);
@@ -378,10 +378,26 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
     };
   }
 
+  function listingColumns(){
+    if(window.matchMedia && window.matchMedia('(max-width: 767px)').matches) return 2;
+    if(window.matchMedia && window.matchMedia('(min-width: 1200px)').matches) return 4;
+    return 3;
+  }
+  function fullRowsLimit(limit){
+    const columns = listingColumns();
+    const next = Math.floor(Number(limit || 0) / columns) * columns;
+    return Math.max(columns, next);
+  }
   function initialLimit(){
-    if(window.matchMedia && window.matchMedia('(max-width: 640px)').matches) return LIMITS.mobile;
-    if(window.matchMedia && window.matchMedia('(max-width: 1024px)').matches) return LIMITS.tablet;
-    return IS_SAFARI_DESKTOP ? 18 : LIMITS.desktop;
+    let limit = LIMITS.desktop;
+    if(window.matchMedia && window.matchMedia('(max-width: 640px)').matches) limit = LIMITS.mobile;
+    else if(window.matchMedia && window.matchMedia('(max-width: 1024px)').matches) limit = LIMITS.tablet;
+    else if(IS_SAFARI_DESKTOP) limit = 18;
+    return fullRowsLimit(limit);
+  }
+  function nextShowMoreLimit(total){
+    const next = fullRowsLimit(visibleLimit) + (listingColumns() * LOAD_MORE_ROWS);
+    return next >= total ? total : fullRowsLimit(next);
   }
   function resetLimit(){ visibleLimit = initialLimit(); }
   function prepare(raw){
@@ -485,7 +501,8 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
     if(!gallery) return;
     visibleLimit = Math.max(visibleLimit, initialLimit());
     const items = filteredWatches();
-    const visible = items.slice(0, visibleLimit);
+    const displayLimit = visibleLimit >= items.length ? items.length : fullRowsLimit(visibleLimit);
+    const visible = items.slice(0, displayLimit);
     const html = visible.map(cardHtml).join('');
     gallery.innerHTML = html;
     const hasResults = items.length > 0;
@@ -891,7 +908,7 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
     if(menuPrimary()) [...menuPrimary().querySelectorAll('.site-menu-title')].forEach((item, index) => { if(!item.dataset.menuOriginalIndex) item.dataset.menuOriginalIndex = String(index); });
     if(menuToggle) menuToggle.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(); }, { passive:false });
     if(logoHome) logoHome.addEventListener('click', (e) => { e.preventDefault(); goHome(); });
-    if(showMoreBtn) showMoreBtn.addEventListener('click', () => { visibleLimit += LOAD_MORE_COUNT; render(); });
+    if(showMoreBtn) showMoreBtn.addEventListener('click', () => { visibleLimit = nextShowMoreLimit(filteredWatches().length); render(); });
     window.addEventListener('resize', debounce(() => { const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); scheduleMenuOverflowCheck(); scheduleHelpPopUpdate(); }, 160), { passive:true });
     window.addEventListener('orientationchange', scheduleMenuOverflowCheck, { passive:true });
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleMenuOverflowCheck).catch(() => {});
