@@ -371,7 +371,15 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
     resetExpressCheckout();
     expressCheckoutWatchId = watchId;
     const subtotal = minorMoney(watch.price);
-    const stripe = await stripeForCheckout();
+    let stripe;
+    try{
+      stripe = await stripeForCheckout();
+    }catch(error){
+      console.error(error);
+      if(lightboxExpressCheckoutWrap) lightboxExpressCheckoutWrap.hidden = false;
+      setExpressCheckoutMessage('Apple Pay is not connected yet. Check /stripe-config and your Stripe publishable key.');
+      return;
+    }
     if(expressCheckoutWatchId !== watchId || !activeWatch || String(activeWatch.listingId || activeWatch.id || '') !== watchId) return;
     expressCheckoutShippingRate = shippingRateForCountry('GB');
     expressCheckoutElements = stripe.elements({
@@ -386,13 +394,14 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
       phoneNumberRequired:true,
       billingAddressRequired:true,
       shippingAddressRequired:true,
+      allowedShippingCountries:['GB', ...Array.from(EUROPE_DELIVERY_COUNTRIES), 'AU','CA','HK','IL','JP','NZ','SG','AE','US'],
       shippingRates:[expressCheckoutShippingRate],
       lineItems:expressLineItems(watch, expressCheckoutShippingRate),
       business:{ name:'Stapleford Watches' },
       buttonType:{ applePay:'buy' },
       buttonTheme:{ applePay:'white-outline' },
       buttonHeight:44,
-      layout:{ maxColumns:1, maxRows:1, overflow:'never' },
+      layout:{ maxColumns:1, maxRows:1 },
       paymentMethods:{ applePay:'always', googlePay:'never', link:'never', paypal:'never', amazonPay:'never', klarna:'never' }
     });
     expressCheckoutElement.on('availablepaymentmethodschange', ({ paymentMethods }) => {
@@ -434,11 +443,11 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
       const { error } = await stripe.confirmPayment({
         elements:expressCheckoutElements,
         clientSecret:data.clientSecret,
-        confirmParams:{ return_url:`${window.location.origin}/checkout-complete/?watch=${encodeURIComponent(watchId)}` },
+        confirmParams:{ return_url:`${window.location.origin}/success.html?watch=${encodeURIComponent(watchId)}` },
         redirect:'if_required'
       });
       if(error){ setExpressCheckoutMessage(error.message || 'Payment could not be completed.'); return; }
-      window.location.href = `/checkout-complete/?watch=${encodeURIComponent(watchId)}`;
+      window.location.href = `/success.html?watch=${encodeURIComponent(watchId)}`;
     });
     if(lightboxExpressCheckoutWrap) lightboxExpressCheckoutWrap.hidden = false;
     expressCheckoutElement.mount('#lightboxExpressCheckout');
@@ -808,6 +817,11 @@ html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
     scheduleHelpPopUpdate();
     if(updateUrl) setProductUrl(watch);
     document.dispatchEvent(new CustomEvent('stapleford:product-opened'));
+    mountExpressCheckout(watch).catch(error => {
+      console.error(error);
+      if(lightboxExpressCheckoutWrap) lightboxExpressCheckoutWrap.hidden = false;
+      setExpressCheckoutMessage('Apple Pay is not available on this device or domain yet.');
+    });
   }
   function closeLightbox(updateUrl=true){
     if(lightbox){ lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true'); }
