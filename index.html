@@ -68,8 +68,10 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
   const SITE_ORIGIN = 'https://staplefordwatches.co.uk';
   const WHATSAPP_NUMBER = '447438196047';
   const EMAIL = 'ben@staplefordwatches.co.uk';
+  const CACHE_KEY = 'stapleford_watches_cache_v10_rebuilt_fast';
+  const CACHE_MAX_AGE = 1000 * 60 * 60 * 24;
   const FETCH_TIMEOUT = 6500;
-  const LIVE_REFRESH_INTERVAL = 2000;
+  const STATUS_REFRESH_INTERVAL = 2000;
   const PRODUCT_PREFIX = '/watches/';
   const LIMITS = { desktop: 36, tablet: 24, mobile: 16 };
   const LOAD_MORE_ROWS = 4;
@@ -132,8 +134,6 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
   const detailImagePreloadCache = new Map();
   let helpPopFrame = 0;
   let loadPromise = null;
-  let liveRefreshPromise = null;
-  let liveRefreshTimer = null;
 
   const REF_FIELDS = ['reference','ref','referenceNumber','referenceNo','reference number','modelReference','modelRef','model reference','watch reference','manufacturer reference','mpn','Reference','Reference Number','Reference No','Model Reference','MPN'];
   const MOVEMENT_FIELDS = ['movement','Movement','movementType','Movement Type','calibreType','Calibre Type','watchMovement','Watch Movement'];
@@ -430,34 +430,32 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     watchesLoaded = true;
   }
 
-  async function fetchWatches(retry=0){
+  function cachedWatches(){
+    try{
+      const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+      if(!cached || !Array.isArray(cached.watches) || !cached.watches.length) return null;
+      if(Date.now() - Number(cached.savedAt || 0) > CACHE_MAX_AGE) return null;
+      return cached.watches;
+    }catch{ return null; }
+  }
+  function saveCache(data){ try{ if(Array.isArray(data) && data.length) localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), watches: data })); }catch{} }
+  async function fetchWatches(){
     const controller = window.AbortController ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT) : 0;
-    const urls = retry ? ['/api/watches?retry=1', '/api/watches'] : ['/api/watches'];
-    let lastError = null;
     try{
-      for(const url of urls){
-        try{
-          const response = await fetch(url, {
-            method:'GET',
-            headers:{ Accept:'application/json', 'Cache-Control':'no-cache' },
-            cache:'no-store',
-            credentials:'same-origin',
-            ...(controller ? { signal: controller.signal } : {})
-          });
-          const data = await response.json();
-          const next = Array.isArray(data && data.watches) ? data.watches : [];
-          if(!response.ok || !next.length) throw new Error('Empty watches response');
-          return next;
-        }catch(error){
-          lastError = error;
-          if(controller && controller.signal && controller.signal.aborted) throw error;
-        }
-      }
-      throw lastError || new Error('Unable to fetch watches');
+      // Keep the original working endpoint. Do not add query strings here: some deployments do not serve /api/watches?x=... correctly.
+      const response = await fetch('/api/watches', {
+        headers:{ Accept:'application/json', 'Cache-Control':'no-cache', Pragma:'no-cache' },
+        cache:'no-store',
+        ...(controller ? { signal: controller.signal } : {})
+      });
+      const data = await response.json();
+      const next = Array.isArray(data && data.watches) ? data.watches : [];
+      if(!response.ok || !next.length) throw new Error('Empty watches response');
+      return next;
     }finally{ if(timer) clearTimeout(timer); }
   }
-  function renderLoaded(raw){
+  function renderLoaded(raw, { fromCache=false }={}){
     if(!Array.isArray(raw) || !raw.length) return false;
     prepare(raw);
     render();
@@ -469,27 +467,28 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     if(loadPromise) return loadPromise;
     loadPromise = (async () => {
       try{
-        renderLoaded(await fetchWatches(0));
+        // Live Airtable/API data is the source of truth. Browser/localStorage cache is never rendered before live data.
+        return renderLoaded(await fetchWatches());
       }catch(error){
-        try{ renderLoaded(await fetchWatches(1)); }
-        catch(finalError){ renderEmpty(); console.warn(finalError); }
+        // Do not blank a live page if a refresh request fails after watches are already on screen.
+        if(watches.length) { console.warn(error); return false; }
+        const cached = cachedWatches();
+        if(cached) return renderLoaded(cached, { fromCache:true });
+        renderEmpty();
+        console.warn(error);
+        return false;
       }
     })().finally(() => { loadPromise = null; });
     return loadPromise;
   }
-  async function refreshWatchesLive(){
-    if(liveRefreshPromise) return liveRefreshPromise;
-    liveRefreshPromise = (async () => {
-      try{ renderLoaded(await fetchWatches(0)); }
-      catch(error){ console.warn(error); }
-    })().finally(() => { liveRefreshPromise = null; });
-    return liveRefreshPromise;
-  }
-  function startLiveStatusRefresh(){
-    if(liveRefreshTimer) return;
-    window.addEventListener('focus', refreshWatchesLive);
-    document.addEventListener('visibilitychange', () => { if(!document.hidden) refreshWatchesLive(); });
-    liveRefreshTimer = window.setInterval(() => { if(!document.hidden) refreshWatchesLive(); }, LIVE_REFRESH_INTERVAL);
+  function startStatusRefresh(){
+    let refreshTimer = null;
+    const refresh = () => { if(!document.hidden) loadWatches(); };
+    if(window.__staplefordStatusRefreshTimer) clearInterval(window.__staplefordStatusRefreshTimer);
+    refreshTimer = setInterval(refresh, STATUS_REFRESH_INTERVAL);
+    window.__staplefordStatusRefreshTimer = refreshTimer;
+    window.addEventListener('focus', refresh, { passive:true });
+    document.addEventListener('visibilitychange', refresh, { passive:true });
   }
 
   function filteredWatches(){
@@ -1054,7 +1053,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     if(key && !['home','buy'].includes(key)){ openMenu(); showMenuContent(key); updateMenuSeo(key); }
     else updateMenuSeo(key || 'home');
     loadWatches();
-    startLiveStatusRefresh();
+    startStatusRefresh();
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true }); else boot();
 })();
