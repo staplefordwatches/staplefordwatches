@@ -373,8 +373,13 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     if(explicit) return explicit;
     const specs = (watch && watch.specs) || {};
     const ref = getReference(watch);
+    const capitaliseFirst = (value) => {
+      const text = String(value || '').trim();
+      return text ? text.charAt(0).toUpperCase() + text.slice(1) : '';
+    };
+    const condition = capitaliseFirst(String(specs.condition || 'pre-owned').toLowerCase());
     const contents = specs.contents ? ` Includes ${String(specs.contents).toLowerCase()}.` : '';
-    return `${String(specs.condition || 'pre-owned').toLowerCase()} ${watch.brand || ''} ${watch.title || ''}${ref ? ' reference ' + ref : ''}${specs.caseSize ? ' ' + specs.caseSize : ''}${specs.year ? ' from ' + specs.year : ''}, listed by Stapleford Watches.${contents} Contact us for current availability and further images.`;
+    return `${condition} ${watch.brand || ''} ${watch.title || ''}${ref ? ' reference ' + ref : ''}${specs.caseSize ? ' ' + specs.caseSize : ''}${specs.year ? ' from ' + specs.year : ''}, listed by Stapleford Watches.${contents} Contact us for current availability and further images.`;
   }
   function enquiryData(watch){
     const name = `${`${watch.brand || ''} ${watch.title || ''}`.trim()}${watch.listingId ? ` (${watch.listingId})` : ''}`.trim();
