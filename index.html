@@ -68,9 +68,8 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
   const SITE_ORIGIN = 'https://staplefordwatches.co.uk';
   const WHATSAPP_NUMBER = '447438196047';
   const EMAIL = 'ben@staplefordwatches.co.uk';
-  const CACHE_KEY = 'stapleford_watches_cache_v10_rebuilt_fast';
-  const CACHE_MAX_AGE = 1000 * 60 * 60 * 24;
   const FETCH_TIMEOUT = 6500;
+  const LIVE_REFRESH_INTERVAL = 2000;
   const PRODUCT_PREFIX = '/watches/';
   const LIMITS = { desktop: 36, tablet: 24, mobile: 16 };
   const LOAD_MORE_ROWS = 4;
@@ -430,80 +429,66 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     watchesLoaded = true;
   }
 
-  function cachedWatches(){
+  async function fetchWatches(){
+    const controller = window.AbortController ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT) : 0;
+    const stamp = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const url = `/api/watches?fresh=${encodeURIComponent(stamp)}`;
     try{
-      const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-      if(!cached || !Array.isArray(cached.watches) || !cached.watches.length) return null;
-      if(Date.now() - Number(cached.savedAt || 0) > CACHE_MAX_AGE) return null;
-      return cached.watches;
-    }catch{ return null; }
+      const response = await fetch(url, {
+        method:'GET',
+        headers:{
+          Accept:'application/json',
+          'Cache-Control':'no-store, no-cache, must-revalidate, max-age=0',
+          Pragma:'no-cache',
+          Expires:'0'
+        },
+        cache:'no-store',
+        credentials:'same-origin',
+        ...(controller ? { signal: controller.signal } : {})
+      });
+      if(!response.ok) throw new Error(`Unable to fetch watches: ${response.status}`);
+      const data = await response.json();
+      const next = Array.isArray(data && data.watches) ? data.watches : [];
+      if(!next.length) throw new Error('Empty watches response');
+      return next;
+    }finally{ if(timer) clearTimeout(timer); }
   }
-  function saveCache(data){ try{ if(Array.isArray(data) && data.length) localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), watches: data })); }catch{} }
-  async function fetchWatches(retry=0){
-    const fresh = Date.now();
-    const primary = retry ? `/api/watches?retry=${retry}&fresh=${fresh}` : `/api/watches?fresh=${fresh}`;
-    const fallback = retry ? `/api/watches?retry=${retry}` : '/api/watches';
-    const urls = primary === fallback ? [primary] : [primary, fallback];
-    let lastError = null;
-    for(const url of urls){
-      const controller = window.AbortController ? new AbortController() : null;
-      const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT) : 0;
-      try{
-        const response = await fetch(url, {
-          headers:{ Accept:'application/json', 'Cache-Control':'no-cache', Pragma:'no-cache' },
-          cache:'no-store',
-          ...(controller ? { signal: controller.signal } : {})
-        });
-        const data = await response.json();
-        const next = Array.isArray(data && data.watches) ? data.watches : [];
-        if(!response.ok || !next.length) throw new Error('Empty watches response');
-        return next;
-      }catch(error){
-        lastError = error;
-      }finally{ if(timer) clearTimeout(timer); }
-    }
-    throw lastError || new Error('Empty watches response');
-  }
-  function renderLoaded(raw, { fromCache=false }={}){
+  function renderLoaded(raw){
     if(!Array.isArray(raw) || !raw.length) return false;
     prepare(raw);
     render();
     openProductFromUrl(true);
     updateStructuredDataSoon();
-    if(!fromCache) saveCache(raw);
     return true;
   }
   async function loadWatches(){
     if(loadPromise) return loadPromise;
     loadPromise = (async () => {
       try{
-        renderLoaded(await fetchWatches(0));
-        return;
+        await refreshWatchesLive({ showEmptyOnFailure:true });
       }catch(error){
-        try{
-          renderLoaded(await fetchWatches(1));
-          return;
-        }catch(finalError){
-          const cached = cachedWatches();
-          if(cached && renderLoaded(cached, { fromCache:true })) return;
-          renderEmpty();
-          console.warn(finalError);
-        }
+        console.warn(error);
       }
     })().finally(() => { loadPromise = null; });
     return loadPromise;
   }
-  async function refreshWatchesLive(){
+  async function refreshWatchesLive({ showEmptyOnFailure=false }={}){
     if(liveRefreshPromise) return liveRefreshPromise;
     liveRefreshPromise = (async () => {
-      try{ renderLoaded(await fetchWatches(1)); }
-      catch(error){ console.warn(error); }
+      try{
+        renderLoaded(await fetchWatches());
+      }catch(error){
+        if(showEmptyOnFailure && !watchesLoaded) renderEmpty();
+        console.warn(error);
+      }
     })().finally(() => { liveRefreshPromise = null; });
     return liveRefreshPromise;
   }
   function startLiveStatusRefresh(){
-    window.addEventListener('focus', refreshWatchesLive);
+    window.addEventListener('focus', () => refreshWatchesLive());
     document.addEventListener('visibilitychange', () => { if(!document.hidden) refreshWatchesLive(); });
+    window.setInterval(() => { if(!document.hidden) refreshWatchesLive(); }, LIVE_REFRESH_INTERVAL);
   }
 
   function filteredWatches(){
@@ -1064,10 +1049,10 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
 
   function boot(){
     bind();
-    startLiveStatusRefresh();
     const key = routeKey();
     if(key && !['home','buy'].includes(key)){ openMenu(); showMenuContent(key); updateMenuSeo(key); }
     else updateMenuSeo(key || 'home');
+    startLiveStatusRefresh();
     loadWatches();
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true }); else boot();
