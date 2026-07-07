@@ -533,7 +533,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     const gridSrc = gridImage(img, index < 6 ? 800 : 640);
     const gridSet = gridSrcset(img);
     const name = displayName(watch);
-    const price = sold ? 'SOLD' : reserved ? 'RESERVED' : money(watch.price) ? '£' + money(watch.price) : 'PRICE ON REQUEST';
+    const price = sold ? 'UNAVAILABLE' : reserved ? 'RESERVED' : money(watch.price) ? '£' + money(watch.price) : 'PRICE ON REQUEST';
     const specRows = [
       ['REFERENCE', specs.reference], ['YEAR', specs.year], ['CASE SIZE', specs.caseSize], ['MOVEMENT', getMovement(watch) || specs.movement], ['CONDITION', specs.condition], ['CONTENTS', specs.contents], ['LISTING ID', specs.listingId || watch.listingId]
     ].filter(([, value]) => value != null && String(value).trim() !== '');
@@ -610,7 +610,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     scheduleIdleWork(() => warmActiveImageNeighbours('auto'));
     activeLightboxPlaceholder = '';
     const s = status(watch);
-    if(lightboxStatusBadge){ lightboxStatusBadge.hidden = !['reserved','sold'].includes(s); lightboxStatusBadge.textContent = s.toUpperCase(); }
+    if(lightboxStatusBadge){ lightboxStatusBadge.hidden = true; lightboxStatusBadge.textContent = ''; }
     setText(lightboxBrand, String(watch.brand || '').toUpperCase());
     setText(lightboxTitle, titleWithoutBrand(watch));
     setText(lightboxReference, getReference(watch) ? `REFERENCE: ${String(getReference(watch)).toUpperCase()}` : '');
@@ -622,7 +622,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
       lightboxBuy.hidden = false;
       lightboxBuy.disabled = unavailable;
       lightboxBuy.dataset.watchId = watch.listingId;
-      lightboxBuy.textContent = s === 'sold' ? 'SOLD' : s === 'reserved' ? 'RESERVED' : 'BUY NOW';
+      lightboxBuy.textContent = s === 'sold' ? 'UNAVAILABLE' : s === 'reserved' ? 'RESERVED' : 'BUY NOW';
       lightboxBuy.classList.toggle('is-disabled', unavailable);
       lightboxBuy.setAttribute('aria-disabled', unavailable ? 'true' : 'false');
     }
@@ -867,7 +867,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
     let html = '';
     if(data.body) html += data.body.map(text => `<p>${escapeHtml(text)}</p>`).join('');
     if(data.html) html += data.html.join('');
-    if(data.search) html += '<form class="site-menu-search-form" data-menu-page-search-form><div class="site-menu-search-box"><input autocomplete="off" aria-label="Search watches" class="site-menu-search-input" id="siteMenuPageSearchInput" placeholder="SEARCH" type="search"><button aria-label="Submit search" class="site-menu-search-submit" type="submit"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5L21 21"></path></svg></button></div><div class="site-menu-status-filters" aria-label="Filter by availability"><label class="site-menu-status-filter"><input id="siteMenuSearchAvailable" type="checkbox" value="available" checked> <span>AVAILABLE</span></label><label class="site-menu-status-filter"><input id="siteMenuSearchSold" type="checkbox" value="sold" checked> <span>SOLD</span></label></div></form>';
+    if(data.search) html += '<form class="site-menu-search-form" data-menu-page-search-form><div class="site-menu-search-box"><input autocomplete="off" aria-label="Search watches" class="site-menu-search-input" id="siteMenuPageSearchInput" placeholder="SEARCH" type="search"><button aria-label="Submit search" class="site-menu-search-submit" type="submit"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5L21 21"></path></svg></button></div><div class="site-menu-status-filters" aria-label="Filter by availability"><label class="site-menu-status-filter"><input id="siteMenuSearchAvailable" type="checkbox" value="available" checked> <span>AVAILABLE</span></label><label class="site-menu-status-filter"><input id="siteMenuSearchSold" type="checkbox" value="sold" checked> <span>UNAVAILABLE</span></label></div></form>';
     copy.innerHTML = html;
     primary.classList.add('menu-page-mode');
     active.classList.add('is-menu-page-active'); active.setAttribute('aria-current','page');
