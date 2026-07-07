@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout | Stapleford Watches</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProRegular.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:"Sweet Sans Pro",Arial,sans-serif;color:#000;background:#fff;min-height:100vh}.checkout-shell{width:min(100%,980px);margin:0 auto;padding:28px 14px 48px}.checkout-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.checkout-title{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:500}.checkout-back{color:#000;text-decoration:none;font-size:11px;letter-spacing:.08em;text-transform:uppercase}.checkout-message{font-size:12px;line-height:1.6;letter-spacing:.02em;opacity:.68;margin-top:18px}.checkout-frame{min-height:640px}.checkout-frame:empty{display:none}@media(max-width:640px){.checkout-shell{padding:18px 10px 36px}.checkout-header{margin-bottom:18px}.checkout-frame{min-height:580px}}
+  </style>
+</head>
+<body>
+  <main class="checkout-shell">
+    <header class="checkout-header">
+      <h1 class="checkout-title">Secure checkout</h1>
+      <a class="checkout-back" href="/buy/">Back to watches</a>
+    </header>
+    <div id="checkout" class="checkout-frame"></div>
+    <p id="checkoutMessage" class="checkout-message">Loading secure checkout…</p>
+  </main>
+  <script>
+    (async () => {
+      const message = document.getElementById('checkoutMessage');
+      const params = new URLSearchParams(window.location.search);
+      const watchId = params.get('watch');
+      function show(messageText){ if(message){ message.textContent = messageText || ''; message.hidden = !messageText; } }
+      if(!watchId){ show('No watch was selected. Please go back and choose a watch.'); return; }
+      try{
+        const configResponse = await fetch('/stripe-config', { headers:{ Accept:'application/json' }, cache:'no-store' });
+        const config = await configResponse.json();
+        if(!configResponse.ok || !config.publishableKey) throw new Error(config.error || 'Stripe is not configured.');
+        const stripe = Stripe(config.publishableKey);
+        const fetchClientSecret = async () => {
+          const response = await fetch('/create-stripe-checkout-session', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({ id:watchId })
+          });
+          const data = await response.json();
+          if(!response.ok || !data.clientSecret) throw new Error(data.error || 'Checkout unavailable.');
+          return data.clientSecret;
+        };
+        const onShippingDetailsChange = async (event) => {
+          const response = await fetch('/calculate-shipping-options', {
+            method:'POST',
+            headers:{ 'Content-Type':'application/json' },
+            body:JSON.stringify({ checkout_session_id:event.checkoutSessionId, shipping_details:event.shippingDetails })
+          });
+          const data = await response.json();
+          if(!response.ok || data.type === 'error') return { type:'reject', errorMessage:data.message || data.error || 'Delivery is unavailable for this address.' };
+          return { type:'accept' };
+        };
+        if (typeof stripe.createEmbeddedCheckoutPage !== 'function') {
+          throw new Error('Stripe embedded checkout is unavailable in this browser. Please try Safari/Chrome again or contact Stapleford Watches.');
+        }
+        const checkout = await stripe.createEmbeddedCheckoutPage({ fetchClientSecret, onShippingDetailsChange });
+        checkout.mount('#checkout');
+        show('');
+      }catch(error){
+        console.error(error);
+        show(error.message || 'Checkout could not be loaded. Please contact Stapleford Watches.');
+      }
+    })();
+  </script>
+</body>
+</html>
