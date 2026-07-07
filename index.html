@@ -622,7 +622,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
       lightboxBuy.hidden = false;
       lightboxBuy.disabled = unavailable;
       lightboxBuy.dataset.watchId = watch.listingId;
-      lightboxBuy.textContent = s === 'sold' ? 'SOLD' : s === 'reserved' ? 'RESERVED' : 'SECURE CHECKOUT';
+      lightboxBuy.textContent = s === 'sold' ? 'SOLD' : s === 'reserved' ? 'RESERVED' : 'BUY NOW';
       lightboxBuy.classList.toggle('is-disabled', unavailable);
       lightboxBuy.setAttribute('aria-disabled', unavailable ? 'true' : 'false');
     }
@@ -716,7 +716,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
       if(!response.ok || !data.url) throw new Error(data.error || 'Unable to start checkout');
       window.location.href = data.url;
     }catch(error){ console.error(error); window.location.href = enquiryData(watch).email; }
-    finally{ setTimeout(() => { if(lightboxBuy && status(watch) === 'available'){ lightboxBuy.disabled = false; lightboxBuy.textContent = original || 'SECURE CHECKOUT'; } }, 800); }
+    finally{ setTimeout(() => { if(lightboxBuy && status(watch) === 'available'){ lightboxBuy.disabled = false; lightboxBuy.textContent = original || 'BUY NOW'; } }, 800); }
   }
 
   function routeKey(){
