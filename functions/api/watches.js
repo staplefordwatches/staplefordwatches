@@ -113,27 +113,37 @@ function appendShippingOption(params, index, rate) {
   params.set(`shipping_options[${index}][shipping_rate_data][delivery_estimate][maximum][value]`, String(rate.maxDays));
 }
 
+function firstNonEmptyField(fields, names) {
+  for (const name of names) {
+    if (!name) continue;
+    const value = fields[name];
+    if (value !== undefined && value !== null && String(value).trim() !== "") return value;
+  }
+  return undefined;
+}
+
 function normaliseStatus(fields, env) {
   const configuredStatusField = clean(env.AIRTABLE_STATUS_FIELD);
-  const raw = clean(
-    (configuredStatusField && fields[configuredStatusField]) ||
-    fields["Listing Status"] ||
-    fields["Status"] ||
-    fields["status"]
-  ).toLowerCase();
+  const raw = clean(firstNonEmptyField(fields, [
+    configuredStatusField,
+    "Listing Status",
+    "Status",
+    "status"
+  ])).toLowerCase();
 
   const configuredStockField = clean(env.AIRTABLE_STOCK_FIELD);
-  const stockRaw =
-    (configuredStockField && fields[configuredStockField]) ??
-    fields["Stock Quantity"] ??
-    fields["Quantity"] ??
-    fields["Stock"] ??
-    1;
-  const stock = Number(stockRaw);
+  const stockRaw = firstNonEmptyField(fields, [
+    configuredStockField,
+    "Stock Quantity",
+    "Quantity",
+    "Stock"
+  ]);
+  const stock = stockRaw === undefined ? null : Number(stockRaw);
 
   if (raw === "hidden") return "hidden";
-  if (raw === "sold" || raw.includes("sold") || Number.isFinite(stock) && stock <= 0) return "sold";
+  if (raw === "sold" || raw.includes("sold")) return "sold";
   if (raw === "reserved" || raw.includes("reserved")) return "reserved";
+  if (stock !== null && Number.isFinite(stock) && stock <= 0) return "sold";
   return "available";
 }
 
