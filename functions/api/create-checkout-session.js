@@ -11,14 +11,55 @@ function siteUrlFromRequest(request, env) {
   return String(env.SITE_URL || new URL(request.url).origin).replace(/\/+$/, "");
 }
 
+function checkoutReturnUrlFromRequest(request, env, body) {
+  const siteUrl = siteUrlFromRequest(request, env);
+  const fallbackReturnUrl = `${siteUrl}/buy/?checkout=complete&session_id={CHECKOUT_SESSION_ID}`;
+  const requestedReturnUrl = body?.returnUrl || body?.return_url;
+
+  if (!requestedReturnUrl) return fallbackReturnUrl;
+
+  const returnUrl = String(requestedReturnUrl).trim();
+  if (!returnUrl) return fallbackReturnUrl;
+
+  try {
+    const siteOrigin = new URL(siteUrl).origin;
+    const validationUrl = returnUrl.replace(/\{CHECKOUT_SESSION_ID\}/g, "cs_test_placeholder");
+    const parsed = new URL(validationUrl, siteUrl);
+
+    // Only allow checkout to return to your own website.
+    if (parsed.origin !== siteOrigin) return fallbackReturnUrl;
+
+    // Preserve Stripe's literal {CHECKOUT_SESSION_ID} placeholder.
+    if (returnUrl.startsWith("/")) return `${siteUrl}${returnUrl}`;
+
+    return returnUrl;
+  } catch (_error) {
+    return fallbackReturnUrl;
+  }
+}
+
+function redirectOnCompletionFromBody(body) {
+  const value = String(
+    body?.redirectOnCompletion || body?.redirect_on_completion || "if_required"
+  )
+    .trim()
+    .toLowerCase();
+
+  return ["always", "if_required", "never"].includes(value) ? value : "if_required";
+}
+
 export async function onRequestPost({ request, env }) {
   try {
     if (!env.STRIPE_SECRET_KEY) throw new Error("Missing Stripe secret key");
     if (!env.STRIPE_SHIPPING_RATE_UK) throw new Error("Missing UK Stripe shipping rate");
     if (!env.STRIPE_SHIPPING_RATE_EUROPE) throw new Error("Missing Europe Stripe shipping rate");
-    if (!env.STRIPE_SHIPPING_RATE_INTERNATIONAL) throw new Error("Missing International Stripe shipping rate");
+    if (!env.STRIPE_SHIPPING_RATE_INTERNATIONAL) {
+      throw new Error("Missing International Stripe shipping rate");
+    }
 
-    const { watch } = await request.json();
+    const body = await request.json();
+    const { watch } = body;
+
     const item = await findWatchByListingId(env, watch);
 
     if (!item) {
@@ -26,20 +67,24 @@ export async function onRequestPost({ request, env }) {
     }
 
     const normalizedStatus = String(item.status || "").toLowerCase();
+
     if (normalizedStatus.includes("sold") || normalizedStatus.includes("reserved")) {
       return Response.json({ error: "This watch is no longer available." }, { status: 409 });
     }
 
     if (!item.pricePence) {
-      return Response.json({ error: "This watch is not currently available for online checkout." }, { status: 400 });
+      return Response.json(
+        { error: "This watch is not currently available for online checkout." },
+        { status: 400 }
+      );
     }
 
-    const siteUrl = siteUrlFromRequest(request, env);
     const params = new URLSearchParams();
 
     add(params, "mode", "payment");
     add(params, "ui_mode", "embedded_page");
-    add(params, "return_url", `${siteUrl}/buy/?checkout=complete&session_id={CHECKOUT_SESSION_ID}`);
+    add(params, "return_url", checkoutReturnUrlFromRequest(request, env, body));
+    add(params, "redirect_on_completion", redirectOnCompletionFromBody(body));
     add(params, "billing_address_collection", "required");
     add(params, "phone_number_collection[enabled]", "true");
     add(params, "permissions[update_shipping_details]", "server_only");
