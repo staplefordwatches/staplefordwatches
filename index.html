@@ -741,7 +741,7 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
                   <circle cx="18" cy="20" r="1.5"></circle>
                   <path d="M3 4h2.4l2.1 11.2a1.8 1.8 0 0 0 1.8 1.5h8.5a1.8 1.8 0 0 0 1.7-1.3L21 8H7"></path>
                 </svg>
-                <div style="display:inline-flex;align-items:center;height:15px;font-size:11px;line-height:15px;letter-spacing:.1em;text-transform:uppercase;">YOUR CART</div>
+                <div id="stripe-checkout-title" style="display:inline-flex;align-items:center;height:15px;font-size:11px;line-height:15px;letter-spacing:.1em;text-transform:uppercase;">YOUR CART</div>
               </div>
               <div id="checkout"></div>
             </div>
@@ -768,6 +768,38 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
           window.staplefordEmbeddedCheckout = null;
         };
       }
+
+      const showCheckoutSuccess = () => {
+        const title = checkoutWrap.querySelector('#stripe-checkout-title');
+        if(title) title.textContent = 'PAYMENT COMPLETE';
+        if(closeButton) closeButton.textContent = 'CLOSE';
+        if(window.staplefordEmbeddedCheckout && typeof window.staplefordEmbeddedCheckout.destroy === 'function'){
+          try{ window.staplefordEmbeddedCheckout.destroy(); }catch(_error){}
+        }
+        window.staplefordEmbeddedCheckout = null;
+        mountPoint.innerHTML = `
+          <div id="stripe-checkout-success" role="status" aria-live="polite" style="padding:42px 0 54px;text-align:left;color:#000;font-family:'Sweet Sans Pro',Arial,sans-serif;">
+            <div aria-hidden="true" style="width:34px;height:34px;margin:0 0 18px;border:1px solid rgba(0,0,0,.28);border-radius:999px;display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" style="width:18px;height:18px;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;">
+                <path d="M5 12.5l4.2 4.1L19 7"></path>
+              </svg>
+            </div>
+            <h2 style="margin:0 0 12px;font:inherit;font-size:17px;line-height:1.25;letter-spacing:.08em;text-transform:uppercase;">Thank you</h2>
+            <p style="max-width:520px;margin:0 0 24px;font-size:12px;line-height:1.7;letter-spacing:.018em;color:rgba(0,0,0,.72);">Your payment has been received. We&rsquo;ll email your order confirmation shortly.</p>
+            <button id="stripe-checkout-success-close" type="button" style="border:1px solid rgba(0,0,0,.18);background:#000;color:#fff;font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:13px 18px;cursor:pointer;">Continue</button>
+          </div>
+        `;
+        const successClose = checkoutWrap.querySelector('#stripe-checkout-success-close');
+        if(successClose){
+          successClose.onclick = () => {
+            checkoutWrap.hidden = true;
+            const heading = checkoutWrap.querySelector('#stripe-checkout-title');
+            if(heading) heading.textContent = 'YOUR CART';
+          };
+        }
+        try{ localStorage.removeItem(CACHE_KEY); }catch(_error){}
+        setTimeout(() => { loadWatches(); }, 1200);
+      };
 
       const stripe = Stripe(config.publishableKey);
 
@@ -800,7 +832,8 @@ html body .lightbox-detail-buy[aria-disabled="true"]{background:#f4f4f4!importan
 
       window.staplefordEmbeddedCheckout = await stripe.createEmbeddedCheckoutPage({
         fetchClientSecret,
-        onShippingDetailsChange
+        onShippingDetailsChange,
+        onComplete: showCheckoutSuccess
       });
       window.staplefordEmbeddedCheckout.mount('#checkout');
     }catch(error){
