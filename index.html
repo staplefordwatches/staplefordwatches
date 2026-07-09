@@ -98,8 +98,12 @@ html body #stripe-checkout-close,html body #stripe-checkout-close:active,html bo
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  width:auto!important;
-  min-width:0!important;
+  width:max-content!important;
+  min-width:max-content!important;
+  max-width:none!important;
+  overflow:visible!important;
+  white-space:nowrap!important;
+  flex:0 0 auto!important;
   height:var(--sw-overlay-control-height)!important;
   min-height:var(--sw-overlay-control-height)!important;
   margin:0!important;
