@@ -1742,6 +1742,53 @@ html body.journal-active #journalGrid.grid .journal-card-copy{
     try{ const value = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); if(!value || !Array.isArray(value.posts) || Date.now() - Number(value.savedAt || 0) > CACHE_MAX_AGE) return null; return value.posts; }catch{ return null; }
   }
   function save(posts){ try{ localStorage.setItem(CACHE_KEY,JSON.stringify({savedAt:Date.now(),posts})); }catch{} }
+  function numberedImageUrl(value, number){
+    const source = safeUrl(value || '');
+    if(!source) return '';
+    try{
+      const url = new URL(source);
+      const parts = url.pathname.split('/');
+      const current = parts[parts.length - 1] || '';
+      const match = current.match(/^(\d+)(\.[a-z0-9]+)?$/i);
+      if(!match) return '';
+      parts[parts.length - 1] = `${String(number).padStart(2,'0')}${match[2] || ''}`;
+      url.pathname = parts.join('/');
+      url.search = '';
+      url.hash = '';
+      return url.href;
+    }catch{ return ''; }
+  }
+  function canLoadImage(value){
+    const source = safeUrl(value || '');
+    if(!source) return Promise.resolve(false);
+    return new Promise(resolve => {
+      const image = new Image();
+      let finished = false;
+      const done = result => { if(finished) return; finished = true; clearTimeout(timer); image.onload = null; image.onerror = null; resolve(result); };
+      const timer = setTimeout(() => done(false), 8000);
+      image.onload = () => done(true);
+      image.onerror = () => done(false);
+      const probe = new URL(source);
+      probe.searchParams.set('journal_probe', String(Date.now()));
+      image.src = probe.href;
+    });
+  }
+  async function discoverJournalImages(post){
+    const current = Array.isArray(post.images) ? post.images.map(safeUrl).filter(Boolean) : [];
+    const hero = safeUrl(post.heroImage || post.image || current[0] || '');
+    if(!hero) return current;
+    const images = [hero];
+    let number = 2;
+    while(number <= 20){
+      const candidate = numberedImageUrl(hero, number);
+      if(!candidate || !(await canLoadImage(candidate))) break;
+      images.push(candidate);
+      number += 1;
+    }
+    post.images = images;
+    post.imageCount = images.length;
+    return images;
+  }
   async function fetchPosts(){
     const response = await fetch(`/api/journal?fresh=${Date.now()}`,{headers:{Accept:'application/json','Cache-Control':'no-cache'},cache:'no-store'});
     const data = await response.json();
@@ -1817,7 +1864,7 @@ html body.journal-active #journalGrid.grid .journal-card-copy{
     if(route.slug){
       const wanted = route.slug.toLowerCase();
       const post = posts.find(item => String(item.slug || slugify(item.title)).toLowerCase() === wanted);
-      if(post) renderArticle(post); else { renderIndex(posts); message.hidden=false; message.textContent='That Journal entry could not be found.'; }
+      if(post){ await discoverJournalImages(post); renderArticle(post); } else { renderIndex(posts); message.hidden=false; message.textContent='That Journal entry could not be found.'; }
     }else renderIndex(posts);
   }
   document.addEventListener('click',(event)=>{
