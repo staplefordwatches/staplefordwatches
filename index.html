@@ -579,12 +579,15 @@ html body.journal-active #journalGrid.grid .journal-card-copy{
 /* Frosted catalogue controls */
 .catalog-controls{position:sticky;top:max(8px,env(safe-area-inset-top));z-index:120;width:min(calc(100% - 24px),680px);margin:10px auto 14px;pointer-events:none}
 .glass-toolbar,.glass-control-panel{pointer-events:auto}
-.glass-toolbar{position:relative;isolation:isolate;display:flex;align-items:center;width:100%;min-height:54px;padding:6px 8px 6px 17px;overflow:hidden;color:#0b0b0b;border:1px solid rgba(255,255,255,.78);border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.82),rgba(244,244,242,.58));box-shadow:0 12px 34px rgba(0,0,0,.11),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(0,0,0,.045);-webkit-backdrop-filter:blur(24px) saturate(165%);backdrop-filter:blur(24px) saturate(165%)}
-.glass-toolbar::before{content:"";position:absolute;inset:1px 10% auto;height:45%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(255,255,255,0));pointer-events:none;z-index:-1}
+.glass-toolbar{position:relative;isolation:isolate;display:flex;align-items:center;width:100%;min-height:54px;padding:6px 8px 6px 17px;overflow:hidden;color:#0b0b0b;border:1px solid rgba(0,0,0,.15);border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.61) 48%,rgba(239,239,237,.55) 100%);box-shadow:0 9px 28px rgba(0,0,0,.09),0 2px 7px rgba(0,0,0,.035),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(0,0,0,.035);-webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%);transition:border-color .18s ease,box-shadow .18s ease}
+.glass-toolbar::before{content:"";position:absolute;inset:1px 8% auto;height:48%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,0));pointer-events:none;z-index:-1}
+.glass-toolbar:focus-within{border-color:rgba(0,0,0,.24);box-shadow:0 10px 30px rgba(0,0,0,.095),0 2px 7px rgba(0,0,0,.035),inset 0 1px 0 rgba(255,255,255,1),inset 0 -1px 0 rgba(0,0,0,.035)}
 .glass-search{display:flex;align-items:center;flex:1 1 auto;min-width:0;height:40px}
 .glass-icon{width:17px;height:17px;display:block;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
+.glass-filter-icon{width:16px;height:16px;fill:currentColor;stroke:none}
 .glass-search>.glass-icon{margin-right:10px;opacity:.76}
 .glass-search-input{width:100%;min-width:0;height:40px;border:0;outline:0;background:transparent;color:#000;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:11px;font-weight:500;letter-spacing:.045em;text-transform:uppercase;-webkit-appearance:none;appearance:none}
+.glass-search-input:focus,.glass-search-input:focus-visible{border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important}
 .glass-search-input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
 .glass-search-input::placeholder{color:rgba(0,0,0,.52);opacity:1}
 .glass-search-clear{display:grid;place-items:center;flex:0 0 auto;width:30px;height:30px;margin-right:3px;border:0;border-radius:50%;background:rgba(255,255,255,.48);color:#000;font:400 17px/1 Arial,sans-serif;cursor:pointer}
@@ -593,7 +596,7 @@ html body.journal-active #journalGrid.grid .journal-card-copy{
 .glass-action{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;height:40px;padding:0 13px;border:0;border-radius:999px;background:transparent;color:#000;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:10px;font-weight:500;letter-spacing:.055em;text-transform:uppercase;cursor:pointer;transition:background-color .18s ease,box-shadow .18s ease}
 .glass-action:hover,.glass-action[aria-expanded="true"]{background:rgba(255,255,255,.62);box-shadow:inset 0 0 0 1px rgba(0,0,0,.055)}
 .glass-action.is-active::after{content:"";position:absolute;top:8px;right:8px;width:4px;height:4px;border-radius:50%;background:#000}
-.glass-toolbar :focus-visible,.glass-control-panel :focus-visible{outline:1px solid #000;outline-offset:2px}
+.glass-option input:focus-visible{outline:1px solid rgba(0,0,0,.48);outline-offset:2px}
 .glass-control-panel{position:absolute;top:calc(100% + 9px);right:0;width:min(286px,calc(100vw - 24px));padding:16px;border:1px solid rgba(255,255,255,.8);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(244,244,242,.78));box-shadow:0 18px 42px rgba(0,0,0,.13),inset 0 1px 0 rgba(255,255,255,.98);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%)}
 .glass-control-panel[hidden]{display:none!important}
 .glass-control-panel fieldset{border:0;margin:0;padding:0}
@@ -693,7 +696,7 @@ html body.journal-active #journalGrid.grid .journal-card-copy{
         '</div>',
         '<span class="glass-divider" aria-hidden="true"></span>',
         '<button class="glass-action" id="catalogFilterButton" type="button" aria-expanded="false" aria-controls="catalogFilterPanel">',
-          '<svg class="glass-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"></path></svg>',
+          '<svg class="glass-icon glass-filter-icon" aria-hidden="true" focusable="false" viewBox="0 0 48 48"><path d="M41.8,8H21.7A6.2,6.2,0,0,0,16,4a6,6,0,0,0-5.6,4H6.2A2.1,2.1,0,0,0,4,10a2.1,2.1,0,0,0,2.2,2h4.2A6,6,0,0,0,16,16a6.2,6.2,0,0,0,5.7-4H41.8A2.1,2.1,0,0,0,44,10,2.1,2.1,0,0,0,41.8,8Z"></path><path d="M41.8,22H37.7A6.2,6.2,0,0,0,32,18a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4H26.4A6,6,0,0,0,32,30a6.2,6.2,0,0,0,5.7-4h4.1a2,2,0,1,0,0-4Z"></path><path d="M41.8,36H24.7A6.2,6.2,0,0,0,19,32a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4h7.2A6,6,0,0,0,19,44a6.2,6.2,0,0,0,5.7-4H41.8a2,2,0,1,0,0-4Z"></path></svg>',
           '<span class="glass-action-label">Filters</span>',
         '</button>',
         '<span class="glass-divider" aria-hidden="true"></span>',
