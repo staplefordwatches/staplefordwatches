@@ -22,13 +22,21 @@
 .card{display:flex;flex-direction:column;position:relative}
 .image{aspect-ratio:4/5;overflow:hidden;position:relative}
 .image img{width:100%;height:100%;object-fit:cover;opacity:1;filter:none}
-.info{display:flex;justify-content:space-between;padding:6px var(--listing-copy-rail);font-size:var(--type-body)}
-.title{display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.info{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:6px var(--listing-copy-rail);font-size:var(--type-body)}
+.title{display:flex;flex:1 1 auto;min-width:0;flex-direction:column;gap:3px;overflow:visible}
+.listing-title{font-size:var(--type-body);line-height:1.25;letter-spacing:.035em;text-transform:uppercase;overflow-wrap:anywhere}
+.listing-reference,.listing-meta{font-size:var(--type-control);line-height:1.25;letter-spacing:.045em;text-transform:uppercase;opacity:.62}
+.listing-meta{display:flex;align-items:center;gap:6px;min-height:1.25em}
+.listing-meta-dot{display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;flex:0 0 auto}
 .price{white-space:nowrap}
+.price-short{display:none}
 .info-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .enquire-trigger{position:absolute;right:8px;bottom:8px;border:none;background:rgba(255,255,255,.96);color:#000;font:inherit;font-size:var(--type-control);padding:8px 10px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:default;text-transform:uppercase;z-index:2}
 .enquire-trigger svg{width:12px;height:12px}
 @media (max-width:767px){:root{--gap:1px}
+.info{gap:5px}
+.price-long{display:none}
+.price-short{display:inline}
 .footer-inner{width:100%}
 }
 .image.reserved img,.image.sold img{opacity:.4}
@@ -1655,7 +1663,11 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
 
 .glass-option{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:38px;border-top:1px solid rgba(0,0,0,.1);font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-control);font-weight:500;letter-spacing:.055em;text-transform:uppercase;cursor:pointer}
 
-.glass-option input{width:14px;height:14px;margin:0;accent-color:#000;cursor:pointer}
+.glass-option input{-webkit-appearance:none;appearance:none;display:grid;place-items:center;width:14px;height:14px;margin:0;border:1px solid rgba(0,0,0,.56);border-radius:50%;background:transparent;cursor:pointer;flex:0 0 auto}
+
+.glass-option input::after{content:"";width:6px;height:6px;border-radius:50%;background:#000;transform:scale(0);transition:transform .12s ease}
+
+.glass-option input:checked::after{transform:scale(1)}
 
 .glass-panel-reset{margin-top:11px;padding:0;border:0;border-bottom:1px solid rgba(0,0,0,.45);background:transparent;color:#000;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-caption);font-weight:500;letter-spacing:.075em;text-transform:uppercase;cursor:pointer}
 
@@ -2106,6 +2118,14 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     if(!brand) return full;
     return normalizeFieldName(full).startsWith(normalizeFieldName(brand)) ? full.replace(new RegExp('^' + brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*', 'i'), '').trim() : full;
   }
+  function listingCardTitle(watch){
+    const base = `${watch && watch.brand || ''} ${watch && watch.title || ''}`.trim() || displayName(watch);
+    const reference = getReference(watch);
+    if(!reference) return base;
+    const escapedReference = reference.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const withoutReference = base.replace(new RegExp('\\s*(?:ref(?:erence)?\\.?\\s*)?' + escapedReference + '\\s*', 'ig'), ' ').replace(/\s{2,}/g, ' ').trim();
+    return withoutReference || base;
+  }
   function slug(watch){
     const id = String((watch && (watch.listingId || watch.id)) || '').toLowerCase();
     const text = displayName(watch).toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'watch';
@@ -2302,7 +2322,12 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     const gridSrc = gridImage(img, index < 6 ? 800 : 640);
     const gridSet = gridSrcset(img);
     const name = displayName(watch);
+    const priceOnRequest = !sold && !reserved && !money(watch.price);
     const price = sold ? 'SOLD' : reserved ? 'RESERVED' : money(watch.price) ? '£' + money(watch.price) : 'PRICE ON REQUEST';
+    const listingTitle = listingCardTitle(watch);
+    const reference = getReference(watch);
+    const year = String(specs.year || watch.year || '').trim();
+    const caseSize = String(specs.caseSize || watch.caseSize || '').trim();
     const specRows = [
       ['REFERENCE', specs.reference], ['YEAR', specs.year], ['CASE SIZE', specs.caseSize], ['MOVEMENT', getMovement(watch) || specs.movement], ['CONDITION', specs.condition], ['CONTENTS', specs.contents], ['LISTING ID', specs.listingId || watch.listingId]
     ].filter(([, value]) => value != null && String(value).trim() !== '');
@@ -2315,7 +2340,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
         ${reserved ? '<div class="status-badge">RESERVED</div>' : ''}
         ${available ? `<button class="spec-trigger" type="button" aria-expanded="false"><span>SPEC ↑</span></button><div class="spec-overlay" aria-hidden="true"><button class="spec-hide" type="button" aria-label="Hide specifications"><span>HIDE ↓</span></button><div class="spec-list">${specRows.map(([label,value]) => `<div class="spec-row"><span class="spec-label">${escapeHtml(label)}</span><span class="spec-value">${escapeHtml(String(value || '').toUpperCase())}</span></div>`).join('')}</div></div>` : ''}
       </div>
-      <div class="info"><div class="title"><div class="brand">${escapeHtml(String(watch.brand || '').toUpperCase())}</div><div>${escapeHtml(titleWithoutBrand(watch))}</div></div><div class="info-right"><div class="price">${escapeHtml(price)}</div></div></div>
+      <div class="info"><div class="title"><div class="listing-title">${escapeHtml(listingTitle)}</div>${reference ? `<div class="listing-reference">REF. ${escapeHtml(reference)}</div>` : ''}${year || caseSize ? `<div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div>` : ''}</div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
     </article>`;
   }
   function setListingSpecOpen(image, open){
