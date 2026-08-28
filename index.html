@@ -1652,8 +1652,6 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
 
 .glass-action.is-active::after{content:"";position:absolute;top:8px;right:8px;width:4px;height:4px;border-radius:50%;background:#000}
 
-.glass-option input:focus-visible{outline:1px solid rgba(0,0,0,.48);outline-offset:2px}
-
 .glass-control-panel{position:absolute;top:calc(100% + 9px);right:0;width:min(286px,100%);padding:16px;border:1px solid rgba(0,0,0,.075);border-radius:2px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(244,244,242,.78));box-shadow:0 12px 32px rgba(0,0,0,.10);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%)}
 
 .glass-control-panel--sort{padding-bottom:6px}
@@ -1664,9 +1662,11 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
 
 .glass-control-panel legend{width:100%;margin:0 0 10px;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-caption);font-weight:500;letter-spacing:.1em;text-transform:uppercase;opacity:.55}
 
-.glass-option{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:38px;border-top:1px solid rgba(0,0,0,.1);font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-control);font-weight:500;letter-spacing:.055em;text-transform:uppercase;cursor:pointer}
+.glass-option{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:38px;border-top:1px solid rgba(0,0,0,.1);font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-control);font-weight:500;letter-spacing:.055em;text-transform:uppercase;cursor:pointer;transition:background-color .14s ease}
 
-.glass-option input{-webkit-appearance:none;appearance:none;display:grid;place-items:center;width:14px;height:14px;margin:0;border:1px solid rgba(0,0,0,.56);border-radius:50%;background:transparent;cursor:pointer;flex:0 0 auto}
+.glass-option:focus-within{background:rgba(0,0,0,.035)}
+
+.glass-option input{-webkit-appearance:none;appearance:none;display:grid;place-items:center;width:14px;height:14px;margin:0;border:1px solid rgba(0,0,0,.56);border-radius:50%;outline:0;box-shadow:none;background:transparent;cursor:pointer;flex:0 0 auto;-webkit-tap-highlight-color:transparent}
 
 .glass-option input::after{content:"";width:6px;height:6px;border-radius:50%;background:#000;transform:scale(0);transition:transform .12s ease}
 
@@ -1865,8 +1865,6 @@ html body.product-page-open #lightbox.open #lightboxDetailTitle{font-weight:600!
       if(willOpen){
         panel.hidden = false;
         button.setAttribute('aria-expanded','true');
-        const firstInput = panel.querySelector('input');
-        if(firstInput) setTimeout(() => firstInput.focus({ preventScroll:true }), 0);
       }
     }
     function sync(){
@@ -2364,7 +2362,7 @@ html body.product-page-open #lightbox.open #lightboxDetailTitle{font-weight:600!
     const gridSet = gridSrcset(img);
     const name = displayName(watch);
     const priceOnRequest = !sold && !reserved && !money(watch.price);
-    const price = sold ? 'SOLD' : reserved ? 'RESERVED' : money(watch.price) ? '£' + money(watch.price) : 'PRICE ON REQUEST';
+    const price = sold ? 'SOLD' : reserved ? '' : money(watch.price) ? '£' + money(watch.price) : 'PRICE ON REQUEST';
     const listingTitle = listingCardTitle(watch);
     const reference = getReference(watch);
     const year = formatYear(specs.year || watch.year || '');
