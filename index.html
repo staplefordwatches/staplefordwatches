@@ -23,12 +23,12 @@
 .image{aspect-ratio:4/5;overflow:hidden;position:relative}
 .image img{width:100%;height:100%;object-fit:cover;opacity:1;filter:none}
 .info{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:6px var(--listing-copy-rail);font-size:var(--type-body)}
-.title{display:grid;flex:1 1 auto;min-width:0;grid-template-rows:minmax(1.15em,auto) auto minmax(1.15em,auto) minmax(1.15em,auto);align-content:start;gap:1px;overflow:visible}
-.listing-brand{grid-row:1;min-width:0;font-size:var(--type-caption);line-height:1.15;letter-spacing:.055em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.listing-title{grid-row:2;font-size:calc(var(--type-body) - 1px);line-height:1.2;letter-spacing:.03em;text-transform:uppercase;overflow-wrap:anywhere}
-.listing-reference,.listing-meta{min-height:1.15em;font-size:var(--type-control);line-height:1.15;letter-spacing:.045em;text-transform:uppercase;opacity:.62}
-.listing-reference{grid-row:3}
-.listing-meta{display:flex;grid-row:4;align-items:center;gap:6px}
+.title{display:grid;flex:1 1 auto;min-width:0;grid-template-rows:minmax(1.15em,auto) auto auto;align-content:start;gap:0;overflow:visible}
+.listing-brand{grid-row:1;min-width:0;margin-bottom:1px;font-size:var(--type-caption);line-height:1.15;letter-spacing:.055em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.listing-title{grid-row:2;margin-bottom:2px;font-size:calc(var(--type-body) - 1px);line-height:1.2;letter-spacing:.03em;text-transform:uppercase;overflow-wrap:anywhere}
+.listing-details{display:flex;grid-row:3;flex-direction:column;gap:0;min-width:0}
+.listing-reference,.listing-meta{min-height:1.05em;font-size:var(--type-control);line-height:1.05;letter-spacing:.045em;text-transform:uppercase;opacity:.62}
+.listing-meta{display:flex;align-items:center;gap:6px}
 .listing-year,.spec-year-value{text-transform:none!important}
 .listing-meta-dot{display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;flex:0 0 auto}
 .price{white-space:nowrap}
@@ -2367,7 +2367,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
         ${reserved ? '<div class="status-badge">RESERVED</div>' : ''}
         ${available ? `<button class="spec-trigger" type="button" aria-expanded="false"><span>SPEC ↑</span></button><div class="spec-overlay" aria-hidden="true"><button class="spec-hide" type="button" aria-label="Hide specifications"><span>HIDE ↓</span></button><div class="spec-list">${specRows.map(([label,value]) => `<div class="spec-row"><span class="spec-label">${escapeHtml(label)}</span><span class="spec-value${label === 'YEAR' ? ' spec-year-value' : ''}">${escapeHtml(formatSpecValue(label, value))}</span></div>`).join('')}</div></div>` : ''}
       </div>
-      <div class="info"><div class="title"><div class="listing-brand">${escapeHtml(String(watch.brand || '').toUpperCase())}</div><div class="listing-title">${escapeHtml(listingTitle)}</div>${reference ? `<div class="listing-reference">${escapeHtml(reference)}</div>` : ''}${year || caseSize ? `<div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span class="listing-year" aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div>` : ''}</div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
+      <div class="info"><div class="title"><div class="listing-brand">${escapeHtml(String(watch.brand || '').toUpperCase())}</div><div class="listing-title">${escapeHtml(listingTitle)}</div><div class="listing-details"><div class="listing-reference">${reference ? escapeHtml(reference) : ''}</div><div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span class="listing-year" aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div></div></div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
     </article>`;
   }
   function setListingSpecOpen(image, open){
@@ -2433,7 +2433,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     const s = status(watch);
     if(lightboxStatusBadge){ lightboxStatusBadge.hidden = true; lightboxStatusBadge.textContent = ''; }
     setText(lightboxBrand, String(watch.brand || '').toUpperCase());
-    setText(lightboxTitle, titleWithoutBrand(watch));
+    setText(lightboxTitle, listingCardTitle(watch));
     setText(lightboxReference, getReference(watch) ? `REFERENCE: ${String(getReference(watch)).toUpperCase()}` : '');
     setText(lightboxYear, watch.specs?.year ? `YEAR: ${formatYear(watch.specs.year)}` : '');
     setText(lightboxContents, watch.specs?.contents ? `CONTENTS: ${String(watch.specs.contents).toUpperCase()}` : '');
@@ -2691,7 +2691,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
   }
   function updateProductSeo(watch){
     const url = productLink(watch);
-    const title = `${displayName(watch)} | Stapleford Watches`;
+    const title = `${`${watch.brand || ''} ${listingCardTitle(watch)}`.trim()} | Stapleford Watches`;
     const desc = description(watch).slice(0, 240);
     document.title = title;
     upsert('link[rel="canonical"]','link',{rel:'canonical'}).href = url;
