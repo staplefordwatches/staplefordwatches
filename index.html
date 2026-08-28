@@ -23,10 +23,11 @@
 .image{aspect-ratio:4/5;overflow:hidden;position:relative}
 .image img{width:100%;height:100%;object-fit:cover;opacity:1;filter:none}
 .info{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:6px var(--listing-copy-rail);font-size:var(--type-body)}
-.title{display:flex;flex:1 1 auto;min-width:0;flex-direction:column;gap:3px;overflow:visible}
-.listing-title{font-size:var(--type-body);line-height:1.25;letter-spacing:.035em;text-transform:uppercase;overflow-wrap:anywhere}
-.listing-reference,.listing-meta{font-size:var(--type-control);line-height:1.25;letter-spacing:.045em;text-transform:uppercase;opacity:.62}
-.listing-meta{display:flex;align-items:center;gap:6px;min-height:1.25em}
+.title{display:grid;flex:1 1 auto;min-width:0;grid-template-rows:auto minmax(1.25em,auto) minmax(1.25em,auto);align-content:start;gap:3px;overflow:visible}
+.listing-title{grid-row:1;font-size:var(--type-body);line-height:1.25;letter-spacing:.035em;text-transform:uppercase;overflow-wrap:anywhere}
+.listing-reference,.listing-meta{min-height:1.25em;font-size:var(--type-control);line-height:1.25;letter-spacing:.045em;text-transform:uppercase;opacity:.62}
+.listing-reference{grid-row:2}
+.listing-meta{display:flex;grid-row:3;align-items:center;gap:6px}
 .listing-meta-dot{display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;flex:0 0 auto}
 .price{white-space:nowrap}
 .price-short{display:none}
@@ -1771,6 +1772,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
   let lightboxImageRequestId = 0;
   const detailImagePreloadCache = new Map();
   let helpPopFrame = 0;
+  let listingAlignmentFrame = 0;
   let loadPromise = null;
   let catalogControlsApi = null;
 
@@ -2292,6 +2294,26 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     if(noResults) noResults.hidden = false;
     document.body.classList.add('no-results-active');
   }
+  function alignListingMetadataRows(){
+    if(!gallery) return;
+    const rowTitles = new Map();
+    gallery.querySelectorAll('.listing-title').forEach(title => { title.style.minHeight = ''; });
+    gallery.querySelectorAll('.card').forEach(card => {
+      const title = card.querySelector('.listing-title');
+      if(!title) return;
+      const row = Math.round(card.offsetTop);
+      if(!rowTitles.has(row)) rowTitles.set(row, []);
+      rowTitles.get(row).push(title);
+    });
+    rowTitles.forEach(titles => {
+      const height = Math.ceil(Math.max(...titles.map(title => title.getBoundingClientRect().height)));
+      titles.forEach(title => { title.style.minHeight = height + 'px'; });
+    });
+  }
+  function scheduleListingMetadataAlignment(){
+    if(listingAlignmentFrame) cancelAnimationFrame(listingAlignmentFrame);
+    listingAlignmentFrame = requestAnimationFrame(() => { listingAlignmentFrame = 0; alignListingMetadataRows(); });
+  }
   function render(){
     if(!gallery) return;
     visibleLimit = Math.max(visibleLimit, initialLimit());
@@ -2300,6 +2322,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     const visible = items.slice(0, displayLimit);
     const html = visible.map(cardHtml).join('');
     gallery.innerHTML = html;
+    scheduleListingMetadataAlignment();
     if(catalogControlsApi) catalogControlsApi.updateCount(items.length);
     const hasResults = items.length > 0;
     if(noResults) noResults.hidden = hasResults;
@@ -2340,7 +2363,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
         ${reserved ? '<div class="status-badge">RESERVED</div>' : ''}
         ${available ? `<button class="spec-trigger" type="button" aria-expanded="false"><span>SPEC ↑</span></button><div class="spec-overlay" aria-hidden="true"><button class="spec-hide" type="button" aria-label="Hide specifications"><span>HIDE ↓</span></button><div class="spec-list">${specRows.map(([label,value]) => `<div class="spec-row"><span class="spec-label">${escapeHtml(label)}</span><span class="spec-value">${escapeHtml(String(value || '').toUpperCase())}</span></div>`).join('')}</div></div>` : ''}
       </div>
-      <div class="info"><div class="title"><div class="listing-title">${escapeHtml(listingTitle)}</div>${reference ? `<div class="listing-reference">REF. ${escapeHtml(reference)}</div>` : ''}${year || caseSize ? `<div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div>` : ''}</div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
+      <div class="info"><div class="title"><div class="listing-title">${escapeHtml(listingTitle)}</div>${reference ? `<div class="listing-reference">${escapeHtml(reference)}</div>` : ''}${year || caseSize ? `<div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div>` : ''}</div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
     </article>`;
   }
   function setListingSpecOpen(image, open){
@@ -2848,9 +2871,9 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     if(menuToggle) menuToggle.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(); }, { passive:false });
     if(logoHome) logoHome.addEventListener('click', (e) => { e.preventDefault(); goHome(); });
     if(showMoreBtn) showMoreBtn.addEventListener('click', () => { visibleLimit = nextShowMoreLimit(filteredWatches().length); render(); });
-    window.addEventListener('resize', debounce(() => { const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); scheduleMenuOverflowCheck(); scheduleHelpPopUpdate(); }, 160), { passive:true });
+    window.addEventListener('resize', debounce(() => { const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); else scheduleListingMetadataAlignment(); scheduleMenuOverflowCheck(); scheduleHelpPopUpdate(); }, 160), { passive:true });
     window.addEventListener('orientationchange', scheduleMenuOverflowCheck, { passive:true });
-    if(document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleMenuOverflowCheck).catch(() => {});
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { scheduleMenuOverflowCheck(); scheduleListingMetadataAlignment(); }).catch(() => {});
     if('ResizeObserver' in window && menu){ const menuResizeObserver = new ResizeObserver(scheduleMenuOverflowCheck); menuResizeObserver.observe(menu); const primary = menuPrimary(); if(primary) menuResizeObserver.observe(primary); }
     document.addEventListener('keydown', (e) => {
       if(e.key === 'Escape'){ if(catalogControlsApi && catalogControlsApi.closePanels()) return; if(lightbox && lightbox.classList.contains('open')) closeLightbox(); else closeMenu(); }
