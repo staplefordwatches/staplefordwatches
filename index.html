@@ -23,11 +23,13 @@
 .image{aspect-ratio:4/5;overflow:hidden;position:relative}
 .image img{width:100%;height:100%;object-fit:cover;opacity:1;filter:none}
 .info{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:6px var(--listing-copy-rail);font-size:var(--type-body)}
-.title{display:grid;flex:1 1 auto;min-width:0;grid-template-rows:auto minmax(1.25em,auto) minmax(1.25em,auto);align-content:start;gap:3px;overflow:visible}
-.listing-title{grid-row:1;font-size:var(--type-body);line-height:1.25;letter-spacing:.035em;text-transform:uppercase;overflow-wrap:anywhere}
-.listing-reference,.listing-meta{min-height:1.25em;font-size:var(--type-control);line-height:1.25;letter-spacing:.045em;text-transform:uppercase;opacity:.62}
-.listing-reference{grid-row:2}
-.listing-meta{display:flex;grid-row:3;align-items:center;gap:6px}
+.title{display:grid;flex:1 1 auto;min-width:0;grid-template-rows:minmax(1.15em,auto) auto minmax(1.15em,auto) minmax(1.15em,auto);align-content:start;gap:1px;overflow:visible}
+.listing-brand{grid-row:1;min-width:0;font-size:var(--type-caption);line-height:1.15;letter-spacing:.055em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.listing-title{grid-row:2;font-size:calc(var(--type-body) - 1px);line-height:1.2;letter-spacing:.03em;text-transform:uppercase;overflow-wrap:anywhere}
+.listing-reference,.listing-meta{min-height:1.15em;font-size:var(--type-control);line-height:1.15;letter-spacing:.045em;text-transform:uppercase;opacity:.62}
+.listing-reference{grid-row:3}
+.listing-meta{display:flex;grid-row:4;align-items:center;gap:6px}
+.listing-year,.spec-year-value{text-transform:none!important}
 .listing-meta-dot{display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;flex:0 0 auto}
 .price{white-space:nowrap}
 .price-short{display:none}
@@ -2084,6 +2086,8 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     loadThenApply(detailSrc, set, clean && clean !== detailSrc ? clean : '');
   }
   function money(value){ const number = Number(String(value || '').replace(/[^0-9.]/g,'')); return number > 0 ? number.toLocaleString('en-GB') : ''; }
+  function formatYear(value){ return String(value || '').trim().replace(/\bC\./gi, 'c.').replace(/(\d)S\b/g, '$1s'); }
+  function formatSpecValue(label, value){ return String(label || '').toUpperCase() === 'YEAR' ? formatYear(value) : String(value || '').toUpperCase(); }
   function pickRaw(source, aliases){
     if(!source || typeof source !== 'object') return undefined;
     const wanted = aliases.map(normalizeFieldName);
@@ -2121,7 +2125,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     return normalizeFieldName(full).startsWith(normalizeFieldName(brand)) ? full.replace(new RegExp('^' + brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*', 'i'), '').trim() : full;
   }
   function listingCardTitle(watch){
-    const base = `${watch && watch.brand || ''} ${watch && watch.title || ''}`.trim() || displayName(watch);
+    const base = String(watch && watch.title || '').trim() || titleWithoutBrand(watch);
     const reference = getReference(watch);
     if(!reference) return base;
     const escapedReference = reference.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -2349,7 +2353,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     const price = sold ? 'SOLD' : reserved ? 'RESERVED' : money(watch.price) ? '£' + money(watch.price) : 'PRICE ON REQUEST';
     const listingTitle = listingCardTitle(watch);
     const reference = getReference(watch);
-    const year = String(specs.year || watch.year || '').trim();
+    const year = formatYear(specs.year || watch.year || '');
     const caseSize = String(specs.caseSize || watch.caseSize || '').trim();
     const specRows = [
       ['REFERENCE', specs.reference], ['YEAR', specs.year], ['CASE SIZE', specs.caseSize], ['MOVEMENT', getMovement(watch) || specs.movement], ['CONDITION', specs.condition], ['CONTENTS', specs.contents], ['LISTING ID', specs.listingId || watch.listingId]
@@ -2361,9 +2365,9 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
         <img src="${escapeHtml(gridSrc)}" ${gridSet ? `srcset="${escapeHtml(gridSet)}"` : ''} alt="${escapeHtml(name)} (${escapeHtml(watch.listingId)})" loading="${priority ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'auto'}" decoding="async" sizes="(max-width: 640px) calc((100vw - 10px) / 2), (max-width: 1280px) calc((100vw - 4px) / 3), 427px" width="800" height="1000" draggable="false" oncontextmenu="return false;" ondragstart="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;">
         ${available ? `<a class="merchant-product-link" href="${escapeHtml(watch.productLink)}" aria-label="Product link for ${escapeHtml(name)}"></a>` : ''}
         ${reserved ? '<div class="status-badge">RESERVED</div>' : ''}
-        ${available ? `<button class="spec-trigger" type="button" aria-expanded="false"><span>SPEC ↑</span></button><div class="spec-overlay" aria-hidden="true"><button class="spec-hide" type="button" aria-label="Hide specifications"><span>HIDE ↓</span></button><div class="spec-list">${specRows.map(([label,value]) => `<div class="spec-row"><span class="spec-label">${escapeHtml(label)}</span><span class="spec-value">${escapeHtml(String(value || '').toUpperCase())}</span></div>`).join('')}</div></div>` : ''}
+        ${available ? `<button class="spec-trigger" type="button" aria-expanded="false"><span>SPEC ↑</span></button><div class="spec-overlay" aria-hidden="true"><button class="spec-hide" type="button" aria-label="Hide specifications"><span>HIDE ↓</span></button><div class="spec-list">${specRows.map(([label,value]) => `<div class="spec-row"><span class="spec-label">${escapeHtml(label)}</span><span class="spec-value${label === 'YEAR' ? ' spec-year-value' : ''}">${escapeHtml(formatSpecValue(label, value))}</span></div>`).join('')}</div></div>` : ''}
       </div>
-      <div class="info"><div class="title"><div class="listing-title">${escapeHtml(listingTitle)}</div>${reference ? `<div class="listing-reference">${escapeHtml(reference)}</div>` : ''}${year || caseSize ? `<div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div>` : ''}</div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
+      <div class="info"><div class="title"><div class="listing-brand">${escapeHtml(String(watch.brand || '').toUpperCase())}</div><div class="listing-title">${escapeHtml(listingTitle)}</div>${reference ? `<div class="listing-reference">${escapeHtml(reference)}</div>` : ''}${year || caseSize ? `<div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span class="listing-year" aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div>` : ''}</div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
     </article>`;
   }
   function setListingSpecOpen(image, open){
@@ -2431,7 +2435,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     setText(lightboxBrand, String(watch.brand || '').toUpperCase());
     setText(lightboxTitle, titleWithoutBrand(watch));
     setText(lightboxReference, getReference(watch) ? `REFERENCE: ${String(getReference(watch)).toUpperCase()}` : '');
-    setText(lightboxYear, watch.specs?.year ? `YEAR: ${String(watch.specs.year).toUpperCase()}` : '');
+    setText(lightboxYear, watch.specs?.year ? `YEAR: ${formatYear(watch.specs.year)}` : '');
     setText(lightboxContents, watch.specs?.contents ? `CONTENTS: ${String(watch.specs.contents).toUpperCase()}` : '');
     const unavailable = ['reserved','sold'].includes(s);
     setText(lightboxPrice, unavailable ? '' : money(watch.price) ? '£' + money(watch.price) : 'PRICE ON REQUEST');
@@ -2458,7 +2462,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
     if(lightboxContentsCopy) lightboxContentsCopy.textContent = contentsNotes;
     setExtraOpen('condition', false); setExtraOpen('contents', false);
     const specRows = [['REFERENCE', watch.specs?.reference || getReference(watch)], ['YEAR', watch.specs?.year], ['CASE SIZE', watch.specs?.caseSize], ['MOVEMENT', getMovement(watch) || watch.specs?.movement], ['CASE MATERIAL', getCaseMaterial(watch) || watch.specs?.caseMaterial || watch.specs?.material], ['CONDITION', watch.specs?.condition], ['CONTENTS', watch.specs?.contents], ['LISTING ID', watch.listingId]].filter(([,v]) => v != null && String(v).trim());
-    if(lightboxSpecs) lightboxSpecs.innerHTML = specRows.map(([label,value]) => `<dt>${escapeHtml(label)}</dt><dd>${escapeHtml(String(value).toUpperCase())}</dd>`).join('');
+    if(lightboxSpecs) lightboxSpecs.innerHTML = specRows.map(([label,value]) => `<dt>${escapeHtml(label)}</dt><dd${label === 'YEAR' ? ' class="spec-year-value"' : ''}>${escapeHtml(formatSpecValue(label, value))}</dd>`).join('');
     if(lightboxSpecToggle) lightboxSpecToggle.hidden = !specRows.length;
     setSpecsOpen(false);
     togglePanel(lightboxDelivery, lightboxDeliveryToggle, false, 'DELIVERY', policyIcon('delivery'));
