@@ -1618,7 +1618,7 @@ html body #noResults{display:none!important;min-height:0!important;padding:0!imp
 
 .catalog-controls{position:sticky;top:max(8px,env(safe-area-inset-top));z-index:120;width:min(calc(100% - (var(--listing-copy-rail) * 2)),calc(var(--max-width) - (var(--listing-copy-rail) * 2)));margin:10px auto 14px;pointer-events:none}
 
-.glass-toolbar,.glass-control-panel{pointer-events:auto}
+.glass-toolbar,.glass-control-panel,.catalog-search-suggestions{pointer-events:auto}
 
 .glass-toolbar{position:relative;display:flex;align-items:center;width:100%;min-height:54px;padding:6px 0;color:#0b0b0b;border:0;background:transparent}
 
@@ -2005,7 +2005,9 @@ html body .curated-hero-action,html body .curated-hero-action:link,html body .cu
         const brand = String(w.brand || '').trim();
         if(brand) brandCounts.set(brand, (brandCounts.get(brand) || 0) + 1);
       });
-      const brands = Array.from(brandCounts, ([label, count]) => ({label, query:label, count})).sort((a,b) => a.label.localeCompare(b.label));
+      const brands = Array.from(brandCounts, ([label, count]) => ({label, query:label, count}))
+        .filter(item => POPULAR_BRANDS.has(normalizeText(item.label)))
+        .sort((a,b) => b.count - a.count || a.label.localeCompare(b.label));
       const used = new Set(brands.map(item => normalizeText(item.label)));
       const keywords = SUGGESTION_KEYWORDS
         .filter(item => !used.has(normalizeText(item.label)))
@@ -2407,6 +2409,9 @@ html body .curated-hero-action,html body .curated-hero-action:link,html body .cu
   }
 
   const SUGGESTION_KEYWORDS = [{label:"Men's",query:"Men's"},{label:"Women's",query:"Women's"},{label:"Chronograph",query:"Chronograph"},{label:"Diver",query:"Diver"},{label:"Pilot",query:"Pilot"},{label:"GMT",query:"GMT"},{label:"Dress",query:"Dress"},{label:"Moonphase",query:"Moonphase"},{label:"Perpetual",query:"Perpetual"},{label:"Calendar",query:"Calendar"},{label:"Skeleton",query:"Skeleton"},{label:"Tourbillon",query:"Tourbillon"}];
+  // Only well-known brand names are offered as quick-search pills — niche
+  // collabs/one-offs still show up in normal search, just not as a pill.
+  const POPULAR_BRANDS = new Set(['rolex','omega','tudor','cartier','patek philippe','audemars piguet','iwc','iwc schaffhausen','jaeger-lecoultre','breitling','panerai','zenith','tag heuer','longines','vacheron constantin','grand seiko','seiko','hublot','breguet','chopard','bell & ross'].map(normalizeText));
   function genderQueryKind(query){
     const q = normalizeText(query);
     if(['women','womens','women s','ladies','lady'].includes(q)) return 'women';
