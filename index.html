@@ -1780,6 +1780,8 @@ body.site-menu-open .curated-nav,body.site-menu-opening .curated-nav,body.site-m
 }
 
 .curated-nav,.curated-search-trigger{display:none!important}
+/* Contact is available in the header, so the duplicate floating prompt stays hidden. */
+html body .stapleford-chat-pop{display:none!important}
 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.curated-nav-link,.curated-search-trigger{transition:none}}
 
@@ -1876,7 +1878,7 @@ body.site-menu-open .curated-nav,body.site-menu-opening .curated-nav,body.site-m
       intro.setAttribute('aria-labelledby','catalogIntroTitle');
       intro.innerHTML = [
         '<a class="curated-hero-kicker" href="https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%27d%20like%20to%20chat%20about%20a%20watch." rel="noopener" target="_blank"><span class="curated-hero-kicker-dot" aria-hidden="true"></span><span>Chat to us</span></a>',
-        '<h1 class="curated-hero-title" id="catalogIntroTitle">Curator of modern and vintage timepieces.</h1>',
+        '<h1 class="curated-hero-title" id="catalogIntroTitle">Curator of timepieces.</h1>',
         '<p class="curated-hero-copy">Whether you’re an avid collector, marking a special occasion, or simply looking for a new watch, we hope you find something you love.</p>',
         '<div class="curated-hero-actions" aria-label="Browse the collection">',
           '<a class="curated-hero-action" href="#gallery">Browse the collection</a>',
