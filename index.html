@@ -1783,6 +1783,11 @@ body.site-menu-open .curated-nav,body.site-menu-opening .curated-nav,body.site-m
 /* Contact is available in the header, so the duplicate floating prompt stays hidden. */
 html body .stapleford-chat-pop{display:none!important}
 
+/* Keep the catalogue transition tight and remove the legacy floating chat prompt. */
+html body .stapleford-chat-pop{display:none!important;visibility:hidden!important;pointer-events:none!important}
+html body .catalog-controls{margin-bottom:0!important;padding-bottom:0!important}
+html body:not(.product-page-open) #gallery.grid{margin-top:0!important}
+
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.curated-nav-link,.curated-search-trigger{transition:none}}
 
 </style><script src="https://js.stripe.com/v3/"></script>
@@ -1870,6 +1875,7 @@ html body .stapleford-chat-pop{display:none!important}
       if(unfinishedSearch) unfinishedSearch.remove();
     }
     if(menuToggle && menuToggle.parentElement) menuToggle.remove();
+    document.querySelectorAll('.stapleford-chat-pop').forEach((prompt) => prompt.remove());
 
     if(buyPage && !$('catalogIntro')){
       const intro = document.createElement('section');
