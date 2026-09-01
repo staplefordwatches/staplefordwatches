@@ -2722,6 +2722,8 @@ body.sell-active .site-header{background:#fff}
     document.body.classList.toggle('info-active', isInfo);
     document.body.classList.toggle('legal-info-active', isLegalInfo);
     document.body.classList.toggle('sell-active', isSell);
+    const sellPageEl = $('sellPage');
+    if(sellPageEl) sellPageEl.hidden = !isSell;
     if(isInfo) renderInfoPage(key);
     if(isSell) resetSellFormStatus();
     updateMenuSeo(key || 'home');
