@@ -21,6 +21,8 @@
 
 .card{display:flex;flex-direction:column;position:relative}
 .image{aspect-ratio:4/5;overflow:hidden;position:relative}
+.skeleton-card .image{background:#f2f2f0}
+.skeleton-info{height:56px}
 .image img{width:100%;height:100%;object-fit:cover;opacity:1;filter:none}
 .info{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:6px var(--listing-copy-rail);font-size:var(--type-body)}
 .title{display:grid;flex:1 1 auto;min-width:0;grid-template-rows:minmax(1.15em,auto) auto auto;align-content:start;gap:0;overflow:visible}
@@ -2362,6 +2364,13 @@ html body>footer.site-footer{background:var(--curated-shell,#f2f2f0)!important;p
     return next >= total ? total : fullRowsLimit(next);
   }
   function resetLimit(){ visibleLimit = initialLimit(); }
+  function renderSkeleton(){
+    if(!gallery || gallery.children.length) return;
+    const count = initialLimit();
+    let out = '';
+    for(let i = 0; i < count; i++) out += '<div class="card skeleton-card"><div class="image"></div><div class="info skeleton-info"></div></div>';
+    gallery.innerHTML = out;
+  }
   function prepare(raw){
     watches = raw.map((watch, index) => {
       const entry = { ...watch };
@@ -3165,6 +3174,7 @@ html body>footer.site-footer{background:var(--curated-shell,#f2f2f0)!important;p
   function debounce(fn, ms){ let timer; return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); }; }
 
   function boot(){
+    renderSkeleton();
     bind();
     const key = routeKey();
     if(key && !['home','buy'].includes(key)){ openMenu(); showMenuContent(key); updateMenuSeo(key); }
