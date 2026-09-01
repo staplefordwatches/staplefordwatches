@@ -2889,7 +2889,19 @@ body.sell-active .site-header{background:#fff}
   const SELL_SUBMIT_ENDPOINT = '/api/sell-watch';
   const SELL_MAX_PHOTOS = 8;
   const SELL_MAX_PHOTO_BYTES = 5 * 1024 * 1024;
+  const SELL_ACCEPTED_PHOTO = /\.(?:jpe?g|png|webp|heic|heif|avif)$/i;
   let sellPhotoFiles = [];
+  let sellSubmissionId = '';
+
+  function createSellSubmissionId(){
+    if(window.crypto?.randomUUID) return window.crypto.randomUUID();
+    const bytes = new Uint8Array(16);
+    window.crypto.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+    return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+  }
 
   function resetSellFormStatus(){
     const status = $('sellStatus');
@@ -2928,15 +2940,20 @@ body.sell-active .site-header{background:#fff}
     });
   }
   function addSellPhotoFiles(fileList){
-    const incoming = Array.from(fileList || []).filter(f => f.type && f.type.startsWith('image/'));
-    let rejected = false;
+    const incoming = Array.from(fileList || []);
+    let rejection = '';
     for(const file of incoming){
-      if(sellPhotoFiles.length >= SELL_MAX_PHOTOS){ rejected = true; break; }
-      if(file.size > SELL_MAX_PHOTO_BYTES){ rejected = true; continue; }
+      if(sellPhotoFiles.length >= SELL_MAX_PHOTOS){ rejection = `You can attach up to ${SELL_MAX_PHOTOS} photos.`; break; }
+      const looksLikeImage = file.type?.startsWith('image/') || SELL_ACCEPTED_PHOTO.test(file.name || '');
+      if(!looksLikeImage){ rejection = 'Please use JPG, PNG, WebP, HEIC or AVIF photos.'; continue; }
+      if(!file.size || file.size > SELL_MAX_PHOTO_BYTES){ rejection = 'Each photo must be between 1 byte and 5MB.'; continue; }
+      const duplicate = sellPhotoFiles.some(existing => existing.name === file.name && existing.size === file.size && existing.lastModified === file.lastModified);
+      if(duplicate) continue;
       sellPhotoFiles.push(file);
     }
     renderSellPhotoGrid();
-    if(rejected) setSellStatus(`You can attach up to ${SELL_MAX_PHOTOS} photos, ${SELL_MAX_PHOTO_BYTES / (1024*1024)}MB each.`, 'error');
+    if(rejection) setSellStatus(rejection, 'error');
+    else resetSellFormStatus();
   }
   function bindSellForm(){
     const form = $('sellForm');
@@ -2980,20 +2997,44 @@ body.sell-active .site-header{background:#fff}
       formData.append('email', $('sellEmail').value.trim());
       formData.append('phone', $('sellPhone').value.trim());
       formData.append('source', window.location.href);
+      if(!sellSubmissionId) sellSubmissionId = createSellSubmissionId();
+      formData.append('submissionId', sellSubmissionId);
       sellPhotoFiles.forEach((file) => formData.append('photos', file, file.name));
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting…';
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 65000);
       try{
-        const response = await fetch(SELL_SUBMIT_ENDPOINT, { method:'POST', body:formData });
-        if(!response.ok) throw new Error(`Request failed (${response.status})`);
+        const response = await fetch(SELL_SUBMIT_ENDPOINT, {
+          method:'POST',
+          body:formData,
+          credentials:'same-origin',
+          headers:{ Accept:'application/json' },
+          signal:controller.signal
+        });
+        let result = null;
+        try{ result = await response.json(); }catch(_error){}
+        if(!response.ok || !result || result.ok !== true){
+          const reference = result?.reference ? ` Reference: ${result.reference}` : '';
+          const error = new Error(`${result?.error || 'Something went wrong sending your submission.'}${reference}`);
+          throw error;
+        }
         form.reset();
         sellPhotoFiles = [];
+        sellSubmissionId = '';
         renderSellPhotoGrid();
-        setSellStatus("Thanks — we've received your submission and will be in touch shortly.", 'success');
-      }catch(_error){
-        setSellStatus('Something went wrong sending your submission. Please try again, or email ben@staplefordwatches.co.uk directly.', 'error');
+        const photoWarning = Number(result.photoWarningCount) > 0
+          ? ' We received your details, but one or more photos could not be attached.'
+          : '';
+        setSellStatus(`Thanks — we've received your submission and will be in touch shortly.${photoWarning}`, 'success');
+      }catch(error){
+        const message = error?.name === 'AbortError'
+          ? 'The submission took too long. Please try again, or email ben@staplefordwatches.co.uk directly.'
+          : error?.message;
+        setSellStatus(message || 'Something went wrong sending your submission. Please try again, or email ben@staplefordwatches.co.uk directly.', 'error');
       }finally{
+        window.clearTimeout(timeout);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit for offer';
       }
