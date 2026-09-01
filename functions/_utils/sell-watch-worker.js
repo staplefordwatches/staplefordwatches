@@ -177,7 +177,8 @@ export async function handleSellSubmission(request, env) {
 
   const createText = await createResponse.text();
   if (!createResponse.ok) {
-    return jsonResponse({ ok: false, error: `Could not save submission: ${createText}` }, 502, origin);
+    console.error("Airtable create record failed:", createResponse.status, createText);
+    return jsonResponse({ ok: false, error: `Could not save submission: ${createText}` }, 500, origin);
   }
 
   const record = JSON.parse(createText);
@@ -211,9 +212,11 @@ export async function handleSellSubmission(request, env) {
       });
       if (!uploadResponse.ok) {
         const uploadText = await uploadResponse.text();
+        console.error("Airtable attachment upload failed:", file.name, uploadResponse.status, uploadText);
         uploadErrors.push(`${file.name}: ${uploadText}`);
       }
     } catch (error) {
+      console.error("Attachment upload threw:", file.name, error);
       uploadErrors.push(`${file.name}: ${error.message || "upload failed"}`);
     }
   }
