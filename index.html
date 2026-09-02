@@ -1413,7 +1413,7 @@ body{min-height:100dvh!important}
 .site-menu-popover{position:fixed;top:0;right:0;bottom:0;z-index:24;display:flex!important;width:min(390px,100vw);height:100dvh;padding:calc(var(--site-control-top) + var(--site-control-size) + 42px) 28px 28px;flex-direction:column;background:var(--sw-navy,#0a2342);box-shadow:-16px 0 42px rgba(10,35,66,.24);visibility:visible;transform:translateX(0);transition:transform .32s ease,visibility 0s linear 0s;will-change:transform}
 .site-menu-popover[hidden]{display:flex!important;pointer-events:none;visibility:hidden;transform:translateX(100%);transition:transform .32s ease,visibility 0s linear .32s}
 .site-menu-popover--product{z-index:2147483646}
-.site-menu-popover-link,.site-menu-popover-link:link,.site-menu-popover-link:visited{display:flex;align-items:center;justify-content:space-between;min-height:62px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.28);color:#fff!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:14px!important;font-weight:400!important;line-height:1!important;letter-spacing:.04em!important;text-decoration:none!important;text-transform:lowercase!important}
+.site-menu-popover-link,.site-menu-popover-link:link,.site-menu-popover-link:visited{display:flex;align-items:center;justify-content:space-between;min-height:62px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.28);color:#fff!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:14px!important;font-weight:400!important;line-height:1!important;letter-spacing:.04em!important;text-decoration:none!important;text-transform:uppercase!important}
 .site-menu-popover-link:last-child{border-bottom:0}
 .site-menu-popover-link:hover,.site-menu-popover-link:focus-visible{background:rgba(255,255,255,.1)!important;outline:0!important}
 .site-menu-popover-arrow{display:block;width:15px;height:15px;flex:0 0 15px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
@@ -1425,18 +1425,21 @@ body.site-menu-open .site-header .logo{visibility:hidden!important}
 .sw-menu-toggle--product.is-open{z-index:2147483647}
 
 html body .curated-hero-actions.curated-hero-actions--split{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:22px!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important}
-html body .curated-hero-action--browse,html body .curated-hero-action--browse:link,html body .curated-hero-action--browse:visited,html body .curated-hero-action--sell,html body .curated-hero-action--sell:link,html body .curated-hero-action--sell:visited{position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;clip-path:none!important;font-size:12px!important;line-height:1.2!important;text-transform:lowercase!important}
+html body .curated-hero-action--browse,html body .curated-hero-action--browse:link,html body .curated-hero-action--browse:visited,html body .curated-hero-action--sell,html body .curated-hero-action--sell:link,html body .curated-hero-action--sell:visited{position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;clip-path:none!important;font-size:12px!important;line-height:1.2!important;text-transform:uppercase!important}
 html body .curated-hero-action--browse,html body .curated-hero-action--browse:link,html body .curated-hero-action--browse:visited{color:var(--sw-navy)!important}
 html body .curated-hero-action--sell,html body .curated-hero-action--sell:link,html body .curated-hero-action--sell:visited{color:rgba(10,35,66,.52)!important}
 html body .curated-hero-action--browse:hover,html body .curated-hero-action--browse:focus-visible,html body .curated-hero-action--sell:hover,html body .curated-hero-action--sell:focus-visible{background:transparent!important;opacity:.58!important;outline:0!important}
 
 .desktop-site-nav{display:none}
-.desktop-site-nav-link,.desktop-site-nav-link:link,.desktop-site-nav-link:visited{color:rgba(10,35,66,.5)!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:11px!important;font-weight:400!important;line-height:1!important;letter-spacing:.04em!important;text-decoration:none!important;text-transform:lowercase!important}
+.desktop-site-nav-link,.desktop-site-nav-link:link,.desktop-site-nav-link:visited{color:rgba(10,35,66,.5)!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:11px!important;font-weight:400!important;line-height:1!important;letter-spacing:.04em!important;text-decoration:none!important;text-transform:uppercase!important}
 .desktop-site-nav-link:hover,.desktop-site-nav-link:focus-visible{color:var(--sw-navy,#0a2342)!important;outline:0!important}
 body:not(.sell-active):not(.info-active) #desktopSiteNav .desktop-site-nav-link[href="/buy/"],body.sell-active #desktopSiteNav .desktop-site-nav-link[href="/sell/"],.desktop-site-nav--product .desktop-site-nav-link[href="/buy/"]{color:var(--sw-navy,#0a2342)!important}
 
 /* Legal copy now matches the 12px Sell Your Watch body copy. */
 html body .info-policy p{font-size:var(--type-body)!important;line-height:1.6!important;letter-spacing:.01em!important}
+
+/* Legal page titles use the same typography as the Sell Your Watch title. */
+html body.legal-info-active #infoTitle{color:var(--sw-navy,#0a2342)!important;font-family:"Sweet Sans Pro",Arial,sans-serif!important;font-size:clamp(24px,3.4vw,34px)!important;font-weight:400!important;line-height:1.2!important;letter-spacing:.02em!important;text-transform:none!important}
 
 /* Paint a navy bleed beyond the document edge so mobile Safari cannot reveal a white hairline. */
 html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
@@ -1537,10 +1540,10 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     document.querySelectorAll('.stapleford-chat-pop').forEach((prompt) => prompt.remove());
 
     const menuMarkup = [
-      '<a class="site-menu-popover-link" href="/buy/"><span>Buy</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
-      '<a class="site-menu-popover-link" href="/sell/"><span>Sell</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>'
+      '<a class="site-menu-popover-link" href="/buy/"><span>BUY</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
+      '<a class="site-menu-popover-link" href="/sell/"><span>SELL</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>'
     ].join('');
-    const desktopMenuMarkup = '<a class="desktop-site-nav-link" href="/buy/">Buy</a><a class="desktop-site-nav-link" href="/sell/">Sell</a>';
+    const desktopMenuMarkup = '<a class="desktop-site-nav-link" href="/buy/">BUY</a><a class="desktop-site-nav-link" href="/sell/">SELL</a>';
 
     const siteHeader = document.querySelector('.site-header');
     const siteMenuToggle = $('swMenuToggle');
@@ -1595,8 +1598,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         '<h1 class="curated-hero-title" id="catalogIntroTitle">Curator of modern and vintage timepieces.</h1>',
         '<p class="curated-hero-copy">Whether you’re an avid collector, marking a special occasion or simply looking for a new watch, we hope you find something you love.</p>',
         '<div class="curated-hero-actions curated-hero-actions--split" aria-label="Shop or sell a watch">',
-          '<a class="curated-hero-action curated-hero-action--browse" href="#gallery">Buy</a>',
-          '<a class="curated-hero-action curated-hero-action--sell" href="/sell/">Sell</a>',
+          '<a class="curated-hero-action curated-hero-action--browse" href="#gallery">BUY</a>',
+          '<a class="curated-hero-action curated-hero-action--sell" href="/sell/">SELL</a>',
         '</div>'
       ].join('');
       buyPage.insertBefore(intro,buyPage.firstChild);
