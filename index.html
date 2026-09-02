@@ -1348,6 +1348,7 @@ html body .site-footer{display:block!important;position:static!important;inset:a
 .sw-footer-legal{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px}
 .sw-footer-legal a{color:rgba(255,255,255,.62);text-decoration:none;font-family:var(--font-body);font-size:9px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
 .sw-footer-legal a:hover{opacity:.6}
+.sw-footer-copyright{margin:8px 0 0;color:rgba(255,255,255,.62);font-family:var(--font-body);font-size:9px;font-weight:400;line-height:1.35;letter-spacing:.04em}
 @media (max-width:767px){
 html body .site-footer{margin-top:40px!important}
 .sw-footer-inner{padding-top:28px;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
@@ -1564,6 +1565,13 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function injectCuratedShell(){
     const buyPage = $('buyPage');
     document.querySelectorAll('.stapleford-chat-pop').forEach((prompt) => prompt.remove());
+    const footerLegal = siteFooter && siteFooter.querySelector('.sw-footer-legal');
+    if(footerLegal && !siteFooter.querySelector('.sw-footer-copyright')){
+      const copyright = document.createElement('p');
+      copyright.className = 'sw-footer-copyright';
+      copyright.textContent = '© 2026 Stapleford Watches.';
+      footerLegal.insertAdjacentElement('afterend', copyright);
+    }
 
     const menuMarkup = [
       '<a class="site-menu-popover-link" href="/buy/"><span>BUY</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
