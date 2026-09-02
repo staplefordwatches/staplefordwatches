@@ -1495,7 +1495,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   const FETCH_TIMEOUT = 6500;
   const PRODUCT_PREFIX = '/watches/';
   const LIMITS = { desktop: 36, tablet: 24, mobile: 16 };
-  const LOAD_MORE_ROWS = 4;
+  const LOAD_MORE_ROWS = 1;
   const IS_SAFARI = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(navigator.userAgent || '');
   const IS_SAFARI_DESKTOP = IS_SAFARI && !(navigator.maxTouchPoints > 1) && (window.matchMedia ? window.matchMedia('(min-width:1024px)').matches : window.innerWidth >= 1024);
   const $ = (id) => document.getElementById(id);
@@ -2761,6 +2761,12 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const triggerLine = scrollerRect.bottom - helpHeight - edgeGap;
     return buyRect.bottom <= triggerLine;
   }
+  function isFooterInProductView(){
+    if(!lightbox || !siteFooter || siteFooter.parentElement !== lightbox) return false;
+    const footerRect = siteFooter.getBoundingClientRect();
+    const scrollerRect = lightbox.getBoundingClientRect();
+    return footerRect.top < scrollerRect.bottom && footerRect.bottom > scrollerRect.top;
+  }
   function syncHelpPopCopy(){
     if(!helpPop || !activeWatch) return;
     const name = displayName(activeWatch);
@@ -2776,7 +2782,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       return;
     }
     syncHelpPopCopy();
-    const visible = isDesktopProductView() || hasScrolledPastBuyNow();
+    const visible = !isFooterInProductView() && (isDesktopProductView() || hasScrolledPastBuyNow());
     document.body.classList.toggle('stapleford-product-help-visible', visible);
   }
   function scheduleHelpPopUpdate(){
