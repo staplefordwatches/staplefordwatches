@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/><style id="stapleford-critical-first-paint">html.sw-booting,html.sw-booting body{min-height:100vh!important;min-height:100svh!important;margin:0!important;background:#f2f2f0!important}html.sw-booting-product,html.sw-booting-product body{background:#fff!important}html.sw-booting-product body>.site-header{visibility:hidden!important}</style><script id="stapleford-first-paint-route">(()=>{const root=document.documentElement;const path=String(window.location.pathname||'/').replace(/\/+$/,'');const productPath=/\/(?:watches|watch|products|product)\/[^/]+$/i.test(path);const productQuery=/(?:^|[?&])(?:watch|product|listing)=[^&]+/i.test(window.location.search||'');root.classList.add('sw-booting',productPath||productQuery?'sw-booting-product':'sw-booting-shell')})()</script>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
 <title>Stapleford Watches | Pre-Owned Luxury Watches</title><meta content="Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." name="description"/><link href="https://staplefordwatches.co.uk/" rel="canonical"/><meta content="website" property="og:type"/><meta content="Stapleford Watches | Pre-Owned Luxury Watches" property="og:title"/><meta content="Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." property="og:description"/><meta content="https://staplefordwatches.co.uk/" property="og:url"/><meta content="summary_large_image" name="twitter:card"/><link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/><link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/><link href="/favicon-16x16.png?v=4" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png?v=4" rel="apple-touch-icon" sizes="180x180"/><link href="/site.webmanifest?v=4" rel="manifest"/><meta content="#ffffff" name="theme-color"/><script id="stapleford-merchant-policy-jsonld" type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://staplefordwatches.co.uk/#organization","name":"Stapleford Watches","url":"https://staplefordwatches.co.uk/","hasShippingService":{"@type":"ShippingService","shippingDestination":{"@type":"DefinedRegion","addressCountry":"GB"},"shippingRate":{"@type":"MonetaryAmount","value":0,"currency":"GBP"},"deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":{"@type":"QuantitativeValue","minValue":0,"maxValue":1,"unitCode":"DAY"},"transitTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":1,"unitCode":"DAY"}}},"hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"GB","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow","merchantReturnDays":14,"returnMethod":"https://schema.org/ReturnByMail","returnFees":"https://schema.org/ReturnFeesCustomerResponsibility","merchantReturnLink":"https://staplefordwatches.co.uk/terms-and-conditions/"}}</script><script id="stapleford-site-navigation-jsonld" type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","@id":"https://staplefordwatches.co.uk/#site-navigation","name":"Stapleford Watches main navigation","itemListElement":[{"@type":"SiteNavigationElement","position":1,"name":"Buy Watches","url":"https://staplefordwatches.co.uk/buy/"},{"@type":"SiteNavigationElement","position":2,"name":"Contact","url":"https://staplefordwatches.co.uk/contact/"},{"@type":"SiteNavigationElement","position":3,"name":"Search","url":"https://staplefordwatches.co.uk/search/"},{"@type":"SiteNavigationElement","position":4,"name":"Terms and Conditions","url":"https://staplefordwatches.co.uk/terms-and-conditions/"},{"@type":"SiteNavigationElement","position":5,"name":"Privacy Policy","url":"https://staplefordwatches.co.uk/privacy-policy/"}]}</script><link crossorigin="" href="https://v5.airtableusercontent.com" rel="preconnect"/><link href="//v5.airtableusercontent.com" rel="dns-prefetch"/><link crossorigin="" href="https://dl.airtable.com" rel="preconnect"/><link href="//dl.airtable.com" rel="dns-prefetch"/><link as="font" crossorigin="" href="/fonts/fonnts.com-SweetSansProRegular.otf" rel="preload" type="font/otf"/><style id="stapleford-production-css">@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProLight.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProRegular.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProRegular.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap}
@@ -1558,10 +1558,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   let loadPromise = null;
   let catalogControlsApi = null;
 
-  function finishFirstPaint(){
-    document.documentElement.classList.remove('sw-booting','sw-booting-product','sw-booting-shell');
-  }
-
   function injectCuratedShell(){
     const buyPage = $('buyPage');
     document.querySelectorAll('.stapleford-chat-pop').forEach((prompt) => prompt.remove());
@@ -2190,7 +2186,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     render();
     if(catalogControlsApi && catalogControlsApi.renderSuggestions) catalogControlsApi.renderSuggestions();
     openProductFromUrl(true);
-    finishFirstPaint();
     updateStructuredDataSoon();
     if(!fromCache) saveCache(raw);
     return true;
@@ -2264,7 +2259,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(showMoreWrap) showMoreWrap.hidden = true;
     if(noResults) noResults.hidden = false;
     document.body.classList.add('no-results-active');
-    finishFirstPaint();
   }
   function alignListingMetadataRows(){
     if(!gallery) return;
@@ -3147,14 +3141,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const key = routeKey();
     if(key === 'search'){ updateMenuSeo('search'); setTimeout(() => { const input = document.querySelector('.glass-search-input'); if(input) input.focus({ preventScroll:true }); }, 300); }
     else showRoute(key);
-    // Only pages whose content is already fully painted at this point (info/sell pages)
-    // are safe to reveal immediately. Home/buy/search show the watch gallery, which isn't
-    // ready until loadWatches() resolves - finishing "first paint" here early was stripping
-    // the booting grey background before the gallery/catalog markup arrived, causing a
-    // grey -> white -> grey flash. Those routes now rely on renderLoaded()/renderEmpty()
-    // to call finishFirstPaint() once the real content is actually in the DOM.
-    const paintsImmediately = !requestedProductToken() && ['contact','sell','terms','privacy'].includes(key);
-    if(paintsImmediately) finishFirstPaint();
     loadWatches();
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true }); else boot();
