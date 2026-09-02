@@ -1449,6 +1449,10 @@ html body #catalogControls .glass-option input[type="radio"]::after{border-radiu
 html body #catalogControls .glass-panel-reset{display:block!important;width:max-content!important;margin:14px 0 0!important;padding:0 0 2px!important;border:0!important;border-bottom:1px solid rgba(10,35,66,.42)!important;background:transparent!important;color:rgba(10,35,66,.62)!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:10px!important;font-weight:400!important;line-height:1.2!important;letter-spacing:.06em!important;text-transform:uppercase!important}
 html body #catalogControls .glass-panel-reset:hover,html body #catalogControls .glass-panel-reset:focus-visible{color:var(--sw-navy,#0a2342)!important;outline:0!important}
 
+/* Unavailable and reserved states use a softer secondary treatment. */
+html body .status-badge,html body #lightbox .lightbox-status-badge,html body.product-page-open #lightbox.open .lightbox-status-badge{border:1px solid rgba(10,35,66,.14)!important;background:#e7ebef!important;color:rgba(10,35,66,.72)!important;box-shadow:none!important}
+html body #lightbox .lightbox-detail-buy.is-disabled,html body #lightbox .lightbox-detail-buy.is-disabled:hover,html body #lightbox .lightbox-detail-buy.is-disabled:focus,html body #lightbox .lightbox-detail-buy.is-disabled:active,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:hover,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:focus,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:active{border-color:rgba(10,35,66,.16)!important;background:#e7ebef!important;color:rgba(10,35,66,.62)!important;opacity:1!important;box-shadow:none!important}
+
 /* Legal copy now matches the 12px Sell Your Watch body copy. */
 html body .info-policy p{font-size:var(--type-body)!important;line-height:1.6!important;letter-spacing:.01em!important}
 
@@ -2829,7 +2833,17 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     bindMenuToggle('lightboxMenuToggle');
     const lightboxBack = $('lightboxBack');
     if(lightboxBack) lightboxBack.addEventListener('click', () => closeLightbox());
-    if(showMoreBtn) showMoreBtn.addEventListener('click', () => { visibleLimit = nextShowMoreLimit(filteredWatches().length); render(); });
+    if(showMoreBtn) showMoreBtn.addEventListener('click', () => {
+      const previousVisibleCount = gallery ? gallery.querySelectorAll('.card').length : visibleLimit;
+      visibleLimit = nextShowMoreLimit(filteredWatches().length);
+      render();
+      requestAnimationFrame(() => {
+        const firstNewCard = gallery && gallery.querySelectorAll('.card')[previousVisibleCount];
+        if(!firstNewCard) return;
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        firstNewCard.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block:'start' });
+      });
+    });
     window.addEventListener('resize', debounce(() => { if(window.innerWidth >= 768) closeAllMenus(); const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); else scheduleListingMetadataAlignment(); scheduleHelpPopUpdate(); }, 160), { passive:true });
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { scheduleListingMetadataAlignment(); }).catch(() => {});
     document.addEventListener('click', (e) => {
