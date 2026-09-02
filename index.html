@@ -1452,8 +1452,9 @@ body.reviews-active .reviews-page{background:var(--curated-shell,#f2f2f0)}
 .journal-empty,.reviews-empty{width:min(100%,720px);margin:0 auto;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-body);opacity:.6;padding:0 var(--listing-copy-rail) 60px}
 
 /* Customer reviews */
-.reviews-list{width:min(100%,720px);margin:0 auto;padding:clamp(24px,4vw,40px) var(--listing-copy-rail) 20px;display:grid;gap:1px;background:rgba(10,35,66,.12)}
-.review-card{background:#fff;padding:22px 0}
+.reviews-list{width:min(100%,720px);margin:0 auto;padding:clamp(24px,4vw,40px) var(--listing-copy-rail) 20px}
+.review-card{padding:26px 0;border-top:1px solid rgba(10,35,66,.12)}
+.reviews-list .review-card:first-child{border-top:0;padding-top:0}
 .review-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
 .review-card-name{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-body);font-weight:500;color:var(--sw-navy)}
 .review-card-date{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-control);opacity:.5;letter-spacing:.03em;white-space:nowrap}
