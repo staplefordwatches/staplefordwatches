@@ -1495,7 +1495,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   const FETCH_TIMEOUT = 6500;
   const PRODUCT_PREFIX = '/watches/';
   const LIMITS = { desktop: 36, tablet: 24, mobile: 16 };
-  const LOAD_MORE_ROWS = 1;
+  const LOAD_MORE_ROWS = 4;
   const IS_SAFARI = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(navigator.userAgent || '');
   const IS_SAFARI_DESKTOP = IS_SAFARI && !(navigator.maxTouchPoints > 1) && (window.matchMedia ? window.matchMedia('(min-width:1024px)').matches : window.innerWidth >= 1024);
   const $ = (id) => document.getElementById(id);
@@ -2841,13 +2841,19 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(lightboxBack) lightboxBack.addEventListener('click', () => closeLightbox());
     if(showMoreBtn) showMoreBtn.addEventListener('click', () => {
       const previousVisibleCount = gallery ? gallery.querySelectorAll('.card').length : visibleLimit;
+      const previousOverflowAnchor = gallery ? gallery.style.overflowAnchor : '';
+      if(gallery) gallery.style.overflowAnchor = 'none';
       visibleLimit = nextShowMoreLimit(filteredWatches().length);
       render();
       requestAnimationFrame(() => {
-        const firstNewCard = gallery && gallery.querySelectorAll('.card')[previousVisibleCount];
-        if(!firstNewCard) return;
-        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        firstNewCard.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block:'start' });
+        requestAnimationFrame(() => {
+          const firstNewCard = gallery && gallery.querySelectorAll('.card')[previousVisibleCount];
+          if(gallery) gallery.style.overflowAnchor = previousOverflowAnchor;
+          if(!firstNewCard) return;
+          const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const targetTop = window.scrollY + firstNewCard.getBoundingClientRect().top;
+          window.scrollTo({ top:Math.max(0, targetTop), behavior:reduceMotion ? 'auto' : 'smooth' });
+        });
       });
     });
     window.addEventListener('resize', debounce(() => { if(window.innerWidth >= 768) closeAllMenus(); const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); else scheduleListingMetadataAlignment(); scheduleHelpPopUpdate(); }, 160), { passive:true });
