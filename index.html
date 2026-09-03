@@ -2862,6 +2862,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const isLegalInfo = routeContent?.variant === 'legal';
     const isSell = key === 'sell';
     const isJournal = key === 'journal';
+    const isBuy = !isInfo && !isSell && !isJournal;
+    if(!isJournal) document.body.classList.remove('journal-entry-active');
     document.body.classList.toggle('info-active', isInfo);
     document.body.classList.toggle('legal-info-active', isLegalInfo);
     document.body.classList.toggle('sell-active', isSell);
@@ -2870,6 +2872,9 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(sellPageEl) sellPageEl.hidden = !isSell;
     const journalPageEl = $('journalPage');
     if(journalPageEl) journalPageEl.hidden = !isJournal;
+    const catalogControlsEl = $('catalogControls');
+    if(catalogControlsEl) catalogControlsEl.hidden = !isBuy;
+    if(isBuy && catalogControlsApi) catalogControlsApi.sync();
     if(isInfo) renderInfoPage(key);
     if(isSell) resetSellFormStatus();
     if(isJournal && !openJournalEntryFromUrl()) showJournalList();
@@ -2919,12 +2924,14 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   }
   function goHome(){
     closeAllMenus();
-    document.body.classList.remove('info-active', 'legal-info-active', 'sell-active', 'journal-active', 'journal-entry-active');
-    const sellPageEl = $('sellPage');
-    if(sellPageEl) sellPageEl.hidden = true;
-    const journalPageEl = $('journalPage');
-    if(journalPageEl) journalPageEl.hidden = true;
-    searchQuery = ''; currentSort = 'default'; showAvailable = true; showSold = true; if(catalogControlsApi) catalogControlsApi.sync(); resetLimit(); render(); closeLightbox(false); setRoute('buy'); window.scrollTo({ top:0, behavior:'smooth' });
+    closeLightbox(false);
+    searchQuery = ''; currentSort = 'default'; showAvailable = true; showSold = true;
+    showRoute('buy');
+    if(catalogControlsApi) catalogControlsApi.sync();
+    resetLimit();
+    render();
+    setRoute('buy');
+    window.scrollTo({ top:0, behavior:'smooth' });
   }
 
   function closeAllMenus(){
@@ -2938,18 +2945,20 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       if(menu){ menu.hidden = true; menu.setAttribute('aria-hidden','true'); }
     });
     document.body.classList.remove('site-menu-open');
+    if(!closedMenu){
+      if(!siteMenuCloseTimer) document.body.classList.remove('site-menu-closing');
+      return false;
+    }
     if(siteMenuCloseTimer){
       clearTimeout(siteMenuCloseTimer);
       siteMenuCloseTimer = 0;
     }
-    if(closedMenu){
-      document.body.classList.add('site-menu-closing');
-      siteMenuCloseTimer = window.setTimeout(() => {
-        document.body.classList.remove('site-menu-closing');
-        siteMenuCloseTimer = 0;
-      }, 340);
-    }
-    return closedMenu;
+    document.body.classList.add('site-menu-closing');
+    siteMenuCloseTimer = window.setTimeout(() => {
+      document.body.classList.remove('site-menu-closing');
+      siteMenuCloseTimer = 0;
+    }, 340);
+    return true;
   }
 
   function bindMenuToggle(id){
