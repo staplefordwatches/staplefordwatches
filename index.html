@@ -1468,13 +1468,14 @@ body.journal-entry-active #journalListView{display:none!important}
 html{background:var(--sw-navy,#0a2342)!important}
 body{min-height:100dvh!important}
 
-.site-menu-popover{position:fixed;top:0;right:0;bottom:0;z-index:24;display:flex!important;width:min(390px,100vw);height:100dvh;padding:calc(var(--site-control-top) + var(--site-control-size) + 42px) 28px 28px;flex-direction:column;background:var(--sw-navy,#0a2342);box-shadow:-16px 0 42px rgba(10,35,66,.24);visibility:visible;transform:translateX(0);transition:transform .32s ease,visibility 0s linear 0s;will-change:transform}
+.site-menu-popover{position:fixed;top:0;right:0;bottom:0;z-index:24;display:flex!important;width:min(390px,100vw);height:100dvh;padding:calc(var(--site-control-top) + var(--site-control-size) + 42px) 28px 28px;overflow-y:auto;overscroll-behavior:contain;flex-direction:column;background:var(--sw-navy,#0a2342);box-shadow:-16px 0 42px rgba(10,35,66,.24);visibility:visible;transform:translateX(0);transition:transform .32s ease,visibility 0s linear 0s;will-change:transform}
 .site-menu-popover[hidden]{display:flex!important;pointer-events:none;visibility:hidden;transform:translateX(100%);transition:transform .32s ease,visibility 0s linear .32s}
 .site-menu-popover--product{z-index:2147483646}
 .site-menu-popover-link,.site-menu-popover-link:link,.site-menu-popover-link:visited{display:flex;align-items:center;justify-content:space-between;min-height:62px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.28);color:#fff!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:14px!important;font-weight:400!important;line-height:1!important;letter-spacing:.04em!important;text-decoration:none!important;text-transform:uppercase!important}
 .site-menu-popover-link:last-child{border-bottom:0}
 .site-menu-popover-link:hover,.site-menu-popover-link:focus-visible{background:rgba(255,255,255,.1)!important;outline:0!important}
 .site-menu-popover-arrow{display:block;width:15px;height:15px;flex:0 0 15px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.site-menu-newsletter{display:flex;flex-direction:column;gap:0;width:100%;margin-top:auto;padding:28px 4px 0}
 body.site-menu-open{overflow:hidden!important}
 body.site-menu-open .site-header{z-index:2147483646!important}
 body.site-menu-open .site-header .logo{visibility:hidden!important}
@@ -1527,6 +1528,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
 @media (max-width:767px){
   .site-menu-popover{width:100vw;padding:calc(var(--site-control-top) + var(--site-control-size) + 34px) 22px 24px}
   .site-menu-popover-link,.site-menu-popover-link:link,.site-menu-popover-link:visited{min-height:58px;font-size:13px!important}
+  .site-menu-newsletter{padding-top:24px}
   html body .curated-hero-actions.curated-hero-actions--split{gap:20px!important}
   html body .curated-hero-action--browse,html body .curated-hero-action--browse:link,html body .curated-hero-action--browse:visited,html body .curated-hero-action--sell,html body .curated-hero-action--sell:link,html body .curated-hero-action--sell:visited{font-size:11px!important}
   html body #catalogControls .glass-search-input{font-size:var(--type-body)!important}
@@ -1638,23 +1640,36 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       newsletter.className = 'sw-footer-newsletter';
       newsletter.innerHTML = [
         '<p class="sw-footer-newsletter-title">Stay in the loupe</p>',
-        '<form class="sw-footer-newsletter-form" id="newsletterForm" novalidate>',
+        '<form class="sw-footer-newsletter-form" id="newsletterForm" data-newsletter-form data-newsletter-source="website-footer" novalidate>',
           '<label class="glass-sr-only" for="newsletterEmail">Email address</label>',
           '<input class="sw-footer-newsletter-input" id="newsletterEmail" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="Email address" required>',
           '<input class="sw-footer-newsletter-honeypot" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">',
           '<button class="sw-footer-newsletter-submit" id="newsletterSubmit" type="submit">Sign up</button>',
         '</form>',
-        '<p class="sw-footer-newsletter-status" id="newsletterStatus" role="status" aria-live="polite"></p>',
+        '<p class="sw-footer-newsletter-status" id="newsletterStatus" data-newsletter-status role="status" aria-live="polite"></p>',
         '<p class="sw-footer-newsletter-note">By signing up, you agree to receive emails from us. View our <a href="/privacy-policy/">privacy policy</a>.</p>'
       ].join('');
       if(footerLegal) footerLegal.insertAdjacentElement('beforebegin', newsletter);
       else footerRow.appendChild(newsletter);
     }
 
+    const menuNewsletterMarkup = [
+      '<div class="site-menu-newsletter">',
+        '<p class="sw-footer-newsletter-title">Stay in the loupe</p>',
+        '<form class="sw-footer-newsletter-form" data-newsletter-form data-newsletter-source="mobile-menu" novalidate>',
+          '<input class="sw-footer-newsletter-input" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="Email address" aria-label="Email address" required>',
+          '<input class="sw-footer-newsletter-honeypot" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">',
+          '<button class="sw-footer-newsletter-submit" type="submit">Sign up</button>',
+        '</form>',
+        '<p class="sw-footer-newsletter-status" data-newsletter-status role="status" aria-live="polite"></p>',
+        '<p class="sw-footer-newsletter-note">By signing up, you agree to receive emails from us. View our <a href="/privacy-policy/">privacy policy</a>.</p>',
+      '</div>'
+    ].join('');
     const menuMarkup = [
       '<a class="site-menu-popover-link" href="/buy/"><span>BUY</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
       '<a class="site-menu-popover-link" href="/sell/"><span>SELL</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
-      '<a class="site-menu-popover-link" href="/journal/"><span>JOURNAL</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>'
+      '<a class="site-menu-popover-link" href="/journal/"><span>JOURNAL</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
+      menuNewsletterMarkup
     ].join('');
     const desktopMenuMarkup = '<a class="desktop-site-nav-link" href="/buy/">BUY</a><a class="desktop-site-nav-link" href="/sell/">SELL</a><a class="desktop-site-nav-link" href="/journal/">JOURNAL</a>';
 
@@ -1674,7 +1689,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       siteMenu.className = 'site-menu-popover';
       siteMenu.hidden = true;
       siteMenu.setAttribute('aria-hidden','true');
-      siteMenu.setAttribute('aria-label','Buy or sell');
+      siteMenu.setAttribute('aria-label','Site navigation and newsletter signup');
       siteMenu.innerHTML = menuMarkup;
       siteMenuToggle.setAttribute('aria-controls',siteMenu.id);
       siteHeader.appendChild(siteMenu);
@@ -1696,7 +1711,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       productMenu.className = 'site-menu-popover site-menu-popover--product';
       productMenu.hidden = true;
       productMenu.setAttribute('aria-hidden','true');
-      productMenu.setAttribute('aria-label','Buy or sell');
+      productMenu.setAttribute('aria-label','Site navigation and newsletter signup');
       productMenu.innerHTML = menuMarkup;
       productMenuToggle.setAttribute('aria-controls',productMenu.id);
       productLightbox.appendChild(productMenu);
@@ -2955,7 +2970,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function bind(){
     injectCuratedShell();
     injectCatalogControls();
-    bindNewsletterForm();
+    bindNewsletterForms();
     if(logoHome) logoHome.addEventListener('click', (e) => { e.preventDefault(); goHome(); });
     bindMenuToggle('swMenuToggle');
     bindMenuToggle('lightboxMenuToggle');
@@ -3101,23 +3116,23 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   }
   function debounce(fn, ms){ let timer; return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); }; }
 
-  function setNewsletterStatus(message, isError){
-    const status = $('newsletterStatus');
+  function setNewsletterStatus(form, message, isError){
+    const status = form?.parentElement?.querySelector('[data-newsletter-status]');
     if(!status) return;
     status.textContent = message || '';
     status.style.color = isError ? '#ffd0d0' : '#fff';
   }
 
-  function bindNewsletterForm(){
-    const form = $('newsletterForm');
-    const emailInput = $('newsletterEmail');
-    const submitButton = $('newsletterSubmit');
-    if(!form || !emailInput || !submitButton || form.dataset.bound === 'true') return;
-    form.dataset.bound = 'true';
+  function bindNewsletterForms(){
+    document.querySelectorAll('[data-newsletter-form]').forEach((form) => {
+      const emailInput = form.elements.email;
+      const submitButton = form.querySelector('button[type="submit"]');
+      if(!emailInput || !submitButton || form.dataset.bound === 'true') return;
+      form.dataset.bound = 'true';
 
-    form.addEventListener('submit', async (event) => {
+      form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      setNewsletterStatus('', false);
+      setNewsletterStatus(form, '', false);
       if(!form.reportValidity()) return;
 
       submitButton.disabled = true;
@@ -3134,24 +3149,25 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
             email:emailInput.value.trim(),
             company:form.elements.company?.value || '',
             consent:true,
-            source:'website-footer'
+            source:form.dataset.newsletterSource || 'website'
           }),
           signal:controller.signal
         });
         const result = await response.json().catch(() => ({}));
         if(!response.ok || !result.ok) throw new Error(result.error || 'Could not sign you up');
         form.reset();
-        setNewsletterStatus(result.alreadySubscribed ? 'You’re already on the list.' : 'You’re on the list — thank you.', false);
+        setNewsletterStatus(form, result.alreadySubscribed ? 'You’re already on the list.' : 'You’re on the list — thank you.', false);
       }catch(error){
         const message = error?.name === 'AbortError'
           ? 'That took too long. Please try again.'
           : 'We couldn’t sign you up. Please try again.';
-        setNewsletterStatus(message, true);
+        setNewsletterStatus(form, message, true);
       }finally{
         window.clearTimeout(timeout);
         submitButton.disabled = false;
         submitButton.textContent = originalLabel;
       }
+      });
     });
   }
 
