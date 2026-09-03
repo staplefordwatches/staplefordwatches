@@ -1393,7 +1393,7 @@ body.journal-entry-active #journalListView{display:none!important}
 .sw-menu-toggle.sw-menu-toggle--product{position:absolute;right:var(--site-edge-rail);left:auto;transform:none}
 .sell-hero{width:min(100%,720px);margin:0 auto;padding:clamp(28px,5vw,56px) var(--listing-copy-rail) 0;text-align:left}
 .sell-hero-title{font-family:"Sweet Sans Pro",Arial,sans-serif;font-weight:400;font-size:clamp(24px,3.4vw,34px);line-height:1.2;letter-spacing:.02em;margin:14px 0 10px}
-.sell-hero-copy{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-body);line-height:1.6;letter-spacing:.01em;opacity:.78;max-width:56ch}
+.sell-hero-copy{width:100%;max-width:none;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-body);line-height:1.6;letter-spacing:.01em;opacity:.78}
 .sell-form-wrap{width:min(100%,720px);margin:0 auto;padding:clamp(24px,4vw,40px) var(--listing-copy-rail) 80px}
 .sell-form{display:grid;gap:22px}
 .sell-fieldset{display:grid;gap:14px;border:0;margin:0;padding:0}
@@ -1530,7 +1530,11 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   html body .curated-hero-actions.curated-hero-actions--split{gap:20px!important}
   html body .curated-hero-action--browse,html body .curated-hero-action--browse:link,html body .curated-hero-action--browse:visited,html body .curated-hero-action--sell,html body .curated-hero-action--sell:link,html body .curated-hero-action--sell:visited{font-size:11px!important}
   html body #catalogControls .glass-search-input{font-size:var(--type-body)!important}
-  html body #catalogControls .glass-control-panel{top:48px!important;width:min(286px,calc(100vw - 20px))!important;max-height:min(72vh,500px)!important;padding:16px 16px 14px!important}
+  html body #catalogControls .glass-control-panel{top:45px!important;width:min(264px,calc(100vw - 20px))!important;max-height:min(72vh,500px)!important;padding:13px 14px 11px!important}
+  html body #catalogControls .glass-control-panel--sort{padding-bottom:7px!important}
+  html body #catalogControls .glass-control-panel legend{padding-bottom:9px!important}
+  html body #catalogControls .glass-option{min-height:40px!important;margin:0 -5px!important;padding:0 5px!important;font-size:12px!important}
+  html body #catalogControls .glass-panel-reset{margin-top:10px!important}
   html body #lightbox.open .lightbox-detail-specs,html body #lightbox.open .lightbox-detail-specs dd,html body #lightbox.open .lightbox-detail-specs dt,html body.product-page-open #lightbox.open .lightbox-detail-specs,html body.product-page-open #lightbox.open .lightbox-detail-specs dd,html body.product-page-open #lightbox.open .lightbox-detail-specs dt{font-size:var(--type-control)!important;line-height:1.55!important;letter-spacing:.018em!important}
 }
 
