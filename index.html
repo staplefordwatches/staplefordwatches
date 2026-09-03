@@ -664,15 +664,7 @@ html body:not(.product-page-open) #gallery.grid .card .image.available .spec-lab
 :root{--site-menu-header-height:118px}
 
 
-/* Stapleford performance pass: reduce Safari paint/composite work without changing the design. */
-@supports (content-visibility:auto){
-  html body:not(.product-page-open) #gallery.grid .card{
-    content-visibility:auto!important;
-    contain-intrinsic-size:0 430px!important;
-  }
-
-}
-
+/* Keep every product card in normal layout flow so fast scrolling never changes page height. */
 html body:not(.product-page-open) #gallery.grid .card .image img{
   backface-visibility:visible!important;
   -webkit-backface-visibility:visible!important;
@@ -1475,7 +1467,12 @@ body{min-height:100dvh!important}
 .site-menu-popover-link:last-child{border-bottom:0}
 .site-menu-popover-link:hover,.site-menu-popover-link:focus-visible{background:rgba(255,255,255,.1)!important;outline:0!important}
 .site-menu-popover-arrow{display:block;width:15px;height:15px;flex:0 0 15px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.site-menu-newsletter{display:flex;flex-direction:column;gap:0;width:100%;margin-top:auto;padding:28px 4px 0}
+.site-menu-connect{width:100%;margin-top:auto;padding:28px 4px 0}
+.site-menu-connect-label{margin:0 0 10px;color:rgba(255,255,255,.62);font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif);font-size:11px;font-weight:500;line-height:1;letter-spacing:.04em;text-transform:uppercase}
+.site-menu-connect-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.site-menu-connect-link,.site-menu-connect-link:link,.site-menu-connect-link:visited{color:#fff!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:11px!important;font-weight:500!important;line-height:1.2!important;letter-spacing:.04em!important;text-decoration:none!important;text-transform:uppercase!important;white-space:nowrap}
+.site-menu-connect-link:hover,.site-menu-connect-link:focus-visible{opacity:.6;outline:0}
+.site-menu-newsletter{display:flex;flex-direction:column;gap:0;width:100%;margin-top:24px;padding:0 4px}
 body.site-menu-open{overflow:hidden!important}
 body.site-menu-open .site-header{z-index:2147483646!important}
 body.site-menu-open .site-header .logo{visibility:hidden!important}
@@ -1528,7 +1525,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
 @media (max-width:767px){
   .site-menu-popover{width:100vw;padding:calc(var(--site-control-top) + var(--site-control-size) + 34px) 22px 24px}
   .site-menu-popover-link,.site-menu-popover-link:link,.site-menu-popover-link:visited{min-height:58px;font-size:13px!important}
-  .site-menu-newsletter{padding-top:24px}
+  .site-menu-connect{padding-top:24px}
+  .site-menu-newsletter{margin-top:22px}
   html body .curated-hero-actions.curated-hero-actions--split{gap:20px!important}
   html body .curated-hero-action--browse,html body .curated-hero-action--browse:link,html body .curated-hero-action--browse:visited,html body .curated-hero-action--sell,html body .curated-hero-action--sell:link,html body .curated-hero-action--sell:visited{font-size:11px!important}
   html body #catalogControls .glass-search-input{font-size:var(--type-body)!important}
@@ -1653,6 +1651,18 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       else footerRow.appendChild(newsletter);
     }
 
+    const menuConnectMarkup = [
+      '<div class="site-menu-connect">',
+        '<p class="site-menu-connect-label">Connect</p>',
+        '<div class="site-menu-connect-links">',
+          '<a class="site-menu-connect-link" href="mailto:ben@staplefordwatches.co.uk">Email</a>',
+          '<a class="site-menu-connect-link" href="https://wa.me/447438196047" rel="noopener" target="_blank">WhatsApp</a>',
+          '<a class="site-menu-connect-link" href="https://instagram.com/staplefordwatches" rel="noopener" target="_blank">Instagram</a>',
+          '<a class="site-menu-connect-link" href="https://tiktok.com/@staplefordwatches" rel="noopener" target="_blank">TikTok</a>',
+          '<a class="site-menu-connect-link" href="https://youtube.com/@staplefordwatches" rel="noopener" target="_blank">YouTube</a>',
+        '</div>',
+      '</div>'
+    ].join('');
     const menuNewsletterMarkup = [
       '<div class="site-menu-newsletter">',
         '<p class="sw-footer-newsletter-title">Stay in the loupe</p>',
@@ -1669,6 +1679,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       '<a class="site-menu-popover-link" href="/buy/"><span>BUY</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
       '<a class="site-menu-popover-link" href="/sell/"><span>SELL</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
       '<a class="site-menu-popover-link" href="/journal/"><span>JOURNAL</span><svg class="site-menu-popover-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16"><path d="M4 12 12 4"></path><path d="M6 4h6v6"></path></svg></a>',
+      menuConnectMarkup,
       menuNewsletterMarkup
     ].join('');
     const desktopMenuMarkup = '<a class="desktop-site-nav-link" href="/buy/">BUY</a><a class="desktop-site-nav-link" href="/sell/">SELL</a><a class="desktop-site-nav-link" href="/journal/">JOURNAL</a>';
@@ -2398,7 +2409,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       showMoreBtn.textContent = hidden > 0 ? `SHOW MORE (${hidden})` : 'SHOW MORE';
     }
     preconnectFirstImages(visible);
-    scheduleIdleWork(() => visible.slice(0, IS_SAFARI_DESKTOP ? 2 : 3).forEach(warmProductDetailImage));
   }
   function cardHtml(watch, index){
     const s = status(watch);
@@ -2996,7 +3006,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     window.addEventListener('resize', debounce(() => { if(window.innerWidth >= 768) closeAllMenus(); const before = visibleLimit; visibleLimit = Math.max(visibleLimit, initialLimit()); if(before !== visibleLimit) render(); else scheduleListingMetadataAlignment(); scheduleHelpPopUpdate(); }, 160), { passive:true });
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { scheduleListingMetadataAlignment(); }).catch(() => {});
     document.addEventListener('click', (e) => {
-      if(e.target.closest('.site-menu-popover-link')){ closeAllMenus(); return; }
+      if(e.target.closest('.site-menu-popover-link,.site-menu-connect-link')){ closeAllMenus(); return; }
       if(!e.target.closest('.site-menu-popover,.sw-menu-toggle')) closeAllMenus();
     });
     document.addEventListener('keydown', (e) => {
