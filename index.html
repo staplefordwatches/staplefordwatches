@@ -1478,8 +1478,8 @@ body.site-menu-open .site-header{z-index:2147483646!important}
 body.site-menu-open .site-header .logo{visibility:hidden!important}
 body.site-menu-closing{overflow:hidden!important}
 body.site-menu-closing .site-header{z-index:2147483646!important}
-body.site-menu-closing .site-header .logo{visibility:hidden!important}
-body.site-menu-open #catalogControls,body.site-menu-closing #catalogControls{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+body.site-menu-closing .site-header .logo{visibility:visible!important}
+body.site-menu-open #catalogControls{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
 .sw-menu-toggle.is-open{z-index:25}
 .sw-menu-toggle.is-open .sw-menu-toggle-bar{background:#fff!important}
 .sw-menu-toggle--product.is-open{z-index:2147483647}
@@ -2868,6 +2868,10 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     document.body.classList.toggle('legal-info-active', isLegalInfo);
     document.body.classList.toggle('sell-active', isSell);
     document.body.classList.toggle('journal-active', isJournal);
+    const buyPageEl = $('buyPage');
+    if(buyPageEl) buyPageEl.hidden = !isBuy;
+    const infoPageEl = $('infoPage');
+    if(infoPageEl) infoPageEl.hidden = !isInfo;
     const sellPageEl = $('sellPage');
     if(sellPageEl) sellPageEl.hidden = !isSell;
     const journalPageEl = $('journalPage');
@@ -2922,6 +2926,9 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(helpPopFrame) cancelAnimationFrame(helpPopFrame);
     helpPopFrame = requestAnimationFrame(() => { helpPopFrame = 0; updateHelpPop(); });
   }
+  function scrollToRouteStart(){
+    window.scrollTo({ top:0, left:0, behavior:'auto' });
+  }
   function goHome(){
     closeAllMenus();
     closeLightbox(false);
@@ -2931,7 +2938,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     resetLimit();
     render();
     setRoute('buy');
-    window.scrollTo({ top:0, behavior:'smooth' });
+    scrollToRouteStart();
   }
 
   function closeAllMenus(){
@@ -3113,7 +3120,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         if(lightbox && lightbox.classList.contains('open')) closeLightbox(false);
         try{ history.pushState({ page:'journal' }, '', path); }catch(_error){}
         showRoute('journal');
-        window.scrollTo({ top:0, behavior:'smooth' });
+        scrollToRouteStart();
         return;
       }
       const key = INFO_PATHS[path];
@@ -3122,7 +3129,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       if(lightbox && lightbox.classList.contains('open')) closeLightbox(false);
       showRoute(key);
       setRoute(key);
-      window.scrollTo({ top:0, behavior:'smooth' });
+      scrollToRouteStart();
     }, true);
     window.addEventListener('popstate', () => {
       if(openProductFromUrl(true)) return;
