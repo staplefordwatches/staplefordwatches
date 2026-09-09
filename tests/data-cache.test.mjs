@@ -4,7 +4,7 @@ import test from "node:test";
 
 const source = await readFile(new URL("../functions/_utils/data-cache.js", import.meta.url), "utf8");
 const cacheModule = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
-const { withDataCache } = cacheModule;
+const { refreshDataCache, withDataCache } = cacheModule;
 
 class MemoryCache {
   constructor() {
@@ -169,4 +169,31 @@ test("stale catalogue stays available when Airtable fails", async () => {
   assert.deepEqual(await response.json(), { watches: [{ id: "one" }] });
   await Promise.all(failedRefreshContext.pending);
   assert.equal(counter.count, 2);
+});
+
+test("webhook refresh replaces a snapshot without discarding the last good copy on failure", async () => {
+  const kv = new MemoryKv();
+  const env = { CATALOG_CACHE: kv };
+  const counter = { count: 0 };
+  const initialContext = context("https://example.com/api/watches", env);
+
+  await withDataCache(initialContext, {
+    key: "watches",
+    producer: jsonProducer(counter, { watches: [{ id: "old" }] }),
+  });
+
+  const refreshed = await refreshDataCache(context("https://example.com/api/watches", env), {
+    key: "watches",
+    producer: jsonProducer(counter, { watches: [{ id: "new" }] }),
+  });
+  assert.equal(refreshed.headers.get("X-Stapleford-Cache"), "REFRESHED");
+  assert.deepEqual(await refreshed.json(), { watches: [{ id: "new" }] });
+
+  const failed = await refreshDataCache(context("https://example.com/api/watches", env), {
+    key: "watches",
+    producer: async () => Response.json({ error: "offline" }, { status: 503 }),
+  });
+  assert.equal(failed.status, 200);
+  assert.equal(failed.headers.get("X-Stapleford-Cache"), "STALE");
+  assert.deepEqual(await failed.json(), { watches: [{ id: "new" }] });
 });
