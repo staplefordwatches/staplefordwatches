@@ -1450,14 +1450,26 @@ body.journal-entry-active #journalListView{display:none!important}
 .journal-row:hover .journal-row-title{opacity:.65}
 @media (max-width:767px){.journal-row{grid-template-columns:1fr;gap:16px}.journal-row-image{order:-1}}
 .journal-entry{width:min(100%,720px);margin:0 auto;padding:clamp(24px,4vw,40px) var(--listing-copy-rail) 80px}
-.journal-entry-back{display:inline-flex;align-items:center;gap:6px;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-control);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--sw-navy);opacity:.55;text-decoration:none;margin-bottom:24px;cursor:default;border:0;background:0 0;padding:0}
-.journal-entry-back:hover{opacity:.85}
 .journal-entry-meta{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-control);font-weight:500;letter-spacing:.08em;text-transform:uppercase;opacity:.5;margin-bottom:10px}
 .journal-entry-title{font-family:"Sweet Sans Pro",Arial,sans-serif;font-weight:400;font-size:clamp(26px,4vw,38px);line-height:1.2;letter-spacing:.005em;margin:0 0 14px;color:var(--sw-navy)}
 .journal-entry-byline{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-control);letter-spacing:.03em;opacity:.55;margin-bottom:28px}
 .journal-entry-image{width:100%;aspect-ratio:16/10;overflow:hidden;background:#f2f2f0;margin-bottom:28px}
 .journal-entry-image img{width:100%;height:100%;object-fit:cover;display:block}
-.journal-entry-body p{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:14px;line-height:1.8;letter-spacing:.008em;color:rgba(10,35,66,.82);margin:0 0 18px}
+.journal-entry-body{color:rgba(10,35,66,.84)}
+.journal-entry-body p,.journal-entry-body li,.journal-entry-body blockquote{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:clamp(16px,1.55vw,17px);line-height:1.78;letter-spacing:.004em}
+.journal-entry-body p{margin:0 0 22px}
+.journal-entry-body h2,.journal-entry-body h3{font-family:"Sweet Sans Pro",Arial,sans-serif;font-weight:500;color:var(--sw-navy);text-wrap:balance}
+.journal-entry-body h2{font-size:clamp(21px,2.8vw,27px);line-height:1.25;letter-spacing:.005em;margin:46px 0 16px}
+.journal-entry-body h3{font-size:clamp(17px,2vw,20px);line-height:1.35;letter-spacing:.01em;margin:34px 0 12px}
+.journal-entry-body>h2:first-child,.journal-entry-body>h3:first-child{margin-top:0}
+.journal-entry-body ul,.journal-entry-body ol{margin:0 0 24px;padding-left:1.35em}
+.journal-entry-body li{padding-left:.2em;margin:0 0 7px}
+.journal-entry-body strong{font-weight:600}
+.journal-entry-body blockquote{margin:34px 0;padding:2px 0 2px 22px;border-left:2px solid rgba(10,35,66,.35);color:var(--sw-navy);font-size:clamp(18px,2.2vw,22px);line-height:1.55}
+.journal-body-image{width:100%;margin:36px 0}
+.journal-body-image img{display:block;width:100%;height:auto;background:#ececea}
+.journal-body-image figcaption{margin:9px 0 0;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:12px;line-height:1.45;letter-spacing:.02em;color:rgba(10,35,66,.58)}
+@media (max-width:767px){.journal-entry{padding-top:28px}.journal-entry-image{margin-bottom:24px}.journal-entry-body h2{margin-top:38px}.journal-body-image{margin:30px 0}}
 .journal-list[hidden]{display:none}
 .journal-empty{width:min(100%,720px);margin:0 auto;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-body);opacity:.6;padding:0 var(--listing-copy-rail) 60px}
 
@@ -3516,7 +3528,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
 
   async function loadJournal(){
     try{
-      const response = await fetch('/api/journal', { headers:{ Accept:'application/json' }, cache:'default' });
+      const response = await fetch('/api/journal', { headers:{ Accept:'application/json', 'Cache-Control':'no-cache' }, cache:'no-store' });
+      if(!response.ok) throw new Error('Journal request failed');
       const result = await response.json();
       journalEntries = (result && (result.posts || result.entries || result.data)) || [];
     }catch(_error){
@@ -3540,7 +3553,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     }
     list.hidden = false;
     if(empty) empty.hidden = true;
-    list.innerHTML = journalEntries.map((entry) => `<a class="journal-row" href="${escapeHtml(journalEntryLink(entry))}"><div class="journal-row-text"><p class="journal-row-meta">${escapeHtml(entry.category || '')}${entry.readMinutes ? ` · ${entry.readMinutes} min read` : ''}</p><p class="journal-row-title">${escapeHtml(entry.title || '')}</p><p class="journal-row-excerpt">${escapeHtml(entry.excerpt || '')}</p></div><div class="journal-row-image">${entry.image ? `<img src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title || '')}" loading="lazy">` : ''}</div></a>`).join('');
+    list.innerHTML = journalEntries.map((entry) => `<a class="journal-row" href="${escapeHtml(journalEntryLink(entry))}"><div class="journal-row-text"><p class="journal-row-meta">${escapeHtml(entry.category || '')}${entry.readMinutes ? ` · ${entry.readMinutes} min read` : ''}</p><p class="journal-row-title">${escapeHtml(entry.title || '')}</p><p class="journal-row-excerpt">${escapeHtml(entry.excerpt || '')}</p></div><div class="journal-row-image">${entry.cardImage || entry.image ? `<img src="${escapeHtml(entry.cardImage || entry.image)}" alt="${escapeHtml(entry.imageAlt || entry.title || '')}" loading="lazy" decoding="async">` : ''}</div></a>`).join('');
   }
 
   function showJournalList(){
@@ -3564,7 +3577,9 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(entry.author) bylineParts.push(`By ${escapeHtml(entry.author)}`);
     if(entry.dateDisplay) bylineParts.push(escapeHtml(entry.dateDisplay));
     if(entry.readMinutes) bylineParts.push(`${entry.readMinutes} min read`);
-    container.innerHTML = `<a class="journal-entry-back" href="/journal/">← Journal</a><p class="journal-entry-meta">${escapeHtml(entry.category || '')}</p><h1 class="journal-entry-title">${escapeHtml(entry.title || '')}</h1><p class="journal-entry-byline">${bylineParts.join(' · ')}</p>${entry.image ? `<div class="journal-entry-image"><img src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title || '')}" loading="eager"></div>` : ''}<div class="journal-entry-body">${entry.bodyHtml || ''}</div>`;
+    const fallbackBody = String(entry.content || '').split(/\n+/).map(line => line.trim()).filter(Boolean).map(line => `<p>${escapeHtml(line)}</p>`).join('');
+    const heroImage = entry.heroImage || entry.image || '';
+    container.innerHTML = `<p class="journal-entry-meta">${escapeHtml(entry.category || '')}</p><h1 class="journal-entry-title">${escapeHtml(entry.title || '')}</h1><p class="journal-entry-byline">${bylineParts.join(' · ')}</p>${heroImage ? `<div class="journal-entry-image"><img src="${escapeHtml(heroImage)}" alt="${escapeHtml(entry.imageAlt || entry.title || '')}" loading="eager" decoding="async"></div>` : ''}<div class="journal-entry-body">${entry.bodyHtml || fallbackBody}</div>`;
     document.title = `${entry.title || 'Journal'} | Stapleford Watches`;
     const url = SITE_ORIGIN + journalEntryLink(entry);
     upsert('link[rel="canonical"]','link',{rel:'canonical'}).href = url;
