@@ -1,4 +1,6 @@
-export async function onRequest(context) {
+import { withDataCache } from "../_utils/data-cache.js";
+
+async function loadWatches(context) {
   try {
     const token = context.env.AIRTABLE_TOKEN || context.env.AIRTABLE_API_KEY;
     const baseId = context.env.AIRTABLE_BASE_ID;
@@ -226,20 +228,12 @@ export async function onRequest(context) {
           sku,
           brand,
           title,
-          model: title,
-          name: title,
-
           price,
           status,
           description,
 
           image: mainImage,
-          imageUrl: mainImage,
-          mainImage,
-          mainImageUrl: mainImage,
-          thumbnail: mainImage,
           images,
-          gallery: images,
 
           specs: {
             reference,
@@ -252,16 +246,6 @@ export async function onRequest(context) {
             conditionNotes,
             contentsNotes
           },
-
-          reference,
-          year,
-          caseSize,
-          movement,
-          caseMaterial,
-          condition,
-          contents,
-          conditionNotes,
-          contentsNotes,
 
           authenticityGuaranteed,
           warranty12Month,
@@ -279,9 +263,7 @@ export async function onRequest(context) {
     return Response.json({
       ok: true,
       count: watches.length,
-      watches,
-      items: watches,
-      data: watches
+      watches
     });
   } catch (error) {
     return Response.json(
@@ -289,4 +271,13 @@ export async function onRequest(context) {
       { status: 500 }
     );
   }
+}
+
+export async function onRequest(context) {
+  return withDataCache(context, {
+    key: "watches",
+    freshSeconds: 60 * 60 * 6,
+    browserSeconds: 60,
+    producer: () => loadWatches(context),
+  });
 }

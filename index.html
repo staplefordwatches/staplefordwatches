@@ -3,7 +3,7 @@
 <html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
 <title>Stapleford Watches | Pre-Owned Luxury Watches</title><meta content="Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." name="description"/><link href="https://staplefordwatches.co.uk/" rel="canonical"/><meta content="website" property="og:type"/><meta content="Stapleford Watches | Pre-Owned Luxury Watches" property="og:title"/><meta content="Buy pre-owned luxury watches with Stapleford Watches. A selection of brands including Rolex, Omega, Tudor, Zenith, Cartier, Jaeger-LeCoultre and more." property="og:description"/><meta content="https://staplefordwatches.co.uk/" property="og:url"/><meta content="summary_large_image" name="twitter:card"/><link href="/favicon.ico?v=4" rel="icon" type="image/x-icon"/><link href="/favicon-32x32.png?v=4" rel="icon" sizes="32x32" type="image/png"/><link href="/favicon-16x16.png?v=4" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png?v=4" rel="apple-touch-icon" sizes="180x180"/><link href="/site.webmanifest?v=4" rel="manifest"/><meta content="#ffffff" name="theme-color"/><script id="stapleford-merchant-policy-jsonld" type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://staplefordwatches.co.uk/#organization","name":"Stapleford Watches","url":"https://staplefordwatches.co.uk/","hasShippingService":{"@type":"ShippingService","shippingDestination":{"@type":"DefinedRegion","addressCountry":"GB"},"shippingRate":{"@type":"MonetaryAmount","value":0,"currency":"GBP"},"deliveryTime":{"@type":"ShippingDeliveryTime","handlingTime":{"@type":"QuantitativeValue","minValue":0,"maxValue":1,"unitCode":"DAY"},"transitTime":{"@type":"QuantitativeValue","minValue":1,"maxValue":1,"unitCode":"DAY"}}},"hasMerchantReturnPolicy":{"@type":"MerchantReturnPolicy","applicableCountry":"GB","returnPolicyCategory":"https://schema.org/MerchantReturnFiniteReturnWindow","merchantReturnDays":14,"returnMethod":"https://schema.org/ReturnByMail","returnFees":"https://schema.org/ReturnFeesCustomerResponsibility","merchantReturnLink":"https://staplefordwatches.co.uk/terms-and-conditions/"}}</script>
 <script id="stapleford-site-navigation-jsonld" type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","@id":"https://staplefordwatches.co.uk/#site-navigation","name":"Stapleford Watches main navigation","itemListElement":[{"@type":"SiteNavigationElement","position":1,"name":"Buy Watches","url":"https://staplefordwatches.co.uk/buy/"},{"@type":"SiteNavigationElement","position":2,"name":"Contact","url":"https://staplefordwatches.co.uk/contact/"},{"@type":"SiteNavigationElement","position":3,"name":"Search","url":"https://staplefordwatches.co.uk/search/"},{"@type":"SiteNavigationElement","position":4,"name":"Terms and Conditions","url":"https://staplefordwatches.co.uk/terms-and-conditions/"},{"@type":"SiteNavigationElement","position":5,"name":"Privacy Policy","url":"https://staplefordwatches.co.uk/privacy-policy/"},{"@type":"SiteNavigationElement","position":6,"name":"Journal","url":"https://staplefordwatches.co.uk/journal/"}]}</script>
-<link crossorigin="" href="https://v5.airtableusercontent.com" rel="preconnect"/><link href="//v5.airtableusercontent.com" rel="dns-prefetch"/><link crossorigin="" href="https://dl.airtable.com" rel="preconnect"/><link href="//dl.airtable.com" rel="dns-prefetch"/><link as="font" crossorigin="" href="/fonts/fonnts.com-SweetSansProRegular.otf" rel="preload" type="font/otf"/><style id="stapleford-production-css">@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProLight.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
+<link crossorigin="" href="https://res.cloudinary.com" rel="preconnect"/><link href="//res.cloudinary.com" rel="dns-prefetch"/><link as="font" crossorigin="" href="/fonts/fonnts.com-SweetSansProRegular.otf" rel="preload" type="font/otf"/><style id="stapleford-production-css">@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProLight.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProRegular.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProRegular.otf") format("opentype");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/fonnts.com-SweetSansProBold.otf") format("opentype");font-weight:600 700;font-style:normal;font-display:swap}
@@ -713,6 +713,10 @@ html body.product-page-open #lightboxImage{
 
 /* Professional gallery guard: never blank the product image while the next asset is loading. */
 html body .lightbox img#lightboxImage.is-loading-next{opacity:1!important;}
+html body .lightbox-image-wrap.is-image-unavailable img#lightboxImage{visibility:hidden!important;}
+html body .lightbox-image-wrap.is-image-unavailable::after{content:'IMAGE CURRENTLY UNAVAILABLE';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:#f5f5f3;color:rgba(10,35,66,.62);font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:11px;letter-spacing:.12em;text-align:center;z-index:1;}
+html body .image.is-loading-fallback img,html body .lightbox-related-image.is-loading-fallback img,html body .image.is-image-unavailable img,html body .lightbox-related-image.is-image-unavailable img{visibility:hidden!important;}
+html body .image.is-image-unavailable::after,html body .lightbox-related-image.is-image-unavailable::after{content:'IMAGE COMING SOON';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;background:#f5f5f3;color:rgba(10,35,66,.58);font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:9px;letter-spacing:.1em;text-align:center;}
 
 
 
@@ -1558,8 +1562,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   const SITE_ORIGIN = 'https://staplefordwatches.co.uk';
   const WHATSAPP_NUMBER = '447438196047';
   const EMAIL = 'ben@staplefordwatches.co.uk';
-  const CACHE_KEY = 'stapleford_watches_cache_v11_status_live';
-  const CACHE_MAX_AGE = 1000 * 60 * 5;
+  const CACHE_KEY = 'stapleford_watches_cache_v12_edge_snapshot';
+  const CACHE_MAX_AGE = 1000 * 60 * 60 * 24;
   const FETCH_TIMEOUT = 6500;
   const PRODUCT_PREFIX = '/watches/';
   const LIMITS = { desktop: 36, tablet: 24, mobile: 16 };
@@ -1619,6 +1623,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   let activeTouchX = null;
   let activeLightboxPlaceholder = '';
   let lightboxImageRequestId = 0;
+  let lastGoodDetailSource = '';
+  const failedDetailImages = new Set();
   const detailImagePreloadCache = new Map();
   let helpPopFrame = 0;
   let listingAlignmentFrame = 0;
@@ -2068,6 +2074,76 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if('requestIdleCallback' in window) window.requestIdleCallback(fn, { timeout: 1500 });
     else window.setTimeout(fn, 350);
   }
+  function recoverListingImage(img){
+    if(!img) return;
+    const card = img.closest('[data-watch-id]');
+    const watch = card && watchesById.get(card.dataset.watchId);
+    const frame = img.closest('.image,.lightbox-related-image');
+    if(!watch || !frame) return;
+
+    frame.classList.add('is-loading-fallback');
+    img.removeAttribute('srcset');
+    img.removeAttribute('sizes');
+    const candidates = images(watch).map(item => safeUrl(item, '')).filter(Boolean);
+    let candidateIndex = Number(img.dataset.fallbackImageIndex || 0);
+
+    if(img.dataset.rawImageRetried !== 'true' && candidates[candidateIndex]){
+      img.dataset.rawImageRetried = 'true';
+      img.src = candidates[candidateIndex];
+      return;
+    }
+
+    candidateIndex += 1;
+    if(candidateIndex < candidates.length){
+      img.dataset.fallbackImageIndex = String(candidateIndex);
+      img.dataset.rawImageRetried = 'false';
+      const mapper = card.classList.contains('lightbox-related-card') ? relatedImage : gridImage;
+      img.src = mapper(candidates[candidateIndex], card.classList.contains('lightbox-related-card') ? 520 : 800);
+      return;
+    }
+
+    frame.classList.remove('is-loading-fallback');
+    frame.classList.add('is-image-unavailable');
+    img.removeAttribute('src');
+  }
+  function nextUsableImageIndex(startIndex, delta=1){
+    if(!activeImages.length) return -1;
+    for(let offset = 1; offset <= activeImages.length; offset += 1){
+      const index = (startIndex + (offset * delta) + activeImages.length * 2) % activeImages.length;
+      const source = safeUrl(activeImages[index], '');
+      if(source && !failedDetailImages.has(source)) return index;
+    }
+    return -1;
+  }
+  function showLightboxImageUnavailable(){
+    const wrap = lightboxImage && lightboxImage.closest('.lightbox-image-wrap');
+    if(wrap) wrap.classList.add('is-image-unavailable');
+    if(lightboxImage){
+      lightboxImage.classList.remove('is-loading-next');
+      lightboxImage.removeAttribute('srcset');
+      lightboxImage.removeAttribute('sizes');
+    }
+  }
+  function handleFailedDetailImage(source, requestId){
+    const clean = safeUrl(source, '');
+    if(clean) failedDetailImages.add(clean);
+    if(requestId !== lightboxImageRequestId || !lightboxImage) return;
+
+    const nextIndex = nextUsableImageIndex(activeImageIndex, 1);
+    if(nextIndex >= 0){
+      activeImageIndex = nextIndex;
+      setLightboxImage(activeImages[nextIndex], activeWatch ? displayName(activeWatch) : '');
+      return;
+    }
+
+    const lastGoodIndex = activeImages.findIndex(item => safeUrl(item, '') === lastGoodDetailSource);
+    if(lastGoodIndex >= 0 && lightboxImage.naturalWidth > 0){
+      activeImageIndex = lastGoodIndex;
+      lightboxImage.classList.remove('is-loading-next');
+      return;
+    }
+    showLightboxImageUnavailable();
+  }
   function setLightboxImage(src, alt='', placeholder=''){
     if(!lightboxImage) return;
     const clean = safeUrl(src, '');
@@ -2077,8 +2153,14 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const currentSrc = lightboxImage.currentSrc || lightboxImage.src || '';
     const requestId = ++lightboxImageRequestId;
     if(alt) lightboxImage.alt = alt;
+    lightboxImage.dataset.requestedSource = clean;
 
-    function applyLoadedImage(url, srcsetValue){
+    if(clean && failedDetailImages.has(clean)){
+      handleFailedDetailImage(clean, requestId);
+      return;
+    }
+
+    function applyLoadedImage(url, srcsetValue, sourceUrl=clean){
       if(requestId !== lightboxImageRequestId || !lightboxImage || !url) return;
       if(srcsetValue){
         lightboxImage.srcset = srcsetValue;
@@ -2088,39 +2170,53 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         lightboxImage.removeAttribute('sizes');
       }
       lightboxImage.src = url;
+      lightboxImage.dataset.displayedSource = safeUrl(sourceUrl, '') || url;
+      const wrap = lightboxImage.closest('.lightbox-image-wrap');
+      if(wrap) wrap.classList.remove('is-image-unavailable');
       lightboxImage.classList.remove('is-loading-next');
       scheduleHelpPopUpdate();
     }
 
-    function loadThenApply(url, srcsetValue, fallbackUrl=''){
+    function loadThenApply(url, srcsetValue, fallbackUrl='', sourceUrl=clean){
       if(!url) return;
       const loader = new Image();
+      let settled = false;
       if(srcsetValue){ loader.srcset = srcsetValue; loader.sizes = detailImageSizes(); }
       try{ loader.decoding = 'async'; loader.fetchPriority = 'high'; }catch{}
-      loader.onload = () => applyLoadedImage(url, srcsetValue);
-      loader.onerror = () => {
+      const succeed = () => {
+        if(settled) return;
+        settled = true;
+        applyLoadedImage(url, srcsetValue, sourceUrl);
+      };
+      const fail = () => {
+        if(settled) return;
+        settled = true;
         if(requestId !== lightboxImageRequestId || !lightboxImage) return;
         if(fallbackUrl && fallbackUrl !== url){
-          loadThenApply(fallbackUrl, '');
+          loadThenApply(fallbackUrl, '', '', sourceUrl);
           return;
         }
-        // Never swap to a failed image. Keep the current photograph visible instead of showing a blank white frame.
-        lightboxImage.classList.remove('is-loading-next');
+        handleFailedDetailImage(sourceUrl, requestId);
       };
+      loader.onload = succeed;
+      loader.onerror = fail;
       loader.src = url;
-      if(loader.complete) loader.onload();
+      if(loader.complete){
+        queueMicrotask(() => loader.naturalWidth > 0 ? succeed() : fail());
+      }
     }
 
     // Opening from a card: show the already-loaded grid image instantly, then upgrade to the detail image.
     if(explicitPlaceholder && currentSrc !== explicitPlaceholder){
       lightboxImage.removeAttribute('srcset');
       lightboxImage.removeAttribute('sizes');
+      lightboxImage.dataset.displayedSource = clean;
       lightboxImage.src = explicitPlaceholder;
       lightboxImage.classList.remove('is-loading-next');
     }else if(!currentSrc && clean){
       // Direct product-page visits have no grid image in memory. Use a small transformed version as the first paint.
       const starter = gridImage(clean, 900) || clean;
-      if(starter){ lightboxImage.src = starter; }
+      if(starter){ lightboxImage.dataset.displayedSource = clean; lightboxImage.src = starter; }
     }else if(currentSrc && detailSrc && currentSrc !== detailSrc){
       // Image navigation: keep the existing image on screen until the next one is fully decoded/cached.
       lightboxImage.classList.add('is-loading-next');
@@ -2132,7 +2228,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       lightboxImage.classList.remove('is-loading-next');
       return;
     }
-    loadThenApply(detailSrc, set, clean && clean !== detailSrc ? clean : '');
+    loadThenApply(detailSrc, set, clean && clean !== detailSrc ? clean : '', clean);
   }
   function money(value){ const number = Number(String(value || '').replace(/[^0-9.]/g,'')); return number > 0 ? number.toLocaleString('en-GB') : ''; }
   function formatYear(value){ return String(value || '').trim().replace(/\bC\./gi, 'c.').replace(/(\d)S\b/g, '$1s'); }
@@ -2287,7 +2383,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const controller = window.AbortController ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT) : 0;
     try{
-      const response = await fetch(`/api/watches?fresh=${Date.now()}${retry ? '&retry=' + retry : ''}`, { headers:{ Accept:'application/json', 'Cache-Control':'no-cache', Pragma:'no-cache' }, cache:'no-store', ...(controller ? { signal: controller.signal } : {}) });
+      const response = await fetch('/api/watches', { headers:{ Accept:'application/json' }, cache:'default', ...(controller ? { signal: controller.signal } : {}) });
       const data = await response.json();
       const next = Array.isArray(data && data.watches) ? data.watches : [];
       if(!response.ok || !next.length) throw new Error('Empty watches response');
@@ -2307,17 +2403,14 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   async function loadWatches(){
     if(loadPromise) return loadPromise;
     loadPromise = (async () => {
+      const cached = cachedWatches();
+      if(cached) renderLoaded(cached, { fromCache:true });
       try{
         renderLoaded(await fetchWatches(0));
       }catch(error){
-        try{
-          renderLoaded(await fetchWatches(1));
-        }catch(finalError){
-          const cached = cachedWatches();
-          if(cached) renderLoaded(cached, { fromCache:true });
-          else renderEmpty();
-          console.warn(finalError);
-        }
+        if(cached){ console.warn(error); return; }
+        try{ renderLoaded(await fetchWatches(1)); }
+        catch(finalError){ renderEmpty(); console.warn(finalError); }
       }
     })().finally(() => { loadPromise = null; });
     return loadPromise;
@@ -2573,6 +2666,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function openLightbox(watch, index=0, updateUrl=true, placeholder=''){
     if(!watch) return;
     closeAllMenus();
+    lastGoodDetailSource = '';
     activeWatch = watch; activeImageIndex = index; activeLightboxPlaceholder = safeUrl(placeholder, '');
     renderLightbox();
     if(lightbox){ lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden','false'); moveSiteFooterIntoProduct(); lightbox.scrollTop = 0; }
@@ -2596,7 +2690,9 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   }
   function stepImage(delta){
     if(activeImages.length <= 1) return;
-    activeImageIndex = (activeImageIndex + delta + activeImages.length) % activeImages.length;
+    const nextIndex = nextUsableImageIndex(activeImageIndex, delta < 0 ? -1 : 1);
+    if(nextIndex < 0) return;
+    activeImageIndex = nextIndex;
     const target = activeImages[activeImageIndex];
     preloadDetailImage(target, 'high');
     setLightboxImage(target, activeWatch ? displayName(activeWatch) : '');
@@ -2885,6 +2981,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(isBuy && catalogControlsApi) catalogControlsApi.sync();
     if(isInfo) renderInfoPage(key);
     if(isSell) resetSellFormStatus();
+    if(isJournal && !journalLoaded) loadJournal();
     if(isJournal && !openJournalEntryFromUrl()) showJournalList();
     updateMenuSeo(key || 'home');
   }
@@ -3100,7 +3197,29 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         lightboxRelatedGrid.addEventListener('focusin', warmRelated);
       }
     }
-    if(lightboxImage) lightboxImage.addEventListener('load', scheduleHelpPopUpdate);
+    if(lightboxImage){
+      lightboxImage.addEventListener('load', () => {
+        if(lightboxImage.naturalWidth > 0){
+          lastGoodDetailSource = safeUrl(lightboxImage.dataset.displayedSource || lightboxImage.currentSrc || lightboxImage.src, '');
+          const wrap = lightboxImage.closest('.lightbox-image-wrap');
+          if(wrap) wrap.classList.remove('is-image-unavailable');
+        }
+        scheduleHelpPopUpdate();
+      });
+      lightboxImage.addEventListener('error', () => {
+        handleFailedDetailImage(lightboxImage.dataset.requestedSource || lightboxImage.currentSrc || lightboxImage.src, lightboxImageRequestId);
+      });
+    }
+    document.addEventListener('error', (event) => {
+      const img = event.target;
+      if(img instanceof HTMLImageElement && img.matches('#gallery .card img,.lightbox-related-card img')) recoverListingImage(img);
+    }, true);
+    document.addEventListener('load', (event) => {
+      const img = event.target;
+      if(!(img instanceof HTMLImageElement) || !img.matches('#gallery .card img,.lightbox-related-card img')) return;
+      const frame = img.closest('.image,.lightbox-related-image');
+      if(frame){ frame.classList.remove('is-loading-fallback','is-image-unavailable'); }
+    }, true);
     if(lightboxBuy) lightboxBuy.addEventListener('click', () => checkout(lightboxBuy.dataset.watchId));
     if(lightboxDescriptionToggle) lightboxDescriptionToggle.addEventListener('click', () => setDescriptionOpen(lightboxDescription.hidden));
     if(lightboxSpecToggle) lightboxSpecToggle.addEventListener('click', () => setSpecsOpen(lightboxSpecs.hidden));
@@ -3363,9 +3482,9 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
 
   async function loadJournal(){
     try{
-      const response = await fetch('/api/journal', { headers:{ Accept:'application/json' }, cache:'no-store' });
+      const response = await fetch('/api/journal', { headers:{ Accept:'application/json' }, cache:'default' });
       const result = await response.json();
-      journalEntries = (result && (result.entries || result.data)) || [];
+      journalEntries = (result && (result.posts || result.entries || result.data)) || [];
     }catch(_error){
       journalEntries = [];
     }
@@ -3441,7 +3560,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(key === 'search'){ updateMenuSeo('search'); setTimeout(() => { const input = document.querySelector('.glass-search-input'); if(input) input.focus({ preventScroll:true }); }, 300); }
     else showRoute(key);
     loadWatches();
-    loadJournal();
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true }); else boot();
 })();

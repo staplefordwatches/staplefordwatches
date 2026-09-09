@@ -1,3 +1,5 @@
+import { withDataCache } from "../_utils/data-cache.js";
+
 function clean(value) {
   if (value === undefined || value === null) return "";
   return String(value).trim();
@@ -66,7 +68,7 @@ async function loadAllRecords({ token, baseId, table, view }) {
   return records;
 }
 
-export async function onRequest(context) {
+async function loadJournal(context) {
   try {
     const env = context.env || {};
     const token = env.AIRTABLE_TOKEN || env.AIRTABLE_API_KEY;
@@ -134,18 +136,20 @@ export async function onRequest(context) {
         return a._airtableEntryOrder - b._airtableEntryOrder;
       });
 
-    return Response.json(
-      { ok: true, count: posts.length, posts, items: posts, data: posts },
-      {
-        headers: {
-          "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=86400",
-        },
-      }
-    );
+    return Response.json({ ok: true, count: posts.length, posts });
   } catch (error) {
     return Response.json(
       { ok: false, error: "Could not load Journal", detail: error.message },
       { status: 500 }
     );
   }
+}
+
+export async function onRequest(context) {
+  return withDataCache(context, {
+    key: "journal",
+    freshSeconds: 60 * 60 * 6,
+    browserSeconds: 300,
+    producer: () => loadJournal(context),
+  });
 }
