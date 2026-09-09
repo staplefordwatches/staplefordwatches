@@ -2443,17 +2443,18 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const tokens = query.split(' ').filter(token => token.length > 1);
     return tokens.length ? tokens.every(token => hay.includes(token)) : false;
   }
-  function listingTimestamp(watch){
-    const timestamp = Date.parse(String(watch?.dateAdded || ''));
-    return Number.isFinite(timestamp) ? timestamp : null;
+  function watchYearValue(watch){
+    const raw = String((watch && watch.specs && watch.specs.year) || (watch && watch.year) || '').trim();
+    const match = raw.match(/\d{4}/);
+    return match ? Number(match[0]) : null;
   }
   function compareListingDates(first, second, newestFirst){
-    const firstDate = listingTimestamp(first);
-    const secondDate = listingTimestamp(second);
-    if(firstDate == null && secondDate == null) return Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
-    if(firstDate == null) return 1;
-    if(secondDate == null) return -1;
-    const difference = newestFirst ? secondDate - firstDate : firstDate - secondDate;
+    const firstYear = watchYearValue(first);
+    const secondYear = watchYearValue(second);
+    if(firstYear == null && secondYear == null) return Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
+    if(firstYear == null) return 1;
+    if(secondYear == null) return -1;
+    const difference = newestFirst ? secondYear - firstYear : firstYear - secondYear;
     return difference || Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
   }
   function filteredWatches(){
@@ -2477,7 +2478,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         return 0;
       });
     }
-    if(currentSort === 'new-old' || currentSort === 'old-new') return items;
     return items.filter(w => !isUnavailable(w)).concat(items.filter(isUnavailable));
   }
   function renderEmpty(){
