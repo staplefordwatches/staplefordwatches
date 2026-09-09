@@ -1,21 +1,5 @@
 import { withDataCache } from "../_utils/data-cache.js";
 
-const PREVIEW_CATALOGUE_URL = "https://staplefordwatches.co.uk/api/watches";
-
-async function loadTemporaryPreviewCatalogue(context) {
-  const hostname = new URL(context.request.url).hostname;
-  if (!hostname.endsWith(".pages.dev")) return null;
-
-  const response = await fetch(PREVIEW_CATALOGUE_URL, {
-    headers: { Accept: "application/json" },
-  });
-  if (!response.ok) return response;
-
-  const payload = await response.json();
-  const watches = Array.isArray(payload?.watches) ? payload.watches : [];
-  return Response.json({ ok: true, count: watches.length, watches });
-}
-
 async function loadWatches(context) {
   try {
     const token = context.env.AIRTABLE_TOKEN || context.env.AIRTABLE_API_KEY;
@@ -25,8 +9,6 @@ async function loadWatches(context) {
     const cloudName = context.env.CLOUDINARY_CLOUD_NAME || "dvm4pgghh";
 
     if (!token || !baseId) {
-      const previewCatalogue = await loadTemporaryPreviewCatalogue(context);
-      if (previewCatalogue) return previewCatalogue;
       return Response.json({ ok: false, error: "Missing Airtable settings" }, { status: 500 });
     }
 
