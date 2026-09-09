@@ -15,6 +15,23 @@ function normalize(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+function formulaString(value) {
+  return `"${String(value || "").replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+}
+
+async function airtableJson(url, token) {
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const text = await response.text();
+  if (!response.ok) {
+    const error = new Error(`Could not load watch from Airtable: ${text}`);
+    error.status = response.status;
+    throw error;
+  }
+  return text ? JSON.parse(text) : {};
+}
+
 export function parsePriceToPence(value) {
   if (typeof value === "number" && Number.isFinite(value)) {
     return Math.round(value * 100);
@@ -37,24 +54,26 @@ export async function findWatchByListingId(env, listingId) {
     throw new Error("Missing Airtable settings");
   }
 
-  const url = new URL(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`);
-  url.searchParams.set("pageSize", "100");
-  if (view) url.searchParams.set("view", view);
+  const wanted = normalize(listingId);
+  if (!wanted) return null;
 
-  const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const tableUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`;
+  let records = [];
 
-  const text = await response.text();
-
-  if (!response.ok) {
-    throw new Error(`Could not load watches from Airtable: ${text}`);
+  if (/^rec[a-z0-9]+$/i.test(clean(listingId))) {
+    const record = await airtableJson(`${tableUrl}/${encodeURIComponent(clean(listingId))}`, token);
+    records = record?.id ? [record] : [];
+  } else {
+    const url = new URL(tableUrl);
+    url.searchParams.set("maxRecords", "1");
+    url.searchParams.set("pageSize", "1");
+    url.searchParams.set("filterByFormula", `LOWER({SKU})=LOWER(${formulaString(listingId)})`);
+    if (view) url.searchParams.set("view", view);
+    const data = await airtableJson(url, token);
+    records = data.records || [];
   }
 
-  const data = JSON.parse(text);
-  const wanted = normalize(listingId);
-
-  const record = (data.records || []).find((item) => {
+  const record = records.find((item) => {
     const fields = item.fields || {};
     const possibleIds = [
       item.id,

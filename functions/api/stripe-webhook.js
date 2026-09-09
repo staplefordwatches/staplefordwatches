@@ -1,3 +1,5 @@
+import { purgeEdgeDataCache, updateCachedWatchStatus } from "../_utils/data-cache.js";
+
 function textEncoder(value) {
   return new TextEncoder().encode(String(value));
 }
@@ -100,7 +102,17 @@ function airtableRecordIdFromSession(session) {
   );
 }
 
-async function handleStripeEvent(event, env) {
+async function syncCachedStatus(env, requestUrl, recordId, status) {
+  try {
+    await updateCachedWatchStatus(env, recordId, status);
+    await purgeEdgeDataCache(requestUrl, "watches");
+  } catch (error) {
+    // Airtable remains the source of truth. A cache refresh will repair this automatically.
+    console.error("Cached watch status update failed:", error);
+  }
+}
+
+async function handleStripeEvent(event, env, requestUrl) {
   const session = event?.data?.object;
   const recordId = airtableRecordIdFromSession(session);
 
@@ -111,6 +123,7 @@ async function handleStripeEvent(event, env) {
   if (event.type === "checkout.session.completed") {
     if (session.payment_status === "paid") {
       await airtableRequest(env, recordId, { fields: { Status: "Sold" } });
+      await syncCachedStatus(env, requestUrl, recordId, "Sold");
       return { updated: true, status: "Sold" };
     }
 
@@ -119,11 +132,13 @@ async function handleStripeEvent(event, env) {
 
   if (event.type === "checkout.session.async_payment_succeeded") {
     await airtableRequest(env, recordId, { fields: { Status: "Sold" } });
+    await syncCachedStatus(env, requestUrl, recordId, "Sold");
     return { updated: true, status: "Sold" };
   }
 
   if (event.type === "checkout.session.expired") {
     await airtableRequest(env, recordId, { fields: { Status: "Available" } });
+    await syncCachedStatus(env, requestUrl, recordId, "Available");
     return { updated: true, status: "Available" };
   }
 
@@ -141,7 +156,7 @@ export async function onRequestPost({ request, env }) {
     );
 
     const event = JSON.parse(rawBody);
-    const result = await handleStripeEvent(event, env);
+    const result = await handleStripeEvent(event, env, request.url);
 
     return Response.json({ received: true, ...result });
   } catch (error) {
