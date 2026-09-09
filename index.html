@@ -1881,7 +1881,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       const selectedSort = sortPanel.querySelector('input[value="' + currentSort + '"]');
       if(selectedSort) selectedSort.checked = true;
       filterButton.classList.toggle('is-active', !(showAvailable && showSold));
-      sortButton.classList.toggle('is-active', currentSort !== 'default');
+      sortButton.classList.toggle('is-active', currentSort !== 'newly-listed');
       syncSuggestionPills();
     }
     function applySearch(){
