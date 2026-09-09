@@ -38,6 +38,7 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
           Title: "Submariner",
           Price: 10000,
           Status: "Available",
+          "Date Added": "2026-09-09",
           "Image Count": 3,
           Reference: "126610LN",
           Year: "2024",
@@ -72,6 +73,7 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     assert.equal(payload.watches[0].listingId, "SW001");
     assert.equal(payload.watches[0].images.length, 3);
     assert.equal(payload.watches[0].specs.reference, "126610LN");
+    assert.equal(payload.watches[0].dateAdded, "2026-09-09");
     assert.equal("items" in payload, false);
     assert.equal("data" in payload, false);
     assert.equal("gallery" in payload.watches[0], false);

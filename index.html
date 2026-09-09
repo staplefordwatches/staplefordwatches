@@ -1563,7 +1563,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   const SITE_ORIGIN = 'https://staplefordwatches.co.uk';
   const WHATSAPP_NUMBER = '447438196047';
   const EMAIL = 'ben@staplefordwatches.co.uk';
-  const CACHE_KEY = 'stapleford_watches_cache_v12_edge_snapshot';
+  const CACHE_KEY = 'stapleford_watches_cache_v13_listing_dates';
   const CACHE_MAX_AGE = 1000 * 60 * 60 * 24;
   const FETCH_TIMEOUT = 6500;
   const PRODUCT_PREFIX = '/watches/';
@@ -1614,7 +1614,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   let watchesById = new Map();
   let watchesLoaded = false;
   let searchQuery = '';
-  let currentSort = 'default';
+  let currentSort = 'new-old';
   let showAvailable = true;
   let showSold = true;
   let visibleLimit = initialLimit();
@@ -1818,11 +1818,10 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       '</div>',
       '<div class="glass-control-panel glass-control-panel--sort" id="catalogSortPanel" hidden>',
         '<fieldset><legend>Sort by</legend>',
-          '<label class="glass-option"><span>Featured</span><input type="radio" name="catalog-sort" value="default" checked></label>',
+          '<label class="glass-option"><span>Most recent</span><input type="radio" name="catalog-sort" value="new-old" checked></label>',
           '<label class="glass-option"><span>Price: low to high</span><input type="radio" name="catalog-sort" value="price-low"></label>',
           '<label class="glass-option"><span>Price: high to low</span><input type="radio" name="catalog-sort" value="price-high"></label>',
           '<label class="glass-option"><span>Brand: A–Z</span><input type="radio" name="catalog-sort" value="brand-az"></label>',
-          '<label class="glass-option"><span>Newest first</span><input type="radio" name="catalog-sort" value="new-old"></label>',
           '<label class="glass-option"><span>Oldest first</span><input type="radio" name="catalog-sort" value="old-new"></label>',
         '</fieldset>',
       '</div>',
@@ -2388,7 +2387,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const controller = window.AbortController ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT) : 0;
     try{
-      const response = await fetch('/api/watches', { headers:{ Accept:'application/json' }, cache:'default', ...(controller ? { signal: controller.signal } : {}) });
+      const response = await fetch('/api/watches?schema=2', { headers:{ Accept:'application/json' }, cache:'default', ...(controller ? { signal: controller.signal } : {}) });
       const data = await response.json();
       const next = Array.isArray(data && data.watches) ? data.watches : [];
       if(!response.ok || !next.length) throw new Error('Empty watches response');
@@ -2444,6 +2443,19 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const tokens = query.split(' ').filter(token => token.length > 1);
     return tokens.length ? tokens.every(token => hay.includes(token)) : false;
   }
+  function listingTimestamp(watch){
+    const timestamp = Date.parse(String(watch?.dateAdded || ''));
+    return Number.isFinite(timestamp) ? timestamp : null;
+  }
+  function compareListingDates(first, second, newestFirst){
+    const firstDate = listingTimestamp(first);
+    const secondDate = listingTimestamp(second);
+    if(firstDate == null && secondDate == null) return Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
+    if(firstDate == null) return 1;
+    if(secondDate == null) return -1;
+    const difference = newestFirst ? secondDate - firstDate : firstDate - secondDate;
+    return difference || Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
+  }
   function filteredWatches(){
     let items = watches.filter(w => {
       const s = status(w);
@@ -2460,11 +2472,12 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         if(currentSort === 'price-high') return Number(b.price || 0) - Number(a.price || 0);
         if(currentSort === 'brand-az') return String(a.brand || '').localeCompare(String(b.brand || ''));
         if(currentSort === 'brand-za') return String(b.brand || '').localeCompare(String(a.brand || ''));
-        if(currentSort === 'new-old') return Number(b.specs?.year || b.year || 0) - Number(a.specs?.year || a.year || 0);
-        if(currentSort === 'old-new') return Number(a.specs?.year || a.year || 0) - Number(b.specs?.year || b.year || 0);
+        if(currentSort === 'new-old') return compareListingDates(a, b, true);
+        if(currentSort === 'old-new') return compareListingDates(a, b, false);
         return 0;
       });
     }
+    if(currentSort === 'new-old' || currentSort === 'old-new') return items;
     return items.filter(w => !isUnavailable(w)).concat(items.filter(isUnavailable));
   }
   function renderEmpty(){
@@ -3040,7 +3053,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function goHome(){
     closeAllMenus();
     closeLightbox(false);
-    searchQuery = ''; currentSort = 'default'; showAvailable = true; showSold = true;
+    searchQuery = ''; currentSort = 'new-old'; showAvailable = true; showSold = true;
     showRoute('buy');
     if(catalogControlsApi) catalogControlsApi.sync();
     resetLimit();

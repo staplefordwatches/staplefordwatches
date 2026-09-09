@@ -112,6 +112,12 @@ export async function loadWatches(context) {
 
         const price = numberValue(get(fields, ["Price", "price"]));
         const status = clean(get(fields, ["Status", "status"])) || "Available";
+        const dateAdded = clean(get(fields, [
+          "Date Added",
+          "Date added",
+          "Added Date",
+          "Listing Date"
+        ])) || clean(record.createdTime);
 
         const description = clean(get(fields, [
           "Watch Description",
@@ -231,6 +237,7 @@ export async function loadWatches(context) {
           title,
           price,
           status,
+          dateAdded,
           description,
 
           image: mainImage,
