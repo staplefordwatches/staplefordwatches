@@ -4,11 +4,12 @@ import test from "node:test";
 
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 
-test("the catalogue defaults to one clear most-recent date option", () => {
-  assert.match(html, /<span>Most recent<\/span><input type="radio" name="catalog-sort" value="new-old" checked>/);
+test("the catalogue defaults to newly listed without an active sort indicator", () => {
+  assert.match(html, /<span>Newly listed<\/span><input type="radio" name="catalog-sort" value="newly-listed" checked>/);
   assert.doesNotMatch(html, /<span>Featured<\/span>/);
   assert.doesNotMatch(html, /<span>Newest first<\/span>/);
-  assert.match(html, /let currentSort = 'new-old';/);
+  assert.match(html, /let currentSort = 'newly-listed';/);
+  assert.match(html, /sortButton\.classList\.toggle\('is-active', currentSort !== 'newly-listed'\);/);
 });
 
 test("most recent and oldest use Date Added rather than the watch year", () => {
