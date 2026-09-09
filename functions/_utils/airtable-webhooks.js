@@ -1,4 +1,4 @@
-const WEBHOOK_VERSION = "v1";
+const WEBHOOK_VERSION = "v2";
 const REFRESH_BEFORE_MS = 2 * 24 * 60 * 60 * 1000;
 const RETRY_AFTER_MS = 6 * 60 * 60 * 1000;
 const SETUP_LOCK_SECONDS = 60;
