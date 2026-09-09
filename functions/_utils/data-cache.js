@@ -31,38 +31,41 @@ function edgeRequest(requestUrl, key) {
   return new Request(url.toString(), { method: "GET" });
 }
 
-function responseHeaders({ cacheState, savedAt, browserSeconds = DEFAULT_BROWSER_SECONDS }) {
+function responseHeaders({ cacheState, cacheScope = "LOCAL", savedAt, browserSeconds = DEFAULT_BROWSER_SECONDS }) {
   return {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": `public, max-age=${browserSeconds}, stale-while-revalidate=86400`,
     "X-Content-Type-Options": "nosniff",
     "X-Stapleford-Cache": cacheState,
+    "X-Stapleford-Cache-Scope": cacheScope,
     "X-Stapleford-Saved-At": String(savedAt),
   };
 }
 
-function clientResponse(response, cacheState, browserSeconds) {
+function clientResponse(response, cacheState, browserSeconds, cacheScope) {
   const headers = new Headers(response.headers);
   const savedAt = Number(headers.get("X-Stapleford-Saved-At")) || Date.now();
-  const clientHeaders = responseHeaders({ cacheState, savedAt, browserSeconds });
+  const clientHeaders = responseHeaders({ cacheState, cacheScope, savedAt, browserSeconds });
   for (const [name, value] of Object.entries(clientHeaders)) headers.set(name, value);
   return new Response(response.body, { status: response.status, headers });
 }
 
-function responseFromSnapshot(snapshot, cacheState, browserSeconds) {
+function responseFromSnapshot(snapshot, cacheState, browserSeconds, cacheScope) {
   return new Response(snapshot.body, {
     status: snapshot.status || 200,
     headers: responseHeaders({
       cacheState,
+      cacheScope,
       savedAt: snapshot.savedAt,
       browserSeconds,
     }),
   });
 }
 
-function edgeStoredResponse(snapshot) {
+function edgeStoredResponse(snapshot, cacheScope) {
   const headers = responseHeaders({
     cacheState: "EDGE",
+    cacheScope,
     savedAt: snapshot.savedAt,
     browserSeconds: EDGE_RETENTION_SECONDS,
   });
@@ -120,7 +123,7 @@ async function produceSnapshot(producer) {
 }
 
 async function storeSnapshot(cache, edgeKey, binding, key, snapshot) {
-  const writes = [cache.put(edgeKey, edgeStoredResponse(snapshot))];
+  const writes = [cache.put(edgeKey, edgeStoredResponse(snapshot, binding ? "GLOBAL" : "LOCAL"))];
   if (binding) writes.push(writeSharedSnapshot(binding, key, snapshot));
   await Promise.all(writes);
   return snapshot;
@@ -170,6 +173,7 @@ export async function withDataCache(context, {
   const edgeKey = edgeRequest(context.request.url, key);
   const binding = sharedBinding(context.env);
   const edgeFreshSeconds = binding ? Math.min(freshSeconds, 60) : freshSeconds;
+  const cacheScope = binding ? "GLOBAL" : "LOCAL";
   const forceRefresh = validRefreshRequest(context);
   let staleResponse = null;
 
@@ -179,20 +183,20 @@ export async function withDataCache(context, {
       const savedAt = Number(edge.headers.get("X-Stapleford-Saved-At"));
       const edgeCachedAt = Number(edge.headers.get("X-Stapleford-Edge-Cached-At")) || savedAt;
       if (isFresh(edgeCachedAt, edgeFreshSeconds) && isFresh(savedAt, freshSeconds)) {
-        return clientResponse(edge, "EDGE", browserSeconds);
+        return clientResponse(edge, "EDGE", browserSeconds, cacheScope);
       }
-      staleResponse = clientResponse(edge.clone(), "STALE", browserSeconds);
+      staleResponse = clientResponse(edge.clone(), "STALE", browserSeconds, cacheScope);
     }
 
     const shared = await readSharedSnapshot(binding, key);
     if (shared && (!staleResponse || Number(shared.savedAt) > Number(staleResponse.headers.get("X-Stapleford-Saved-At")))) {
-      staleResponse = responseFromSnapshot(shared, "STALE", browserSeconds);
+      staleResponse = responseFromSnapshot(shared, "STALE", browserSeconds, cacheScope);
     }
     if (shared && isFresh(shared.savedAt, freshSeconds)) {
-      const edgeWrite = cache.put(edgeKey, edgeStoredResponse(shared));
+      const edgeWrite = cache.put(edgeKey, edgeStoredResponse(shared, cacheScope));
       if (typeof context.waitUntil === "function") context.waitUntil(edgeWrite);
       else void edgeWrite;
-      return responseFromSnapshot(shared, "SHARED", browserSeconds);
+      return responseFromSnapshot(shared, "SHARED", browserSeconds, cacheScope);
     }
   }
 
@@ -205,10 +209,18 @@ export async function withDataCache(context, {
 
   try {
     const snapshot = await refreshSnapshot(context, refreshOptions);
-    return responseFromSnapshot(snapshot, forceRefresh ? "REFRESHED" : "MISS", browserSeconds);
+    return responseFromSnapshot(snapshot, forceRefresh ? "REFRESHED" : "MISS", browserSeconds, cacheScope);
   } catch (error) {
     if (staleResponse) return staleResponse;
-    if (error.response) return error.response;
+    if (error.response) {
+      const headers = new Headers(error.response.headers);
+      headers.set("X-Stapleford-Cache-Scope", cacheScope);
+      return new Response(error.response.body, {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        headers,
+      });
+    }
     throw error;
   }
 }

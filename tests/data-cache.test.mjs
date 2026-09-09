@@ -77,6 +77,7 @@ test("one origin read serves repeated and cache-busted visitor URLs", async () =
 
   assert.equal(counter.count, 1);
   assert.equal(first.headers.get("X-Stapleford-Cache"), "MISS");
+  assert.equal(first.headers.get("X-Stapleford-Cache-Scope"), "LOCAL");
   assert.equal(second.headers.get("X-Stapleford-Cache"), "EDGE");
   assert.deepEqual(await second.json(), { watches: [{ id: "one" }] });
 });
@@ -99,6 +100,7 @@ test("shared snapshot prevents a second data centre from reading Airtable", asyn
 
   assert.equal(counter.count, 1);
   assert.equal(response.headers.get("X-Stapleford-Cache"), "SHARED");
+  assert.equal(response.headers.get("X-Stapleford-Cache-Scope"), "GLOBAL");
 
   const sameDataCentre = await withDataCache(
     context("https://example.com/api/watches", { CATALOG_CACHE: kv }),
