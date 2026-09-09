@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const EDGE_RETENTION_SECONDS = 60 * 60 * 24 * 30;
 const DEFAULT_FRESH_SECONDS = 60 * 60 * 6;
 const DEFAULT_BROWSER_SECONDS = 60;
@@ -228,6 +228,27 @@ export async function withDataCache(context, {
 export async function purgeEdgeDataCache(requestUrl, key) {
   if (!requestUrl || !key) return false;
   return caches.default.delete(edgeRequest(requestUrl, key));
+}
+
+export async function refreshDataCache(context, {
+  key,
+  producer,
+  browserSeconds = DEFAULT_BROWSER_SECONDS,
+}) {
+  const cache = caches.default;
+  const edgeKey = edgeRequest(context.request.url, key);
+  const binding = sharedBinding(context.env);
+  const cacheScope = binding ? "GLOBAL" : "LOCAL";
+  const previous = await readSharedSnapshot(binding, key);
+
+  try {
+    const snapshot = await refreshSnapshot(context, { cache, edgeKey, binding, key, producer });
+    return responseFromSnapshot(snapshot, "REFRESHED", browserSeconds, cacheScope);
+  } catch (error) {
+    if (previous) return responseFromSnapshot(previous, "STALE", browserSeconds, cacheScope);
+    if (error.response) return error.response;
+    throw error;
+  }
 }
 
 export async function updateCachedWatchStatus(env, recordId, status) {

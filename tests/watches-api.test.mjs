@@ -49,8 +49,11 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
   try {
     const cacheSource = await readFile(new URL("../functions/_utils/data-cache.js", import.meta.url), "utf8");
     const cacheUrl = `data:text/javascript;base64,${Buffer.from(cacheSource).toString("base64")}`;
+    const webhookSource = await readFile(new URL("../functions/_utils/airtable-webhooks.js", import.meta.url), "utf8");
+    const webhookUrl = `data:text/javascript;base64,${Buffer.from(webhookSource).toString("base64")}`;
     const watchesSource = (await readFile(new URL("../functions/api/watches.js", import.meta.url), "utf8"))
-      .replace('"../_utils/data-cache.js"', `"${cacheUrl}"`);
+      .replace('"../_utils/data-cache.js"', `"${cacheUrl}"`)
+      .replace('"../_utils/airtable-webhooks.js"', `"${webhookUrl}"`);
     const { onRequest } = await import(`data:text/javascript;base64,${Buffer.from(watchesSource).toString("base64")}`);
     const makeContext = () => ({
       env: { AIRTABLE_TOKEN: "test", AIRTABLE_BASE_ID: "app123" },

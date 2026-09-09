@@ -1,6 +1,7 @@
 import { withDataCache } from "../_utils/data-cache.js";
+import { AIRTABLE_CATALOGS, ensureAirtableWebhook } from "../_utils/airtable-webhooks.js";
 
-async function loadWatches(context) {
+export async function loadWatches(context) {
   try {
     const token = context.env.AIRTABLE_TOKEN || context.env.AIRTABLE_API_KEY;
     const baseId = context.env.AIRTABLE_BASE_ID;
@@ -274,10 +275,17 @@ async function loadWatches(context) {
 }
 
 export async function onRequest(context) {
-  return withDataCache(context, {
+  const response = await withDataCache(context, {
     key: "watches",
     freshSeconds: 60 * 60 * 6,
     browserSeconds: 60,
     producer: () => loadWatches(context),
   });
+  const cacheState = response.headers.get("X-Stapleford-Cache");
+  if (["MISS", "STALE", "REFRESHED"].includes(cacheState)) {
+    const maintenance = ensureAirtableWebhook(context, AIRTABLE_CATALOGS[0]);
+    if (typeof context.waitUntil === "function") context.waitUntil(maintenance);
+    else void maintenance;
+  }
+  return response;
 }

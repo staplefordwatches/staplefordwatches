@@ -7,26 +7,17 @@ Complete this setup before merging the cache change into production. The binding
 1. In Cloudflare, create a Workers KV namespace named `stapleford-catalog-cache`.
 2. Open the Stapleford Watches Pages project, then go to **Settings → Bindings → KV namespace bindings**.
 3. Add the namespace to both Production and Preview with the variable name `CATALOG_CACHE`.
-4. Add an encrypted secret named `CACHE_REFRESH_TOKEN` to Production and Preview. Use a long, random value and do not put it in GitHub.
-5. Redeploy the latest commit so both bindings are available to the Pages Functions.
+4. Redeploy the latest commit so the binding is available to the Pages Functions.
 
 Without the KV binding, the website still uses Cloudflare's local edge cache, but different locations cannot share it. With KV, visitors in different locations reuse the same catalogue snapshot and do not each cause Airtable traffic.
 
 ## Keep catalogue changes instant
 
-The automatic fallback refresh is every six hours. To make an Airtable edit appear immediately, add an Airtable automation that runs after a Watches record changes and calls:
+The production function creates and renews two authenticated Airtable API webhooks automatically: one for Watches and one for Journal. Airtable signs every notification, and the function rejects notifications whose signature does not match. A valid change rebuilds only the affected saved catalogue. No paid Airtable automation is required.
 
-```text
-GET https://staplefordwatches.co.uk/api/watches
-X-Stapleford-Refresh-Token: the same CACHE_REFRESH_TOKEN value
-```
+The Airtable personal access token used by Cloudflare must include the `webhook:manage` scope as well as its existing record access. Webhook status is available at `https://staplefordwatches.co.uk/api/airtable-webhook`; this endpoint exposes health only and never returns secrets or webhook IDs.
 
-For changes to a Journal record, call:
-
-```text
-GET https://staplefordwatches.co.uk/api/journal
-X-Stapleford-Refresh-Token: the same CACHE_REFRESH_TOKEN value
-```
+The six-hour refresh remains as a fallback. Airtable webhooks expire after seven days unless renewed, so catalogue cache maintenance also checks their expiry and renews them at least two days early.
 
 Stripe payment events already update the shared watch status and remove the old edge copy, so a sold watch is not left behind waiting for the normal refresh.
 
