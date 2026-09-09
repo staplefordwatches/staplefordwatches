@@ -2380,6 +2380,10 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     }catch{ return null; }
   }
   function saveCache(data){ try{ if(Array.isArray(data) && data.length) localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), watches: data })); }catch{} }
+  function sameWatchData(first, second){
+    try{ return JSON.stringify(first) === JSON.stringify(second); }
+    catch{ return false; }
+  }
   async function fetchWatches(retry=0){
     const controller = window.AbortController ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT) : 0;
@@ -2407,7 +2411,9 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       const cached = cachedWatches();
       if(cached) renderLoaded(cached, { fromCache:true });
       try{
-        renderLoaded(await fetchWatches(0));
+        const fresh = await fetchWatches(0);
+        if(cached && sameWatchData(cached, fresh)){ saveCache(fresh); return; }
+        renderLoaded(fresh);
       }catch(error){
         if(cached){ console.warn(error); return; }
         try{ renderLoaded(await fetchWatches(1)); }
@@ -2527,7 +2533,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const specRows = [
       ['REFERENCE', specs.reference], ['YEAR', specs.year], ['CASE SIZE', specs.caseSize], ['MOVEMENT', getMovement(watch) || specs.movement], ['CONDITION', specs.condition], ['CONTENTS', specs.contents], ['LISTING ID', specs.listingId || watch.listingId]
     ].filter(([, value]) => value != null && String(value).trim() !== '');
-    const priorityCount = IS_SAFARI_DESKTOP ? 3 : (window.innerWidth <= 640 ? 4 : 6);
+    const priorityCount = window.innerWidth <= 640 ? 4 : 6;
     const priority = index < priorityCount;
     return `<article class="card is-clickable" id="${escapeHtml(watch.listingId)}" data-watch-id="${escapeHtml(watch.listingId)}" data-listing-id="${escapeHtml(watch.listingId)}" data-product-link="${escapeHtml(watch.productLink)}" data-reference="${escapeHtml(getReference(watch))}" role="button" tabindex="0" aria-label="Open ${escapeHtml(name)}">
       <div class="image ${sold ? 'sold' : ''} ${reserved ? 'reserved' : ''} ${available ? 'available' : ''}">
