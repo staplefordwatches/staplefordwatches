@@ -239,7 +239,9 @@ export async function loadJournal(context) {
     const token = env.AIRTABLE_TOKEN || env.AIRTABLE_API_KEY;
     const baseId = env.AIRTABLE_BASE_ID;
     const table = env.AIRTABLE_JOURNAL_TABLE_NAME || "Journal";
-    const view = env.AIRTABLE_JOURNAL_VIEW || "";
+    // Publication is controlled by the Status field. An old or filtered
+    // Airtable view must not hide otherwise-published Journal records.
+    const view = "";
     const cloudName = env.CLOUDINARY_CLOUD_NAME || "dvm4pgghh";
 
     if (!token || !baseId) {
