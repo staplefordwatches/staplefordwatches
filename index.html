@@ -1614,7 +1614,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   let watchesById = new Map();
   let watchesLoaded = false;
   let searchQuery = '';
-  let currentSort = 'new-old';
+  let currentSort = 'newly-listed';
   let showAvailable = true;
   let showSold = true;
   let visibleLimit = initialLimit();
@@ -1818,11 +1818,12 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       '</div>',
       '<div class="glass-control-panel glass-control-panel--sort" id="catalogSortPanel" hidden>',
         '<fieldset><legend>Sort by</legend>',
-          '<label class="glass-option"><span>Most recent</span><input type="radio" name="catalog-sort" value="new-old" checked></label>',
+          '<label class="glass-option"><span>Newly listed</span><input type="radio" name="catalog-sort" value="newly-listed" checked></label>',
           '<label class="glass-option"><span>Price: low to high</span><input type="radio" name="catalog-sort" value="price-low"></label>',
           '<label class="glass-option"><span>Price: high to low</span><input type="radio" name="catalog-sort" value="price-high"></label>',
           '<label class="glass-option"><span>Brand: A–Z</span><input type="radio" name="catalog-sort" value="brand-az"></label>',
-          '<label class="glass-option"><span>Oldest first</span><input type="radio" name="catalog-sort" value="old-new"></label>',
+          '<label class="glass-option"><span>New-Old</span><input type="radio" name="catalog-sort" value="new-old"></label>',
+          '<label class="glass-option"><span>Old-New</span><input type="radio" name="catalog-sort" value="old-new"></label>',
         '</fieldset>',
       '</div>',
       '<span class="glass-sr-only" id="catalogResultCount" role="status" aria-live="polite"></span>'
@@ -2443,6 +2444,18 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const tokens = query.split(' ').filter(token => token.length > 1);
     return tokens.length ? tokens.every(token => hay.includes(token)) : false;
   }
+  function listingAddedTimestamp(watch){
+    const timestamp = Date.parse(String(watch?.dateAdded || ''));
+    return Number.isFinite(timestamp) ? timestamp : null;
+  }
+  function compareListingAdded(first, second){
+    const firstDate = listingAddedTimestamp(first);
+    const secondDate = listingAddedTimestamp(second);
+    if(firstDate == null && secondDate == null) return Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
+    if(firstDate == null) return 1;
+    if(secondDate == null) return -1;
+    return (secondDate - firstDate) || Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
+  }
   function watchYearValue(watch){
     const raw = String((watch && watch.specs && watch.specs.year) || (watch && watch.year) || '').trim();
     const match = raw.match(/\d{4}/);
@@ -2473,6 +2486,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         if(currentSort === 'price-high') return Number(b.price || 0) - Number(a.price || 0);
         if(currentSort === 'brand-az') return String(a.brand || '').localeCompare(String(b.brand || ''));
         if(currentSort === 'brand-za') return String(b.brand || '').localeCompare(String(a.brand || ''));
+        if(currentSort === 'newly-listed') return compareListingAdded(a, b);
         if(currentSort === 'new-old') return compareListingDates(a, b, true);
         if(currentSort === 'old-new') return compareListingDates(a, b, false);
         return 0;
@@ -3053,7 +3067,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function goHome(){
     closeAllMenus();
     closeLightbox(false);
-    searchQuery = ''; currentSort = 'new-old'; showAvailable = true; showSold = true;
+    searchQuery = ''; currentSort = 'newly-listed'; showAvailable = true; showSold = true;
     showRoute('buy');
     if(catalogControlsApi) catalogControlsApi.sync();
     resetLimit();
