@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v5";
+const CACHE_VERSION = "v6";
 const EDGE_RETENTION_SECONDS = 60 * 60 * 24 * 30;
 const DEFAULT_FRESH_SECONDS = 60 * 60 * 6;
 const DEFAULT_BROWSER_SECONDS = 60;
@@ -168,6 +168,7 @@ export async function withDataCache(context, {
   producer,
   freshSeconds = DEFAULT_FRESH_SECONDS,
   browserSeconds = DEFAULT_BROWSER_SECONDS,
+  blockingRefreshWhenStale = false,
 }) {
   const cache = caches.default;
   const edgeKey = edgeRequest(context.request.url, key);
@@ -203,6 +204,15 @@ export async function withDataCache(context, {
   const refreshOptions = { cache, edgeKey, binding, key, producer };
 
   if (staleResponse && !forceRefresh) {
+    if (blockingRefreshWhenStale) {
+      try {
+        const snapshot = await refreshSnapshot(context, refreshOptions);
+        return responseFromSnapshot(snapshot, "REFRESHED", browserSeconds, cacheScope);
+      } catch (error) {
+        console.error(`Blocking data refresh failed for ${key}: ${errorMessage(error)}`);
+        return staleResponse;
+      }
+    }
     await mayRefreshInBackground(context, refreshOptions);
     return staleResponse;
   }

@@ -171,6 +171,29 @@ test("stale catalogue stays available when Airtable fails", async () => {
   assert.equal(counter.count, 2);
 });
 
+test("blocking stale refresh returns new Journal content in the same request", async () => {
+  const kv = new MemoryKv();
+  const env = { CATALOG_CACHE: kv };
+  const counter = { count: 0 };
+
+  await withDataCache(context("https://example.com/api/journal", env), {
+    key: "journal",
+    freshSeconds: -1,
+    producer: jsonProducer(counter, { posts: [{ id: "old" }] }),
+  });
+
+  const response = await withDataCache(context("https://example.com/api/journal", env), {
+    key: "journal",
+    freshSeconds: -1,
+    blockingRefreshWhenStale: true,
+    producer: jsonProducer(counter, { posts: [{ id: "new" }] }),
+  });
+
+  assert.equal(counter.count, 2);
+  assert.equal(response.headers.get("X-Stapleford-Cache"), "REFRESHED");
+  assert.deepEqual(await response.json(), { posts: [{ id: "new" }] });
+});
+
 test("webhook refresh replaces a snapshot without discarding the last good copy on failure", async () => {
   const kv = new MemoryKv();
   const env = { CATALOG_CACHE: kv };

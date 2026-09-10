@@ -337,8 +337,9 @@ export async function loadJournal(context) {
 export async function onRequest(context) {
   const response = await withDataCache(context, {
     key: "journal",
-    freshSeconds: 60 * 30,
-    browserSeconds: 60,
+    freshSeconds: 15,
+    browserSeconds: 0,
+    blockingRefreshWhenStale: true,
     producer: () => loadJournal(context),
   });
   const cacheState = response.headers.get("X-Stapleford-Cache");
