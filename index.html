@@ -2668,7 +2668,9 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(lightboxWhatsapp) lightboxWhatsapp.href = enquiry.whatsapp;
     if(lightboxEmail) lightboxEmail.href = enquiry.email;
     renderTrust(watch);
-    const desc = description(watch);
+    const watchDescription = description(watch);
+    const customsNotice = "For deliveries outside the UK, customs duties, import VAT, local taxes and clearance fees are the buyer's responsibility.";
+    const desc = [watchDescription, customsNotice].filter(Boolean).join('\n\n');
     setText(lightboxDescription, desc);
     if(lightboxDescriptionToggle) lightboxDescriptionToggle.hidden = !desc;
     setDescriptionOpen(Boolean(desc));
