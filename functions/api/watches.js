@@ -288,11 +288,8 @@ export async function onRequest(context) {
     browserSeconds: 60,
     producer: () => loadWatches(context),
   });
-  const cacheState = response.headers.get("X-Stapleford-Cache");
-  if (["MISS", "STALE", "REFRESHED"].includes(cacheState)) {
-    const maintenance = ensureAirtableWebhook(context, AIRTABLE_CATALOGS[0]);
-    if (typeof context.waitUntil === "function") context.waitUntil(maintenance);
-    else void maintenance;
-  }
+  const maintenance = ensureAirtableWebhook(context, AIRTABLE_CATALOGS[0]);
+  if (typeof context.waitUntil === "function") context.waitUntil(maintenance);
+  else void maintenance;
   return response;
 }
