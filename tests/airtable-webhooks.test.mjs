@@ -97,6 +97,7 @@ test("stores a safe retry state when the token cannot manage webhooks", async ()
     assert.match(state.lastError, /403/);
     assert.equal(state.lastError.includes("private-token"), false);
     assert.ok(state.nextAttemptAt > Date.now());
+    assert.ok(state.nextAttemptAt <= Date.now() + 5 * 60 * 1000);
   } finally {
     globalThis.fetch = originalFetch;
   }
