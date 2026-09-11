@@ -24,6 +24,7 @@ class MemoryCache {
 test("watches endpoint returns one compact catalogue and caches the Airtable read", async () => {
   globalThis.caches = { default: new MemoryCache() };
   const originalFetch = globalThis.fetch;
+  globalThis.__airtableWebhookChecks = 0;
   let airtableReads = 0;
   globalThis.fetch = async (request) => {
     const url = new URL(request.url || request);
@@ -50,7 +51,13 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
   try {
     const cacheSource = await readFile(new URL("../functions/_utils/data-cache.js", import.meta.url), "utf8");
     const cacheUrl = `data:text/javascript;base64,${Buffer.from(cacheSource).toString("base64")}`;
-    const webhookSource = await readFile(new URL("../functions/_utils/airtable-webhooks.js", import.meta.url), "utf8");
+    const webhookSource = [
+      "export const AIRTABLE_CATALOGS = [{}];",
+      "export function ensureAirtableWebhook(){",
+      "  globalThis.__airtableWebhookChecks += 1;",
+      "  return Promise.resolve(null);",
+      "}",
+    ].join("\n");
     const webhookUrl = `data:text/javascript;base64,${Buffer.from(webhookSource).toString("base64")}`;
     const watchesSource = (await readFile(new URL("../functions/api/watches.js", import.meta.url), "utf8"))
       .replace('"../_utils/data-cache.js"', `"${cacheUrl}"`)
@@ -69,6 +76,7 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     assert.equal(first.status, 200);
     assert.equal(second.headers.get("X-Stapleford-Cache"), "EDGE");
     assert.equal(airtableReads, 1);
+    assert.equal(globalThis.__airtableWebhookChecks, 2);
     assert.equal(payload.count, 1);
     assert.equal(payload.watches[0].listingId, "SW001");
     assert.equal(payload.watches[0].images.length, 3);
@@ -80,5 +88,6 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     assert.equal("mainImageUrl" in payload.watches[0], false);
   } finally {
     globalThis.fetch = originalFetch;
+    delete globalThis.__airtableWebhookChecks;
   }
 });
