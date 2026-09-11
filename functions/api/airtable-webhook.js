@@ -21,7 +21,12 @@ function json(data, status = 200) {
 
 async function rebuildCatalog(context, key) {
   const request = new Request(`https://staplefordwatches.co.uk/api/${key}`);
-  const refreshContext = { ...context, request };
+  const refreshContext = {
+    env: context.env || {},
+    request,
+    data: context.data,
+    params: context.params,
+  };
   const isWatches = key === "watches";
   const response = await refreshDataCache(refreshContext, {
     key,
@@ -53,12 +58,13 @@ export async function onRequestPost(context) {
 
   const shouldRefresh = await shouldRefreshForNotification(context.env || {}, verified.catalog.key);
   if (shouldRefresh) {
-    const refresh = rebuildCatalog(context, verified.catalog.key).catch((error) => {
+    try {
+      await rebuildCatalog(context, verified.catalog.key);
+    } catch (error) {
       console.error(`Airtable webhook catalogue refresh failed: ${error.message}`);
-    });
-    if (typeof context.waitUntil === "function") context.waitUntil(refresh);
-    else await refresh;
+      return json({ ok: false, retry: true }, 503);
+    }
   }
 
-  return json({ ok: true, accepted: shouldRefresh }, 202);
+  return json({ ok: true, accepted: shouldRefresh });
 }
