@@ -285,7 +285,7 @@ export async function onRequest(context) {
   const response = await withDataCache(context, {
     key: "watches",
     freshSeconds: 60 * 60 * 6,
-    browserSeconds: 60,
+    browserSeconds: 0,
     producer: () => loadWatches(context),
   });
   const maintenance = ensureAirtableWebhook(context, AIRTABLE_CATALOGS[0]);

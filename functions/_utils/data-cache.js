@@ -34,7 +34,9 @@ function edgeRequest(requestUrl, key) {
 function responseHeaders({ cacheState, cacheScope = "LOCAL", savedAt, browserSeconds = DEFAULT_BROWSER_SECONDS }) {
   return {
     "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": `public, max-age=${browserSeconds}, stale-while-revalidate=86400`,
+    "Cache-Control": browserSeconds > 0
+      ? `public, max-age=${browserSeconds}, stale-while-revalidate=86400`
+      : "no-store",
     "X-Content-Type-Options": "nosniff",
     "X-Stapleford-Cache": cacheState,
     "X-Stapleford-Cache-Scope": cacheScope,

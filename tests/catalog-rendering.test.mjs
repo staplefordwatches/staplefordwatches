@@ -18,3 +18,11 @@ test("an unchanged fresh catalogue does not replace already-painted cards", () =
     /if\(cached && sameWatchData\(cached, fresh\)\)\{ saveCache\(fresh\); return; \}/,
   );
 });
+
+test("the live catalogue bypasses browser and local-storage stale copies", () => {
+  assert.match(html, /stapleford_watches_cache_v14_live_catalogue/);
+  assert.match(html, /fetch\('\/api\/watches\?schema=3', \{/);
+  assert.match(html, /'Cache-Control':'no-cache', Pragma:'no-cache'/);
+  assert.match(html, /cache:'no-store'/);
+  assert.match(html, /const CACHE_MAX_AGE = 1000 \* 60 \* 5;/);
+});

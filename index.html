@@ -1575,8 +1575,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   const SITE_ORIGIN = 'https://staplefordwatches.co.uk';
   const WHATSAPP_NUMBER = '447438196047';
   const EMAIL = 'ben@staplefordwatches.co.uk';
-  const CACHE_KEY = 'stapleford_watches_cache_v13_listing_dates';
-  const CACHE_MAX_AGE = 1000 * 60 * 60 * 24;
+  const CACHE_KEY = 'stapleford_watches_cache_v14_live_catalogue';
+  const CACHE_MAX_AGE = 1000 * 60 * 5;
   const FETCH_TIMEOUT = 6500;
   const PRODUCT_PREFIX = '/watches/';
   const LIMITS = { desktop: 36, tablet: 24, mobile: 16 };
@@ -2403,7 +2403,11 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const controller = window.AbortController ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), FETCH_TIMEOUT) : 0;
     try{
-      const response = await fetch('/api/watches?schema=2', { headers:{ Accept:'application/json' }, cache:'default', ...(controller ? { signal: controller.signal } : {}) });
+      const response = await fetch('/api/watches?schema=3', {
+        headers:{ Accept:'application/json', 'Cache-Control':'no-cache', Pragma:'no-cache' },
+        cache:'no-store',
+        ...(controller ? { signal: controller.signal } : {})
+      });
       const data = await response.json();
       const next = Array.isArray(data && data.watches) ? data.watches : [];
       if(!response.ok || !next.length) throw new Error('Empty watches response');
