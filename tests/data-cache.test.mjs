@@ -82,6 +82,17 @@ test("one origin read serves repeated and cache-busted visitor URLs", async () =
   assert.deepEqual(await second.json(), { watches: [{ id: "one" }] });
 });
 
+test("a zero browser lifetime prevents stale client catalogue responses", async () => {
+  const counter = { count: 0 };
+  const response = await withDataCache(context("https://example.com/api/watches"), {
+    key: "watches",
+    browserSeconds: 0,
+    producer: jsonProducer(counter),
+  });
+
+  assert.equal(response.headers.get("Cache-Control"), "no-store");
+});
+
 test("shared snapshot prevents a second data centre from reading Airtable", async () => {
   const kv = new MemoryKv();
   const counter = { count: 0 };

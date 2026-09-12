@@ -74,6 +74,7 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     const second = await onRequest(makeContext());
 
     assert.equal(first.status, 200);
+    assert.equal(first.headers.get("Cache-Control"), "no-store");
     assert.equal(second.headers.get("X-Stapleford-Cache"), "EDGE");
     assert.equal(airtableReads, 1);
     assert.equal(globalThis.__airtableWebhookChecks, 2);

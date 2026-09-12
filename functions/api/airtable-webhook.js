@@ -30,7 +30,7 @@ async function rebuildCatalog(context, key) {
   const isWatches = key === "watches";
   const response = await refreshDataCache(refreshContext, {
     key,
-    browserSeconds: isWatches ? 60 : 300,
+    browserSeconds: isWatches ? 0 : 300,
     producer: () => isWatches ? loadWatches(refreshContext) : loadJournal(refreshContext),
   });
   if (!response.ok) throw new Error(`${key} refresh returned ${response.status}`);
