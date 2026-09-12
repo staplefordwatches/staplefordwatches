@@ -1,8 +1,9 @@
-const WEBHOOK_VERSION = "v2";
+const WEBHOOK_VERSION = "v3";
 const REFRESH_BEFORE_MS = 2 * 24 * 60 * 60 * 1000;
 const RETRY_AFTER_MS = 5 * 60 * 1000;
 const SETUP_LOCK_SECONDS = 60;
 const NOTIFICATION_DEBOUNCE_MS = 5000;
+const MAX_PAYLOAD_PAGES = 20;
 
 export const AIRTABLE_CATALOGS = [
   {
@@ -134,6 +135,7 @@ async function createWebhook(env, catalog) {
   return {
     id: data.id,
     macSecretBase64: data.macSecretBase64,
+    cursor: 1,
     expirationTime: data.expirationTime || "",
     tableId: tableId(env, catalog),
     notificationUrl: notificationUrl(env),
@@ -256,6 +258,65 @@ export async function shouldRefreshForNotification(env, key) {
   return true;
 }
 
+export async function releaseNotificationRefresh(env, key) {
+  const binding = cacheBinding(env);
+  if (!binding) return;
+  await binding.put(webhookDebounceKey(key), "0", { expirationTtl: 60 });
+}
+
+export async function drainWebhookPayloads(env, catalog, state) {
+  const binding = cacheBinding(env);
+  if (!binding || !catalog || !state?.id || !env?.AIRTABLE_BASE_ID) {
+    throw new Error("Airtable webhook payload state is incomplete");
+  }
+
+  let cursor = Math.max(1, Number(state.cursor) || 1);
+  let payloadCount = 0;
+  let lastPayloadAt = state.lastPayloadAt || "";
+
+  for (let page = 0; page < MAX_PAYLOAD_PAGES; page += 1) {
+    const path = `bases/${encodeURIComponent(env.AIRTABLE_BASE_ID)}`
+      + `/webhooks/${encodeURIComponent(state.id)}/payloads?cursor=${cursor}`;
+    const data = await airtableRequest(env, path);
+    const payloads = Array.isArray(data.payloads) ? data.payloads : [];
+    payloadCount += payloads.length;
+    if (payloads.length) lastPayloadAt = payloads[payloads.length - 1]?.timestamp || lastPayloadAt;
+
+    if (!data.mightHaveMore) {
+      cursor += payloads.length;
+      const updated = {
+        ...state,
+        cursor,
+        lastNotificationAt: Date.now(),
+        lastPayloadAt,
+        lastError: "",
+      };
+      await writeState(binding, catalog.key, updated);
+      return { payloadCount, state: updated };
+    }
+
+    const nextCursor = Number(data.cursor);
+    if (!Number.isFinite(nextCursor) || nextCursor <= cursor) {
+      throw new Error("Airtable webhook returned an invalid payload cursor");
+    }
+    cursor = nextCursor;
+  }
+
+  throw new Error("Airtable webhook payload page limit exceeded");
+}
+
+export async function recordWebhookRefresh(env, key, { error = "" } = {}) {
+  const binding = cacheBinding(env);
+  if (!binding) return null;
+  const state = await readState(binding, key);
+  if (!state) return null;
+  return writeState(binding, key, {
+    ...state,
+    lastRefreshAt: Date.now(),
+    lastRefreshError: String(error || "").slice(0, 240),
+  });
+}
+
 export async function webhookPublicStatus(env) {
   const binding = cacheBinding(env);
   if (!binding) return { configured: false, catalogs: [] };
@@ -267,6 +328,10 @@ export async function webhookPublicStatus(env) {
       active: Boolean(state?.id && state?.macSecretBase64 && Date.parse(state.expirationTime || "") > Date.now()),
       expirationTime: state?.expirationTime || "",
       lastError: state?.lastError || "",
+      lastNotificationAt: state?.lastNotificationAt || 0,
+      lastPayloadAt: state?.lastPayloadAt || "",
+      lastRefreshAt: state?.lastRefreshAt || 0,
+      lastRefreshError: state?.lastRefreshError || "",
     });
   }
   return { configured: true, catalogs };

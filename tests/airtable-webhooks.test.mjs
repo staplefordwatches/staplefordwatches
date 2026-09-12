@@ -9,6 +9,7 @@ const source = await readFile(new URL("../functions/_utils/airtable-webhooks.js"
 const webhookModule = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}`);
 const {
   AIRTABLE_CATALOGS,
+  drainWebhookPayloads,
   ensureAirtableWebhook,
   findVerifiedCatalog,
   shouldRefreshForNotification,
@@ -119,6 +120,51 @@ test("accepts only correctly signed notifications for the configured base and we
   const verified = await findVerifiedCatalog(env, body, header);
   assert.equal(verified.catalog.key, "watches");
   assert.equal(await findVerifiedCatalog(env, body, "hmac-sha256=bad"), null);
+});
+
+test("retrieves webhook payloads and advances the saved cursor", async () => {
+  const originalFetch = globalThis.fetch;
+  const kv = new MemoryKv();
+  const state = {
+    id: "achWebhook123",
+    macSecretBase64: "secret",
+    cursor: 1,
+    expirationTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  };
+  await kv.put(webhookStateKey("watches"), JSON.stringify(state));
+  const requests = [];
+  globalThis.fetch = async (request) => {
+    requests.push(String(request));
+    if (requests.length === 1) {
+      return Response.json({
+        cursor: 3,
+        mightHaveMore: true,
+        payloads: [{ timestamp: "2026-09-12T08:00:00.000Z" }, { timestamp: "2026-09-12T08:01:00.000Z" }],
+      });
+    }
+    return Response.json({
+      cursor: 3,
+      mightHaveMore: false,
+      payloads: [{ timestamp: "2026-09-12T08:02:00.000Z" }],
+    });
+  };
+
+  try {
+    const result = await drainWebhookPayloads(
+      { AIRTABLE_TOKEN: "private-token", AIRTABLE_BASE_ID: "appBase123", CATALOG_CACHE: kv },
+      AIRTABLE_CATALOGS[0],
+      state,
+    );
+    assert.equal(result.payloadCount, 3);
+    assert.equal(result.state.cursor, 4);
+    assert.equal(result.state.lastPayloadAt, "2026-09-12T08:02:00.000Z");
+    assert.match(requests[0], /payloads\?cursor=1$/);
+    assert.match(requests[1], /payloads\?cursor=3$/);
+    const saved = JSON.parse(await kv.get(webhookStateKey("watches")));
+    assert.equal(saved.cursor, 4);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
 
 test("debounces duplicate formula notifications and exposes secret-free health", async () => {
