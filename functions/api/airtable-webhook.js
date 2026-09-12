@@ -1,6 +1,9 @@
 import { refreshDataCache } from "../_utils/data-cache.js";
 import {
+  drainWebhookPayloads,
   findVerifiedCatalog,
+  recordWebhookRefresh,
+  releaseNotificationRefresh,
   shouldRefreshForNotification,
   webhookPublicStatus,
 } from "../_utils/airtable-webhooks.js";
@@ -59,9 +62,13 @@ export async function onRequestPost(context) {
   const shouldRefresh = await shouldRefreshForNotification(context.env || {}, verified.catalog.key);
   if (shouldRefresh) {
     try {
+      await drainWebhookPayloads(context.env || {}, verified.catalog, verified.state);
       await rebuildCatalog(context, verified.catalog.key);
+      await recordWebhookRefresh(context.env || {}, verified.catalog.key);
     } catch (error) {
       console.error(`Airtable webhook catalogue refresh failed: ${error.message}`);
+      await releaseNotificationRefresh(context.env || {}, verified.catalog.key).catch(() => {});
+      await recordWebhookRefresh(context.env || {}, verified.catalog.key, { error: error.message }).catch(() => {});
       return json({ ok: false, retry: true }, 503);
     }
   }

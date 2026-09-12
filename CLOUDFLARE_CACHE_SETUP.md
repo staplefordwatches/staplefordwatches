@@ -13,11 +13,11 @@ Without the KV binding, the website still uses Cloudflare's local edge cache, bu
 
 ## Keep catalogue changes instant
 
-The production function creates and renews two authenticated Airtable API webhooks automatically: one for Watches and one for Journal. Airtable signs every notification, and the function rejects notifications whose signature does not match. A valid change rebuilds only the affected saved catalogue. No paid Airtable automation is required.
+The production function creates and renews two authenticated Airtable API webhooks automatically: one for Watches and one for Journal. Airtable signs every notification, and the function rejects notifications whose signature does not match. The receiver retrieves all pending Airtable webhook payload pages, advances the saved cursor, and only acknowledges the notification after the affected catalogue has been rebuilt successfully. Failed rebuilds return a retryable response. No paid Airtable automation is required.
 
 The Airtable personal access token used by Cloudflare must include the `webhook:manage` scope as well as its existing record access. Webhook status is available at `https://staplefordwatches.co.uk/api/airtable-webhook`; this endpoint exposes health only and never returns secrets or webhook IDs.
 
-The six-hour refresh remains as a fallback. Airtable webhooks expire after seven days unless renewed, so catalogue cache maintenance also checks their expiry and renews them at least two days early.
+Watches also use a one-minute blocking freshness limit. This is deliberately independent of webhook delivery: once the shared snapshot is a minute old, the next catalogue request waits for Airtable and returns the new source data in that same response. If Airtable is temporarily unavailable, the last good snapshot remains available. Airtable webhooks expire after seven days unless renewed, so catalogue cache maintenance also checks their expiry and renews them at least two days early.
 
 Stripe payment events already update the shared watch status and remove the old edge copy, so a sold watch is not left behind waiting for the normal refresh.
 
@@ -30,4 +30,4 @@ After deployment, request `/api/watches` twice and inspect the response header `
 - `SHARED` means this Cloudflare location reused the global KV snapshot.
 - `STALE` means Airtable had a problem and the last good catalogue was served so the website stayed online.
 
-With the shared cache running, the normal background budget is roughly 240 Airtable reads per 30 days for Watches and Journal combined, plus genuine actions such as checkout, newsletter sign-up, sell submissions, and intentional refreshes. This leaves a substantial margin below 1,000.
+The KV snapshot is global, so visitors share the same refresh rather than each causing an Airtable request. The one-minute watches limit allows at most one normal catalogue refresh per minute of active traffic in a single refresh path; webhook deliveries can refresh sooner. Monitor Airtable usage against the workspace plan because a continuously busy site can exceed the allowance of a free Airtable workspace.

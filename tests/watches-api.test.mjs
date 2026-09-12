@@ -24,6 +24,9 @@ class MemoryCache {
 test("watches endpoint returns one compact catalogue and caches the Airtable read", async () => {
   globalThis.caches = { default: new MemoryCache() };
   const originalFetch = globalThis.fetch;
+  const originalNow = Date.now;
+  let now = originalNow();
+  Date.now = () => now;
   globalThis.__airtableWebhookChecks = 0;
   let airtableReads = 0;
   globalThis.fetch = async (request) => {
@@ -37,7 +40,7 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
           SKU: "SW001",
           Brand: "Rolex",
           Title: "Submariner",
-          Price: 10000,
+          Price: 10000 + airtableReads,
           Status: "Available",
           "Date Added": "2026-09-09",
           "Image Count": 3,
@@ -72,12 +75,17 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     const first = await onRequest(makeContext());
     const payload = await first.json();
     const second = await onRequest(makeContext());
+    now += 61 * 1000;
+    const refreshed = await onRequest(makeContext());
+    const refreshedPayload = await refreshed.json();
 
     assert.equal(first.status, 200);
     assert.equal(first.headers.get("Cache-Control"), "no-store");
     assert.equal(second.headers.get("X-Stapleford-Cache"), "EDGE");
-    assert.equal(airtableReads, 1);
-    assert.equal(globalThis.__airtableWebhookChecks, 2);
+    assert.equal(airtableReads, 2);
+    assert.equal(globalThis.__airtableWebhookChecks, 3);
+    assert.equal(refreshed.headers.get("X-Stapleford-Cache"), "REFRESHED");
+    assert.equal(refreshedPayload.watches[0].price, 10002);
     assert.equal(payload.count, 1);
     assert.equal(payload.watches[0].listingId, "SW001");
     assert.equal(payload.watches[0].images.length, 3);
@@ -89,6 +97,14 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     assert.equal("mainImageUrl" in payload.watches[0], false);
   } finally {
     globalThis.fetch = originalFetch;
+    Date.now = originalNow;
     delete globalThis.__airtableWebhookChecks;
   }
+});
+
+test("watches use a one-minute blocking source-of-truth fallback", async () => {
+  const source = await readFile(new URL("../functions/api/watches.js", import.meta.url), "utf8");
+  assert.match(source, /freshSeconds: 60,/);
+  assert.match(source, /blockingRefreshWhenStale: true,/);
+  assert.match(source, /browserSeconds: 0,/);
 });
