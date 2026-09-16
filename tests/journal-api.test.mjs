@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const source = await readFile(new URL("../functions/api/journal.js", import.meta.url), "utf8");
+const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const cacheStub = "data:text/javascript;base64," + Buffer.from(
   "export async function withDataCache(){}"
 ).toString("base64");
@@ -52,12 +53,18 @@ test("Airtable Body and attachment fields become a complete published article", 
           filename: "daily-watch.jpg",
           width: 1600,
           height: 1000,
+          thumbnails: {
+            large: { url: "https://example.com/cover-fast.jpg", width: 720, height: 450 },
+          },
         }],
         Images: [{
           url: "https://example.com/detail.jpg",
           filename: "dial-detail.jpg",
           width: 1200,
           height: 800,
+          thumbnails: {
+            large: { url: "https://example.com/detail-fast.jpg", width: 720, height: 480 },
+          },
         }],
         Status: "Published",
       },
@@ -71,12 +78,32 @@ test("Airtable Body and attachment fields become a complete published article", 
     const payload = await response.json();
     assert.equal(payload.count, 1);
     assert.equal(payload.posts[0].image, "https://example.com/cover.jpg");
-    assert.equal(payload.posts[0].cardImage, "https://example.com/cover.jpg");
+    assert.equal(payload.posts[0].cardImage, "https://example.com/cover-fast.jpg");
+    assert.equal(payload.posts[0].heroPreviewImage, "https://example.com/cover-fast.jpg");
+    assert.equal(payload.posts[0].cardImageWidth, 720);
+    assert.equal(payload.posts[0].cardImageHeight, 450);
     assert.equal(payload.posts[0].excerpt, "A concise introduction.");
     assert.equal(payload.posts[0].dateDisplay, "9 September 2026");
     assert.match(payload.posts[0].bodyHtml, /<h2>Why it works<\/h2>/);
-    assert.match(payload.posts[0].bodyHtml, /detail\.jpg/);
+    assert.match(payload.posts[0].bodyHtml, /detail-fast\.jpg/);
+    assert.doesNotMatch(payload.posts[0].bodyHtml, /src="https:\/\/example\.com\/detail\.jpg"/);
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("Journal data is served stale-while-revalidate instead of blocking readers", () => {
+  assert.match(source, /key: "journal-v2",/);
+  assert.match(source, /freshSeconds: 60 \* 5,/);
+  assert.match(source, /browserSeconds: 60,/);
+  assert.match(source, /blockingRefreshWhenStale: false,/);
+});
+
+test("the Journal preloads cached data and reserves image space", () => {
+  assert.match(html, /'\/api\/journal\?schema=2'/);
+  assert.match(html, /stapleford_journal_cache_v2_fast_images/);
+  assert.match(html, /fetch\('\/api\/journal\?schema=2'/);
+  assert.match(html, /heroPreviewImage \|\| entry\.heroImage/);
+  assert.match(html, /fetchpriority="\$\{index === 0 \? 'high' : 'auto'\}"/);
+  assert.match(html, /font-display:optional/);
 });
