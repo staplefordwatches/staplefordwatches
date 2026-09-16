@@ -35,7 +35,7 @@ function responseHeaders({ cacheState, cacheScope = "LOCAL", savedAt, browserSec
   return {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": browserSeconds > 0
-      ? `public, max-age=${browserSeconds}, stale-while-revalidate=86400`
+      ? `public, max-age=${browserSeconds}, s-maxage=${Math.max(browserSeconds, 60)}, stale-while-revalidate=60`
       : "no-store",
     "X-Content-Type-Options": "nosniff",
     "X-Stapleford-Cache": cacheState,
