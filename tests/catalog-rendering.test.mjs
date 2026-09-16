@@ -8,6 +8,8 @@ const regularFont = await readFile(new URL("../fonts/sweet-sans-pro-regular-v1.o
 test("the initial document avoids embedded images and oversized fonts", () => {
   assert.doesNotMatch(html, /data:image\//);
   assert.match(html, /src="\/assets\/stapleford-watches-logo@2x\.png\?v=1"/);
+  assert.match(html, /\.site-header \.logo::before\{[^}]*background:var\(--sw-navy,#0a2342\)/);
+  assert.match(html, /\.site-header \.logo-mark\{[^}]*opacity:0/);
   assert.match(html, /href="\/fonts\/sweet-sans-pro-regular-v1\.otf"/);
   assert.ok(regularFont.byteLength < 75_000);
 });
