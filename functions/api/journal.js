@@ -48,6 +48,9 @@ export function attachmentImages(value) {
   return value.map((attachment, index) => {
     const url = safeImageUrl(attachment?.url);
     if (!url) return null;
+    const thumbnails = attachment?.thumbnails || {};
+    const preview = [thumbnails.large, thumbnails.full, thumbnails.small]
+      .find((candidate) => safeImageUrl(candidate?.url)) || null;
     const filename = clean(attachment?.filename);
     const alt = filename
       .replace(/\.[a-z0-9]{2,5}$/i, "")
@@ -55,10 +58,13 @@ export function attachmentImages(value) {
       .trim();
     return {
       url,
+      previewUrl: safeImageUrl(preview?.url) || url,
       alt,
       filename,
       width: Number(attachment?.width) || 0,
       height: Number(attachment?.height) || 0,
+      previewWidth: Number(preview?.width) || Number(attachment?.width) || 0,
+      previewHeight: Number(preview?.height) || Number(attachment?.height) || 0,
       position: index + 1,
     };
   }).filter(Boolean);
@@ -74,10 +80,11 @@ function figureHtml(image, caption = "") {
   if (!image?.url) return "";
   const finalCaption = clean(caption);
   const alt = finalCaption || image.alt || "Journal image";
-  const dimensions = image.width && image.height
-    ? ` width="${image.width}" height="${image.height}"`
+  const previewUrl = image.previewUrl || image.url;
+  const dimensions = image.previewWidth && image.previewHeight
+    ? ` width="${image.previewWidth}" height="${image.previewHeight}"`
     : "";
-  return `<figure class="journal-body-image"><img src="${escapeHtml(image.url)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"${dimensions}>${finalCaption ? `<figcaption>${inlineMarkup(finalCaption)}</figcaption>` : ""}</figure>`;
+  return `<figure class="journal-body-image"><img src="${escapeHtml(previewUrl)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"${dimensions}>${finalCaption ? `<figcaption>${inlineMarkup(finalCaption)}</figcaption>` : ""}</figure>`;
 }
 
 export function renderJournalBody(content, images = []) {
@@ -274,6 +281,7 @@ export async function loadJournal(context) {
           cloudinaryUrl(cloudName, "f_auto,q_auto,w_2000", imageFolder, imageIndex + 1)
         ).filter(Boolean).map((url, imageIndex) => ({
           url,
+          previewUrl: cloudinaryUrl(cloudName, "f_auto,q_auto:eco,c_limit,w_960", imageFolder, imageIndex + 1),
           alt: `${title} — image ${imageIndex + 1}`,
           filename: "",
           width: 0,
@@ -310,9 +318,12 @@ export async function loadJournal(context) {
           image: coverImage?.url || "",
           imageAlt: coverImage?.alt || title,
           heroImage: coverImage?.url || "",
-          cardImage: coverImage?.url || (imageFolder
+          heroPreviewImage: coverImage?.previewUrl || coverImage?.url || "",
+          cardImage: coverImage?.previewUrl || coverImage?.url || (imageFolder
             ? cloudinaryUrl(cloudName, "f_auto,q_auto,c_fill,g_auto,w_1000,h_1250", imageFolder, 1)
             : ""),
+          cardImageWidth: coverImage?.previewWidth || 0,
+          cardImageHeight: coverImage?.previewHeight || 0,
           images: articleImages.map((image) => image.url),
           _airtableEntryOrder: index,
         };
@@ -336,10 +347,10 @@ export async function loadJournal(context) {
 
 export async function onRequest(context) {
   const response = await withDataCache(context, {
-    key: "journal",
-    freshSeconds: 15,
-    browserSeconds: 0,
-    blockingRefreshWhenStale: true,
+    key: "journal-v2",
+    freshSeconds: 60 * 5,
+    browserSeconds: 60,
+    blockingRefreshWhenStale: false,
     producer: () => loadJournal(context),
   });
   const maintenance = ensureAirtableWebhook(context, AIRTABLE_CATALOGS[1]);

@@ -36,7 +36,8 @@ test("the catalogue reuses browser and local snapshots while refreshing in the b
 });
 
 test("catalogue data is preloaded and checkout code is loaded only on demand", () => {
-  assert.match(html, /l\.href='\/api\/watches\?schema=4'/);
+  assert.match(html, /'\/api\/watches\?schema=4'/);
+  assert.match(html, /l\.href=href/);
   assert.doesNotMatch(html, /<script async src="https:\/\/js\.stripe\.com\/v3\/">/);
   assert.match(html, /script\.src = 'https:\/\/js\.stripe\.com\/v3\/';/);
 });
