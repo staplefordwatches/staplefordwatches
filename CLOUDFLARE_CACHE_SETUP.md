@@ -17,7 +17,7 @@ The production function creates and renews two authenticated Airtable API webhoo
 
 The Airtable personal access token used by Cloudflare must include the `webhook:manage` scope as well as its existing record access. Webhook status is available at `https://staplefordwatches.co.uk/api/airtable-webhook`; this endpoint exposes health only and never returns secrets or webhook IDs.
 
-Watches also use a one-minute blocking freshness limit. This is deliberately independent of webhook delivery: once the shared snapshot is a minute old, the next catalogue request waits for Airtable and returns the new source data in that same response. If Airtable is temporarily unavailable, the last good snapshot remains available. Airtable webhooks expire after seven days unless renewed, so catalogue cache maintenance also checks their expiry and renews them at least two days early.
+Watches use a five-minute stale-while-revalidate safety window in addition to webhook delivery. Once the shared snapshot is five minutes old, the next catalogue request returns the last good snapshot immediately and refreshes Airtable in the background. Visitors never wait for that refresh. If Airtable is temporarily unavailable, the last good snapshot remains available. Airtable webhooks expire after seven days unless renewed, so catalogue cache maintenance also checks their expiry and renews them at least two days early.
 
 Stripe payment events already update the shared watch status and remove the old edge copy, so a sold watch is not left behind waiting for the normal refresh.
 
@@ -30,4 +30,4 @@ After deployment, request `/api/watches` twice and inspect the response header `
 - `SHARED` means this Cloudflare location reused the global KV snapshot.
 - `STALE` means Airtable had a problem and the last good catalogue was served so the website stayed online.
 
-The KV snapshot is global, so visitors share the same refresh rather than each causing an Airtable request. The one-minute watches limit allows at most one normal catalogue refresh per minute of active traffic in a single refresh path; webhook deliveries can refresh sooner. Monitor Airtable usage against the workspace plan because a continuously busy site can exceed the allowance of a free Airtable workspace.
+The KV snapshot is global, so visitors share the same refresh rather than each causing an Airtable request. The five-minute fallback allows at most one normal catalogue refresh per five minutes of active traffic in a single refresh path; webhook deliveries can refresh sooner. Monitor Airtable usage against the workspace plan because a continuously busy site can exceed the allowance of a free Airtable workspace.

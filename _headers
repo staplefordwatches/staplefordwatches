@@ -1,0 +1,11 @@
+/assets/stapleford-watches-logo@2x.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/sweet-sans-pro-light-v1.otf
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/sweet-sans-pro-regular-v1.otf
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/sweet-sans-pro-bold-v1.otf
+  Cache-Control: public, max-age=31536000, immutable
