@@ -105,5 +105,6 @@ test("the Journal preloads cached data and reserves image space", () => {
   assert.match(html, /fetch\('\/api\/journal\?schema=2'/);
   assert.match(html, /heroPreviewImage \|\| entry\.heroImage/);
   assert.match(html, /fetchpriority="\$\{index === 0 \? 'high' : 'auto'\}"/);
+  assert.match(html, /journal-list\{[^}]*min-height:calc\(100svh - 208px\)/);
   assert.match(html, /font-display:optional/);
 });
