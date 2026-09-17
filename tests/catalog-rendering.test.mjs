@@ -4,6 +4,10 @@ import test from "node:test";
 
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const regularFont = await readFile(new URL("../fonts/sweet-sans-pro-regular-v1.otf", import.meta.url));
+const favicon = await readFile(new URL("../favicon.ico", import.meta.url));
+const favicon32 = await readFile(new URL("../favicon-32x32.png", import.meta.url));
+const appleTouchIcon = await readFile(new URL("../apple-touch-icon.png", import.meta.url));
+const webmanifest = JSON.parse(await readFile(new URL("../site.webmanifest", import.meta.url), "utf8"));
 
 test("the initial document avoids embedded images and oversized fonts", () => {
   assert.doesNotMatch(html, /data:image\//);
@@ -13,6 +17,24 @@ test("the initial document avoids embedded images and oversized fonts", () => {
   assert.match(html, /\.site-header \.logo-mark\{[^}]*opacity:0/);
   assert.match(html, /href="\/fonts\/sweet-sans-pro-regular-v1\.otf"/);
   assert.ok(regularFont.byteLength < 75_000);
+});
+
+test("the Stapleford logo is available in every favicon format", () => {
+  assert.match(html, /href="\/favicon\.svg\?v=5" rel="icon" type="image\/svg\+xml"/);
+  assert.match(html, /href="\/favicon\.ico\?v=5" rel="icon" sizes="any"/);
+  assert.ok(favicon.byteLength > 0);
+  assert.ok(favicon32.byteLength > 0);
+  assert.ok(appleTouchIcon.byteLength > 0);
+  assert.equal(webmanifest.name, "Stapleford Watches");
+  assert.deepEqual(webmanifest.icons.map((icon) => icon.sizes), ["192x192", "512x512"]);
+});
+
+test("listing images stay sharp at every responsive grid width", () => {
+  assert.match(html, /const GRID_IMAGE_WIDTHS = \[320, 480, 640, 800, 1040, 1280, 1600, 2000, 2400\];/);
+  assert.match(html, /const GRID_IMAGE_SIZES = '\(max-width: 767px\) calc\(\(100vw - 3px\) \/ 2\), \(max-width: 1199px\) calc\(\(100vw - 6px\) \/ 3\), calc\(\(100vw - 9px\) \/ 4\)';/);
+  assert.match(html, /f_auto,q_auto:good,fl_progressive,e_sharpen:40,c_fill,g_auto,ar_4:5,w_\$\{width\}/);
+  assert.match(html, /sizes="\$\{GRID_IMAGE_SIZES\}"/);
+  assert.match(html, /preload\.setAttribute\('imagesizes', GRID_IMAGE_SIZES\)/);
 });
 
 test("contact actions share the same bordered treatment", () => {
