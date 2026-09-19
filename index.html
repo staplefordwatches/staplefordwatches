@@ -1411,10 +1411,25 @@ body.journal-entry-active #journalListView{display:none!important}
 .sell-label{font-family:"Sweet Sans Pro",Arial,sans-serif;font-weight:500;font-size:var(--type-control);letter-spacing:.08em;text-transform:uppercase;opacity:.72}
 .sell-label .sell-optional{text-transform:none;letter-spacing:.02em;opacity:.6;font-weight:400}
 .sell-input,.sell-select,.sell-textarea{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-body);line-height:1.4;color:#0a2342;padding:11px 12px;border:1px solid rgba(10,35,66,.22);border-radius:2px;background:#fff;width:100%;appearance:none;-webkit-appearance:none}
-.sell-select{min-height:44px;padding:0 40px 0 14px;border-color:rgba(10,35,66,.18);border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230a2342' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") right 13px center/16px 16px no-repeat,#f2f2f0;box-shadow:0 18px 42px rgba(10,35,66,.12);font-size:11px;font-weight:400;letter-spacing:.015em;text-transform:none;cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease}
-.sell-select:hover{border-color:rgba(10,35,66,.3);box-shadow:0 18px 42px rgba(10,35,66,.14)}
-.sell-select:focus-visible{outline:1px solid rgba(10,35,66,.45);outline-offset:2px;border-color:rgba(10,35,66,.3);box-shadow:0 18px 42px rgba(10,35,66,.14)}
+.sell-select{min-height:44px;padding:0 40px 0 14px;border-color:rgba(10,35,66,.18);border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230a2342' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") right 13px center/16px 16px no-repeat,#f2f2f0;box-shadow:none;font-size:11px;font-weight:400;letter-spacing:.015em;text-transform:none;cursor:pointer;transition:border-color .18s ease,background-color .18s ease}
+.sell-select:hover{border-color:rgba(10,35,66,.3)}
+.sell-select:focus-visible{outline:1px solid rgba(10,35,66,.45);outline-offset:2px;border-color:rgba(10,35,66,.3)}
 .sell-select option{background:#f2f2f0;color:#0a2342;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:11px;font-weight:400;letter-spacing:.015em;text-transform:none}
+.sell-select-menu{position:relative;width:100%}
+.sell-select-menu .sell-select-native{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;pointer-events:none}
+.sell-select-trigger{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:44px;padding:0 14px;border:1px solid rgba(10,35,66,.18);border-radius:0;background:#f2f2f0;color:#0a2342;box-shadow:none;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:11px;font-weight:400;letter-spacing:.015em;text-align:left;cursor:pointer;transition:border-color .18s ease,background-color .18s ease}
+.sell-select-trigger:hover,.sell-select-trigger[aria-expanded="true"]{border-color:rgba(10,35,66,.3);background:#f7f7f5}
+.sell-select-trigger:focus-visible{outline:1px solid rgba(10,35,66,.45);outline-offset:2px}
+.sell-select-trigger[aria-invalid="true"]{border-color:#9f1c1c}
+.sell-select-chevron{width:16px;height:16px;flex:0 0 auto;transition:transform .18s ease}
+.sell-select-trigger[aria-expanded="true"] .sell-select-chevron{transform:rotate(180deg)}
+.sell-select-panel{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:30;padding:18px 18px 16px;border:1px solid rgba(10,35,66,.18);border-radius:0;background:#f2f2f0;box-shadow:0 18px 42px rgba(10,35,66,.12)}
+.sell-select-panel[hidden]{display:none!important}
+.sell-select-option{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:44px;padding:0;border:0;border-top:1px solid rgba(10,35,66,.13);border-radius:0;background:transparent;color:#0a2342;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:11px;font-weight:400;letter-spacing:.015em;text-align:left;cursor:pointer}
+.sell-select-option:hover,.sell-select-option:focus-visible{background:rgba(10,35,66,.035);outline:0}
+.sell-select-option::after{content:"";width:14px;height:14px;flex:0 0 auto;border:1px solid rgba(10,35,66,.56);border-radius:50%;background:transparent}
+.sell-select-option[aria-selected="true"]::after{background:#0a2342;box-shadow:inset 0 0 0 3px #f2f2f0}
+@media (max-width:640px){.sell-select-panel{padding:16px}.sell-select-option{min-height:42px}}
 .sell-textarea{resize:vertical;min-height:96px}
 .sell-input:focus,.sell-select:focus,.sell-textarea:focus{outline:0;border-color:#0a2342}
 .sell-dropzone{border:1.5px dashed rgba(10,35,66,.3);border-radius:4px;padding:clamp(22px,4vw,34px) 16px;text-align:center;cursor:default;transition:border-color .15s,background .15s;background:rgba(10,35,66,.02)}
@@ -3613,6 +3628,165 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(rejection) setSellStatus(rejection, 'error');
     else resetSellFormStatus();
   }
+  function closeSellSelectMenu(widget, returnFocus = false){
+    if(!widget) return;
+    const trigger = widget.querySelector('.sell-select-trigger');
+    const panel = widget.querySelector('.sell-select-panel');
+    if(panel) panel.hidden = true;
+    trigger?.setAttribute('aria-expanded','false');
+    if(returnFocus) trigger?.focus();
+  }
+  function closeAllSellSelectMenus(except = null){
+    document.querySelectorAll('.sell-select-menu').forEach(widget => {
+      if(widget !== except) closeSellSelectMenu(widget);
+    });
+  }
+  function syncSellSelectMenu(widget){
+    const select = widget.querySelector('.sell-select-native');
+    const trigger = widget.querySelector('.sell-select-trigger');
+    const value = widget.querySelector('.sell-select-value');
+    if(!select || !trigger || !value) return;
+    const selected = select.options[select.selectedIndex] || select.options[0];
+    value.textContent = selected?.textContent || '';
+    widget.querySelectorAll('.sell-select-option').forEach(option => {
+      option.setAttribute('aria-selected', option.dataset.value === select.value ? 'true' : 'false');
+    });
+    if(select.value) trigger.removeAttribute('aria-invalid');
+  }
+  function bindSellSelects(form){
+    const selects = Array.from(form.querySelectorAll('.sell-select'));
+    selects.forEach(select => {
+      if(select.closest('.sell-select-menu')) return;
+      const wasRequired = select.required;
+      select.required = false;
+      select.classList.add('sell-select-native');
+      select.setAttribute('aria-hidden','true');
+      select.tabIndex = -1;
+
+      const widget = document.createElement('div');
+      widget.className = 'sell-select-menu';
+      widget.dataset.required = wasRequired ? 'true' : 'false';
+      select.parentNode.insertBefore(widget, select);
+      widget.appendChild(select);
+
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'sell-select-trigger';
+      trigger.id = select.id + 'Trigger';
+      trigger.setAttribute('aria-haspopup','listbox');
+      trigger.setAttribute('aria-expanded','false');
+      trigger.setAttribute('aria-controls', select.id + 'Panel');
+      if(wasRequired) trigger.setAttribute('aria-required','true');
+
+      const value = document.createElement('span');
+      value.className = 'sell-select-value';
+      value.id = select.id + 'Value';
+      const chevron = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      chevron.setAttribute('class','sell-select-chevron');
+      chevron.setAttribute('viewBox','0 0 24 24');
+      chevron.setAttribute('fill','none');
+      chevron.setAttribute('stroke','currentColor');
+      chevron.setAttribute('stroke-width','1.6');
+      chevron.setAttribute('stroke-linecap','round');
+      chevron.setAttribute('stroke-linejoin','round');
+      chevron.setAttribute('aria-hidden','true');
+      const chevronPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+      chevronPath.setAttribute('d','m7 10 5 5 5-5');
+      chevron.appendChild(chevronPath);
+      trigger.append(value, chevron);
+
+      const label = form.querySelector('label[for="' + select.id + '"]');
+      if(label){
+        label.id = label.id || select.id + 'Label';
+        label.htmlFor = trigger.id;
+        trigger.setAttribute('aria-labelledby', label.id + ' ' + value.id);
+      }else{
+        trigger.setAttribute('aria-label', select.name || 'Choose an option');
+      }
+
+      const panel = document.createElement('div');
+      panel.className = 'sell-select-panel';
+      panel.id = select.id + 'Panel';
+      panel.setAttribute('role','listbox');
+      panel.setAttribute('aria-labelledby', label?.id || value.id);
+      panel.hidden = true;
+
+      Array.from(select.options).forEach(nativeOption => {
+        const option = document.createElement('button');
+        option.type = 'button';
+        option.className = 'sell-select-option';
+        option.setAttribute('role','option');
+        option.dataset.value = nativeOption.value;
+        option.textContent = nativeOption.textContent;
+        option.addEventListener('click', () => {
+          select.value = nativeOption.value;
+          select.dispatchEvent(new Event('change', { bubbles:true }));
+          syncSellSelectMenu(widget);
+          closeSellSelectMenu(widget, true);
+        });
+        option.addEventListener('keydown', event => {
+          const options = Array.from(panel.querySelectorAll('.sell-select-option'));
+          const index = options.indexOf(option);
+          if(event.key === 'ArrowDown' || event.key === 'ArrowUp'){
+            event.preventDefault();
+            const step = event.key === 'ArrowDown' ? 1 : -1;
+            options[(index + step + options.length) % options.length]?.focus();
+          }else if(event.key === 'Home'){
+            event.preventDefault(); options[0]?.focus();
+          }else if(event.key === 'End'){
+            event.preventDefault(); options[options.length - 1]?.focus();
+          }else if(event.key === 'Escape'){
+            event.preventDefault(); closeSellSelectMenu(widget, true);
+          }else if(event.key === 'Tab'){
+            closeSellSelectMenu(widget);
+          }
+        });
+        panel.appendChild(option);
+      });
+
+      widget.prepend(trigger);
+      widget.appendChild(panel);
+      syncSellSelectMenu(widget);
+
+      trigger.addEventListener('click', () => {
+        const willOpen = panel.hidden;
+        closeAllSellSelectMenus(widget);
+        panel.hidden = !willOpen;
+        trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        if(willOpen){
+          const selected = panel.querySelector('.sell-select-option[aria-selected="true"]');
+          window.requestAnimationFrame(() => (selected || panel.querySelector('.sell-select-option'))?.focus());
+        }
+      });
+      trigger.addEventListener('keydown', event => {
+        if(event.key === 'ArrowDown' || event.key === 'ArrowUp'){
+          event.preventDefault();
+          if(panel.hidden) trigger.click();
+        }else if(event.key === 'Escape' && !panel.hidden){
+          event.preventDefault(); closeSellSelectMenu(widget, true);
+        }
+      });
+      select.addEventListener('change', () => syncSellSelectMenu(widget));
+    });
+
+    document.addEventListener('click', event => {
+      if(!event.target.closest('.sell-select-menu')) closeAllSellSelectMenus();
+    });
+    form.addEventListener('reset', () => {
+      window.requestAnimationFrame(() => form.querySelectorAll('.sell-select-menu').forEach(syncSellSelectMenu));
+    });
+  }
+  function validateSellSelects(form){
+    const invalid = Array.from(form.querySelectorAll('.sell-select-menu[data-required="true"]'))
+      .find(widget => !widget.querySelector('.sell-select-native')?.value);
+    form.querySelectorAll('.sell-select-trigger[aria-invalid="true"]').forEach(trigger => trigger.removeAttribute('aria-invalid'));
+    if(!invalid) return true;
+    const trigger = invalid.querySelector('.sell-select-trigger');
+    trigger?.setAttribute('aria-invalid','true');
+    trigger?.focus();
+    return false;
+  }
+
   function bindSellForm(){
     const form = $('sellForm');
     const dropzone = $('sellDropzone');
@@ -3621,6 +3795,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const submitBtn = $('sellSubmit');
     if(!form || !dropzone || !fileInput || !submitBtn) return;
 
+    bindSellSelects(form);
     browseTrigger?.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('click', (e) => { if(!e.target.closest('.sell-dropzone-browse')) fileInput.click(); });
     fileInput.addEventListener('change', () => { addSellPhotoFiles(fileInput.files); fileInput.value = ''; });
@@ -3640,7 +3815,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       resetSellFormStatus();
-      if(!form.reportValidity()) return;
+      if(!validateSellSelects(form) || !form.reportValidity()) return;
 
       const formData = new FormData();
       formData.append('brand', $('sellBrand').value.trim());
