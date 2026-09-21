@@ -1418,7 +1418,7 @@ body.journal-entry-active #journalListView{display:none!important}
 .sell-label{font-family:"Sweet Sans Pro",Arial,sans-serif;font-weight:500;font-size:var(--type-control);letter-spacing:.08em;text-transform:uppercase;opacity:.72}
 .sell-label .sell-optional{text-transform:none;letter-spacing:.02em;opacity:.6;font-weight:400}
 .sell-input,.sell-select,.sell-textarea{font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:var(--type-body);line-height:1.4;color:#0a2342;padding:11px 12px;border:1px solid rgba(10,35,66,.22);border-radius:2px;background:#fff;width:100%;appearance:none;-webkit-appearance:none}
-.sell-select{min-height:44px;padding:0 40px 0 14px;border-color:rgba(10,35,66,.18);border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230a2342' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") right 13px center/16px 16px no-repeat,#f2f2f0;box-shadow:none;font-size:11px;font-weight:400;letter-spacing:.015em;text-transform:none;cursor:pointer;transition:border-color .18s ease,background-color .18s ease}
+.sell-select{min-height:44px;padding:0 40px 0 14px;border-color:rgba(10,35,66,.18);border-radius:0;background:#f2f2f0;box-shadow:none;font-size:11px;font-weight:400;letter-spacing:.015em;text-transform:none;cursor:pointer;transition:border-color .18s ease,background-color .18s ease}
 .sell-select:hover{border-color:rgba(10,35,66,.3)}
 .sell-select:focus-visible{outline:1px solid rgba(10,35,66,.45);outline-offset:2px;border-color:rgba(10,35,66,.3)}
 .sell-select option{background:#f2f2f0;color:#0a2342;font-family:"Sweet Sans Pro",Arial,sans-serif;font-size:11px;font-weight:400;letter-spacing:.015em;text-transform:none}
@@ -1624,7 +1624,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   const lightboxStatusBadge = $('lightboxStatusBadge');
   const lightboxDetails = $('lightboxDetails');
   const lightboxBrand = $('lightboxDetailBrand');
-  const lightboxTitle = $('lightboxDetailTitle');
+  let lightboxTitle = $('lightboxDetailTitle');
   const lightboxReference = $('lightboxDetailReference');
   const lightboxYear = $('lightboxDetailYear');
   const lightboxContents = $('lightboxDetailContents');
@@ -1673,6 +1673,29 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   let stripeLoaderPromise = null;
   let catalogControlsApi = null;
   let siteMenuCloseTimer = 0;
+
+  function replaceHeadingTag(element, tagName){
+    if(!element || element.tagName.toLowerCase() === tagName) return element;
+    const replacement = document.createElement(tagName);
+    [...element.attributes].forEach(attribute => replacement.setAttribute(attribute.name, attribute.value));
+    replacement.innerHTML = element.innerHTML;
+    element.replaceWith(replacement);
+    if(replacement.id === 'lightboxDetailTitle') lightboxTitle = replacement;
+    if(replacement.id === 'infoTitle') infoTitle = replacement;
+    return replacement;
+  }
+  function syncPrimaryHeading(){
+    const selectors = ['#catalogIntroTitle','#infoTitle','.sell-hero-title','.journal-hero-title','#lightboxDetailTitle','.journal-entry-title'];
+    let primarySelector = '#catalogIntroTitle';
+    if(activeWatch) primarySelector = '#lightboxDetailTitle';
+    else if(document.body.classList.contains('journal-entry-active')) primarySelector = '.journal-entry-title';
+    else if(document.body.classList.contains('sell-active')) primarySelector = '.sell-hero-title';
+    else if(document.body.classList.contains('journal-active')) primarySelector = '.journal-hero-title';
+    else if(document.body.classList.contains('info-active')) primarySelector = '#infoTitle';
+    selectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(element => replaceHeadingTag(element, selector === primarySelector ? 'h1' : 'div'));
+    });
+  }
 
   function injectCuratedShell(){
     const buyPage = $('buyPage');
@@ -2689,6 +2712,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function renderLightbox(){
     if(!activeWatch || !lightbox || !lightboxImage) return;
     const watch = activeWatch;
+    syncPrimaryHeading();
     activeImages = images(watch);
     if(!activeImages.length && watch.image) activeImages = [watch.image];
     activeImageIndex = Math.max(0, Math.min(activeImageIndex, activeImages.length - 1));
@@ -2730,9 +2754,14 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(lightboxSpecs) lightboxSpecs.innerHTML = specRows.map(([label,value]) => `<dt>${escapeHtml(label)}</dt><dd${label === 'YEAR' ? ' class="spec-year-value"' : ''}>${escapeHtml(formatSpecValue(label, value))}</dd>`).join('');
     if(lightboxSpecToggle) lightboxSpecToggle.hidden = !specRows.length;
     setSpecsOpen(false);
+    const deliveryPolicyLink = lightboxDelivery?.querySelector('a[href="/delivery/"]');
+    const returnsPolicyLink = lightboxDelivery?.querySelector('a[href="/returns/"]');
+    if(deliveryPolicyLink) deliveryPolicyLink.textContent = 'Read our full delivery policy';
+    if(returnsPolicyLink) returnsPolicyLink.textContent = 'Read our full returns policy';
     togglePanel(lightboxDelivery, lightboxDeliveryToggle, false, 'DELIVERY & RETURNS', policyIcon('delivery'));
     renderRelated(watch);
     updateProductSeo(watch);
+    updateStructuredDataSoon();
   }
   function renderTrust(watch){
     if(!lightboxTrustList) return;
@@ -2779,10 +2808,12 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     document.body.classList.remove('product-page-open','stapleford-product-help-visible');
     document.body.style.overflow = '';
     activeWatch = null; activeImages = []; activeImageIndex = 0; activeLightboxPlaceholder = '';
+    syncPrimaryHeading();
     const lightboxMenuToggleEl = $('lightboxMenuToggle');
     if(lightboxMenuToggleEl){ lightboxMenuToggleEl.classList.remove('is-open'); lightboxMenuToggleEl.setAttribute('aria-expanded','false'); lightboxMenuToggleEl.setAttribute('aria-label','Open menu'); }
     if(updateUrl) setRoute('buy', true);
     updateMenuSeo(routeKey() || 'home');
+    updateStructuredDataSoon();
   }
   function stepImage(delta){
     if(activeImages.length <= 1) return;
@@ -2975,17 +3006,35 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     upsert('meta[property="og:title"]','meta',{property:'og:title'}).setAttribute('content', data.title);
     upsert('meta[property="og:description"]','meta',{property:'og:description'}).setAttribute('content', data.description);
     upsert('meta[property="og:url"]','meta',{property:'og:url'}).setAttribute('content', url);
+    upsert('meta[property="og:type"]','meta',{property:'og:type'}).setAttribute('content', 'website');
+    upsert('meta[name="twitter:title"]','meta',{name:'twitter:title'}).setAttribute('content', data.title);
+    upsert('meta[name="twitter:description"]','meta',{name:'twitter:description'}).setAttribute('content', data.description);
+    document.head.querySelector('meta[property="og:image"]')?.remove();
+    document.head.querySelector('meta[name="twitter:image"]')?.remove();
+  }
+  function truncateMeta(value, limit=155){
+    const text = String(value || '').replace(/\s+/g,' ').trim();
+    if(text.length <= limit) return text;
+    return text.slice(0, limit - 1).replace(/\s+\S*$/,'').trim() + '…';
   }
   function updateProductSeo(watch){
     const url = productLink(watch);
-    const title = `${`${watch.brand || ''} ${listingCardTitle(watch)}`.trim()} | Stapleford Watches`;
-    const desc = description(watch).slice(0, 240);
+    const title = `${displayName(watch)} | Stapleford Watches`;
+    const desc = truncateMeta(description(watch) || `Shop this pre-owned ${displayName(watch)} from Stapleford Watches.`, 155);
+    const image = images(watch).map(src => safeUrl(src,'')).find(Boolean) || '';
     document.title = title;
     upsert('link[rel="canonical"]','link',{rel:'canonical'}).href = url;
     upsert('meta[name="description"]','meta',{name:'description'}).setAttribute('content', desc);
     upsert('meta[property="og:title"]','meta',{property:'og:title'}).setAttribute('content', title);
     upsert('meta[property="og:description"]','meta',{property:'og:description'}).setAttribute('content', desc);
     upsert('meta[property="og:url"]','meta',{property:'og:url'}).setAttribute('content', url);
+    upsert('meta[property="og:type"]','meta',{property:'og:type'}).setAttribute('content', 'product');
+    upsert('meta[name="twitter:title"]','meta',{name:'twitter:title'}).setAttribute('content', title);
+    upsert('meta[name="twitter:description"]','meta',{name:'twitter:description'}).setAttribute('content', desc);
+    if(image){
+      upsert('meta[property="og:image"]','meta',{property:'og:image'}).setAttribute('content', image);
+      upsert('meta[name="twitter:image"]','meta',{name:'twitter:image'}).setAttribute('content', image);
+    }
   }
   function upsert(selector, tag, attrs){ let el = document.head.querySelector(selector); if(!el){ el = document.createElement(tag); Object.entries(attrs || {}).forEach(([k,v]) => el.setAttribute(k,v)); document.head.appendChild(el); } return el; }
   function setRoute(key, replace=false){ if(!ROUTES[key]) return; updateMenuSeo(key); try{ history[replace ? 'replaceState' : 'pushState']({ page:key }, '', ROUTES[key]); }catch(_error){} }
@@ -3010,11 +3059,82 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function updateStructuredDataSoon(){
     const work = () => {
       if(!watches.length) return;
-      const graph = watches.map(w => ({ '@type':'Product', '@id':productLink(w) + '#product', name:displayName(w), brand:{ '@type':'Brand', name:String(w.brand || 'Stapleford Watches') }, image:images(w).map(src => safeUrl(src,'')).filter(Boolean), description:description(w), sku:String(w.listingId || w.id || ''), offers:{ '@type':'Offer', url:productLink(w), priceCurrency:'GBP', price:Number(String(w.price || '').replace(/[^0-9.]/g,'')) || undefined, availability:isUnavailable(w) ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock', itemCondition:'https://schema.org/UsedCondition' } }));
+      const graph = activeWatch ? productStructuredData(activeWatch) : [{
+        '@type':'ItemList',
+        '@id':SITE_ORIGIN + '/buy/#catalogue',
+        name:'Pre-owned watches for sale',
+        itemListElement:watches.map((watch,index) => ({ '@type':'ListItem', position:index + 1, url:productLink(watch), name:displayName(watch) }))
+      }];
       const script = upsert('#stapleford-product-jsonld','script',{id:'stapleford-product-jsonld',type:'application/ld+json'});
       script.textContent = JSON.stringify({ '@context':'https://schema.org', '@graph':graph });
     };
     if('requestIdleCallback' in window) requestIdleCallback(work, { timeout:2500 }); else setTimeout(work, 80);
+  }
+  function productStructuredData(watch){
+    const url = productLink(watch);
+    const reference = getReference(watch) || String(watch.mpn || '').trim();
+    const rawGtin = String(watch.gtin || '').replace(/[^0-9]/g,'');
+    const gtin = [8,12,13,14].includes(rawGtin.length) ? rawGtin : '';
+    const price = Number(String(watch.price || '').replace(/[^0-9.]/g,'')) || undefined;
+    const propertyRows = [
+      ['Year', watch.specs?.year],
+      ['Case size', watch.specs?.caseSize],
+      ['Movement', getMovement(watch) || watch.specs?.movement],
+      ['Case material', getCaseMaterial(watch) || watch.specs?.caseMaterial || watch.specs?.material],
+      ['Condition', watch.specs?.condition],
+      ['Contents', watch.specs?.contents]
+    ].filter(([,value]) => value != null && String(value).trim()).map(([name,value]) => ({ '@type':'PropertyValue', name, value:String(value) }));
+    const product = {
+      '@type':'Product',
+      '@id':url + '#product',
+      name:displayName(watch),
+      url,
+      brand:{ '@type':'Brand', name:String(watch.brand || 'Stapleford Watches') },
+      image:images(watch).map(src => safeUrl(src,'')).filter(Boolean),
+      description:description(watch),
+      sku:String(watch.listingId || watch.id || ''),
+      mpn:reference || undefined,
+      ...(gtin ? { [`gtin${gtin.length}`]:gtin } : {}),
+      additionalProperty:propertyRows,
+      offers:{
+        '@type':'Offer',
+        url,
+        priceCurrency:'GBP',
+        price,
+        availability:isUnavailable(watch) ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+        itemCondition:'https://schema.org/UsedCondition',
+        seller:{ '@id':SITE_ORIGIN + '/#organization' },
+        shippingDetails:{
+          '@type':'OfferShippingDetails',
+          shippingRate:{ '@type':'MonetaryAmount', value:0, currency:'GBP' },
+          shippingDestination:{ '@type':'DefinedRegion', addressCountry:'GB' },
+          deliveryTime:{
+            '@type':'ShippingDeliveryTime',
+            handlingTime:{ '@type':'QuantitativeValue', minValue:0, maxValue:1, unitCode:'DAY' },
+            transitTime:{ '@type':'QuantitativeValue', minValue:1, maxValue:1, unitCode:'DAY' }
+          }
+        },
+        hasMerchantReturnPolicy:{
+          '@type':'MerchantReturnPolicy',
+          applicableCountry:'GB',
+          returnPolicyCategory:'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays:14,
+          returnMethod:'https://schema.org/ReturnByMail',
+          returnFees:'https://schema.org/ReturnFeesCustomerResponsibility',
+          merchantReturnLink:SITE_ORIGIN + '/returns/'
+        }
+      }
+    };
+    const breadcrumb = {
+      '@type':'BreadcrumbList',
+      '@id':url + '#breadcrumb',
+      itemListElement:[
+        { '@type':'ListItem', position:1, name:'Home', item:SITE_ORIGIN + '/' },
+        { '@type':'ListItem', position:2, name:'Buy watches', item:SITE_ORIGIN + '/buy/' },
+        { '@type':'ListItem', position:3, name:displayName(watch), item:url }
+      ]
+    };
+    return [product, breadcrumb];
   }
 
   const INFO_PATHS = { '/contact/':'contact', '/sell/':'sell', '/delivery/':'delivery', '/returns/':'returns', '/returns-policy/':'returns', '/refund-policy/':'returns', '/terms-and-conditions/':'terms', '/terms/':'terms', '/tcs/':'terms', '/terms-conditions/':'terms', '/privacy-policy/':'privacy', '/privacy/':'privacy', '/journal/':'journal' };
@@ -3185,7 +3305,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     INFO_CONTENT.privacy.body[privacyEmailHeadingIndex] = '<h3>Email, WhatsApp and newsletters</h3>';
     INFO_CONTENT.privacy.body.splice(privacyEmailHeadingIndex + 2, 0, '<p>If you sign up to our mailing list, we use your email address to send Stapleford Watches news, new arrivals and offers. You can unsubscribe at any time using the link in an email or by contacting us.</p>');
   }
-  const infoHero = $('infoHero'), infoHeroKicker = $('infoHeroKicker'), infoTitle = $('infoTitle'), infoCopy = $('infoCopy'), infoActions = $('infoActions'), infoBody = $('infoBody');
+  const infoHero = $('infoHero'), infoHeroKicker = $('infoHeroKicker'), infoCopy = $('infoCopy'), infoActions = $('infoActions'), infoBody = $('infoBody');
+  let infoTitle = $('infoTitle');
   function renderInfoPage(key){
     const data = INFO_CONTENT[key];
     if(!data || !infoHero || !infoHeroKicker || !infoTitle || !infoCopy || !infoActions || !infoBody) return;
@@ -3233,9 +3354,10 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     if(isBuy && catalogControlsApi) catalogControlsApi.sync();
     if(isInfo) renderInfoPage(key);
     if(isSell) resetSellFormStatus();
+    updateMenuSeo(key || 'home');
     if(isJournal && !journalLoaded) loadJournal();
     if(isJournal && !openJournalEntryFromUrl()) showJournalList();
-    updateMenuSeo(key || 'home');
+    syncPrimaryHeading();
   }
 
 
@@ -3961,11 +4083,13 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
 
   function showJournalList(){
     document.body.classList.remove('journal-entry-active');
+    document.getElementById('stapleford-article-jsonld')?.remove();
     const listView = $('journalListView');
     const entryView = $('journalEntryView');
     if(listView) listView.hidden = false;
     if(entryView) entryView.hidden = true;
     renderJournalList();
+    syncPrimaryHeading();
   }
 
   function renderJournalEntry(entry){
@@ -3983,10 +4107,36 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const fallbackBody = String(entry.content || '').split(/\n+/).map(line => line.trim()).filter(Boolean).map(line => `<p>${escapeHtml(line)}</p>`).join('');
     const heroImage = entry.heroPreviewImage || entry.heroImage || entry.image || '';
     container.innerHTML = `<p class="journal-entry-meta">${escapeHtml(entry.category || '')}</p><h1 class="journal-entry-title">${escapeHtml(entry.title || '')}</h1><p class="journal-entry-byline">${bylineParts.join(' · ')}</p>${heroImage ? `<div class="journal-entry-image"><img src="${escapeHtml(heroImage)}" alt="${escapeHtml(entry.imageAlt || entry.title || '')}" loading="eager" fetchpriority="high" decoding="async" width="1600" height="1000"></div>` : ''}<div class="journal-entry-body">${entry.bodyHtml || fallbackBody}</div>`;
+    syncPrimaryHeading();
     document.title = `${entry.title || 'Journal'} | Stapleford Watches`;
     const url = SITE_ORIGIN + journalEntryLink(entry);
+    const articleDescription = truncateMeta(entry.excerpt || SEO.journal.description, 155);
     upsert('link[rel="canonical"]','link',{rel:'canonical'}).href = url;
-    upsert('meta[name="description"]','meta',{name:'description'}).setAttribute('content', entry.excerpt || SEO.journal.description);
+    upsert('meta[name="description"]','meta',{name:'description'}).setAttribute('content', articleDescription);
+    upsert('meta[property="og:type"]','meta',{property:'og:type'}).setAttribute('content', 'article');
+    upsert('meta[property="og:title"]','meta',{property:'og:title'}).setAttribute('content', document.title);
+    upsert('meta[property="og:description"]','meta',{property:'og:description'}).setAttribute('content', articleDescription);
+    upsert('meta[property="og:url"]','meta',{property:'og:url'}).setAttribute('content', url);
+    upsert('meta[name="twitter:title"]','meta',{name:'twitter:title'}).setAttribute('content', document.title);
+    upsert('meta[name="twitter:description"]','meta',{name:'twitter:description'}).setAttribute('content', articleDescription);
+    if(heroImage){
+      upsert('meta[property="og:image"]','meta',{property:'og:image'}).setAttribute('content', heroImage);
+      upsert('meta[name="twitter:image"]','meta',{name:'twitter:image'}).setAttribute('content', heroImage);
+    }
+    const articleSchema = upsert('#stapleford-article-jsonld','script',{id:'stapleford-article-jsonld',type:'application/ld+json'});
+    articleSchema.textContent = JSON.stringify({
+      '@context':'https://schema.org',
+      '@type':'Article',
+      '@id':url + '#article',
+      headline:entry.title || '',
+      description:articleDescription,
+      image:heroImage || undefined,
+      datePublished:entry.publishedDate || entry.date || undefined,
+      dateModified:entry.updatedDate || entry.publishedDate || entry.date || undefined,
+      author:{ '@type':'Person', name:entry.author || 'Stapleford Watches' },
+      publisher:{ '@id':SITE_ORIGIN + '/#organization' },
+      mainEntityOfPage:url
+    });
   }
 
   function requestedJournalToken(){
@@ -4010,7 +4160,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const catalogueRoute = ['home','buy','search'].includes(key) || window.location.pathname.startsWith('/watches/');
     if(catalogueRoute) renderSkeleton();
     bind();
-    if(key === 'search'){ updateMenuSeo('search'); setTimeout(() => { const input = document.querySelector('.glass-search-input'); if(input) input.focus({ preventScroll:true }); }, 300); }
+    if(key === 'search'){ syncPrimaryHeading(); updateMenuSeo('search'); setTimeout(() => { const input = document.querySelector('.glass-search-input'); if(input) input.focus({ preventScroll:true }); }, 300); }
     else showRoute(key);
     if(catalogueRoute) loadWatches();
     document.documentElement.classList.remove('sw-booting');

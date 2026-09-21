@@ -44,7 +44,15 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
           Status: "Available",
           "Date Added": "2026-09-09",
           "Image Count": 3,
+          "Main Image URL": "https://images.example.com/sw001/main.jpg",
           Reference: "126610LN",
+          GTIN: "05012345678903",
+          "Google Product Type": "Luxury Watches > Rolex > Submariner",
+          "Google Category": "201",
+          "Google Color": "Black",
+          "Google Age Group": "Adult",
+          "Google Gender": "Unisex",
+          "Google Shopping Ready": "Yes",
           Year: "2024",
         },
       }],
@@ -98,8 +106,17 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     assert.equal(refreshedPayload.watches[0].price, 10002);
     assert.equal(payload.count, 1);
     assert.equal(payload.watches[0].listingId, "SW001");
-    assert.equal(payload.watches[0].images.length, 3);
+    assert.equal(payload.watches[0].images.length, 4);
+    assert.equal(payload.watches[0].image, "https://images.example.com/sw001/main.jpg");
     assert.equal(payload.watches[0].specs.reference, "126610LN");
+    assert.equal(payload.watches[0].mpn, "126610LN");
+    assert.equal(payload.watches[0].gtin, "05012345678903");
+    assert.equal(payload.watches[0].productType, "Luxury Watches > Rolex > Submariner");
+    assert.equal(payload.watches[0].googleCategory, "201");
+    assert.equal(payload.watches[0].color, "Black");
+    assert.equal(payload.watches[0].ageGroup, "Adult");
+    assert.equal(payload.watches[0].gender, "Unisex");
+    assert.equal(payload.watches[0].shoppingReady, "Yes");
     assert.equal(payload.watches[0].dateAdded, "2026-09-09");
     assert.equal("items" in payload, false);
     assert.equal("data" in payload, false);

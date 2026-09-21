@@ -134,6 +134,33 @@ export async function loadWatches(context) {
           "Reference No"
         ]));
 
+        const mpn = clean(get(fields, [
+          "MPN",
+          "Manufacturer Part Number",
+          "Manufacturer Reference"
+        ])) || reference;
+
+        const gtin = clean(get(fields, [
+          "GTIN",
+          "EAN",
+          "UPC",
+          "Barcode"
+        ])).replace(/[^0-9]/g, "");
+
+        const productType = clean(get(fields, [
+          "Product Type",
+          "Google Product Type",
+          "Watch Type",
+          "Style",
+          "Category"
+        ]));
+
+        const googleCategory = clean(get(fields, ["Google Category"]));
+        const color = clean(get(fields, ["Google Color", "Color", "Dial Color"]));
+        const ageGroup = clean(get(fields, ["Google Age Group", "Age Group"]));
+        const gender = clean(get(fields, ["Google Gender", "Gender"]));
+        const shoppingReady = clean(get(fields, ["Google Shopping Ready"]));
+
         const year = clean(get(fields, ["Year", "year"]));
 
         const caseSize = clean(get(fields, [
@@ -224,7 +251,12 @@ export async function loadWatches(context) {
           "PhotoCount"
         ]);
 
-        const images = buildImages(sku, imageCount);
+        const suppliedMainImage = clean(get(fields, [
+          "Main Image URL",
+          "Primary Image URL",
+          "Image URL"
+        ]));
+        const images = [...new Set([suppliedMainImage, ...buildImages(sku, imageCount)].filter(Boolean))];
         const mainImage = images[0] || "";
 
         return {
@@ -239,6 +271,14 @@ export async function loadWatches(context) {
           status,
           dateAdded,
           description,
+          gtin,
+          mpn,
+          productType,
+          googleCategory,
+          color,
+          ageGroup,
+          gender,
+          shoppingReady,
 
           image: mainImage,
           images,
