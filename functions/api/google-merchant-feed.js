@@ -34,7 +34,11 @@ function itemXml(watch) {
   const rawGtin = cleanText(watch.gtin).replace(/[^0-9]/g, "");
   const gtin = [8, 12, 13, 14].includes(rawGtin.length) ? rawGtin : "";
   const mpn = cleanText(watch.mpn) || watchReference(watch);
-  const productType = cleanText(watch.productType) || "Watches";
+  const productType = cleanText(watch.productType) || "Luxury Watches";
+  const googleCategory = cleanText(watch.googleCategory) || GOOGLE_WATCH_CATEGORY;
+  const color = cleanText(watch.color);
+  const ageGroup = cleanText(watch.ageGroup).toLowerCase();
+  const gender = cleanText(watch.gender).toLowerCase();
   const identifiers = [
     gtin ? `<g:gtin>${xmlEscape(gtin)}</g:gtin>` : "",
     mpn ? `<g:mpn>${xmlEscape(mpn)}</g:mpn>` : "",
@@ -61,8 +65,11 @@ function itemXml(watch) {
     <g:condition>used</g:condition>
     <g:brand>${xmlEscape(cleanText(watch.brand))}</g:brand>
     ${identifiers}
-    <g:google_product_category>${xmlEscape(GOOGLE_WATCH_CATEGORY)}</g:google_product_category>
-    <g:product_type>${xmlEscape(`Watches > ${productType}`)}</g:product_type>
+    <g:google_product_category>${xmlEscape(googleCategory)}</g:google_product_category>
+    <g:product_type>${xmlEscape(productType)}</g:product_type>
+    ${color ? `<g:color>${xmlEscape(color)}</g:color>` : ""}
+    ${ageGroup ? `<g:age_group>${xmlEscape(ageGroup)}</g:age_group>` : ""}
+    ${gender ? `<g:gender>${xmlEscape(gender)}</g:gender>` : ""}
     ${shipping}
   </item>`;
 }

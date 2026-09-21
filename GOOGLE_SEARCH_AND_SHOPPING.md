@@ -34,6 +34,8 @@ In Merchant Center, add a scheduled data source using:
 
 `https://staplefordwatches.co.uk/api/google-merchant-feed`
 
+This direct XML source replaces the old Make.com → Google Sheets catalogue bridge. Keep that Make scenario paused until Merchant Center has completed a successful fetch and the item totals match; it can then be deleted along with its Airtable and Google connections.
+
 Set it to fetch daily. Keep the website domain verified and claimed, and enable both Free listings and Shopping ads.
 
 The feed currently declares:

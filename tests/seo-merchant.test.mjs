@@ -23,6 +23,10 @@ const availableWatch = {
   mpn: "01.02.0470.405",
   gtin: "1234567890123",
   productType: "Chronograph",
+  googleCategory: "201",
+  color: "Black",
+  ageGroup: "Adult",
+  gender: "Unisex",
   specs: { reference: "01.02.0470.405", year: "1999" },
 };
 
@@ -44,7 +48,11 @@ test("Merchant Center feed contains complete available inventory and excludes so
   assert.match(xml, /<g:gtin>1234567890123<\/g:gtin>/);
   assert.match(xml, /<g:mpn>01\.02\.0470\.405<\/g:mpn>/);
   assert.match(xml, /A rare &amp; exceptionally well-preserved example/);
-  assert.match(xml, /Apparel &amp; Accessories &gt; Jewelry &gt; Watches/);
+  assert.match(xml, /<g:google_product_category>201<\/g:google_product_category>/);
+  assert.match(xml, /<g:product_type>Chronograph<\/g:product_type>/);
+  assert.match(xml, /<g:color>Black<\/g:color>/);
+  assert.match(xml, /<g:age_group>adult<\/g:age_group>/);
+  assert.match(xml, /<g:gender>unisex<\/g:gender>/);
   assert.match(xml, /<g:price>0\.00 GBP<\/g:price>/);
   assert.match(xml, /<g:country>FR<\/g:country>[\s\S]*?<g:price>50\.00 GBP<\/g:price>/);
   assert.match(xml, /<g:country>US<\/g:country>[\s\S]*?<g:price>80\.00 GBP<\/g:price>/);
