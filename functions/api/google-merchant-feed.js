@@ -28,12 +28,56 @@ function shippingXml(country, service, price) {
     </g:shipping>`;
 }
 
+function meaningfulIdentifier(value) {
+  const identifier = cleanText(value);
+  return /^(?:n\/?a|none|unknown|not\s+applicable|-+)$/i.test(identifier) ? "" : identifier;
+}
+
+function imageAssetKey(value) {
+  const image = cleanText(value);
+  try {
+    const url = new URL(image);
+    url.hash = "";
+    url.search = "";
+    let path = url.pathname;
+
+    // Cloudinary transformations and version segments can give the same asset
+    // several different URLs. Use the underlying watches asset path instead.
+    if (url.hostname.endsWith("cloudinary.com")) {
+      const watchesIndex = path.indexOf("/watches/");
+      if (watchesIndex >= 0) path = path.slice(watchesIndex + 1);
+    }
+
+    return `${url.hostname.toLowerCase()}/${path.replace(/\.[a-z0-9]+$/i, "")}`;
+  } catch {
+    return image;
+  }
+}
+
+function uniqueProductImages(watch) {
+  const seen = new Set();
+  return [watch.image, ...(Array.isArray(watch.images) ? watch.images : [])]
+    .filter(Boolean)
+    .filter((image) => {
+      const key = imageAssetKey(image);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
 function itemXml(watch) {
   const price = numericPrice(watch.price);
-  const images = [...new Set([watch.image, ...(Array.isArray(watch.images) ? watch.images : [])].filter(Boolean))];
+  const images = uniqueProductImages(watch);
   const rawGtin = cleanText(watch.gtin).replace(/[^0-9]/g, "");
   const gtin = [8, 12, 13, 14].includes(rawGtin.length) ? rawGtin : "";
-  const mpn = cleanText(watch.mpn) || watchReference(watch);
+  const mpn = meaningfulIdentifier(cleanText(watch.mpn) || watchReference(watch));
+  const merchantWatch = {
+    ...watch,
+    mpn,
+    reference: mpn,
+    specs: { ...(watch.specs || {}), reference: mpn },
+  };
   const productType = cleanText(watch.productType) || "Luxury Watches";
   const googleCategory = cleanText(watch.googleCategory) || GOOGLE_WATCH_CATEGORY;
   const color = cleanText(watch.color);
@@ -55,8 +99,8 @@ function itemXml(watch) {
 
   return `<item>
     <g:id>${xmlEscape(watch.listingId || watch.id)}</g:id>
-    <title>${xmlEscape(truncateAtWord(watchDisplayName(watch), 150))}</title>
-    <description>${xmlEscape(truncateAtWord(watchDescription(watch), 5000))}</description>
+    <title>${xmlEscape(truncateAtWord(watchDisplayName(merchantWatch), 150))}</title>
+    <description>${xmlEscape(truncateAtWord(watchDescription(merchantWatch), 5000))}</description>
     <link>${xmlEscape(watchUrl(watch))}</link>
     <g:image_link>${xmlEscape(images[0])}</g:image_link>
     ${additionalImages}

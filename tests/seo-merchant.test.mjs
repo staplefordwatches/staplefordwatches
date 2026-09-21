@@ -15,10 +15,10 @@ const availableWatch = {
   status: "Available",
   dateAdded: "2026-09-20",
   description: "A rare & exceptionally well-preserved example.",
-  image: "https://images.example.com/sw060/01.jpg",
+  image: "https://res.cloudinary.com/demo/image/upload/v123456/watches/SW060/01.jpg",
   images: [
-    "https://images.example.com/sw060/01.jpg",
-    "https://images.example.com/sw060/02.jpg",
+    "https://res.cloudinary.com/demo/image/upload/f_auto,q_auto/watches/SW060/01",
+    "https://res.cloudinary.com/demo/image/upload/f_auto,q_auto/watches/SW060/02",
   ],
   mpn: "01.02.0470.405",
   gtin: "1234567890123",
@@ -53,9 +53,27 @@ test("Merchant Center feed contains complete available inventory and excludes so
   assert.match(xml, /<g:color>Black<\/g:color>/);
   assert.match(xml, /<g:age_group>adult<\/g:age_group>/);
   assert.match(xml, /<g:gender>unisex<\/g:gender>/);
+  assert.equal((xml.match(/<g:image_link>/g) || []).length, 1);
+  assert.equal((xml.match(/<g:additional_image_link>/g) || []).length, 1);
+  assert.doesNotMatch(xml, /additional_image_link>[^<]*\/SW060\/01/);
   assert.match(xml, /<g:price>0\.00 GBP<\/g:price>/);
   assert.match(xml, /<g:country>FR<\/g:country>[\s\S]*?<g:price>50\.00 GBP<\/g:price>/);
   assert.match(xml, /<g:country>US<\/g:country>[\s\S]*?<g:price>80\.00 GBP<\/g:price>/);
+});
+
+test("Merchant Center feed omits placeholder identifiers", () => {
+  const xml = buildMerchantFeed([{
+    ...availableWatch,
+    listingId: "SW038",
+    title: "Shadow Prototype",
+    mpn: "N/A",
+    gtin: "",
+    specs: { ...availableWatch.specs, reference: "N/A" },
+  }]);
+
+  assert.doesNotMatch(xml, /<g:mpn>/);
+  assert.doesNotMatch(xml, /\bN\/A\b/);
+  assert.match(xml, /<g:identifier_exists>no<\/g:identifier_exists>/);
 });
 
 test("dynamic sitemap includes product and journal URLs with modification dates", () => {
