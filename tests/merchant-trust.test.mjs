@@ -71,3 +71,22 @@ test("payment marks use the supplied production artwork", () => {
   assert.match(applePayLogo, /viewBox="0 0 165\.52107 105\.9651"/);
   assert.match(applePayLogo, /id="Artwork"/);
 });
+
+test("site typography uses self-hosted IBM Plex Mono as one clean source", () => {
+  assert.match(html, /href="\/fonts\/ibm-plex-mono-regular-latin1-v2\.5\.0\.woff2" rel="preload" type="font\/woff2"/);
+  for (const [weight, file] of [
+    [300, "light"],
+    [400, "regular"],
+    [500, "medium"],
+    [600, "semibold"],
+    [700, "bold"],
+  ]) {
+    assert.match(
+      html,
+      new RegExp(`@font-face\\{font-family:"IBM Plex Mono";src:url\\("\\/fonts\\/ibm-plex-mono-${file}-latin1-v2\\.5\\.0\\.woff2"\\) format\\("woff2"\\);font-weight:${weight};font-style:normal;font-display:swap\\}`)
+    );
+  }
+  assert.match(html, /--font-body:"IBM Plex Mono","Courier New",monospace/);
+  assert.doesNotMatch(html, /Sweet Sans Pro/);
+  assert.doesNotMatch(html, /fonts\.(?:googleapis|gstatic)\.com/);
+});
