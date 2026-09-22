@@ -52,12 +52,15 @@ test("the footer identifies and positions every accepted payment method accessib
   }
   assert.match(html, /class="sw-payment-marks" role="list"/);
   assert.match(html, /class="sw-footer-legal"[^>]*>[\s\S]*?<\/div><div aria-labelledby="swPaymentMethodsTitle" class="sw-footer-payments"/);
-  assert.match(html, /aria-label="American Express" class="sw-payment-mark sw-payment-mark--official sw-payment-mark--amex"><img[^>]*src="\/assets\/payment\/american-express\.svg"/);
+  assert.match(html, /aria-label="American Express" class="sw-payment-mark sw-payment-mark--amex"><img[^>]*height="24"[^>]*src="\/assets\/payment\/american-express\.svg"[^>]*width="24"/);
   assert.match(html, /aria-label="Apple Pay" class="sw-payment-mark sw-payment-mark--official sw-payment-mark--apple"><img[^>]*src="\/assets\/payment\/apple-pay\.svg"/);
   assert.match(html, /aria-label="Revolut Pay" class="sw-payment-mark sw-payment-mark--wide sw-payment-mark--revolut"><img[^>]*src="\/assets\/payment\/revolut-pay\.svg"/);
   assert.doesNotMatch(html, /sw-payment-amex|sw-payment-brand--apple|sw-payment-brand--revolut/);
   assert.match(html, /\.sw-payment-mark--official\{[^}]*padding:0;[^}]*border:0;[^}]*background:transparent/);
   assert.match(html, /\.sw-payment-mark\{[^}]*width:48px;height:30px[^}]*border:1px solid #d9dde3/);
+  assert.match(html, /\.sw-payment-mark--amex\{width:48px;height:30px\}/);
+  assert.match(html, /\.sw-payment-mark--amex img\{width:24px;height:24px\}/);
+  assert.match(html, /\.sw-payment-mark--revolut img\{width:40px;max-width:40px\}/);
   assert.doesNotMatch(html, /\.sw-footer-payments\{[^}]*border-top/);
   assert.match(html, /const copyrightAnchor = footerPayments \|\| footerLegal;/);
 });
