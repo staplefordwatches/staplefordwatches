@@ -5,9 +5,11 @@ import test from "node:test";
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const robots = await readFile(new URL("../robots.txt", import.meta.url), "utf8");
 const sitemap = await readFile(new URL("../sitemap.xml", import.meta.url), "utf8");
-const [americanExpressLogo, applePayLogo] = await Promise.all([
+const [americanExpressLogo, applePayLogo, caslonRoman, caslonItalic] = await Promise.all([
   readFile(new URL("../assets/payment/american-express.svg", import.meta.url), "utf8"),
   readFile(new URL("../assets/payment/apple-pay.svg", import.meta.url), "utf8"),
+  readFile(new URL("../fonts/caslon-540-lt-std-roman-v1.ttf", import.meta.url)),
+  readFile(new URL("../fonts/caslon-540-lt-std-italic-v1.ttf", import.meta.url)),
 ]);
 
 test("business identity and customer-service details remain on the contact and legal pages", () => {
@@ -72,21 +74,18 @@ test("payment marks use the supplied production artwork", () => {
   assert.match(applePayLogo, /id="Artwork"/);
 });
 
-test("site typography uses self-hosted IBM Plex Mono as one clean source", () => {
-  assert.match(html, /href="\/fonts\/ibm-plex-mono-regular-latin1-v2\.5\.0\.woff2" rel="preload" type="font\/woff2"/);
-  for (const [weight, file] of [
-    [300, "light"],
-    [400, "regular"],
-    [500, "medium"],
-    [600, "semibold"],
-    [700, "bold"],
-  ]) {
-    assert.match(
-      html,
-      new RegExp(`@font-face\\{font-family:"IBM Plex Mono";src:url\\("\\/fonts\\/ibm-plex-mono-${file}-latin1-v2\\.5\\.0\\.woff2"\\) format\\("woff2"\\);font-weight:${weight};font-style:normal;font-display:swap\\}`)
-    );
-  }
-  assert.match(html, /--font-body:"IBM Plex Mono","Courier New",monospace/);
-  assert.doesNotMatch(html, /Sweet Sans Pro/);
+test("site typography uses the supplied Caslon Roman and Italic as one clean source", () => {
+  assert.match(html, /href="\/fonts\/caslon-540-lt-std-roman-v1\.ttf" rel="preload" type="font\/ttf"/);
+  assert.match(html, /href="\/fonts\/caslon-540-lt-std-italic-v1\.ttf" rel="preload" type="font\/ttf"/);
+  assert.match(html, /@font-face\{font-family:"Caslon 540 LT Std";src:url\("\/fonts\/caslon-540-lt-std-roman-v1\.ttf"\) format\("truetype"\);font-weight:400;font-style:normal;font-display:swap\}/);
+  assert.match(html, /@font-face\{font-family:"Caslon 540 LT Std";src:url\("\/fonts\/caslon-540-lt-std-italic-v1\.ttf"\) format\("truetype"\);font-weight:400;font-style:italic;font-display:swap\}/);
+  assert.match(html, /--font-body:"Caslon 540 LT Std","Times New Roman",serif/);
+  assert.match(html, /\.curated-hero-title\{[^}]*font-style:italic/);
+  assert.match(html, /\.journal-hero-title\{[^}]*font-style:italic/);
+  assert.deepEqual([...caslonRoman.subarray(0, 4)], [0, 1, 0, 0]);
+  assert.deepEqual([...caslonItalic.subarray(0, 4)], [0, 1, 0, 0]);
+  assert.ok(caslonRoman.length > 70_000);
+  assert.ok(caslonItalic.length > 45_000);
+  assert.doesNotMatch(html, /IBM Plex Mono|ibm-plex-mono|Sweet Sans Pro/i);
   assert.doesNotMatch(html, /fonts\.(?:googleapis|gstatic)\.com/);
 });
