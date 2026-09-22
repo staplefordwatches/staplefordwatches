@@ -5,10 +5,9 @@ import test from "node:test";
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const robots = await readFile(new URL("../robots.txt", import.meta.url), "utf8");
 const sitemap = await readFile(new URL("../sitemap.xml", import.meta.url), "utf8");
-const [americanExpressLogo, applePayLogo, revolutPayLogo] = await Promise.all([
+const [americanExpressLogo, applePayLogo] = await Promise.all([
   readFile(new URL("../assets/payment/american-express.svg", import.meta.url), "utf8"),
   readFile(new URL("../assets/payment/apple-pay.svg", import.meta.url), "utf8"),
-  readFile(new URL("../assets/payment/revolut-pay.svg", import.meta.url), "utf8"),
 ]);
 
 test("business identity and customer-service details remain on the contact and legal pages", () => {
@@ -47,21 +46,20 @@ test("the simplified contact experience keeps only the requested actions", () =>
 
 test("the footer identifies and positions every accepted payment method accessibly", () => {
   assert.match(html, /id="swPaymentMethodsTitle">Accepted payment methods<\/p>/);
-  for (const method of ["American Express", "Apple Pay", "Mastercard", "Visa", "Onelink", "Amazon Pay", "Revolut Pay"]) {
+  for (const method of ["American Express", "Apple Pay", "Mastercard", "Visa", "Onelink", "Amazon Pay"]) {
     assert.match(html, new RegExp(`aria-label="${method}"`));
   }
   assert.match(html, /class="sw-payment-marks" role="list"/);
   assert.match(html, /class="sw-footer-legal"[^>]*>[\s\S]*?<\/div><div aria-labelledby="swPaymentMethodsTitle" class="sw-footer-payments"/);
   assert.match(html, /aria-label="American Express" class="sw-payment-mark sw-payment-mark--amex"><img[^>]*height="24"[^>]*src="\/assets\/payment\/american-express\.svg"[^>]*width="24"/);
   assert.match(html, /aria-label="Apple Pay" class="sw-payment-mark sw-payment-mark--official sw-payment-mark--apple"><img[^>]*src="\/assets\/payment\/apple-pay\.svg"/);
-  assert.match(html, /aria-label="Revolut Pay" class="sw-payment-mark sw-payment-mark--wide sw-payment-mark--revolut"><img[^>]*src="\/assets\/payment\/revolut-pay\.svg"/);
   assert.doesNotMatch(html, /sw-payment-amex|sw-payment-brand--apple|sw-payment-brand--revolut/);
   assert.match(html, /\.sw-payment-mark--official\{[^}]*padding:0;[^}]*border:0;[^}]*background:transparent/);
   assert.match(html, /\.sw-payment-mark\{[^}]*width:48px;height:30px[^}]*border:1px solid #d9dde3/);
   assert.match(html, /\.sw-payment-mark--amex\{width:48px;height:30px\}/);
   assert.match(html, /\.sw-payment-mark--amex img\{width:24px;height:24px\}/);
-  assert.match(html, /\.sw-payment-mark--revolut img\{width:40px;max-width:40px\}/);
   assert.doesNotMatch(html, /\.sw-footer-payments\{[^}]*border-top/);
+  assert.doesNotMatch(html, /aria-label="Revolut Pay"|\/assets\/payment\/revolut-pay\.svg/);
   assert.match(html, /const copyrightAnchor = footerPayments \|\| footerLegal;/);
 });
 
@@ -71,6 +69,4 @@ test("payment marks use the supplied production artwork", () => {
   assert.match(americanExpressLogo, /#006FCF/i);
   assert.match(applePayLogo, /viewBox="0 0 165\.52107 105\.9651"/);
   assert.match(applePayLogo, /id="Artwork"/);
-  assert.match(revolutPayLogo, /com\.revolut\.payments:revolutpaylite-internal:3\.4\.0/);
-  assert.match(revolutPayLogo, /viewBox="0 0 38\.112 16"/);
 });
