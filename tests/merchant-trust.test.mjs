@@ -47,8 +47,12 @@ test("the footer identifies and positions every accepted payment method accessib
   }
   assert.match(html, /class="sw-payment-marks" role="list"/);
   assert.match(html, /class="sw-footer-legal"[^>]*>[\s\S]*?<\/div><div aria-labelledby="swPaymentMethodsTitle" class="sw-footer-payments"/);
-  assert.match(html, /aria-label="American Express" class="sw-payment-mark sw-payment-mark--amex"><svg/);
-  assert.doesNotMatch(html, /<span aria-hidden="true">AMEX<\/span>/);
+  assert.match(html, /aria-label="American Express"[^>]*>[\s\S]*?class="sw-payment-amex"><span>AM<\/span><span>EX<\/span>/);
+  assert.doesNotMatch(html, /aria-label="American Express"[^>]*><svg/);
+  assert.match(html, /aria-label="Apple Pay" class="sw-payment-mark sw-payment-mark--apple">[\s\S]*?class="sw-payment-brand sw-payment-brand--apple">[\s\S]*?<span>Pay<\/span>/);
+  assert.match(html, /\.sw-payment-mark--apple\{[^}]*border-color:#000/);
+  assert.match(html, /aria-label="Revolut Pay" class="sw-payment-mark">[\s\S]*?class="sw-payment-brand sw-payment-brand--revolut">[\s\S]*?<span>Pay<\/span>/);
+  assert.doesNotMatch(html, /<span>Revolut<\/span>/);
   assert.match(html, /\.sw-payment-mark\{[^}]*width:48px;height:30px[^}]*border:1px solid #d9dde3/);
   assert.doesNotMatch(html, /\.sw-footer-payments\{[^}]*border-top/);
   assert.match(html, /const copyrightAnchor = footerPayments \|\| footerLegal;/);
