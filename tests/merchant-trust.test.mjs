@@ -50,6 +50,7 @@ test("the footer identifies and positions every accepted payment method accessib
     assert.match(html, new RegExp(`aria-label="${method}"`));
   }
   assert.match(html, /class="sw-payment-marks" role="list"/);
+  assert.match(html, /class="sw-payment-marks" role="list">[\s\S]*?aria-label="Visa"[\s\S]*?aria-label="Mastercard"[\s\S]*?aria-label="Apple Pay"[\s\S]*?aria-label="American Express"[\s\S]*?aria-label="Amazon Pay"[\s\S]*?aria-label="Onelink"[\s\S]*?<\/ul>/);
   assert.match(html, /class="sw-footer-legal"[^>]*>[\s\S]*?<\/div><div aria-labelledby="swPaymentMethodsTitle" class="sw-footer-payments"/);
   assert.match(html, /aria-label="American Express" class="sw-payment-mark sw-payment-mark--amex"><img[^>]*height="24"[^>]*src="\/assets\/payment\/american-express\.svg"[^>]*width="24"/);
   assert.match(html, /aria-label="Apple Pay" class="sw-payment-mark sw-payment-mark--official sw-payment-mark--apple"><img[^>]*src="\/assets\/payment\/apple-pay\.svg"/);
