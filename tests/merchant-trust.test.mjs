@@ -39,3 +39,11 @@ test("the simplified contact experience keeps only the requested actions", () =>
   assert.doesNotMatch(html, /class="sw-footer-business"/);
   assert.match(html, /actions:\[\{ label:'Email us'.*\{ label:'Chat to us'/);
 });
+
+test("the footer identifies every accepted payment method accessibly", () => {
+  assert.match(html, /id="swPaymentMethodsTitle">Accepted payment methods<\/p>/);
+  for (const method of ["American Express", "Apple Pay", "Mastercard", "Visa", "Onelink", "Amazon Pay", "Revolut Pay"]) {
+    assert.match(html, new RegExp(`aria-label="${method}"`));
+  }
+  assert.match(html, /class="sw-payment-marks" role="list"/);
+});
