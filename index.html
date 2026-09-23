@@ -1231,6 +1231,7 @@ html body>main.info-page{flex:1 0 auto!important;width:100%!important;display:fl
 body.legal-info-active .info-body{width:min(calc(100% - 32px),720px);max-width:720px;margin:0 auto;padding:0 0 72px;background:var(--curated-shell,#f2f2f0)!important}
 .info-inline-link{color:var(--sw-navy);text-decoration:underline;text-underline-offset:2px}
 .info-inline-link:hover{opacity:.68}
+@media (min-width:768px){.info-hero--contact + .info-body{text-align:center}}
 .info-policy h3{margin:32px 0 10px;font-family:var(--font-body);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--sw-navy)}
 .info-policy h3:first-child{margin-top:0}
 .info-policy p{margin:0 0 14px;font-family:var(--font-body);font-size:14px;font-weight:400;line-height:1.7;letter-spacing:.01em;color:rgba(10,35,66,.72)}
@@ -3344,6 +3345,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const data = INFO_CONTENT[key];
     if(!data || !infoHero || !infoHeroKicker || !infoTitle || !infoCopy || !infoActions || !infoBody) return;
     infoHero.classList.toggle('info-hero--legal', data.variant === 'legal');
+     infoHero.classList.toggle('info-hero--contact', data.variant === 'contact');
     infoHeroKicker.hidden = !data.showKicker;
     infoTitle.innerHTML = data.title;
     infoCopy.innerHTML = (data.copy || []).join(' ');
