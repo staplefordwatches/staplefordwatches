@@ -22,14 +22,24 @@ class AttributeHandler {
   element(element) { element.setAttribute(this.name, this.value); }
 }
 
+class VisaMarkHandler {
+  element(element) {
+    element.setAttribute("style", "width:34px;height:16px;max-width:34px;max-height:16px");
+  }
+}
+
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   const productMatch = url.pathname.match(/^\/watches\/([^/]+)\/?$/i);
   const articleMatch = url.pathname.match(/^\/journal\/([^/]+)\/?$/i);
-  if (!productMatch && !articleMatch) return context.next();
 
   const response = await context.next();
   if (!response.headers.get("Content-Type")?.includes("text/html")) return response;
+
+  const rewriter = new HTMLRewriter()
+    .on('li[aria-label="Visa"] svg', new VisaMarkHandler());
+
+  if (!productMatch && !articleMatch) return rewriter.transform(response);
 
   const isProduct = Boolean(productMatch);
   const name = humanizeSlug((productMatch || articleMatch)[1], { product: isProduct });
@@ -39,7 +49,7 @@ export async function onRequest(context) {
     ? `View the pre-owned ${name} from Stapleford Watches, with insured delivery and a 14-day eligible online return window.`
     : `${name} — an article from the Stapleford Watches journal.`;
 
-  return new HTMLRewriter()
+  return rewriter
     .on("title", new ContentHandler(title))
     .on('link[rel="canonical"]', new AttributeHandler("href", canonical))
     .on('meta[name="description"]', new AttributeHandler("content", description))
