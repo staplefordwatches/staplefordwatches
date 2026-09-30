@@ -231,3 +231,22 @@ test("webhook refresh replaces a snapshot without discarding the last good copy 
   assert.equal(failed.headers.get("X-Stapleford-Cache"), "STALE");
   assert.deepEqual(await failed.json(), { watches: [{ id: "new" }] });
 });
+
+test('watch requests see a completed edit in shared storage even while the edge copy is fresh', async () => {
+  const kv = new MemoryKv();
+  const env = { CATALOG_CACHE: kv };
+  let title = 'Se';
+  let reads = 0;
+  const options = {
+    key: 'watches', freshSeconds: 300, browserSeconds: 0, maxEdgeSeconds: 0,
+    producer: async () => { reads += 1; return Response.json({ watches: [{ title }] }); },
+  };
+  const first = await withDataCache(context('https://example.com/api/watches', env), options);
+  assert.equal((await first.json()).watches[0].title, 'Se');
+  title = 'Seamaster Bumper';
+  await refreshDataCache(context('https://example.com/api/watches', env), options);
+  const next = await withDataCache(context('https://example.com/api/watches', env), options);
+  assert.equal(next.headers.get('Cache-Control'), 'no-store');
+  assert.equal((await next.json()).watches[0].title, title);
+  assert.equal(reads, 2, 'visitor refreshes reuse shared data without another Airtable read');
+});

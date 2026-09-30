@@ -1,5 +1,6 @@
 import { withDataCache } from "../_utils/data-cache.js";
 import { AIRTABLE_CATALOGS, ensureAirtableWebhook } from "../_utils/airtable-webhooks.js";
+import { uniqueWatchImages } from "../_utils/watch-images.js";
 
 export async function loadWatches(context) {
   try {
@@ -256,7 +257,7 @@ export async function loadWatches(context) {
           "Primary Image URL",
           "Image URL"
         ]));
-        const images = [...new Set([suppliedMainImage, ...buildImages(sku, imageCount)].filter(Boolean))];
+        const images = uniqueWatchImages([suppliedMainImage, ...buildImages(sku, imageCount)]);
         const mainImage = images[0] || "";
 
         return {
@@ -325,7 +326,8 @@ export async function onRequest(context) {
   const response = await withDataCache(context, {
     key: "watches",
     freshSeconds: 60 * 5,
-    browserSeconds: 30,
+    browserSeconds: 0,
+    maxEdgeSeconds: 0,
     blockingRefreshWhenStale: false,
     producer: () => loadWatches(context),
   });
