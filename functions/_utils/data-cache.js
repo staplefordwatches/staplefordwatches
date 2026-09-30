@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v9";
+const CACHE_VERSION = "v10";
 const EDGE_RETENTION_SECONDS = 60 * 60 * 24 * 30;
 const DEFAULT_FRESH_SECONDS = 60 * 60 * 6;
 const DEFAULT_BROWSER_SECONDS = 60;
@@ -171,11 +171,12 @@ export async function withDataCache(context, {
   freshSeconds = DEFAULT_FRESH_SECONDS,
   browserSeconds = DEFAULT_BROWSER_SECONDS,
   blockingRefreshWhenStale = false,
+  maxEdgeSeconds = 60,
 }) {
   const cache = caches.default;
   const edgeKey = edgeRequest(context.request.url, key);
   const binding = sharedBinding(context.env);
-  const edgeFreshSeconds = binding ? Math.min(freshSeconds, 60) : freshSeconds;
+  const edgeFreshSeconds = binding ? Math.min(freshSeconds, maxEdgeSeconds) : freshSeconds;
   const cacheScope = binding ? "GLOBAL" : "LOCAL";
   const forceRefresh = validRefreshRequest(context);
   let staleResponse = null;

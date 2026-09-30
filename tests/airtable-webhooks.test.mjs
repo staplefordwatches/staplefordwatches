@@ -167,11 +167,13 @@ test("retrieves webhook payloads and advances the saved cursor", async () => {
   }
 });
 
-test("debounces duplicate formula notifications and exposes secret-free health", async () => {
+test("retains every watch edit, debounces journal notifications, and exposes secret-free health", async () => {
   const kv = new MemoryKv();
   const env = { CATALOG_CACHE: kv };
   assert.equal(await shouldRefreshForNotification(env, "watches"), true);
-  assert.equal(await shouldRefreshForNotification(env, "watches"), false);
+  assert.equal(await shouldRefreshForNotification(env, "watches"), true);
+  assert.equal(await shouldRefreshForNotification(env, "journal"), true);
+  assert.equal(await shouldRefreshForNotification(env, "journal"), false);
 
   await kv.put(webhookStateKey("watches"), JSON.stringify({
     id: "achWebhook123",

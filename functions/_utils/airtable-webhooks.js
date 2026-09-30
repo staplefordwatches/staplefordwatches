@@ -248,6 +248,9 @@ export async function findVerifiedCatalog(env, body, header) {
 }
 
 export async function shouldRefreshForNotification(env, key) {
+  // A second watch notification can contain the rest of a newly typed title.
+  // Never acknowledge it without rebuilding the catalogue.
+  if (key === "watches") return true;
   const binding = cacheBinding(env);
   if (!binding) return true;
   const debounceKey = webhookDebounceKey(key);

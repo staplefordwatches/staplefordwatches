@@ -30,21 +30,22 @@ test("only the LCP candidate gets high network priority", () => {
 test("an unchanged fresh catalogue does not replace already-painted cards", () => {
   assert.match(
     html,
-    /if\(cached && sameWatchData\(cached, fresh\)\)\{ saveCache\(fresh\); return; \}/,
+    /if\(lastCatalogRaw && sameWatchData\(lastCatalogRaw, fresh\)\)\{ saveCache\(fresh\); return; \}/,
   );
 });
 
-test("the catalogue reuses browser and local snapshots while refreshing in the background", () => {
-  assert.match(html, /stapleford_watches_cache_v15_fast_catalogue/);
-  assert.match(html, /fetch\('\/api\/watches\?schema=4', \{/);
+test("the catalogue uses a current server snapshot and keeps local data as an error fallback", () => {
+  assert.match(html, /stapleford_watches_cache_v16_complete_catalogue/);
+  assert.match(html, /fetch\('\/api\/watches\?schema=5', \{/);
   assert.match(html, /cache:'default'/);
   assert.match(html, /credentials:'omit'/);
   assert.match(html, /const CACHE_MAX_AGE = 1000 \* 60 \* 60 \* 24;/);
-  assert.match(html, /requestIdleCallback\(resolve, \{ timeout:1200 \}\)/);
+  assert.match(html, /if\(cached\)\{ renderLoaded\(cached, \{ fromCache:true \}\)/);
+  assert.match(html, /setInterval\(refreshVisibleCatalog, 30000\)/);
 });
 
 test("catalogue data is preloaded and checkout code is loaded only on demand", () => {
-  assert.match(html, /'\/api\/watches\?schema=4'/);
+  assert.match(html, /'\/api\/watches\?schema=5'/);
   assert.match(html, /l\.href=href/);
   assert.doesNotMatch(html, /<script async src="https:\/\/js\.stripe\.com\/v3\/">/);
   assert.match(html, /script\.src = 'https:\/\/js\.stripe\.com\/v3\/';/);

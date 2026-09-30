@@ -11,6 +11,18 @@ import { loadJournal } from "./journal.js";
 import { loadWatches } from "./watches.js";
 
 const MAX_NOTIFICATION_BYTES = 16 * 1024;
+const catalogRefreshes = new Map();
+
+async function queueCatalogRefresh(key, refresh) {
+  const previous = catalogRefreshes.get(key) || Promise.resolve();
+  const next = previous.catch(() => {}).then(refresh);
+  catalogRefreshes.set(key, next);
+  try {
+    return await next;
+  } finally {
+    if (catalogRefreshes.get(key) === next) catalogRefreshes.delete(key);
+  }
+}
 
 function json(data, status = 200) {
   return Response.json(data, {
@@ -37,7 +49,9 @@ async function rebuildCatalog(context, key) {
     browserSeconds: isWatches ? 0 : 60,
     producer: () => isWatches ? loadWatches(refreshContext) : loadJournal(refreshContext),
   });
-  if (!response.ok) throw new Error(`${key} refresh returned ${response.status}`);
+  if (!response.ok || response.headers.get("X-Stapleford-Cache") === "STALE") {
+    throw new Error(`${key} refresh did not produce a current catalogue (${response.status})`);
+  }
 }
 
 export async function onRequestGet(context) {
@@ -63,9 +77,17 @@ export async function onRequestPost(context) {
   const shouldRefresh = await shouldRefreshForNotification(context.env || {}, verified.catalog.key);
   if (shouldRefresh) {
     try {
-      await drainWebhookPayloads(context.env || {}, verified.catalog, verified.state);
-      await rebuildCatalog(context, verified.catalog.key);
-      await recordWebhookRefresh(context.env || {}, verified.catalog.key);
+      // An edit arriving during a refresh needs a subsequent read, rather than
+      // sharing the in-flight snapshot that may contain only the first letters.
+      await queueCatalogRefresh(verified.catalog.key, async () => {
+        const latest = await findVerifiedCatalog(
+          context.env || {}, body, context.request.headers.get("X-Airtable-Content-MAC") || ""
+        );
+        if (!latest) throw new Error("Webhook configuration changed during refresh");
+        await drainWebhookPayloads(context.env || {}, latest.catalog, latest.state);
+        await rebuildCatalog(context, latest.catalog.key);
+        await recordWebhookRefresh(context.env || {}, latest.catalog.key);
+      });
     } catch (error) {
       console.error(`Airtable webhook catalogue refresh failed: ${error.message}`);
       await releaseNotificationRefresh(context.env || {}, verified.catalog.key).catch(() => {});

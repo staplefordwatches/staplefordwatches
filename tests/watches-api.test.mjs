@@ -70,9 +70,12 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
       "}",
     ].join("\n");
     const webhookUrl = `data:text/javascript;base64,${Buffer.from(webhookSource).toString("base64")}`;
+    const imagesSource = await readFile(new URL("../functions/_utils/watch-images.js", import.meta.url), "utf8");
+    const imagesUrl = `data:text/javascript;base64,${Buffer.from(imagesSource).toString("base64")}`;
     const watchesSource = (await readFile(new URL("../functions/api/watches.js", import.meta.url), "utf8"))
       .replace('"../_utils/data-cache.js"', `"${cacheUrl}"`)
-      .replace('"../_utils/airtable-webhooks.js"', `"${webhookUrl}"`);
+      .replace('"../_utils/airtable-webhooks.js"', `"${webhookUrl}"`)
+      .replace('"../_utils/watch-images.js"', `"${imagesUrl}"`);
     const { onRequest } = await import(`data:text/javascript;base64,${Buffer.from(watchesSource).toString("base64")}`);
     const makeContext = () => {
       const pending = [];
@@ -96,7 +99,7 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
     const refreshedPayload = await refreshed.json();
 
     assert.equal(first.status, 200);
-    assert.equal(first.headers.get("Cache-Control"), "public, max-age=30, s-maxage=60, stale-while-revalidate=60");
+    assert.equal(first.headers.get("Cache-Control"), "no-store");
     assert.equal(second.headers.get("X-Stapleford-Cache"), "EDGE");
     assert.equal(airtableReads, 2);
     assert.equal(globalThis.__airtableWebhookChecks, 4);
@@ -133,5 +136,5 @@ test("watches use a five-minute stale-while-revalidate fallback", async () => {
   const source = await readFile(new URL("../functions/api/watches.js", import.meta.url), "utf8");
   assert.match(source, /freshSeconds: 60 \* 5,/);
   assert.match(source, /blockingRefreshWhenStale: false,/);
-  assert.match(source, /browserSeconds: 30,/);
+  assert.match(source, /browserSeconds: 0,/);
 });
