@@ -8,16 +8,12 @@ const sitemap = await readFile(new URL("../sitemap.xml", import.meta.url), "utf8
 const [
   americanExpressLogo,
   applePayLogo,
-  caslonRoman,
-  caslonItalic,
   sweetSansLight,
   sweetSansRegular,
   sweetSansBold,
 ] = await Promise.all([
   readFile(new URL("../assets/payment/american-express.svg", import.meta.url), "utf8"),
   readFile(new URL("../assets/payment/apple-pay.svg", import.meta.url), "utf8"),
-  readFile(new URL("../fonts/caslon-540-lt-std-roman-v1.ttf", import.meta.url)),
-  readFile(new URL("../fonts/caslon-540-lt-std-italic-v1.ttf", import.meta.url)),
   readFile(new URL("../fonts/sweet-sans-pro-light-v1.otf", import.meta.url)),
   readFile(new URL("../fonts/sweet-sans-pro-regular-v1.otf", import.meta.url)),
   readFile(new URL("../fonts/sweet-sans-pro-bold-v1.otf", import.meta.url)),
@@ -85,12 +81,11 @@ test("payment marks use the supplied production artwork", () => {
   assert.match(applePayLogo, /id="Artwork"/);
 });
 
-test("site typography restores Sweet Sans while reserving Caslon for the catalogue introduction", () => {
+test("site typography uses Sweet Sans throughout, including the catalogue introduction", () => {
   assert.match(html, /href="\/fonts\/sweet-sans-pro-regular-v1\.otf" rel="preload" type="font\/otf"/);
   for (const [weight, file] of [
     ["300", "light"],
-    ["400", "regular"],
-    ["500", "regular"],
+    ["400 500", "regular"],
     ["600 700", "bold"],
   ]) {
     assert.match(
@@ -99,17 +94,14 @@ test("site typography restores Sweet Sans while reserving Caslon for the catalog
     );
   }
   assert.match(html, /--font-body:"Sweet Sans Pro",Arial,sans-serif/);
-  assert.match(html, /--font-editorial:"Caslon 540 LT Std","Times New Roman",serif/);
-  assert.match(html, /\.catalog-intro-title,\.catalog-intro-copy\{font-family:var\(--font-editorial\)\}/);
-  assert.match(html, /\.catalog-intro-title\{font-style:italic\}/);
-  assert.match(html, /class="curated-hero-title catalog-intro-title" id="catalogIntroTitle">Curator of modern and vintage timepieces\.<\/h1>/);
-  assert.match(html, /class="curated-hero-copy catalog-intro-copy">Whether you’re an avid collector/);
+  assert.match(html, /\.curated-hero-title\{[^}]*font-family:var\(--font-body\)/);
+  assert.match(html, /\.curated-hero-copy\{[^}]*font-family:var\(--font-body\)/);
+  assert.match(html, /class="curated-hero-title" id="catalogIntroTitle">Curator of modern and vintage timepieces\.<\/h1>/);
+  assert.match(html, /class="curated-hero-copy">Whether you’re an avid collector/);
   assert.doesNotMatch(html, /\.(?:curated|journal)-hero-title\{[^}]*font-style:italic/);
-  assert.deepEqual([...caslonRoman.subarray(0, 4)], [0, 1, 0, 0]);
-  assert.deepEqual([...caslonItalic.subarray(0, 4)], [0, 1, 0, 0]);
   for (const sweetSansFont of [sweetSansLight, sweetSansRegular, sweetSansBold]) {
     assert.equal(sweetSansFont.subarray(0, 4).toString("ascii"), "OTTO");
   }
-  assert.doesNotMatch(html, /IBM Plex Mono|ibm-plex-mono/i);
+  assert.doesNotMatch(html, /Caslon|font-editorial|fonnts\.com|IBM Plex Mono|ibm-plex-mono/i);
   assert.doesNotMatch(html, /fonts\.(?:googleapis|gstatic)\.com/);
 });
