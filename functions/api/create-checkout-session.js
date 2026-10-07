@@ -88,6 +88,7 @@ export async function onRequestPost({ request, env }) {
     add(params, "billing_address_collection", "required");
     add(params, "phone_number_collection[enabled]", "true");
     add(params, "permissions[update_shipping_details]", "server_only");
+    add(params, "custom_text[submit][message]", "For delivery outside the UK, customs duties, import taxes and courier clearance fees may be charged separately. These charges are not included in your checkout total and are the buyer’s responsibility.");
 
     ALLOWED_COUNTRIES.forEach((country, index) => {
       add(params, `shipping_address_collection[allowed_countries][${index}]`, country);
