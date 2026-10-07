@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Dispatch | Stapleford Watches</title>
+  <link rel="stylesheet" href="/dispatch/style.css">
+  <script src="/dispatch/app.js" defer></script>
+</head>
+<body>
+  <header class="header"><a href="/"><img src="/assets/stapleford-watches-logo-navy@2x.png" width="49" height="60" alt="Stapleford Watches"></a><span>DISPATCH</span><button id="logout" type="button" hidden>Sign out</button></header>
+  <main>
+    <p id="status" role="status" aria-live="polite"></p>
+    <section id="login-panel" class="login-panel">
+      <h1>Dispatch sign-in</h1>
+      <p>Use your private dispatch access key.</p>
+      <form id="login-form"><label for="access-key">Dispatch access key</label><input id="access-key" type="password" autocomplete="current-password" required maxlength="256"><button type="submit">Sign in</button></form>
+      <p class="small">This is the dispatch access key set in your hosting settings.</p>
+    </section>
+    <div id="workspace" hidden>
+      <div class="intro"><h1>Send a dispatch email</h1><p>Enter the parcel details, preview the email, then send.</p><p id="mode" class="mode"></p></div>
+      <div class="layout">
+        <form id="dispatch-form">
+          <label for="customer-name">Customer name</label><input id="customer-name" name="customerName" autocomplete="off" maxlength="100" required>
+          <label for="customer-email">Customer email</label><input id="customer-email" name="customerEmail" type="email" autocomplete="off" maxlength="254" required>
+          <label for="order-number">Order number</label><input id="order-number" name="orderNumber" maxlength="100" required><p class="hint">Use a unique reference for each sale, for example SW-1001.</p>
+          <label for="watch-name">Watch name and model</label><input id="watch-name" name="watchName" maxlength="256" required>
+          <label for="tracking-number">Tracking number</label><input id="tracking-number" name="trackingNumber" maxlength="100" required><p class="hint">Enter it without spaces.</p>
+          <label for="tracking-url">Tracking link</label><input id="tracking-url" name="trackingUrl" type="url" placeholder="https://…" maxlength="2048" required><p class="hint">Paste the link for this parcel. For overseas shipments, use the destination carrier’s link if available.</p>
+          <button type="submit" id="preview-button">Preview email</button>
+        </form>
+        <section class="preview-panel" aria-label="Email preview">
+          <div id="empty-preview"><p>Your email preview will appear here.</p></div>
+          <div id="email-preview" hidden>
+            <dl class="envelope"><dt>To</dt><dd id="preview-to"></dd><dt>Subject</dt><dd id="preview-subject"></dd><dt>Tracking site</dt><dd><a id="preview-host" target="_blank" rel="noopener noreferrer"></a></dd></dl>
+            <iframe id="preview-frame" sandbox="" title="Dispatch email preview"></iframe>
+            <label class="confirmation"><input id="confirmed-dispatched" type="checkbox"><span>The parcel has been handed to the courier.</span></label>
+            <div class="send-actions"><button id="send-button" type="button" disabled>Send dispatch email</button><button id="test-button" class="secondary" type="button" disabled>Send test to Ben</button></div>
+          </div>
+        </section>
+      </div>
+      <section class="history"><div class="history-heading"><h2>Recent submissions</h2><button id="refresh-history" class="secondary" type="button">Refresh</button></div><p class="small">Accepted means IONOS has queued the email. Sending or uncertain needs checking before any resend.</p><div id="history-records"></div></section>
+    </div>
+  </main>
+</body>
+</html>
