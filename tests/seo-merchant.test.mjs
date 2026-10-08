@@ -21,7 +21,7 @@ const availableWatch = {
     "https://res.cloudinary.com/demo/image/upload/f_auto,q_auto/watches/SW060/02",
   ],
   mpn: "01.02.0470.405",
-  gtin: "4006381333931",
+  gtin: "1234567890123",
   productType: "Chronograph",
   googleCategory: "201",
   color: "Black",
@@ -45,7 +45,7 @@ test("Merchant Center feed contains complete available inventory and excludes so
   assert.match(xml, /<g:availability>in_stock<\/g:availability>/);
   assert.match(xml, /<g:condition>used<\/g:condition>/);
   assert.match(xml, /<g:price>6750\.00 GBP<\/g:price>/);
-  assert.match(xml, /<g:gtin>4006381333931<\/g:gtin>/);
+  assert.match(xml, /<g:gtin>1234567890123<\/g:gtin>/);
   assert.match(xml, /<g:mpn>01\.02\.0470\.405<\/g:mpn>/);
   assert.match(xml, /A rare &amp; exceptionally well-preserved example/);
   assert.match(xml, /<g:google_product_category>201<\/g:google_product_category>/);
@@ -57,8 +57,8 @@ test("Merchant Center feed contains complete available inventory and excludes so
   assert.equal((xml.match(/<g:additional_image_link>/g) || []).length, 1);
   assert.doesNotMatch(xml, /additional_image_link>[^<]*\/SW060\/01/);
   assert.match(xml, /<g:price>0\.00 GBP<\/g:price>/);
-  assert.equal((xml.match(/<g:country>/g) || []).length, 1);
-  assert.match(xml, /<g:country>GB<\/g:country>/);
+  assert.match(xml, /<g:country>FR<\/g:country>[\s\S]*?<g:price>50\.00 GBP<\/g:price>/);
+  assert.match(xml, /<g:country>US<\/g:country>[\s\S]*?<g:price>80\.00 GBP<\/g:price>/);
 });
 
 test("Merchant Center feed omits placeholder identifiers", () => {
@@ -73,7 +73,7 @@ test("Merchant Center feed omits placeholder identifiers", () => {
 
   assert.doesNotMatch(xml, /<g:mpn>/);
   assert.doesNotMatch(xml, /\bN\/A\b/);
-  assert.doesNotMatch(xml, /<g:identifier_exists>/);
+  assert.match(xml, /<g:identifier_exists>no<\/g:identifier_exists>/);
 });
 
 test("dynamic sitemap includes product and journal URLs with modification dates", () => {
@@ -107,4 +107,3 @@ test("edge-rendered product and article metadata starts with a human-readable ti
   );
   assert.equal(humanizeSlug("how-to-buy-a-vintage-watch"), "How To Buy A Vintage Watch");
 });
-

@@ -34,12 +34,11 @@ async function airtableJson(url, token) {
 
 export function parsePriceToPence(value) {
   if (typeof value === "number" && Number.isFinite(value)) {
-    return value > 0 ? Math.round(value * 100) : 0;
+    return Math.round(value * 100);
   }
 
-  const cleaned = clean(value).replace(/^£\s*/, "").replace(/\s*GBP$/i, "");
-  if (!/^\d+(?:,\d{3})*(?:\.\d{1,2})?$/.test(cleaned)) return 0;
-  const pounds = Number(cleaned.replace(/,/g, ""));
+  const cleaned = String(value || "").replace(/[^0-9.]/g, "");
+  const pounds = Number(cleaned);
 
   if (!Number.isFinite(pounds) || pounds <= 0) return 0;
   return Math.round(pounds * 100);
@@ -111,7 +110,7 @@ export async function findWatchByListingId(env, listingId) {
 
   const brand = clean(field(fields, ["Brand", "brand"]));
   const title = clean(field(fields, ["Title", "Model", "Watch", "Name", "model", "name"]));
-  const status = clean(field(fields, ["Status", "status"]));
+  const status = clean(field(fields, ["Status", "status"])) || "Available";
   const price = field(fields, ["Price", "price"]);
   const pricePence = parsePriceToPence(price);
 
@@ -126,4 +125,3 @@ export async function findWatchByListingId(env, listingId) {
     name: [brand, title].filter(Boolean).join(" ") || sku || record.id,
   };
 }
-

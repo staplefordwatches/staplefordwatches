@@ -96,7 +96,7 @@ test("Journal data is served stale-while-revalidate instead of blocking readers"
   assert.match(source, /key: "journal-v2",/);
   assert.match(source, /freshSeconds: 60 \* 5,/);
   assert.match(source, /browserSeconds: 60,/);
-  assert.match(source, /blockingRefreshWhenStale: requireFresh,/);
+  assert.match(source, /blockingRefreshWhenStale: false,/);
 });
 
 test("the Journal preloads cached data and reserves image space", () => {
@@ -108,4 +108,3 @@ test("the Journal preloads cached data and reserves image space", () => {
   assert.match(html, /journal-list\{[^}]*min-height:calc\(100svh - 208px\)/);
   assert.match(html, /font-display:optional/);
 });
-

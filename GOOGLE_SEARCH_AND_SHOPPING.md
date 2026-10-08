@@ -1,6 +1,6 @@
 # Google Search and Shopping operating guide
 
-The website changes prepare crawlable product, brand, journal and policy pages plus an inventory feed. Rankings and Shopping visibility still depend on accurate inventory, Merchant Center approval, demand, competition, site reputation, and ongoing content—not a one-time switch.
+This repository now produces the technical inputs Google needs. Rankings and Shopping visibility still depend on accurate inventory, Merchant Center approval, demand, competition, site reputation, and ongoing content—not a one-time switch.
 
 ## 1. Merge and deploy
 
@@ -8,11 +8,7 @@ After the pull request is reviewed, merge it and wait for the production deploym
 
 - `https://staplefordwatches.co.uk/sitemap.xml`
 - `https://staplefordwatches.co.uk/api/google-merchant-feed`
-- An available and a sold `/watches/.../` URL: inspect the HTML before JavaScript runs for the model/reference, description, price/status and matching Product markup.
-- A `/brands/.../` page and a journal article.
-- `/contact/` and the delivery/returns pages: content must appear in the first response.
-- An obsolete product slug: HTTP 301 to the current canonical product URL.
-- An unknown product: HTTP 404. An unavailable catalogue: HTTP 503 with Retry-After, rather than a successful empty catalogue.
+- At least one live `/watches/.../` URL
 
 The sitemap and feed are generated from Airtable, so newly published inventory does not require hand-editing XML.
 
@@ -30,9 +26,7 @@ Required for every available watch:
 - Year, condition, contents, movement, case size, and case material where known.
 - Product Type, such as `Dive Watch`, `Chronograph`, or `Dress Watch`.
 
-Change the status immediately when a watch is reserved or sold. Sold and reserved watches retain their original product URLs, descriptions, photographs and references, remain in the organic sitemap, and are excluded from the Shopping feed. Sold pages show Sold, label any retained price as the last listed price, disable purchase and offer available alternatives or a sourcing enquiry. Do not turn every sold URL into a redirect to the home page.
-
-Blank or unknown status is not treated as available. Draft and incomplete records are not published. The feed requires a brand, title, unique ID, positive price and HTTPS image; duplicate IDs are withheld until corrected. `Google Shopping Ready` explicitly set to No/false blocks the feed. A blank readiness field is allowed for otherwise complete legacy listings. GTINs must have a valid length and checksum; a missing number does not prove that the manufacturer never assigned one, so the feed does not automatically claim `identifier_exists=no`. Never invent prices, references, GTINs, availability or provenance.
+Change the status immediately when a watch is reserved or sold. Sold and reserved watches remain useful organic pages but are excluded from the Shopping feed.
 
 ## 3. Configure Merchant Center
 
@@ -40,15 +34,17 @@ In Merchant Center, add a scheduled data source using:
 
 `https://staplefordwatches.co.uk/api/google-merchant-feed`
 
-Identify every existing data source before replacing one. Compare its item IDs, update times, prices and stock statuses with Airtable and the live website. Keep item IDs stable. Disable an obsolete source only after the replacement has fetched successfully and covers the correct stock; do not delete sources based on their age alone.
+This direct XML source replaces the old Make.com → Google Sheets catalogue bridge. Keep that Make scenario paused until Merchant Center has completed a successful fetch and the item totals match; it can then be deleted along with its Airtable and Google connections.
 
-Set it to fetch at least daily and refresh promptly after stock changes. Keep the website domain verified and claimed and enable Free listings. Enable Shopping ads only as part of an authorised advertising campaign; this change creates no campaign and spends no advertising budget.
+Set it to fetch daily. Keep the website domain verified and claimed, and enable both Free listings and Shopping ads.
 
-The feed defaults to **United Kingdom only**, in GBP with free UK shipping. International checkout remains available according to the delivery policy. Product-level shipping declarations are separate from checkout destinations.
+The feed currently declares:
 
-For a deliberate international Merchant rollout, set Cloudflare `MERCHANT_TARGET_COUNTRIES` to comma-separated supported country codes, for example `GB,FR,US`. The existing £50 Europe and £80 international rates are retained for those explicitly selected markets. Adjust Merchant Center data-source countries, additional countries and shipping services as well: a code deployment cannot clear countries already selected in the account. Remove unintended markets only after confirming the intended sales strategy.
+- United Kingdom: free shipping.
+- Europe: £50 shipping.
+- United States, Canada, Australia, New Zealand, Japan, Singapore, Hong Kong, and UAE: £80 shipping.
 
-Account-level shipping and return settings must match the website and feed. Open **Needs attention**, download the issue report and inspect the exact reasons before requesting review. Connector status totals alone do not diagnose the cause of a rejection.
+Only select target countries in Merchant Center where the business is ready to honour the published delivery, customs, returns, tax, and customer-service terms. Merchant Center account-level shipping and return settings must exactly match the website and feed; contradictory settings are a common reason for disapproval.
 
 After the first fetch, work through **Needs attention** until there are no account-level issues and no fixable item disapprovals. Never add guessed GTINs to silence an identifier warning.
 
@@ -93,4 +89,3 @@ Track organic and Shopping results separately by country. The minimum useful das
 - Revenue, enquiries, and completed purchases by landing page and country.
 
 Expect crawling and Merchant Center processing in days; meaningful competitive ranking movement usually takes weeks or months. No reputable implementation can guarantee position one, but this setup removes the main technical barriers and creates a maintainable workflow.
-

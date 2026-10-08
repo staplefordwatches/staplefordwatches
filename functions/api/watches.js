@@ -18,27 +18,20 @@ export async function loadWatches(context) {
     url.searchParams.set("pageSize", "100");
     if (view) url.searchParams.set("view", view);
 
-    const records = [];
-    const offsets = new Set();
-    let offset = "";
-    do {
-      if (offset) url.searchParams.set("offset", offset);
-      const airtableResponse = await fetch(url, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const airtableText = await airtableResponse.text();
-      if (!airtableResponse.ok) {
-        return Response.json(
-          { ok: false, error: "Could not load watches from Airtable", detail: airtableText },
-          { status: airtableResponse.status }
-        );
-      }
-      const page = JSON.parse(airtableText);
-      records.push(...(page.records || []));
-      offset = page.offset || "";
-      if (offset && offsets.has(offset)) throw new Error("Repeated Airtable catalogue offset");
-      if (offset) offsets.add(offset);
-    } while (offset);
+    const airtableResponse = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    const airtableText = await airtableResponse.text();
+
+    if (!airtableResponse.ok) {
+      return Response.json(
+        { ok: false, error: "Could not load watches from Airtable", detail: airtableText },
+        { status: airtableResponse.status }
+      );
+    }
+
+    const airtableData = JSON.parse(airtableText);
 
     const get = (fields, names) => {
       for (const name of names) {
@@ -91,7 +84,7 @@ export async function loadWatches(context) {
       });
     };
 
-    const watches = records
+    const watches = (airtableData.records || [])
       .map((record, index) => {
         const fields = record.fields || {};
 
@@ -119,7 +112,7 @@ export async function loadWatches(context) {
         ]));
 
         const price = numberValue(get(fields, ["Price", "price"]));
-        const status = clean(get(fields, ["Status", "status"]));
+        const status = clean(get(fields, ["Status", "status"])) || "Available";
         const dateAdded = clean(get(fields, [
           "Date Added",
           "Date added",
@@ -153,7 +146,7 @@ export async function loadWatches(context) {
           "EAN",
           "UPC",
           "Barcode"
-        ]));
+        ])).replace(/[^0-9]/g, "");
 
         const productType = clean(get(fields, [
           "Product Type",
@@ -278,7 +271,6 @@ export async function loadWatches(context) {
           price,
           status,
           dateAdded,
-          dateUpdated: clean(get(fields, ["Updated Date", "Last Updated", "Last Modified"])),
           description,
           gtin,
           mpn,
@@ -315,7 +307,7 @@ export async function loadWatches(context) {
           _airtableEntryOrder: index
         };
       })
-      .filter((watch) => ["available", "sold", "reserved"].includes(watch.status.toLowerCase()) && watch.brand && watch.title);
+      .filter((watch) => watch.brand || watch.title || watch.price || watch.sku);
 
     return Response.json({
       ok: true,
@@ -330,27 +322,17 @@ export async function loadWatches(context) {
   }
 }
 
-export async function getCatalog(context, { requireFresh = false } = {}) {
+export async function onRequest(context) {
   const response = await withDataCache(context, {
     key: "watches",
     freshSeconds: 60 * 5,
     browserSeconds: 0,
     maxEdgeSeconds: 0,
-    blockingRefreshWhenStale: requireFresh,
+    blockingRefreshWhenStale: false,
     producer: () => loadWatches(context),
   });
   const maintenance = ensureAirtableWebhook(context, AIRTABLE_CATALOGS[0]);
   if (typeof context.waitUntil === "function") context.waitUntil(maintenance);
   else void maintenance;
-  if (requireFresh && response.headers.get("X-Stapleford-Cache") === "STALE") {
-    return Response.json({ ok: false, error: "Catalogue temporarily unavailable" }, {
-      status: 503, headers: { "Cache-Control": "no-store", "Retry-After": "60" },
-    });
-  }
   return response;
 }
-
-export async function onRequest(context) {
-  return getCatalog(context);
-}
-
