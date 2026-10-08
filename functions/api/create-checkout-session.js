@@ -66,9 +66,9 @@ export async function onRequestPost({ request, env }) {
       return Response.json({ error: "This watch could not be found." }, { status: 404 });
     }
 
-    const normalizedStatus = String(item.status || "").toLowerCase();
+    const normalizedStatus = String(item.status || "").trim().toLowerCase();
 
-    if (normalizedStatus.includes("sold") || normalizedStatus.includes("reserved")) {
+    if (normalizedStatus !== "available") {
       return Response.json({ error: "This watch is no longer available." }, { status: 409 });
     }
 
@@ -131,3 +131,4 @@ export async function onRequestPost({ request, env }) {
     return Response.json({ error: error.message || "Unable to start checkout" }, { status: 500 });
   }
 }
+

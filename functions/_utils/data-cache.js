@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v10";
+const CACHE_VERSION = "v11";
 const EDGE_RETENTION_SECONDS = 60 * 60 * 24 * 30;
 const DEFAULT_FRESH_SECONDS = 60 * 60 * 6;
 const DEFAULT_BROWSER_SECONDS = 60;
@@ -291,3 +291,4 @@ export async function updateCachedWatchStatus(env, recordId, status) {
   await writeSharedSnapshot(binding, key, snapshot);
   return true;
 }
+

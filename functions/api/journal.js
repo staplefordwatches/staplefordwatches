@@ -345,16 +345,22 @@ export async function loadJournal(context) {
   }
 }
 
-export async function onRequest(context) {
+export async function onRequest(context, { requireFresh = false } = {}) {
   const response = await withDataCache(context, {
     key: "journal-v2",
     freshSeconds: 60 * 5,
     browserSeconds: 60,
-    blockingRefreshWhenStale: false,
+    blockingRefreshWhenStale: requireFresh,
     producer: () => loadJournal(context),
   });
   const maintenance = ensureAirtableWebhook(context, AIRTABLE_CATALOGS[1]);
   if (typeof context.waitUntil === "function") context.waitUntil(maintenance);
   else void maintenance;
+  if (requireFresh && response.headers.get("X-Stapleford-Cache") === "STALE") {
+    return Response.json({ ok: false, error: "Journal temporarily unavailable" }, {
+      status: 503, headers: { "Cache-Control": "no-store", "Retry-After": "60" },
+    });
+  }
   return response;
 }
+

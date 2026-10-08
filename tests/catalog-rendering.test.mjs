@@ -35,7 +35,7 @@ test("an unchanged fresh catalogue does not replace already-painted cards", () =
 });
 
 test("the catalogue uses a current server snapshot and keeps local data as an error fallback", () => {
-  assert.match(html, /stapleford_watches_cache_v16_complete_catalogue/);
+  assert.match(html, /stapleford_watches_cache_v17_published_catalogue/);
   assert.match(html, /fetch\('\/api\/watches\?schema=5', \{/);
   assert.match(html, /cache:'default'/);
   assert.match(html, /credentials:'omit'/);
@@ -50,3 +50,4 @@ test("catalogue data is preloaded and checkout code is loaded only on demand", (
   assert.doesNotMatch(html, /<script async src="https:\/\/js\.stripe\.com\/v3\/">/);
   assert.match(html, /script\.src = 'https:\/\/js\.stripe\.com\/v3\/';/);
 });
+
