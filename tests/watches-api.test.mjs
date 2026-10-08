@@ -135,6 +135,7 @@ test("watches endpoint returns one compact catalogue and caches the Airtable rea
 test("watches use a five-minute stale-while-revalidate fallback", async () => {
   const source = await readFile(new URL("../functions/api/watches.js", import.meta.url), "utf8");
   assert.match(source, /freshSeconds: 60 \* 5,/);
-  assert.match(source, /blockingRefreshWhenStale: false,/);
+  assert.match(source, /blockingRefreshWhenStale: requireFresh,/);
   assert.match(source, /browserSeconds: 0,/);
 });
+

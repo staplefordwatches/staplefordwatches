@@ -1,6 +1,6 @@
 import { onRequest as getJournal } from "./api/journal.js";
-import { onRequest as getWatches } from "./api/watches.js";
-import { SITE_ORIGIN, dateOnly, watchUrl, xmlEscape } from "./_utils/catalog-seo.js";
+import { getCatalog } from "./api/watches.js";
+import { SITE_ORIGIN, catalogBrands, dateOnly, isPublishedWatch, watchUrl, xmlEscape } from "./_utils/catalog-seo.js";
 
 const STATIC_PATHS = [
   "/",
@@ -21,7 +21,8 @@ function urlEntry(location, lastModified = "") {
 
 export function buildSitemap({ watches = [], posts = [] } = {}) {
   const entries = STATIC_PATHS.map((path) => ({ location: `${SITE_ORIGIN}${path}`, lastModified: "" }));
-  watches.forEach((watch) => entries.push({ location: watchUrl(watch), lastModified: watch.dateAdded }));
+  watches.filter(isPublishedWatch).forEach((watch) => entries.push({ location: watchUrl(watch), lastModified: watch.dateUpdated || watch.dateAdded }));
+  catalogBrands(watches).forEach(brand => entries.push({ location: brand.url, lastModified: "" }));
   posts.forEach((post) => {
     if (!post?.slug) return;
     entries.push({
@@ -40,11 +41,15 @@ ${unique.map((entry) => urlEntry(entry.location, entry.lastModified)).join("\n")
 
 export async function onRequest(context) {
   const [watchResponse, journalResponse] = await Promise.all([
-    getWatches(context),
-    getJournal(context),
+    getCatalog(context, { requireFresh: true }),
+    getJournal(context, { requireFresh: true }),
   ]);
-  const watchPayload = watchResponse.ok ? await watchResponse.json() : { watches: [] };
-  const journalPayload = journalResponse.ok ? await journalResponse.json() : { posts: [] };
+  if (!watchResponse.ok || !journalResponse.ok || journalResponse.headers.get("X-Stapleford-Cache") === "STALE") {
+    return new Response("Sitemap temporarily unavailable", { status: 503,
+      headers: { "Cache-Control": "no-store", "Retry-After": "60" } });
+  }
+  const watchPayload = await watchResponse.json();
+  const journalPayload = await journalResponse.json();
 
   return new Response(buildSitemap({
     watches: watchPayload.watches || [],
@@ -57,3 +62,4 @@ export async function onRequest(context) {
     },
   });
 }
+

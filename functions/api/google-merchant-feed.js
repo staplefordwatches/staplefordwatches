@@ -1,9 +1,11 @@
-import { onRequest as getWatches } from "./watches.js";
+import { getCatalog } from "./watches.js";
 import {
   SITE_ORIGIN,
   cleanText,
-  isAvailableWatch,
+  merchantIssues,
   numericPrice,
+  safeImageUrl,
+  validGtin,
   truncateAtWord,
   watchDescription,
   watchDisplayName,
@@ -57,7 +59,7 @@ function imageAssetKey(value) {
 function uniqueProductImages(watch) {
   const seen = new Set();
   return [watch.image, ...(Array.isArray(watch.images) ? watch.images : [])]
-    .filter(Boolean)
+    .map(safeImageUrl).filter(Boolean)
     .filter((image) => {
       const key = imageAssetKey(image);
       if (seen.has(key)) return false;
@@ -66,11 +68,10 @@ function uniqueProductImages(watch) {
     });
 }
 
-function itemXml(watch) {
+function itemXml(watch, countries) {
   const price = numericPrice(watch.price);
   const images = uniqueProductImages(watch);
-  const rawGtin = cleanText(watch.gtin).replace(/[^0-9]/g, "");
-  const gtin = [8, 12, 13, 14].includes(rawGtin.length) ? rawGtin : "";
+  const gtin = validGtin(watch.gtin);
   const mpn = meaningfulIdentifier(cleanText(watch.mpn) || watchReference(watch));
   const merchantWatch = {
     ...watch,
@@ -81,20 +82,21 @@ function itemXml(watch) {
   const productType = cleanText(watch.productType) || "Luxury Watches";
   const googleCategory = cleanText(watch.googleCategory) || GOOGLE_WATCH_CATEGORY;
   const color = cleanText(watch.color);
-  const ageGroup = cleanText(watch.ageGroup).toLowerCase();
-  const gender = cleanText(watch.gender).toLowerCase();
+  const rawAgeGroup = cleanText(watch.ageGroup).toLowerCase();
+  const rawGender = cleanText(watch.gender).toLowerCase();
+  const ageGroup = ["newborn", "infant", "toddler", "kids", "adult"].includes(rawAgeGroup) ? rawAgeGroup : "";
+  const gender = ["male", "female", "unisex"].includes(rawGender) ? rawGender : "";
   const identifiers = [
     gtin ? `<g:gtin>${xmlEscape(gtin)}</g:gtin>` : "",
     mpn ? `<g:mpn>${xmlEscape(mpn)}</g:mpn>` : "",
-    !gtin && !mpn ? "<g:identifier_exists>no</g:identifier_exists>" : "",
   ].filter(Boolean).join("");
   const additionalImages = images.slice(1, 11)
     .map((image) => `<g:additional_image_link>${xmlEscape(image)}</g:additional_image_link>`)
     .join("");
   const shipping = [
-    shippingXml("GB", "Free tracked and insured", 0),
-    ...EUROPE_COUNTRIES.map((country) => shippingXml(country, "Europe tracked and insured", 50)),
-    ...GLOBAL_COUNTRIES.map((country) => shippingXml(country, "International tracked and insured", 80)),
+    ...countries.map((country) => shippingXml(country,
+      country === "GB" ? "Free tracked and insured" : EUROPE_COUNTRIES.includes(country) ? "Europe tracked and insured" : "International tracked and insured",
+      country === "GB" ? 0 : EUROPE_COUNTRIES.includes(country) ? 50 : 80)),
   ].join("\n    ");
 
   return `<item>
@@ -118,13 +120,24 @@ function itemXml(watch) {
   </item>`;
 }
 
-export function buildMerchantFeed(watches = []) {
+export function merchantCountries(value = "GB") {
+  const supported = new Set(["GB", ...EUROPE_COUNTRIES, ...GLOBAL_COUNTRIES]);
+  const countries = [...new Set(String(value || "GB").toUpperCase().split(",").map(country => country.trim()).filter(Boolean))];
+  if (countries.some(country => !supported.has(country))) throw new Error("Unsupported Merchant target country");
+  return countries;
+}
+
+export function buildMerchantFeed(watches = [], { countries = ["GB"] } = {}) {
+  const allowedCountries = merchantCountries(countries.join(","));
+  const counts = new Map();
+  for (const watch of watches) {
+    const id = cleanText(watch.listingId || watch.id).toLowerCase();
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
   const items = watches
-    .filter((watch) => isAvailableWatch(watch))
-    .filter((watch) => cleanText(watch.brand) && cleanText(watch.listingId || watch.id))
-    .filter((watch) => numericPrice(watch.price) > 0)
-    .filter((watch) => cleanText(watch.image) || (Array.isArray(watch.images) && watch.images.some(Boolean)))
-    .map(itemXml)
+    .filter((watch) => merchantIssues(watch).length === 0)
+    .filter(watch => counts.get(cleanText(watch.listingId || watch.id).toLowerCase()) === 1)
+    .map(watch => itemXml(watch, allowedCountries))
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -139,10 +152,12 @@ export function buildMerchantFeed(watches = []) {
 }
 
 export async function onRequest(context) {
-  const response = await getWatches(context);
+  const response = await getCatalog(context, { requireFresh: true });
   if (!response.ok) return response;
   const payload = await response.json();
-  return new Response(buildMerchantFeed(payload.watches || []), {
+  return new Response(buildMerchantFeed(payload.watches || [], {
+    countries: merchantCountries(context.env?.MERCHANT_TARGET_COUNTRIES),
+  }), {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
       "Cache-Control": "public, max-age=300, s-maxage=300",
@@ -150,3 +165,4 @@ export async function onRequest(context) {
     },
   });
 }
+
