@@ -106,22 +106,26 @@ body.no-results-active .no-results{display:flex!important}
 .lightbox-stage img{display:block;max-width:100%;max-height:72vh;object-fit:contain;pointer-events:auto!important;position:relative;z-index:1}
 .lightbox-next,.lightbox-prev{font-family:Arial,sans-serif!important;transition:opacity .18s,color .18s}
 .lightbox-next:hover,.lightbox-prev:hover{opacity:.9}
-.lightbox-gallery-nav{position:absolute;left:20px;right:20px;bottom:16px;display:grid;grid-template-columns:1fr 44px 44px;align-items:center;gap:4px;z-index:26;height:48px;padding:0 0 4px;border:0;border-radius:0;background:none;color:var(--sw-navy,#0a2342)}
+.lightbox-gallery-nav{--gallery-edge:20px;--gallery-bottom:16px;position:absolute;left:var(--gallery-edge);right:var(--gallery-edge);bottom:var(--gallery-bottom);display:grid;grid-template-columns:1fr 44px 44px;align-items:center;gap:4px;z-index:26;height:48px;padding:0 0 4px;border:0;border-radius:0;background:none;color:var(--sw-navy,#0a2342)}
 .lightbox-gallery-nav[hidden]{display:none!important}
-html body #lightbox .lightbox-gallery-step{display:inline-flex;align-items:center;justify-content:center;grid-column:3;grid-row:1;width:44px;height:44px;padding:0;border:0;border-radius:0;background:transparent;color:var(--sw-navy,#0a2342);touch-action:manipulation;transition:opacity .16s ease}
+html body #lightbox .lightbox-gallery-step{display:inline-flex;align-items:center;justify-content:flex-end;grid-column:3;grid-row:1;width:44px;height:44px;padding:0;border:0;border-radius:0;background:transparent;color:var(--sw-navy,#0a2342);touch-action:manipulation;transition:opacity .16s ease}
 html body #lightbox .lightbox-gallery-step[data-image-step="-1"]{grid-column:2}
-.lightbox-gallery-step::before{content:"";display:block;width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateX(-2px) rotate(-45deg)}
-.lightbox-gallery-step[data-image-step="-1"]::before{transform:translateX(2px) rotate(135deg)}
-@media (hover:hover){html body #lightbox .lightbox-gallery-step:hover{opacity:.5}}
+.lightbox-gallery-step::before{content:"";display:block;width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateX(-1.25px) rotate(-45deg)}
+.lightbox-gallery-step[data-image-step="-1"]::before{transform:translateX(-1.25px) rotate(135deg)}
+@media (hover:hover){html body #lightbox .lightbox-gallery-step:hover{opacity:.7}}
 html body #lightbox .lightbox-gallery-step:focus-visible{outline:1px solid var(--sw-navy,#0a2342)!important;outline-offset:-8px!important}
 .lightbox-gallery-position{display:flex;align-items:center;justify-content:flex-start;grid-column:1;grid-row:1;justify-self:start;min-width:0;pointer-events:none}
 .lightbox-gallery-count{font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif);font-size:10px;font-weight:400;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:.12em;white-space:nowrap;color:var(--sw-navy,#0a2342);text-shadow:0 1px 8px rgba(255,255,255,.8)}
-.lightbox-gallery-count [data-image-total]{opacity:.5}
-.lightbox-gallery-separator{padding:0 7px;opacity:.35}
+.lightbox-gallery-count [data-image-total]{opacity:.72}
+.lightbox-gallery-separator{padding:0 7px;opacity:.65}
 .lightbox-gallery-progress{position:absolute;left:0;right:0;bottom:0;display:block;width:100%;height:1px;overflow:hidden;background:rgba(10,35,66,.16)}
 .lightbox-gallery-progress::after{content:"";display:block;width:var(--gallery-progress,0%);height:100%;background:var(--sw-navy,#0a2342);transition:width .25s ease}
-@media (max-width:767px){.lightbox-gallery-nav{left:16px;right:16px;bottom:12px}}
+@media (max-width:767px){.lightbox-gallery-nav{--gallery-edge:16px;--gallery-bottom:12px}}
 @media (prefers-reduced-motion:reduce){.lightbox-gallery-progress::after,.lightbox-gallery-step{transition:none}}
+
+/* Soft image-edge fades keep navy controls legible on every photo. */
+html body.product-page-open #lightbox.open .lightbox-image-wrap::before{content:"";position:absolute;inset:0 0 auto;height:110px;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(255,255,255,.96) 0%,rgba(255,255,255,.92) 55%,rgba(255,255,255,0) 100%)}
+.lightbox-gallery-nav::before{content:"";position:absolute;left:calc(0px - var(--gallery-edge));right:calc(0px - var(--gallery-edge));bottom:calc(0px - var(--gallery-bottom));height:110px;z-index:-1;pointer-events:none;background:linear-gradient(to top,rgba(255,255,255,.96) 0%,rgba(255,255,255,.92) 60%,rgba(255,255,255,0) 100%)}
 
 .lightbox-detail-panel{position:absolute;right:18px;bottom:18px;width:min(380px,32vw);max-height:min(72vh,680px);overflow:auto;background:rgba(255,255,255,.96);border:1px solid rgba(0,0,0,.12);padding:14px 16px;z-index:8;font-family:"Sweet Sans Pro",Arial,sans-serif!important;color:#000;box-shadow:0 12px 32px rgba(0,0,0,.08)}
 .lightbox-detail-panel[hidden]{display:none!important}
@@ -1578,6 +1582,9 @@ html body .curated-hero-action--browse:hover,html body .curated-hero-action--bro
 .desktop-site-nav-link,.desktop-site-nav-link:link,.desktop-site-nav-link:visited{color:rgba(10,35,66,.5)!important;font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)!important;font-size:11px!important;font-weight:400!important;line-height:1!important;letter-spacing:.04em!important;text-decoration:none!important;text-transform:uppercase!important}
 .desktop-site-nav-link:hover,.desktop-site-nav-link:focus-visible{color:var(--sw-navy,#0a2342)!important;outline:0!important}
 body:not(.sell-active):not(.info-active):not(.journal-active) #desktopSiteNav .desktop-site-nav-link[href="/buy/"],body.sell-active #desktopSiteNav .desktop-site-nav-link[href="/sell/"],body.journal-active #desktopSiteNav .desktop-site-nav-link[href="/journal/"],.desktop-site-nav--product .desktop-site-nav-link[href="/buy/"]{color:var(--sw-navy,#0a2342)!important}
+
+/* Product navigation stays readable over the protected image edge. */
+html body #lightbox #productDesktopNav .desktop-site-nav-link{color:var(--sw-navy,#0a2342)!important}
 
 /* Filter and sort panels: solid, square-edged and anchored to their own controls. */
 html body #catalogControls .glass-action[aria-expanded="true"]{color:var(--sw-navy,#0a2342)!important;opacity:1!important}
