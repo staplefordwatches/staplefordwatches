@@ -81,7 +81,7 @@ test("payment marks use the supplied production artwork", () => {
   assert.match(applePayLogo, /id="Artwork"/);
 });
 
-test("site typography uses Sweet Sans throughout, including the catalogue introduction", () => {
+test("site typography prefers PP Neue Montreal with a Sweet Sans fallback, including the catalogue introduction", () => {
   assert.match(html, /href="\/fonts\/sweet-sans-pro-regular-v1\.otf" rel="preload" type="font\/otf"/);
   for (const [weight, file] of [
     ["300", "light"],
@@ -93,7 +93,19 @@ test("site typography uses Sweet Sans throughout, including the catalogue introd
       new RegExp(`@font-face\\{font-family:"Sweet Sans Pro";src:url\\("\\/fonts\\/sweet-sans-pro-${file}-v1\\.otf"\\) format\\("opentype"\\);font-weight:${weight};font-style:normal;font-display:optional\\}`)
     );
   }
-  assert.match(html, /--font-body:"Sweet Sans Pro",Arial,sans-serif/);
+  for (const [weight, name] of [
+    ["300", "light"],
+    ["400", "regular"],
+    ["500", "medium"],
+    ["600 700", "bold"],
+  ]) {
+    assert.match(
+      html,
+      new RegExp(`@font-face\\{font-family:"PP Neue Montreal";src:[^}]*url\\("\\/fonts\\/pp-neue-montreal-${name}\\.woff2"\\) format\\("woff2"\\);font-weight:${weight};font-style:normal;font-display:swap\\}`)
+    );
+  }
+  assert.match(html, /--font-body:"PP Neue Montreal","Sweet Sans Pro",Arial,sans-serif/);
+  assert.match(html, /font-family:"PP Neue Montreal","Sweet Sans Pro",Arial,sans-serif!important/);
   assert.match(html, /\.curated-hero-title\{[^}]*font-family:var\(--font-body\)/);
   assert.match(html, /\.curated-hero-copy\{[^}]*font-family:var\(--font-body\)/);
   assert.match(html, /class="curated-hero-title" id="catalogIntroTitle">Curator of modern and vintage timepieces\.<\/h1>/);
