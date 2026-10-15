@@ -123,9 +123,6 @@ html body #lightbox .lightbox-gallery-step:focus-visible{outline:1px solid var(-
 @media (max-width:767px){.lightbox-gallery-nav{--gallery-edge:16px;--gallery-bottom:12px}}
 @media (prefers-reduced-motion:reduce){.lightbox-gallery-progress::after,.lightbox-gallery-step{transition:none}}
 
-/* Soft image-edge fades keep navy controls legible on every photo. */
-html body.product-page-open #lightbox.open .lightbox-image-wrap::before{content:"";position:absolute;inset:0 0 auto;height:110px;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(255,255,255,.96) 0%,rgba(255,255,255,.92) 55%,rgba(255,255,255,0) 100%)}
-.lightbox-gallery-nav::before{content:"";position:absolute;left:calc(0px - var(--gallery-edge));right:calc(0px - var(--gallery-edge));bottom:calc(0px - var(--gallery-bottom));height:110px;z-index:-1;pointer-events:none;background:linear-gradient(to top,rgba(255,255,255,.96) 0%,rgba(255,255,255,.92) 60%,rgba(255,255,255,0) 100%)}
 
 .lightbox-detail-panel{position:absolute;right:18px;bottom:18px;width:min(380px,32vw);max-height:min(72vh,680px);overflow:auto;background:rgba(255,255,255,.96);border:1px solid rgba(0,0,0,.12);padding:14px 16px;z-index:8;font-family:"Sweet Sans Pro",Arial,sans-serif!important;color:#000;box-shadow:0 12px 32px rgba(0,0,0,.08)}
 .lightbox-detail-panel[hidden]{display:none!important}
