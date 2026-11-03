@@ -1630,66 +1630,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   .desktop-site-nav--product{position:absolute;top:calc(var(--site-control-top) + (var(--site-control-size) / 2));z-index:2147483647}
 }
 </style>
-<style id="stapleford-quiet-catalog-css">
-/* Stapleford quiet catalogue navigation */
-html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!important;color:var(--sw-navy,#0a2342);font-family:var(--font-body,"Sweet Sans Pro",Arial,sans-serif)}
-#catalogControls .cn-stock{display:flex;align-items:baseline;gap:25px;margin:0 0 24px}
-#catalogControls button{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;box-shadow:none}
-#catalogControls button:focus-visible,#catalogControls input:focus-visible{outline:2px solid currentColor;outline-offset:4px}
-#catalogControls .cn-stock-button{font-size:24px;font-weight:400;letter-spacing:-.035em;line-height:1.4;padding:0;color:var(--curated-muted,#526170)}
-#catalogControls .cn-stock-button[aria-pressed=true]{color:var(--sw-navy,#0a2342)}
-#catalogControls .cn-stock-button span{font-size:11px;letter-spacing:0;vertical-align:super;margin-left:4px}
-#catalogControls .cn-brands{display:flex;align-items:center;gap:8px 25px;flex-wrap:wrap;margin:0 0 12px}
-#catalogControls .cn-brand-button,#catalogControls .cn-more-brands{font-size:12px;line-height:1.6;padding:4px 0;min-height:32px;color:var(--curated-muted,#526170);border-bottom:1px solid transparent}
-#catalogControls .cn-brand-button[aria-pressed=true]{color:var(--sw-navy,#0a2342);border-bottom-color:currentColor}
-#catalogControls .cn-more-brands{display:flex;align-items:center;gap:6px}
-#catalogControls .cn-toolbar{display:flex;align-items:center;gap:27px;min-height:52px;border-bottom:1px solid var(--curated-line,rgba(10,35,66,.16))}
-#catalogControls .cn-search{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
-#catalogControls svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
-#catalogControls #catalogSearchInput{display:block;width:100%;min-width:0;border:0;border-radius:0;padding:11px 0;background:transparent;color:inherit;font:inherit;font-size:13px;box-shadow:none}
-#catalogControls #catalogSearchInput::placeholder{color:var(--curated-muted,#526170);opacity:1}
-#catalogControls .cn-search-clear{font-size:20px;min-width:30px;min-height:36px}
-#catalogControls input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none}
-#catalogControls .cn-tool{display:flex;align-items:center;gap:7px;min-height:44px;padding:0;font-size:12px;white-space:nowrap}
-#catalogControls .cn-tool[aria-expanded=true],#catalogControls .cn-tool.is-active{text-decoration:underline;text-underline-offset:6px}
-#catalogControls [hidden]{display:none!important}
-#catalogControls .cn-panel{position:relative;z-index:1;padding:24px 18px;border-bottom:1px solid var(--curated-line,rgba(10,35,66,.16));background:var(--curated-shell,#f2f2f0)}
-#catalogControls .cn-brand-panel{display:flex;flex-wrap:wrap;gap:12px 25px}
-#catalogControls .cn-filter-panel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-#catalogControls fieldset{min-width:0;border:0;margin:0;padding:0}
-#catalogControls legend{padding:0;margin:0 0 14px;font-size:10px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--curated-muted,#526170)}
-#catalogControls .cn-option{display:flex;align-items:center;gap:10px;min-height:35px;font-size:12px;line-height:1.5;cursor:pointer}
-#catalogControls .cn-option input{appearance:auto;-webkit-appearance:auto;position:static;opacity:1;width:13px;height:13px;flex:0 0 13px;margin:0;accent-color:var(--sw-navy,#0a2342)}
-#catalogControls .cn-panel-footer{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--curated-line,rgba(10,35,66,.16));padding-top:18px}
-#catalogControls .cn-text-button{font-size:11px;min-height:34px;padding:0;text-decoration:underline;text-underline-offset:4px;color:var(--curated-muted,#526170)}
-#catalogControls .cn-apply{background:var(--sw-navy,#0a2342);color:#fff;padding:12px 24px;font-size:11px;min-height:40px}
-#catalogControls .cn-sort-panel fieldset{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px 25px}
-#catalogControls .cn-sort-panel .cn-option{flex-direction:row-reverse;justify-content:flex-end;font-size:11px}
-#catalogControls .cn-selected{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding-top:14px}
-#catalogControls .cn-selected button{display:flex;align-items:center;gap:9px;font-size:11px;min-height:30px;padding:0;line-height:1.8}
-#catalogControls .cn-result-line{display:flex;justify-content:space-between;gap:12px;padding:18px 0 0;font-size:10px;color:var(--curated-muted,#526170)}
-#catalogControls .cn-empty{padding:25px 0 5px;text-align:center;font-size:12px;line-height:1.8}
-#catalogControls .cn-empty button{margin-left:10px}
-@media(max-width:640px){
-  html body #catalogControls.cn-catalog{width:calc(100% - 28px)!important;padding-bottom:16px!important}
-  #catalogControls .cn-stock{margin-bottom:19px;gap:23px}
-  #catalogControls .cn-stock-button{font-size:22px}
-  #catalogControls .cn-brands{gap:5px 18px;margin-bottom:8px}
-  #catalogControls .cn-brand-button,#catalogControls .cn-more-brands{font-size:11px}
-  #catalogControls .cn-toolbar{gap:18px;min-height:49px}
-  #catalogControls #catalogSearchInput{font-size:16px}
-  #catalogControls .cn-tool{font-size:11px;gap:6px}
-  #catalogControls .cn-tool svg{width:14px;height:14px;flex-basis:14px}
-  #catalogControls .cn-panel{padding:20px 6px}
-  #catalogControls .cn-filter-panel{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-  #catalogControls .cn-sort-panel fieldset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 20px}
-  #catalogControls .cn-sort-panel .cn-option{justify-content:space-between;flex-direction:row}
-  #catalogControls .cn-result-line{font-size:10px;padding-top:14px}
-}
-@media(max-width:365px){#catalogControls .cn-tool svg{display:none}#catalogControls .cn-toolbar{gap:15px}}
-@media(pointer:coarse){#catalogControls .cn-brands button,#catalogControls .cn-option,#catalogControls .cn-selected button,#catalogControls .cn-text-button{min-height:44px}}
-
-</style>
 </head><body><header aria-label="Site header" class="site-header"><a aria-label="Return to home page" class="logo" href="/" id="logoHome"><img alt="Stapleford Watches" class="logo-mark" decoding="async" fetchpriority="high" height="360" loading="eager" src="/assets/stapleford-watches-logo@2x.png?v=1" width="295"/></a><button aria-expanded="false" aria-label="Open menu" class="sw-menu-toggle" id="swMenuToggle" type="button"><span class="sw-menu-toggle-bar"></span><span class="sw-menu-toggle-bar"></span></button></header><main class="buy-page" id="buyPage"><div class="grid" id="gallery"></div><div class="show-more-wrap" hidden="" id="showMoreWrap"><button class="show-more-btn" id="showMoreBtn" type="button">SHOW MORE</button></div><div class="no-results" hidden="" id="noResults">No watches found</div></main><main class="info-page" hidden id="infoPage"><section class="info-hero curated-hero" id="infoHero"><a class="curated-hero-kicker" href="https://wa.me/447438196047" id="infoHeroKicker" rel="noopener" target="_blank"><span aria-hidden="true" class="curated-hero-kicker-dot"></span>Chat to us</a><h1 class="curated-hero-title" id="infoTitle"></h1><p class="curated-hero-copy" id="infoCopy"></p><div class="curated-hero-actions" id="infoActions" hidden></div></section><div class="info-body" id="infoBody"></div></main><main class="sell-page" hidden id="sellPage"><section class="sell-hero"><h1 class="sell-hero-title">Sell your watch.</h1><p class="sell-hero-copy">Tell us a bit about your watch and add a few photos. We'll get back to you with a no-obligation offer as soon as possible.</p></section><div class="sell-form-wrap"><form autocomplete="on" class="sell-form" id="sellForm" novalidate=""><fieldset class="sell-fieldset"><legend class="sell-fieldset-legend">About the watch</legend><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellBrand">Brand</label><input class="sell-input" id="sellBrand" name="brand" required="" type="text" placeholder="e.g. Rolex"/></div><div class="sell-field"><label class="sell-label" for="sellModel">Model</label><input class="sell-input" id="sellModel" name="model" required="" type="text" placeholder="e.g. Submariner"/></div></div><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellReference">Reference number <span class="sell-optional">(if known)</span></label><input class="sell-input" id="sellReference" name="reference" type="text" placeholder="e.g. 126610LN"/></div><div class="sell-field"><label class="sell-label" for="sellYear">Year <span class="sell-optional">(approx. is fine)</span></label><input class="sell-input" id="sellYear" name="year" type="text" inputmode="numeric" placeholder="e.g. 2021"/></div></div><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellCondition">Condition</label><select class="sell-select" id="sellCondition" name="condition" required=""><option value="">Select condition</option><option value="Unworn">Unworn</option><option value="Excellent">Excellent</option><option value="Very good">Very good</option><option value="Good">Good</option><option value="Fair">Fair / needs work</option></select></div><div class="sell-field"><label class="sell-label" for="sellBoxPapers">Box &amp; papers</label><select class="sell-select" id="sellBoxPapers" name="boxPapers"><option value="">Select an option</option><option value="Full set (box and papers)">Full set (box and papers)</option><option value="Box only">Box only</option><option value="Papers only">Papers only</option><option value="Watch only">Watch only</option></select></div></div><div class="sell-field"><label class="sell-label" for="sellPrice">Your asking price <span class="sell-optional">(optional)</span></label><input class="sell-input" id="sellPrice" name="askingPrice" type="text" inputmode="decimal" placeholder="e.g. £8,500"/></div><div class="sell-field"><label class="sell-label" for="sellDetails">Anything else we should know? <span class="sell-optional">(optional)</span></label><textarea class="sell-textarea" id="sellDetails" name="details" placeholder="Service history, condition notes, accessories, etc."></textarea></div></fieldset><fieldset class="sell-fieldset"><legend class="sell-fieldset-legend">Photos</legend><div class="sell-field"><div class="sell-dropzone" id="sellDropzone"><svg aria-hidden="true" class="sell-dropzone-icon" fill="none" stroke="currentColor" stroke-width="1.4" viewbox="0 0 24 24"><path d="M12 16V4M12 4 7 9M12 4l5 5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke-linecap="round" stroke-linejoin="round"></path></svg><p class="sell-dropzone-text">Drag &amp; drop photos here, or <span class="sell-dropzone-browse" id="sellBrowseTrigger">browse files</span></p><p class="sell-dropzone-hint">Up to 8 photos, 5MB each · JPG, PNG or HEIC</p><input accept="image/*" class="sell-photo-input" id="sellPhotoInput" multiple="" name="photos" type="file"/></div><div class="sell-photo-grid" id="sellPhotoGrid"></div></div></fieldset><fieldset class="sell-fieldset"><legend class="sell-fieldset-legend">Your details</legend><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellName">Name</label><input autocomplete="name" class="sell-input" id="sellName" name="name" required="" type="text"/></div><div class="sell-field"><label class="sell-label" for="sellEmail">Email</label><input autocomplete="email" class="sell-input" id="sellEmail" name="email" required="" type="email"/></div></div><div class="sell-field"><label class="sell-label" for="sellPhone">Phone / WhatsApp <span class="sell-optional">(optional)</span></label><input autocomplete="tel" class="sell-input" id="sellPhone" name="phone" type="tel"/></div></fieldset><div class="sell-status" id="sellStatus" role="status"></div><button class="sell-submit" id="sellSubmit" type="submit">Submit</button><p class="sell-privacy-note">By submitting, you agree that we may contact you by email, phone or WhatsApp about your watch and your request. See our <a href="/privacy-policy/">Privacy Policy</a>.</p></form></div></main><main class="journal-page" hidden id="journalPage"><div id="journalListView"><section class="journal-hero"><p class="journal-kicker">Journal</p><h1 class="journal-hero-title">A little bit of this, a little bit of that.</h1><p class="journal-hero-copy">Watch reviews, editorial content and field notes.</p></section><div class="journal-list" id="journalList"></div><p class="journal-empty" id="journalEmpty" hidden>New journal entries are on their way — check back soon.</p></div><div id="journalEntryView" hidden><div class="journal-entry" id="journalEntry"></div></div></main>
 <footer aria-label="Site footer" class="site-footer"><div class="sw-footer-inner"><p class="sw-footer-tag">It's a good day to buy another watch.</p><div class="sw-footer-row"><div class="sw-footer-nav-block"><p class="sw-footer-nav-label">Explore</p><nav aria-label="Footer navigation" class="sw-footer-nav"><a href="/buy/">Buy</a><a href="/sell/">Sell</a><a href="/journal/">Journal</a><a href="/contact/">Contact</a>
 </nav></div><div class="sw-footer-connect"><p class="sw-footer-connect-label">Connect</p><div class="sw-footer-connect-links"><a href="mailto:ben@staplefordwatches.co.uk">Email</a><a href="https://wa.me/447438196047" rel="noopener" target="_blank">WhatsApp</a><a href="https://instagram.com/staplefordwatches" rel="noopener" target="_blank">Instagram</a><a href="https://tiktok.com/@staplefordwatches" rel="noopener" target="_blank">TikTok</a><a href="https://youtube.com/@staplefordwatches" rel="noopener" target="_blank">YouTube</a></div><div class="sw-footer-legal"><a href="/delivery/">Delivery</a><a href="/returns/">Returns</a><a href="/terms-and-conditions/">T&amp;Cs</a><a href="/privacy-policy/">Privacy Policy</a></div><div aria-labelledby="swPaymentMethodsTitle" class="sw-footer-payments"><p class="sw-footer-payments-label" id="swPaymentMethodsTitle">Accepted payment methods</p><ul class="sw-payment-marks" role="list"><li aria-label="Visa" class="sw-payment-mark"><svg aria-hidden="true" viewBox="0 7.5 24 9"><path d="M9.112 8.262 5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 0 1 .894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 0 1 1.913.336l.34-1.59a5.207 5.207 0 0 0-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 0 0-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656 1.02-2.815.588 2.815zm-8.16-4.84-1.603 7.496H8.34l1.605-7.496z"/></svg></li><li aria-label="Mastercard" class="sw-payment-mark sw-payment-mark--mastercard"><svg aria-hidden="true" viewBox="0 0 44 28"><circle cx="16" cy="14" r="10" fill="#eb001b"/><circle cx="28" cy="14" r="10" fill="#f79e1b"/><path d="M22 6.1a10 10 0 0 1 0 15.8 10 10 0 0 1 0-15.8Z" fill="#ff5f00"/></svg></li><li aria-label="Apple Pay" class="sw-payment-mark sw-payment-mark--official sw-payment-mark--apple"><img alt="" aria-hidden="true" height="30" src="/assets/payment/apple-pay.svg" width="48"/></li><li aria-label="American Express" class="sw-payment-mark sw-payment-mark--amex"><img alt="" aria-hidden="true" height="24" src="/assets/payment/american-express.svg" width="24"/></li><li aria-label="Amazon Pay" class="sw-payment-mark sw-payment-mark--wide"><span aria-hidden="true" class="sw-payment-brand sw-payment-brand--amazon"><span>amazon</span><strong>pay</strong><svg viewBox="0 0 36 6"><path d="M1 1.2c7.8 4.5 22 4.8 33.7.3"/><path d="m31.5.6 3.7.6-1.3 3.3"/></svg></span></li><li aria-label="Onelink" class="sw-payment-mark sw-payment-mark--wide"><span aria-hidden="true" class="sw-payment-brand sw-payment-brand--onelink"><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="8" fill="#00d66f"/><path d="M5.2 9c1.1-2.2 2.4-3.3 3.8-3.3 1.5 0 2.7 1.1 3.8 3.3-1.1 2.2-2.3 3.3-3.8 3.3S6.3 11.2 5.2 9Z" fill="none" stroke="#0a2342" stroke-width="1.4"/></svg><span>onelink</span></span></li></ul></div></div></div></div></footer><div aria-hidden="true" class="lightbox" id="lightbox"><button aria-label="Back to listings" class="lightbox-topbar-btn lightbox-back-btn" id="lightboxBack" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><button aria-expanded="false" aria-label="Open menu" class="lightbox-topbar-btn sw-menu-toggle sw-menu-toggle--product" id="lightboxMenuToggle" type="button"><span class="sw-menu-toggle-bar"></span><span class="sw-menu-toggle-bar"></span></button><div class="lightbox-inner"><div class="lightbox-stage"><div class="lightbox-image-wrap"><button aria-label="Previous image" class="lightbox-prev" type="button">‹</button><div class="lightbox-status-badge" hidden="" id="lightboxStatusBadge">RESERVED</div><img alt="" decoding="async" draggable="false" id="lightboxImage" sizes="(max-width: 767px) 100vw, 60vw" width="1600" height="2000" oncontextmenu="return false;" oncopy="return false;" oncut="return false;" ondragstart="return false;" onselectstart="return false;"/><button aria-label="Next image" class="lightbox-next" type="button">›</button><div aria-label="Photo position" class="lightbox-gallery-nav" hidden="" id="lightboxImageNavigation" role="progressbar"></div></div><div class="lightbox-meta" id="lightboxMeta"></div><button class="lightbox-detail-reopen" hidden="" id="lightboxDetailsReopen" type="button">DETAILS ↑</button><aside aria-live="polite" class="lightbox-detail-panel" id="lightboxDetails"><div class="lightbox-detail-header"><div class="lightbox-detail-kicker" id="lightboxDetailBrand"></div></div><div class="lightbox-detail-title" id="lightboxDetailTitle"></div><div class="lightbox-detail-reference lightbox-detail-meta-line" id="lightboxDetailReference"></div><div class="lightbox-detail-year lightbox-detail-meta-line" id="lightboxDetailYear"></div><div class="lightbox-detail-contents lightbox-detail-meta-line" id="lightboxDetailContents"></div><div class="lightbox-detail-price" id="lightboxDetailPrice"></div><div class="lightbox-detail-actions"><button class="lightbox-detail-buy" id="lightboxDetailBuy" type="button">BUY NOW</button><div aria-label="Contact options" class="lightbox-detail-contact-options" id="lightboxDetailContactOptions"><a aria-label="Enquire by WhatsApp" class="lightbox-detail-contact-link lightbox-detail-contact-whatsapp" href="#" id="lightboxDetailWhatsapp" rel="noopener" target="_blank" title="WhatsApp"><svg aria-hidden="true" focusable="false" viewbox="0 0 32 32"><path d="M16 3.2A12.6 12.6 0 0 0 5.2 22.3L3.7 28l5.9-1.5A12.6 12.6 0 1 0 16 3.2Zm0 2.3a10.3 10.3 0 0 1 0 20.6c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.5.9.9-3.4-.3-.4A10.3 10.3 0 0 1 16 5.5Zm-4.3 5.2c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.2s1 2.6 1.1 2.8c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.8.5-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.4l-1.8-.9c-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.2-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-.8-1.9c-.2-.5-.4-.5-.7-.5h-.6Z"></path></svg></a><a aria-label="Enquire by email" class="lightbox-detail-contact-link lightbox-detail-contact-email" href="#" id="lightboxDetailEmail" title="Email"><svg aria-hidden="true" focusable="false" viewbox="0 0 32 32"><path d="M5 8h22a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2Zm1.2 2 9.8 7.1 9.8-7.1H6.2Zm20.8 2.1-10.4 7.5a1 1 0 0 1-1.2 0L5 12.1V22h22v-9.9Z"></path></svg></a></div></div><div aria-label="Good to know" class="lightbox-detail-trust-list" hidden="" id="lightboxDetailTrustList"></div><button aria-expanded="true" class="lightbox-detail-description-toggle" id="lightboxDetailDescriptionToggle" type="button"><span class="policy-heading-label">HIDE DESCRIPTION</span><span aria-hidden="true" class="lightbox-detail-toggle-arrow"></span></button><div class="lightbox-detail-description" id="lightboxDetailDescription"></div><section class="lightbox-detail-condition-section" hidden="" id="lightboxDetailConditionSection"><button aria-expanded="false" class="lightbox-detail-policy-toggle lightbox-detail-condition-toggle" id="lightboxDetailConditionToggle" type="button"><span class="policy-heading-label">CONDITION</span><span aria-hidden="true" class="lightbox-detail-toggle-arrow"></span></button><div class="lightbox-detail-condition-copy" hidden="" id="lightboxDetailConditionCopy"></div></section><section class="lightbox-detail-contents-section" hidden="" id="lightboxDetailContentsSection"><button aria-expanded="false" class="lightbox-detail-policy-toggle lightbox-detail-contents-toggle" id="lightboxDetailContentsToggle" type="button"><span class="policy-heading-label">CONTENTS</span><span aria-hidden="true" class="lightbox-detail-toggle-arrow"></span></button><div class="lightbox-detail-contents-copy" hidden="" id="lightboxDetailContentsCopy"></div></section><button aria-expanded="false" class="lightbox-detail-spec-toggle" id="lightboxDetailSpecToggle" type="button"><span class="policy-heading-label">SPECIFICATION</span><span aria-hidden="true" class="lightbox-detail-toggle-arrow"></span></button><dl class="lightbox-detail-specs" hidden="" id="lightboxDetailSpecs"></dl><button aria-expanded="false" class="lightbox-detail-policy-toggle" id="lightboxDetailDeliveryToggle" type="button"><span class="policy-heading-label">DELIVERY &amp; RETURNS</span><span aria-hidden="true" class="lightbox-detail-toggle-arrow"></span></button><div class="lightbox-detail-policy-copy" hidden="" id="lightboxDetailDelivery"><p>Free next-day UK delivery. Europe £50 (2–5 days); rest of world £80 (2–7 days). Every shipment is tracked, insured and requires a signature. UK collection is also available.</p><p>Eligible online purchases may be returned within 14 days, provided the watch and everything supplied are returned unchanged. International duties and taxes are the buyer’s responsibility.</p><p><a href="/delivery/">Delivery details</a> · <a href="/returns/">Returns policy</a></p></div><section class="lightbox-related" hidden="" id="lightboxRelated"><h2 class="lightbox-related-title">YOU MIGHT ALSO LIKE</h2><div aria-label="You might also like" class="lightbox-related-grid" id="lightboxRelatedGrid"></div></section></aside></div></div></div><a aria-label="CHAT TO US ON WHATSAPP" class="stapleford-chat-pop" href="https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%27d%20like%20to%20chat%20about%20a%20watch." rel="noopener" target="_blank"><span aria-hidden="true" class="stapleford-chat-pop__active"></span><span class="stapleford-chat-pop__label">CHAT TO US</span></a><a aria-label="NEED HELP? MESSAGE STAPLEFORD WATCHES ON WHATSAPP" class="stapleford-product-help-pop" hidden href="https://wa.me/447438196047?text=Hi%20Stapleford%20Watches%2C%20I%20need%20help%20with%20a%20listing%20on%20your%20website." id="staplefordProductHelpPop" rel="noopener" target="_blank"><span class="stapleford-product-help-pop__label">NEED HELP?</span></a><script id="stapleford-production-js">(()=>{
@@ -1750,8 +1690,7 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
   let searchQuery = '';
   let currentSort = 'newly-listed';
   let showAvailable = true;
-  let showSold = false;
-  let catalogFilters = {brand:'',price:'',size:'',era:''};
+  let showSold = true;
   let visibleLimit = initialLimit();
   let activeWatch = null;
   let activeImages = [];
@@ -1953,137 +1892,194 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
   function injectCatalogControls(){
     const buyPage = $('buyPage');
     if(!buyPage || !gallery || $('catalogControls')) return;
-    const host = document.createElement('section');
-    host.className = 'catalog-controls cn-catalog';
+    const host = document.createElement('div');
+    host.className = 'catalog-controls';
     host.id = 'catalogControls';
-    host.setAttribute('aria-label', 'Browse watches');
-    const searchIcon = '<svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.25"></circle><path d="m15.2 15.2 5 5"></path></svg>';
-    const filterIcon = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h7m4 0h5M4 17h3m4 0h9"></path><circle cx="13" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>';
-    const sortIcon = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 5v14m0 0-3-3m3 3 3-3M16 19V5m0 0-3 3m3-3 3 3"></path></svg>';
-    const options = (name, entries) => entries.map(([value,label], index) => '<label class="cn-option"><input type="radio" name="catalog-' + name + '" value="' + value + '"' + (index === 0 ? ' checked' : '') + '><span>' + label + '</span></label>').join('');
     host.innerHTML = [
-      '<div class="cn-stock" role="group" aria-label="Watch availability">',
-        '<button class="cn-stock-button" type="button" data-stock="available" aria-pressed="true">Available <span id="catalogAvailableCount"></span></button>',
-        '<button class="cn-stock-button" type="button" data-stock="archive" aria-pressed="false">Archive <span id="catalogArchiveCount"></span></button>',
-      '</div>',
-      '<form class="cn-toolbar" id="catalogToolbar" role="search" aria-label="Search, filter and sort watches">',
-        '<label class="cn-search">' + searchIcon + '<span class="glass-sr-only">Search watches by brand, model or reference</span><input id="catalogSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Search watches"><button id="catalogSearchClear" class="cn-search-clear" type="button" aria-label="Clear search" hidden>×</button></label>',
-        '<button class="cn-tool" id="catalogFilterButton" type="button" aria-expanded="false" aria-controls="catalogFilterPanel">' + filterIcon + '<span id="catalogFilterLabel">Filter</span></button>',
-        '<button class="cn-tool" id="catalogSortButton" type="button" aria-expanded="false" aria-controls="catalogSortPanel">' + sortIcon + '<span>Sort</span></button>',
+      '<form class="glass-toolbar" id="catalogToolbar" role="search" aria-label="Search, filter and sort watches">',
+        '<div class="glass-search">',
+          '<svg class="glass-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.25"></circle><path d="m15.2 15.2 5 5"></path></svg>',
+          '<input class="glass-search-input" id="catalogSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Search watches" aria-label="Search watches">',
+          '<button class="glass-search-clear" id="catalogSearchClear" type="button" aria-label="Clear search" hidden>×</button>',
+        '</div>',
+        '<div class="glass-actions">',
+          '<span class="glass-divider" aria-hidden="true"></span>',
+          '<button class="glass-action" id="catalogFilterButton" type="button" aria-expanded="false" aria-controls="catalogFilterPanel">',
+            '<svg class="glass-icon glass-filter-icon" aria-hidden="true" focusable="false" viewBox="0 0 48 48"><path d="M41.8,8H21.7A6.2,6.2,0,0,0,16,4a6,6,0,0,0-5.6,4H6.2A2.1,2.1,0,0,0,4,10a2.1,2.1,0,0,0,2.2,2h4.2A6,6,0,0,0,16,16a6.2,6.2,0,0,0,5.7-4H41.8A2.1,2.1,0,0,0,44,10,2.1,2.1,0,0,0,41.8,8Z"></path><path d="M41.8,22H37.7A6.2,6.2,0,0,0,32,18a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4H26.4A6,6,0,0,0,32,30a6.2,6.2,0,0,0,5.7-4h4.1a2,2,0,1,0,0-4Z"></path><path d="M41.8,36H24.7A6.2,6.2,0,0,0,19,32a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4h7.2A6,6,0,0,0,19,44a6.2,6.2,0,0,0,5.7-4H41.8a2,2,0,1,0,0-4Z"></path></svg>',
+            '<span class="glass-action-label">Filter</span>',
+          '</button>',
+          '<span class="glass-divider" aria-hidden="true"></span>',
+          '<button class="glass-action" id="catalogSortButton" type="button" aria-expanded="false" aria-controls="catalogSortPanel">',
+            '<svg class="glass-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M8 5v14m0 0-3-3m3 3 3-3M16 19V5m0 0-3 3m3-3 3 3"></path></svg>',
+            '<span class="glass-action-label">Sort</span>',
+          '</button>',
+        '</div>',
       '</form>',
-      '<div class="cn-panel cn-filter-panel" id="catalogFilterPanel" hidden>',
-        '<fieldset><legend>Price</legend>' + options('price', [['','Any price'],['1500','Under £1,500'],['2500','Under £2,500'],['5000','Under £5,000'],['over','£5,000 &amp; above']]) + '</fieldset>',
-        '<fieldset><legend>Case size</legend>' + options('size', [['','Any size'],['small','36mm &amp; under'],['medium','37–39mm'],['large','40mm &amp; over']]) + '</fieldset>',
-        '<fieldset><legend>Era</legend>' + options('era', [['','Any era'],['early','Before 2000'],['modern','2000 onwards']]) + '</fieldset>',
-        '<div class="cn-panel-footer"><button class="cn-text-button" id="catalogFilterReset" type="button">Reset filters</button><button class="cn-apply" id="catalogFilterApply" type="button">Show watches</button></div>',
+      '<div class="catalog-search-suggestions" id="catalogSearchSuggestions" hidden></div>',
+      '<div class="glass-control-panel" id="catalogFilterPanel" hidden>',
+        '<fieldset><legend>Availability</legend>',
+          '<label class="glass-option"><span>Available</span><input id="catalogAvailableFilter" type="checkbox" checked></label>',
+          '<label class="glass-option"><span>Unavailable</span><input id="catalogSoldFilter" type="checkbox" checked></label>',
+        '</fieldset>',
+        '<button class="glass-panel-reset" id="catalogFilterReset" type="button">Show all</button>',
       '</div>',
-      '<div class="cn-panel cn-sort-panel" id="catalogSortPanel" hidden><fieldset><legend class="glass-sr-only">Sort watches</legend>',
-        '<label class="cn-option"><span>Newly listed</span><input type="radio" name="catalog-sort" value="newly-listed" checked></label>',
-        '<label class="cn-option"><span>Price: low to high</span><input type="radio" name="catalog-sort" value="price-low"></label>',
-        '<label class="cn-option"><span>Price: high to low</span><input type="radio" name="catalog-sort" value="price-high"></label>',
-        '<label class="cn-option"><span>Brand: A–Z</span><input type="radio" name="catalog-sort" value="brand-az"></label>',
-        '<label class="cn-option"><span>Year: newest first</span><input type="radio" name="catalog-sort" value="new-old"></label>',
-        '<label class="cn-option"><span>Year: oldest first</span><input type="radio" name="catalog-sort" value="old-new"></label>',
-      '</fieldset></div>',
-      '<div class="cn-selected" id="catalogActiveFilters" aria-label="Active watch filters" hidden></div>',
-      '<div class="cn-result-line"><span id="catalogResultCount" role="status" aria-live="polite"></span><span id="catalogSortDescription">Newly listed</span></div>',
-      '<div class="cn-empty" id="catalogFilterEmpty" hidden>No watches match these filters. <button class="cn-text-button" type="button" data-clear-all>Clear filters</button></div>'
+      '<div class="glass-control-panel glass-control-panel--sort" id="catalogSortPanel" hidden>',
+        '<fieldset><legend>Sort by</legend>',
+          '<label class="glass-option"><span>Newly listed</span><input type="radio" name="catalog-sort" value="newly-listed" checked></label>',
+          '<label class="glass-option"><span>Price: low to high</span><input type="radio" name="catalog-sort" value="price-low"></label>',
+          '<label class="glass-option"><span>Price: high to low</span><input type="radio" name="catalog-sort" value="price-high"></label>',
+          '<label class="glass-option"><span>Brand: A–Z</span><input type="radio" name="catalog-sort" value="brand-az"></label>',
+          '<label class="glass-option"><span>New-Old</span><input type="radio" name="catalog-sort" value="new-old"></label>',
+          '<label class="glass-option"><span>Old-New</span><input type="radio" name="catalog-sort" value="old-new"></label>',
+        '</fieldset>',
+      '</div>',
+      '<span class="glass-sr-only" id="catalogResultCount" role="status" aria-live="polite"></span>'
     ].join('');
     buyPage.insertBefore(host, gallery);
-    const searchInput = $('catalogSearchInput'), searchClear = $('catalogSearchClear');
-    const filterButton = $('catalogFilterButton'), sortButton = $('catalogSortButton');
-    const filterPanel = $('catalogFilterPanel'), sortPanel = $('catalogSortPanel');
-    const activeFilters = $('catalogActiveFilters');
+
+    const form = $('catalogToolbar');
+    const searchInput = $('catalogSearchInput');
+    const searchClear = $('catalogSearchClear');
+    const filterButton = $('catalogFilterButton');
+    const sortButton = $('catalogSortButton');
+    const filterPanel = $('catalogFilterPanel');
+    const sortPanel = $('catalogSortPanel');
+    const availableFilter = $('catalogAvailableFilter');
+    const soldFilter = $('catalogSoldFilter');
+    const filterReset = $('catalogFilterReset');
+    const resultCount = $('catalogResultCount');
+    const suggestionPills = $('catalogSearchSuggestions');
     const panels = [filterPanel, sortPanel];
-    const sortNames = { 'newly-listed':'Newly listed', 'price-low':'Price: low to high', 'price-high':'Price: high to low', 'brand-az':'Brand: A–Z', 'new-old':'Year: newest first', 'old-new':'Year: oldest first' };
-    const filterNames = { price:{1500:'Under £1,500',2500:'Under £2,500',5000:'Under £5,000',over:'£5,000 & above'}, size:{small:'36mm & under',medium:'37–39mm',large:'40mm & over'}, era:{early:'Before 2000',modern:'2000 onwards'} };
+
     function closePanels(){
-      const open = panels.some(panel => !panel.hidden);
-      panels.forEach(panel => { panel.hidden = true; });
-      host.querySelectorAll('[aria-controls]').forEach(button => button.setAttribute('aria-expanded','false'));
-      return open;
+      const hadOpen = panels.some(panel => panel && !panel.hidden);
+      panels.forEach(panel => { if(panel) panel.hidden = true; });
+      filterButton.setAttribute('aria-expanded','false');
+      sortButton.setAttribute('aria-expanded','false');
+      return hadOpen;
     }
-    function togglePanel(panel, button){
-      const open = panel.hidden;
+    function positionControlPanel(panel, button){
+      if(!panel || !button || panel.hidden) return;
+      const hostRect = host.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
+      const panelWidth = panel.getBoundingClientRect().width;
+      const desiredRight = Math.max(0, hostRect.right - buttonRect.right);
+      const maximumRight = Math.max(0, hostRect.width - panelWidth);
+      panel.style.setProperty('--catalog-panel-right', Math.min(desiredRight, maximumRight) + 'px');
+    }
+    function positionOpenPanels(){
+      if(filterPanel && !filterPanel.hidden) positionControlPanel(filterPanel, filterButton);
+      if(sortPanel && !sortPanel.hidden) positionControlPanel(sortPanel, sortButton);
+    }
+    function toggleControlPanel(panel, button){
+      const willOpen = Boolean(panel && panel.hidden);
       closePanels();
-      panel.hidden = !open;
-      button.setAttribute('aria-expanded', String(open));
+      if(willOpen){
+        panel.hidden = false;
+        button.setAttribute('aria-expanded','true');
+        positionControlPanel(panel, button);
+      }
     }
-    function brandLabel(value){
-      const key = normalizeText(value);
-      return ({omega:'Omega',iwc:'IWC',tudor:'Tudor',heuer:'Heuer',zenith:'Zenith','jaeger lecoultre':'Jaeger-LeCoultre','girard perregaux':'Girard-Perregaux','porsche design':'Porsche Design','tag heuer':'TAG Heuer'})[key] || String(value).trim();
-    }
-    function renderSuggestions(){ sync(); }
     function sync(){
       if(document.activeElement !== searchInput) searchInput.value = searchQuery;
-      searchClear.hidden = !searchInput.value.trim();
-      host.querySelectorAll('[data-stock]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.stock === (showSold ? 'archive' : 'available'))));
-      host.querySelectorAll('[data-brand]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.brand === catalogFilters.brand)));
-      ['price','size','era'].forEach(key => host.querySelectorAll('input[name="catalog-' + key + '"]').forEach(input => { input.checked = input.value === catalogFilters[key]; }));
-      host.querySelectorAll('input[name="catalog-sort"]').forEach(input => { input.checked = input.value === currentSort; });
-      const count = ['price','size','era'].filter(key => catalogFilters[key]).length;
-      $('catalogFilterLabel').textContent = count ? 'Filter (' + count + ')' : 'Filter';
-      filterButton.classList.toggle('is-active', count > 0);
+      searchClear.hidden = !String(searchInput.value || searchQuery).trim();
+      availableFilter.checked = showAvailable;
+      soldFilter.checked = showSold;
+      const selectedSort = sortPanel.querySelector('input[value="' + currentSort + '"]');
+      if(selectedSort) selectedSort.checked = true;
+      filterButton.classList.toggle('is-active', !(showAvailable && showSold));
       sortButton.classList.toggle('is-active', currentSort !== 'newly-listed');
-      $('catalogSortDescription').textContent = sortNames[currentSort] || 'Newly listed';
-      $('catalogAvailableCount').textContent = watchesLoaded ? watches.filter(watch => !isUnavailable(watch)).length : '';
-      $('catalogArchiveCount').textContent = watchesLoaded ? watches.filter(isUnavailable).length : '';
-      const selected = [];
-      if(catalogFilters.brand) selected.push(['brand',brandLabel(watches.find(w => normalizeText(w.brand) === catalogFilters.brand)?.brand || catalogFilters.brand)]);
-      ['price','size','era'].forEach(key => { if(catalogFilters[key]) selected.push([key,filterNames[key][catalogFilters[key]]]); });
-      if(searchQuery) selected.push(['search',searchQuery]);
-      activeFilters.hidden = !selected.length;
-      activeFilters.innerHTML = selected.map(([key,label]) => '<button type="button" data-remove-filter="' + key + '" aria-label="Remove ' + escapeHtml(label) + ' filter">' + escapeHtml(label) + '<span aria-hidden="true">×</span></button>').join('') + (selected.length ? '<button class="cn-text-button" type="button" data-clear-all>Clear all</button>' : '');
+      syncSuggestionPills();
     }
-    function refresh(){ resetLimit(); render(); renderSuggestions(); }
-    function clearFilters(){
-      catalogFilters = {brand:'',price:'',size:'',era:''};
-      searchQuery = ''; searchInput.value = '';
-      refresh();
+    function applySearch(){
+      searchQuery = searchInput.value.trim();
+      resetLimit();
+      render();
+      sync();
     }
-    function applySearch(){ searchQuery = searchInput.value.trim(); refresh(); }
-    // Apply immediately so clearing search or switching stock cannot revive a queued query.
-    $('catalogToolbar').addEventListener('submit', event => { event.preventDefault(); applySearch(); });
-    searchInput.addEventListener('input', applySearch);
+    function applyFilters(){
+      showAvailable = availableFilter.checked;
+      showSold = soldFilter.checked;
+      resetLimit();
+      render();
+      renderSuggestionPills();
+      sync();
+    }
+    const searchSoon = debounce(applySearch, 120);
+    form.addEventListener('submit', (event) => { event.preventDefault(); applySearch(); });
+    searchInput.addEventListener('input', () => { searchClear.hidden = !searchInput.value.trim(); searchSoon(); });
     searchClear.addEventListener('click', () => { searchInput.value = ''; applySearch(); searchInput.focus(); });
-    filterButton.addEventListener('click', () => togglePanel(filterPanel,filterButton));
-    sortButton.addEventListener('click', () => togglePanel(sortPanel,sortButton));
-    $('catalogFilterApply').addEventListener('click', () => { closePanels(); filterButton.focus(); });
-    $('catalogFilterReset').addEventListener('click', () => { catalogFilters.price = ''; catalogFilters.size = ''; catalogFilters.era = ''; refresh(); });
-    host.addEventListener('click', event => {
-      const button = event.target.closest('button');
-      if(!button) return;
-      if(button.hasAttribute('data-stock')){
-        showSold = button.dataset.stock === 'archive'; showAvailable = !showSold;
-        catalogFilters = {brand:'',price:'',size:'',era:''}; searchQuery = ''; searchInput.value = '';
-        closePanels(); refresh();
-      }else if(button.hasAttribute('data-remove-filter')){
-        const key = button.dataset.removeFilter;
-        if(key === 'search'){ searchQuery = ''; searchInput.value = ''; } else catalogFilters[key] = '';
-        refresh();
-      }else if(button.hasAttribute('data-clear-all')) clearFilters();
+    filterButton.addEventListener('click', () => toggleControlPanel(filterPanel, filterButton));
+    sortButton.addEventListener('click', () => toggleControlPanel(sortPanel, sortButton));
+    availableFilter.addEventListener('change', applyFilters);
+    soldFilter.addEventListener('change', applyFilters);
+    filterReset.addEventListener('click', () => { availableFilter.checked = true; soldFilter.checked = true; applyFilters(); });
+    sortPanel.addEventListener('change', (event) => {
+      const option = event.target.closest('input[name="catalog-sort"]');
+      if(!option) return;
+      currentSort = option.value;
+      resetLimit();
+      render();
+      sync();
+      closePanels();
+      sortButton.focus();
     });
-    host.addEventListener('change', event => {
-      const input = event.target.closest('input[type="radio"]');
-      if(!input) return;
-      if(input.name === 'catalog-sort'){
-        currentSort = input.value; refresh(); closePanels(); sortButton.focus();
-      }else if(input.name.startsWith('catalog-')){
-        const key = input.name.slice(8);
-        if(['price','size','era'].includes(key)){ catalogFilters[key] = input.value; refresh(); }
-      }
-    });
-    document.addEventListener('click', event => { if(!host.contains(event.target)) closePanels(); });
+    document.addEventListener('click', (event) => { if(!host.contains(event.target)) closePanels(); });
+    window.addEventListener('resize', debounce(positionOpenPanels, 100), { passive:true });
+    function buildSuggestionItems(){
+      const source = watches.filter(w => {
+        const s = status(w);
+        const available = s === 'available' || !['sold','reserved'].includes(s);
+        const soldish = ['sold','reserved'].includes(s);
+        return (showAvailable && available) || (showSold && soldish);
+      });
+      const brandCounts = new Map();
+      source.forEach(w => {
+        const brand = String(w.brand || '').trim();
+        if(brand) brandCounts.set(brand, (brandCounts.get(brand) || 0) + 1);
+      });
+      const brands = Array.from(brandCounts, ([label, count]) => ({label, query:label, count}))
+        .filter(item => POPULAR_BRANDS.has(normalizeText(item.label)))
+        .sort((a,b) => b.count - a.count || a.label.localeCompare(b.label));
+      const used = new Set(brands.map(item => normalizeText(item.label)));
+      const keywords = SUGGESTION_KEYWORDS
+        .filter(item => !used.has(normalizeText(item.label)))
+        .filter(item => source.some(w => matchesCatalogSearch(w._search, item.query)));
+      return brands.concat(keywords);
+    }
+    function renderSuggestionPills(){
+      if(!suggestionPills) return;
+      const items = buildSuggestionItems();
+      suggestionPills.hidden = !items.length;
+      suggestionPills.innerHTML = items.map(item => '<button class="catalog-search-pill" type="button" data-query="' + escapeHtml(item.query) + '">' + escapeHtml(item.label) + '</button>').join('');
+      suggestionPills.querySelectorAll('.catalog-search-pill').forEach(button => {
+        button.addEventListener('click', () => {
+          const query = button.getAttribute('data-query') || '';
+          const active = normalizeText(searchInput.value) === normalizeText(query);
+          searchInput.value = active ? '' : query;
+          applySearch();
+          try { searchInput.focus({preventScroll:true}); } catch(e){ searchInput.focus(); }
+        });
+      });
+      syncSuggestionPills();
+    }
+    function syncSuggestionPills(){
+      if(!suggestionPills) return;
+      const activeQuery = normalizeText(searchInput.value || searchQuery || '');
+      suggestionPills.querySelectorAll('.catalog-search-pill').forEach(button => {
+        button.classList.toggle('is-active', normalizeText(button.getAttribute('data-query')) === activeQuery);
+      });
+    }
     catalogControlsApi = {
-      closePanels, sync, renderSuggestions,
+      closePanels,
+      sync,
+      renderSuggestions: renderSuggestionPills,
       updateCount(count){
-        const label = count + (count === 1 ? ' watch' : ' watches');
-        $('catalogResultCount').textContent = watchesLoaded ? label : 'Loading watches…';
-        $('catalogFilterApply').textContent = 'Show ' + label;
-        $('catalogFilterEmpty').hidden = !watchesLoaded || count > 0;
+        if(resultCount) resultCount.textContent = count + (count === 1 ? ' watch shown' : ' watches shown');
       }
     };
-    renderSuggestions();
+    sync();
+    renderSuggestionPills();
   }
 
   const REF_FIELDS = ['reference','ref','referenceNumber','referenceNo','reference number','modelReference','modelRef','model reference','watch reference','manufacturer reference','mpn','Reference','Reference Number','Reference No','Model Reference','MPN'];
@@ -2638,33 +2634,12 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
     const difference = newestFirst ? secondYear - firstYear : firstYear - secondYear;
     return difference || Number(first?._airtableEntryOrder || 0) - Number(second?._airtableEntryOrder || 0);
   }
-  function matchesCatalogFilters(watch){
-    if(catalogFilters.brand && normalizeText(watch.brand) !== catalogFilters.brand) return false;
-    if(catalogFilters.price){
-      const price = Number(String(watch.price || '').replace(/[^0-9.]/g,''));
-      if(!(price > 0)) return false;
-      if(catalogFilters.price === 'over' ? price < 5000 : price >= Number(catalogFilters.price)) return false;
-    }
-    if(catalogFilters.size){
-      const size = Number(String(watch.specs?.caseSize || watch.caseSize || '').match(/\d+(?:\.\d+)?/)?.[0]);
-      if(!(size > 0)) return false;
-      if(catalogFilters.size === 'small' && size > 36) return false;
-      if(catalogFilters.size === 'medium' && (size <= 36 || size >= 40)) return false;
-      if(catalogFilters.size === 'large' && size < 40) return false;
-    }
-    if(catalogFilters.era){
-      const year = watchYearValue(watch);
-      if(year == null) return false;
-      if(catalogFilters.era === 'early' ? year >= 2000 : year < 2000) return false;
-    }
-    return true;
-  }
   function filteredWatches(){
     let items = watches.filter(w => {
       const s = status(w);
       const available = s === 'available' || !['sold','reserved'].includes(s);
       const soldish = ['sold','reserved'].includes(s);
-      return ((showAvailable && available) || (showSold && soldish)) && matchesCatalogFilters(w);
+      return (showAvailable && available) || (showSold && soldish);
     });
     if(searchQuery){
       items = items.filter(w => matchesCatalogSearch(w._search, searchQuery));
@@ -3509,8 +3484,7 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
   function goHome(){
     closeAllMenus();
     closeLightbox(false);
-    searchQuery = ''; currentSort = 'newly-listed'; showAvailable = true; showSold = false;
-    catalogFilters = {brand:'',price:'',size:'',era:''};
+    searchQuery = ''; currentSort = 'newly-listed'; showAvailable = true; showSold = true;
     showRoute('buy');
     if(catalogControlsApi) catalogControlsApi.sync();
     resetLimit();
