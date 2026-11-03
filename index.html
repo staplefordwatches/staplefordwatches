@@ -1966,13 +1966,11 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
         '<button class="cn-stock-button" type="button" data-stock="available" aria-pressed="true">Available <span id="catalogAvailableCount"></span></button>',
         '<button class="cn-stock-button" type="button" data-stock="archive" aria-pressed="false">Archive <span id="catalogArchiveCount"></span></button>',
       '</div>',
-      '<nav class="cn-brands" id="catalogBrandNav" aria-label="Browse watches by brand"></nav>',
       '<form class="cn-toolbar" id="catalogToolbar" role="search" aria-label="Search, filter and sort watches">',
         '<label class="cn-search">' + searchIcon + '<span class="glass-sr-only">Search watches by brand, model or reference</span><input id="catalogSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Search watches"><button id="catalogSearchClear" class="cn-search-clear" type="button" aria-label="Clear search" hidden>×</button></label>',
         '<button class="cn-tool" id="catalogFilterButton" type="button" aria-expanded="false" aria-controls="catalogFilterPanel">' + filterIcon + '<span id="catalogFilterLabel">Filter</span></button>',
         '<button class="cn-tool" id="catalogSortButton" type="button" aria-expanded="false" aria-controls="catalogSortPanel">' + sortIcon + '<span>Sort</span></button>',
       '</form>',
-      '<div class="cn-panel cn-brand-panel" id="catalogBrandPanel" aria-label="All watch brands" hidden></div>',
       '<div class="cn-panel cn-filter-panel" id="catalogFilterPanel" hidden>',
         '<fieldset><legend>Price</legend>' + options('price', [['','Any price'],['1500','Under £1,500'],['2500','Under £2,500'],['5000','Under £5,000'],['over','£5,000 &amp; above']]) + '</fieldset>',
         '<fieldset><legend>Case size</legend>' + options('size', [['','Any size'],['small','36mm &amp; under'],['medium','37–39mm'],['large','40mm &amp; over']]) + '</fieldset>',
@@ -1994,12 +1992,11 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
     buyPage.insertBefore(host, gallery);
     const searchInput = $('catalogSearchInput'), searchClear = $('catalogSearchClear');
     const filterButton = $('catalogFilterButton'), sortButton = $('catalogSortButton');
-    const filterPanel = $('catalogFilterPanel'), sortPanel = $('catalogSortPanel'), brandPanel = $('catalogBrandPanel');
-    const brandNav = $('catalogBrandNav'), activeFilters = $('catalogActiveFilters');
-    const panels = [filterPanel, sortPanel, brandPanel];
+    const filterPanel = $('catalogFilterPanel'), sortPanel = $('catalogSortPanel');
+    const activeFilters = $('catalogActiveFilters');
+    const panels = [filterPanel, sortPanel];
     const sortNames = { 'newly-listed':'Newly listed', 'price-low':'Price: low to high', 'price-high':'Price: high to low', 'brand-az':'Brand: A–Z', 'new-old':'Year: newest first', 'old-new':'Year: oldest first' };
     const filterNames = { price:{1500:'Under £1,500',2500:'Under £2,500',5000:'Under £5,000',over:'£5,000 & above'}, size:{small:'36mm & under',medium:'37–39mm',large:'40mm & over'}, era:{early:'Before 2000',modern:'2000 onwards'} };
-    let brandSignature = '';
     function closePanels(){
       const open = panels.some(panel => !panel.hidden);
       panels.forEach(panel => { panel.hidden = true; });
@@ -2012,26 +2009,11 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
       panel.hidden = !open;
       button.setAttribute('aria-expanded', String(open));
     }
-    function sourceWatches(){ return watches.filter(watch => showSold ? isUnavailable(watch) : !isUnavailable(watch)); }
     function brandLabel(value){
       const key = normalizeText(value);
       return ({omega:'Omega',iwc:'IWC',tudor:'Tudor',heuer:'Heuer',zenith:'Zenith','jaeger lecoultre':'Jaeger-LeCoultre','girard perregaux':'Girard-Perregaux','porsche design':'Porsche Design','tag heuer':'TAG Heuer'})[key] || String(value).trim();
     }
-    function renderSuggestions(){
-      const brands = new Map();
-      sourceWatches().forEach(watch => { const key = normalizeText(watch.brand); if(key) brands.set(key, brandLabel(watch.brand)); });
-      const entries = [...brands].sort((a,b) => a[1].localeCompare(b[1]));
-      const preferred = ['omega','jaeger lecoultre','tudor','heuer'];
-      const quick = preferred.filter(key => brands.has(key)).map(key => [key,brands.get(key)]);
-      const signature = JSON.stringify([entries, quick]);
-      if(signature !== brandSignature){
-        const button = ([key,label]) => '<button type="button" class="cn-brand-button" data-brand="' + escapeHtml(key) + '" aria-pressed="false">' + escapeHtml(label) + '</button>';
-        brandNav.innerHTML = button(['','All watches']) + quick.map(button).join('') + (entries.some(([key]) => !preferred.includes(key)) ? '<button class="cn-more-brands" id="catalogMoreBrands" type="button" aria-expanded="false" aria-controls="catalogBrandPanel">More <span aria-hidden="true">⌄</span></button>' : '');
-        brandPanel.innerHTML = entries.map(button).join('');
-        brandSignature = signature;
-      }
-      sync();
-    }
+    function renderSuggestions(){ sync(); }
     function sync(){
       if(document.activeElement !== searchInput) searchInput.value = searchQuery;
       searchClear.hidden = !searchInput.value.trim();
@@ -2075,10 +2057,7 @@ html body #catalogControls.cn-catalog{pointer-events:auto;padding-bottom:18px!im
         showSold = button.dataset.stock === 'archive'; showAvailable = !showSold;
         catalogFilters = {brand:'',price:'',size:'',era:''}; searchQuery = ''; searchInput.value = '';
         closePanels(); refresh();
-      }else if(button.hasAttribute('data-brand')){
-        catalogFilters.brand = button.dataset.brand; closePanels(); refresh();
-      }else if(button.id === 'catalogMoreBrands') togglePanel(brandPanel,button);
-      else if(button.hasAttribute('data-remove-filter')){
+      }else if(button.hasAttribute('data-remove-filter')){
         const key = button.dataset.removeFilter;
         if(key === 'search'){ searchQuery = ''; searchInput.value = ''; } else catalogFilters[key] = '';
         refresh();
