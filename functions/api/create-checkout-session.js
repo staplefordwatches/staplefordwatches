@@ -1,4 +1,5 @@
 import { ALLOWED_COUNTRIES } from "../_utils/shipping.js";
+import { isComingSoonWatch } from "../_utils/catalog-seo.js";
 import { findWatchByListingId } from "../_utils/airtable-watch.js";
 
 function add(params, key, value) {
@@ -66,6 +67,10 @@ export async function onRequestPost({ request, env }) {
       return Response.json({ error: "This watch could not be found." }, { status: 404 });
     }
 
+    if (isComingSoonWatch(item)) {
+      return Response.json({ error: "This watch is coming soon." }, { status: 409 });
+    }
+
     const normalizedStatus = String(item.status || "").toLowerCase();
 
     if (normalizedStatus.includes("sold") || normalizedStatus.includes("reserved")) {
@@ -131,3 +136,4 @@ export async function onRequestPost({ request, env }) {
     return Response.json({ error: error.message || "Unable to start checkout" }, { status: 500 });
   }
 }
+

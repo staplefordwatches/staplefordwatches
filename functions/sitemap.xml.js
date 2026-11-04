@@ -1,6 +1,6 @@
 import { onRequest as getJournal } from "./api/journal.js";
 import { onRequest as getWatches } from "./api/watches.js";
-import { SITE_ORIGIN, dateOnly, watchUrl, xmlEscape } from "./_utils/catalog-seo.js";
+import { SITE_ORIGIN, dateOnly, isComingSoonWatch, watchUrl, xmlEscape } from "./_utils/catalog-seo.js";
 
 const STATIC_PATHS = [
   "/",
@@ -21,7 +21,7 @@ function urlEntry(location, lastModified = "") {
 
 export function buildSitemap({ watches = [], posts = [] } = {}) {
   const entries = STATIC_PATHS.map((path) => ({ location: `${SITE_ORIGIN}${path}`, lastModified: "" }));
-  watches.forEach((watch) => entries.push({ location: watchUrl(watch), lastModified: watch.dateAdded }));
+  watches.filter((watch) => !isComingSoonWatch(watch)).forEach((watch) => entries.push({ location: watchUrl(watch), lastModified: watch.dateAdded }));
   posts.forEach((post) => {
     if (!post?.slug) return;
     entries.push({
@@ -57,3 +57,4 @@ export async function onRequest(context) {
     },
   });
 }
+

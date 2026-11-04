@@ -53,9 +53,13 @@ export function watchStatus(watch) {
   return cleanText(watch?.status).toLowerCase();
 }
 
+export function isComingSoonWatch(watch) {
+  return watchStatus(watch) === "coming soon";
+}
+
 export function isAvailableWatch(watch) {
   const status = watchStatus(watch);
-  return status === "available" || (!status.includes("sold") && !status.includes("reserved"));
+  return !isComingSoonWatch(watch) && (status === "available" || (!status.includes("sold") && !status.includes("reserved")));
 }
 
 export function numericPrice(value) {
@@ -84,3 +88,4 @@ export function dateOnly(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? "" : date.toISOString().slice(0, 10);
 }
+
