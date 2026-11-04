@@ -99,7 +99,7 @@ test('coming soon cards have a badge, no price, no link and no keyboard controls
   assert.match(available, /£10000/);
   assert.doesNotMatch(available, /Coming soon/);
   assert.match(cardHtml({ ...watch, status: 'Sold' }, 0), />SOLD</);
-  assert.match(cardHtml({ ...watch, status: 'Reserved' }, 0), />RESERVED</);
+  assert.match(cardHtml({ ...watch, status: 'Reserved' }, 0), /class="reserved-badge catalog-search-pill">Reserved<\/div>/);
 });
 
 test('all attempts to open a coming soon product stop before opening the detail view', () => {
@@ -131,4 +131,24 @@ test('a status refresh closes a product that has changed to coming soon', () => 
   });
   assert.equal(renderLoaded([watch]), true);
   assert.equal(closed, true);
+});
+
+test('reserved watches appear with available inventory and keep their place ahead of sold watches', () => {
+  const watches = [
+    { listingId: 'sold', status: 'Sold' },
+    { listingId: 'reserved', status: 'Reserved' },
+    { listingId: 'available', status: 'Available' },
+    { listingId: 'soon', status: 'Coming soon' },
+  ];
+  for (const [showAvailable, showSold, expected] of [
+    [true, false, ['reserved', 'available', 'soon']],
+    [false, true, ['sold']],
+    [true, true, ['reserved', 'available', 'soon', 'sold']],
+    [false, false, []],
+  ]) {
+    const { filteredWatches } = frontend(['filteredWatches'], {
+      watches, showAvailable, showSold, searchQuery: '', currentSort: 'default',
+    });
+    assert.deepEqual(Array.from(filteredWatches(), watch => watch.listingId), expected);
+  }
 });

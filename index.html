@@ -1593,10 +1593,11 @@ html body #catalogControls .glass-panel-reset:hover,html body #catalogControls .
 html body .status-badge,html body #lightbox .lightbox-status-badge,html body.product-page-open #lightbox.open .lightbox-status-badge{border:1px solid rgba(10,35,66,.14)!important;background:#e7ebef!important;color:rgba(10,35,66,.72)!important;box-shadow:none!important}
 html body #lightbox .lightbox-detail-buy.is-disabled,html body #lightbox .lightbox-detail-buy.is-disabled:hover,html body #lightbox .lightbox-detail-buy.is-disabled:focus,html body #lightbox .lightbox-detail-buy.is-disabled:active,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:hover,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:focus,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:active{border-color:rgba(10,35,66,.16)!important;background:#e7ebef!important;color:var(--sw-text-muted)!important;opacity:1!important;box-shadow:none!important}
 
-/* Coming soon reuses the quick-search pill appearance. */
-html body #gallery .coming-soon-badge{position:absolute;inset:12px 12px auto auto;z-index:4;max-width:calc(100% - 24px);box-sizing:border-box;pointer-events:none;background:rgba(255,255,255,.68)!important;color:var(--sw-navy,#0a2342)!important;-webkit-backdrop-filter:blur(12px) saturate(120%);backdrop-filter:blur(12px) saturate(120%)}
-@media(max-width:767px){html body #gallery .coming-soon-badge{inset:8px 8px auto auto;max-width:calc(100% - 16px)}}
-@media(min-width:768px){html body #gallery .coming-soon-badge{min-height:30px!important;padding-right:12px!important;padding-left:12px!important;font-size:var(--type-body)!important}}
+/* Status pills share the quick-search shape and frosted treatment. */
+html body #gallery .coming-soon-badge,html body #gallery .reserved-badge{position:absolute;inset:12px 12px auto auto;z-index:4;max-width:calc(100% - 24px);box-sizing:border-box;pointer-events:none;background:rgba(255,255,255,.68)!important;color:var(--sw-navy,#0a2342)!important;-webkit-backdrop-filter:blur(12px) saturate(120%);backdrop-filter:blur(12px) saturate(120%)}
+html body #gallery .reserved-badge{inset:auto auto 12px 12px;background:rgba(10,35,66,.78)!important;color:#fff!important;border-color:rgba(255,255,255,.24)!important}
+@media(max-width:767px){html body #gallery .coming-soon-badge,html body #gallery .reserved-badge{inset:8px 8px auto auto;max-width:calc(100% - 16px)}html body #gallery .reserved-badge{inset:auto auto 8px 8px}}
+@media(min-width:768px){html body #gallery .coming-soon-badge,html body #gallery .reserved-badge{min-height:30px!important;padding-right:12px!important;padding-left:12px!important;font-size:var(--type-body)!important}}
 
 /* Legal copy now matches the 12px Sell Your Watch body copy. */
 html body .info-policy p{font-size:var(--type-body)!important;line-height:1.6!important;letter-spacing:.01em!important}
@@ -2034,8 +2035,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     function buildSuggestionItems(){
       const source = watches.filter(w => {
         const s = status(w);
-        const available = s === 'available' || !['sold','reserved'].includes(s);
-        const soldish = ['sold','reserved'].includes(s);
+        const available = s !== 'sold';
+        const soldish = s === 'sold';
         return (showAvailable && available) || (showSold && soldish);
       });
       const brandCounts = new Map();
@@ -2645,8 +2646,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   function filteredWatches(){
     let items = watches.filter(w => {
       const s = status(w);
-      const available = s === 'available' || !['sold','reserved'].includes(s);
-      const soldish = ['sold','reserved'].includes(s);
+      const available = s !== 'sold';
+      const soldish = s === 'sold';
       return (showAvailable && available) || (showSold && soldish);
     });
     if(searchQuery){
@@ -2664,7 +2665,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         return 0;
       });
     }
-    return items.filter(w => !isUnavailable(w)).concat(items.filter(isUnavailable));
+    return items.filter(w => status(w) !== 'sold').concat(items.filter(w => status(w) === 'sold'));
   }
   function renderEmpty(){
     if(gallery) gallery.textContent = '';
@@ -2740,7 +2741,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
         <img src="${escapeHtml(gridSrc)}" ${gridSet ? `srcset="${escapeHtml(gridSet)}"` : ''} alt="${escapeHtml(name)} (${escapeHtml(watch.listingId)})" loading="${eager ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'auto'}" decoding="async" sizes="${gridImageSizes()}" width="800" height="1000" draggable="false" oncontextmenu="return false;" ondragstart="return false;" oncopy="return false;" oncut="return false;" onselectstart="return false;">
         ${available ? `<a class="merchant-product-link" href="${escapeHtml(watch.productLink)}" aria-label="Product link for ${escapeHtml(name)}"></a>` : ''}
         ${comingSoon ? '<div class="coming-soon-badge catalog-search-pill">Coming soon</div>' : ''}
-        ${reserved ? '<div class="status-badge">RESERVED</div>' : ''}
+        ${reserved ? '<div class="reserved-badge catalog-search-pill">Reserved</div>' : ''}
         ${available ? `<button class="spec-trigger" type="button" aria-expanded="false"><span>SPEC ↑</span></button><div class="spec-overlay" aria-hidden="true"><button class="spec-hide" type="button" aria-label="Hide specifications"><span>HIDE ↓</span></button><div class="spec-list">${specRows.map(([label,value]) => `<div class="spec-row"><span class="spec-label">${escapeHtml(label)}</span><span class="spec-value${label === 'YEAR' ? ' spec-year-value' : ''}">${escapeHtml(formatSpecValue(label, value))}</span></div>`).join('')}</div></div>` : ''}
       </div>
       <div class="info"><div class="title"><div class="listing-brand">${escapeHtml(String(watch.brand || '').toUpperCase())}</div><div class="listing-title">${escapeHtml(listingTitle)}</div><div class="listing-details"><div class="listing-reference">${reference ? escapeHtml(reference) : ''}</div><div class="listing-meta" aria-label="${escapeHtml([year, caseSize].filter(Boolean).join(', '))}">${year ? `<span class="listing-year" aria-hidden="true">${escapeHtml(year)}</span>` : ''}${year && caseSize ? '<span class="listing-meta-dot" aria-hidden="true"></span>' : ''}${caseSize ? `<span aria-hidden="true">${escapeHtml(caseSize)}</span>` : ''}</div></div></div><div class="info-right"><div class="price"${priceOnRequest ? ' aria-label="Price on request"' : ''}>${priceOnRequest ? '<span class="price-long" aria-hidden="true">PRICE ON REQUEST</span><span class="price-short" aria-hidden="true">POR</span>' : escapeHtml(price)}</div></div></div>
