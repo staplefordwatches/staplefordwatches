@@ -88,7 +88,7 @@ test('coming soon cards have a badge, no price, no link and no keyboard controls
   for (const status of ['Coming soon', ' COMING SOON ']) {
     for (const price of [10000, '']) {
       const card = cardHtml({ ...watch, status, price, productLink: '/watches/test-sw999/' }, 0);
-      assert.match(card, /class="coming-soon-badge">[\s\S]*<span>COMING SOON<\/span>/);
+      assert.match(card, /class="coming-soon-badge catalog-search-pill">Coming soon<\/div>/);
       assert.doesNotMatch(card, /<a\b|<button\b|tabindex=|role="button"|data-product-link=|is-clickable/);
       assert.doesNotMatch(card, /£|PRICE ON REQUEST|POR/);
     }
@@ -97,7 +97,7 @@ test('coming soon cards have a badge, no price, no link and no keyboard controls
   assert.match(available, /role="button" tabindex="0"/);
   assert.match(available, /href="\/watches\/test-sw999\/"/);
   assert.match(available, /£10000/);
-  assert.doesNotMatch(available, /COMING SOON/);
+  assert.doesNotMatch(available, /Coming soon/);
   assert.match(cardHtml({ ...watch, status: 'Sold' }, 0), />SOLD</);
   assert.match(cardHtml({ ...watch, status: 'Reserved' }, 0), />RESERVED</);
 });
