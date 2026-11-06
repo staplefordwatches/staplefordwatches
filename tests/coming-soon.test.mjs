@@ -125,7 +125,7 @@ test('direct product links return to the catalogue for coming soon watches', () 
 test('a status refresh closes a product that has changed to coming soon', () => {
   let closed = false;
   const { renderLoaded } = frontend(['renderLoaded'], {
-    prepare() {}, render() {}, catalogControlsApi: null, activeWatch: { listingId: watch.listingId },
+    prepare() {}, render() {}, renderHomeSuggestions() {}, catalogControlsApi: null, activeWatch: { listingId: watch.listingId },
     watchesById: new Map([[watch.listingId, watch]]), closeLightbox() { closed = true; },
     updateStructuredDataSoon() {}, saveCache() {},
   });
@@ -152,3 +152,4 @@ test('reserved watches appear with available inventory and keep their place ahea
     assert.deepEqual(Array.from(filteredWatches(), watch => watch.listingId), expected);
   }
 });
+
