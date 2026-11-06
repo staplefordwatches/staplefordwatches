@@ -1636,7 +1636,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   .desktop-site-nav--product{position:absolute;top:calc(var(--site-control-top) + (var(--site-control-size) / 2));z-index:2147483647}
 }
 </style>
-<link rel="stylesheet" href="/assets/homepage.css?v=1"/>
+<link rel="stylesheet" href="/assets/homepage.css?v=2"/>
 </head><body><header aria-label="Site header" class="site-header"><a aria-label="Return to home page" class="logo" href="/" id="logoHome"><img alt="Stapleford Watches" class="logo-mark" decoding="async" fetchpriority="high" height="360" loading="eager" src="/assets/stapleford-watches-logo@2x.png?v=1" width="295"/></a><button aria-expanded="false" aria-label="Open menu" class="sw-menu-toggle" id="swMenuToggle" type="button"><span class="sw-menu-toggle-bar"></span><span class="sw-menu-toggle-bar"></span></button></header><main class="home-page" id="homePage" hidden aria-labelledby="homeTitle">
 <picture class="home-photo"><source id="homeMobileImage" media="(max-width:767px)"/><img id="homeHeroImage" alt="Jaeger-LeCoultre perpetual calendar on a grey leather strap, worn against navy knitwear." width="1638" height="2048" loading="eager" fetchpriority="high" decoding="async"/></picture>
 <h1 class="home-sr-only" id="homeTitle">Stapleford Watches — pre-owned luxury watches</h1>
@@ -2900,7 +2900,7 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     syncPrimaryHeading();
     const lightboxMenuToggleEl = $('lightboxMenuToggle');
     if(lightboxMenuToggleEl){ lightboxMenuToggleEl.classList.remove('is-open'); lightboxMenuToggleEl.setAttribute('aria-expanded','false'); lightboxMenuToggleEl.setAttribute('aria-label','Open menu'); }
-    if(updateUrl) setRoute('buy', true);
+    if(updateUrl) setRoute(document.body.classList.contains('home-active') ? 'home' : 'buy', true);
     updateMenuSeo(routeKey() || 'home');
     updateStructuredDataSoon();
   }
@@ -3439,18 +3439,19 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const isJournal = key === 'journal';
     const isHome = key === 'home';
     const isBuy = !isInfo && !isSell && !isJournal && !isHome;
+    const isCatalog = isHome || isBuy;
     document.body.classList.toggle('home-active', isHome);
     const homePageEl = $('homePage');
     if(homePageEl) homePageEl.hidden = !isHome;
     if(isHome){ loadHomepage(); renderHomeSuggestions(); }
-    if(isBuy){ searchQuery = new URLSearchParams(window.location.search).get('q') || ''; resetLimit(); render(); }
+    if(isCatalog){ searchQuery = isHome ? '' : new URLSearchParams(window.location.search).get('q') || ''; resetLimit(); render(); }
     if(!isJournal) document.body.classList.remove('journal-entry-active');
     document.body.classList.toggle('info-active', isInfo);
     document.body.classList.toggle('legal-info-active', isLegalInfo);
     document.body.classList.toggle('sell-active', isSell);
     document.body.classList.toggle('journal-active', isJournal);
     const buyPageEl = $('buyPage');
-    if(buyPageEl) buyPageEl.hidden = !isBuy;
+    if(buyPageEl) buyPageEl.hidden = !isCatalog;
     const infoPageEl = $('infoPage');
     if(infoPageEl) infoPageEl.hidden = !isInfo;
     const sellPageEl = $('sellPage');
@@ -3458,8 +3459,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
     const journalPageEl = $('journalPage');
     if(journalPageEl) journalPageEl.hidden = !isJournal;
     const catalogControlsEl = $('catalogControls');
-    if(catalogControlsEl) catalogControlsEl.hidden = !isBuy;
-    if(isBuy && catalogControlsApi) catalogControlsApi.sync();
+    if(catalogControlsEl) catalogControlsEl.hidden = !isCatalog;
+    if(isCatalog && catalogControlsApi) catalogControlsApi.sync();
     if(isInfo) renderInfoPage(key);
     if(isSell) resetSellFormStatus();
     updateMenuSeo(key || 'home');
@@ -3537,8 +3538,8 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
       if(POPULAR_BRANDS.has(normalizeText(label))) counts.set(label, (counts.get(label) || 0) + 1);
     });
     const brands = Array.from(counts, ([label,count]) => ({label,query:label,count}))
-      .sort((a,b) => b.count - a.count || a.label.localeCompare(b.label)).slice(0,3);
-    const types = SUGGESTION_KEYWORDS.filter(item => !genderQueryKind(item.query) && watches.some(watch => matchesCatalogSearch(watch._search,item.query))).slice(0,1);
+      .sort((a,b) => b.count - a.count || a.label.localeCompare(b.label));
+    const types = SUGGESTION_KEYWORDS.filter(item => watches.some(watch => matchesCatalogSearch(watch._search,item.query)));
     host.innerHTML = brands.concat(types).map(item => '<a href="/buy/?q=' + encodeURIComponent(item.query) + '">' + escapeHtml(item.label) + '</a>').join('');
   }
   function homeImageSrcset(url){
