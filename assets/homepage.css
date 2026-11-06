@@ -20,7 +20,7 @@
 .home-quick-searches a{flex:0 0 auto}
 .home-quick-searches a,.home-quick-searches a:link,.home-quick-searches a:visited{display:inline-flex;align-items:center;justify-content:center;min-height:35px;padding:8px 15px;border:0;border-radius:999px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4);color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.5);font-family:var(--font-body,"PP Neue Montreal","Sweet Sans Pro",Arial,sans-serif);font-size:11px;font-weight:400;line-height:1.2;letter-spacing:.025em;text-decoration:none;white-space:nowrap;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 .home-quick-searches a:hover{background:rgba(255,255,255,.22)}
-.home-search button:focus-visible,.home-quick-searches a:focus-visible,body.home-active .site-header a:focus-visible,body.home-active .site-header button:focus-visible{outline:2px solid #0a2342!important;outline-offset:4px!important}
+.home-search button:focus-visible,.home-quick-searches a:focus-visible,body.home-active .site-header a:focus-visible,body.home-active .site-header button:focus-visible{outline:2px solid #000000!important;outline-offset:4px!important}
 .home-sr-only{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
 body.home-active{background:var(--curated-shell,#f2f2f0)!important}
 body.home-active .home-page{flex:0 0 auto}
@@ -50,15 +50,15 @@ body.home-active #siteMenuPopover{background:rgba(255,255,255,.86);-webkit-backd
 body.home-active #siteMenuPopover .site-menu-popover-link,
 body.home-active #siteMenuPopover .site-menu-connect-link,
 body.home-active #siteMenuPopover .sw-footer-newsletter-title,
-body.home-active #siteMenuPopover .sw-footer-newsletter-status{color:#0a2342!important}
-body.home-active #siteMenuPopover .site-menu-popover-link{border-color:rgba(10,35,66,.18)}
+body.home-active #siteMenuPopover .sw-footer-newsletter-status{color:#000000!important}
+body.home-active #siteMenuPopover .site-menu-popover-link{border-color:rgba(0,0,0,.18)}
 body.home-active #siteMenuPopover .site-menu-popover-link:hover,
-body.home-active #siteMenuPopover .site-menu-popover-link:focus-visible{background:rgba(10,35,66,.07)!important}
+body.home-active #siteMenuPopover .site-menu-popover-link:focus-visible{background:rgba(0,0,0,.07)!important}
 body.home-active #siteMenuPopover .site-menu-connect-label,
-body.home-active #siteMenuPopover .sw-footer-newsletter-note{color:rgba(10,35,66,.72)}
-body.home-active #siteMenuPopover .sw-footer-newsletter-input{color:#0a2342;border-color:rgba(10,35,66,.4)}
-body.home-active #siteMenuPopover .sw-footer-newsletter-input::placeholder{color:rgba(10,35,66,.65)}
-body.home-active #siteMenuPopover .sw-footer-newsletter-input:focus{border-color:#0a2342}
-body.home-active #siteMenuPopover .sw-footer-newsletter-submit{border-color:#0a2342;background:#0a2342;color:#fff}
+body.home-active #siteMenuPopover .sw-footer-newsletter-note{color:rgba(0,0,0,.72)}
+body.home-active #siteMenuPopover .sw-footer-newsletter-input{color:#000000;border-color:rgba(0,0,0,.4)}
+body.home-active #siteMenuPopover .sw-footer-newsletter-input::placeholder{color:rgba(0,0,0,.65)}
+body.home-active #siteMenuPopover .sw-footer-newsletter-input:focus{border-color:#000000}
+body.home-active #siteMenuPopover .sw-footer-newsletter-submit{border-color:#000000;background:#000000;color:#fff}
 
 .home-search button:focus-visible,.home-quick-searches a:focus-visible,body.home-active #desktopSiteNav a:focus-visible,body.home-active #swMenuToggle:focus-visible{outline-color:#fff!important}
