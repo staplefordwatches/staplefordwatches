@@ -97,7 +97,7 @@ html body #catalogControls .glass-panel-reset:hover,html body #catalogControls .
 html body .status-badge,html body #lightbox .lightbox-status-badge,html body.product-page-open #lightbox.open .lightbox-status-badge{border:1px solid rgba(0,0,0,.14)!important;color:rgba(0,0,0,.72)!important}
 html body #lightbox .lightbox-detail-buy.is-disabled,html body #lightbox .lightbox-detail-buy.is-disabled:hover,html body #lightbox .lightbox-detail-buy.is-disabled:focus,html body #lightbox .lightbox-detail-buy.is-disabled:active,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:hover,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:focus,html body.product-page-open #lightbox.open .lightbox-detail-buy.is-disabled:active{border-color:rgba(0,0,0,.16)!important}
 html body #gallery .coming-soon-badge,html body #gallery .reserved-badge{color:var(--sw-navy,#000000)!important}
-html body #gallery .reserved-badge{background:rgba(0,0,0,.78)!important}
+html body #gallery .reserved-badge{background:rgba(0,0,0,.78)!important;color:#fff!important}
 html body.legal-info-active #infoTitle{color:var(--sw-navy,#000000)!important}
 html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#000000)!important}
 #stripe-checkout-cart-label{color:#000000!important}
