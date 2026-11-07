@@ -9,3 +9,13 @@
 
 /fonts/sweet-sans-pro-bold-v1.otf
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/stapleford-watches-logo-navy@2x.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/dispatch/*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'
