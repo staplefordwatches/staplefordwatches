@@ -1635,33 +1635,6 @@ html body .site-footer{box-shadow:0 5px 0 5px var(--sw-navy,#0a2342)!important}
   html body #catalogControls .catalog-search-pill{min-height:30px!important;padding-right:12px!important;padding-left:12px!important}
   .desktop-site-nav--product{position:absolute;top:calc(var(--site-control-top) + (var(--site-control-size) / 2));z-index:2147483647}
 }
-
-/* Home page opening image */
-#homeHero{display:none}
-body.home-active #homeHero{display:grid}
-body.home-active .site-header{position:absolute;inset:0 0 auto;z-index:40;background:transparent!important;color:#fff}
-body.home-active .site-header .logo::before{background:#fff}
-body.home-active .site-header .desktop-site-nav-link,
-body.home-active .site-header .desktop-site-nav-link:link,
-body.home-active .site-header .desktop-site-nav-link:visited{color:#fff!important}
-body.home-active .site-header .sw-menu-toggle-bar{background:#fff!important}
-.home-hero{position:relative;isolation:isolate;width:100%;min-height:100svh;place-items:end start;overflow:hidden;background:#07111d;color:#fff}
-.home-hero::before{content:"";position:absolute;inset:0;z-index:-2;background:url("/assets/stapleford-home-hero.jpg?v=1") center 58%/cover no-repeat;transform:scale(1.01)}
-.home-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(2,9,17,.16) 0%,rgba(2,9,17,.02) 44%,rgba(2,9,17,.7) 100%),linear-gradient(90deg,rgba(2,9,17,.42) 0%,rgba(2,9,17,0) 60%)}
-.home-hero-content{width:min(680px,calc(100% - 48px));margin:0 0 clamp(40px,8vh,86px);padding-left:clamp(24px,5vw,72px)}
-.home-hero-kicker{margin:0 0 14px;font-family:"PP Neue Montreal","Sweet Sans Pro",Arial,sans-serif;font-size:10px;line-height:1.2;font-weight:400;letter-spacing:.18em;text-transform:uppercase;opacity:.8}
-.home-hero-title{max-width:640px;margin:0;font-family:"PP Neue Montreal","Sweet Sans Pro",Arial,sans-serif;font-size:clamp(42px,6.6vw,92px);line-height:.94;font-weight:300;letter-spacing:-.035em;text-wrap:balance}
-.home-hero-scroll,.home-hero-scroll:link,.home-hero-scroll:visited{display:inline-flex;align-items:center;gap:12px;margin-top:clamp(24px,4vh,40px);padding:0 0 7px;border-bottom:1px solid rgba(255,255,255,.48);color:#fff!important;font-family:"PP Neue Montreal","Sweet Sans Pro",Arial,sans-serif;font-size:10px;line-height:1.2;font-weight:400;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:border-color .2s ease,opacity .2s ease}
-.home-hero-scroll:hover{border-color:#fff;opacity:.82}
-.home-hero-scroll svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.35}
-@media (max-width:767px){
-  .home-hero{min-height:100svh}
-  .home-hero::before{background-position:center center}
-  .home-hero::after{background:linear-gradient(180deg,rgba(2,9,17,.12) 0%,rgba(2,9,17,.03) 48%,rgba(2,9,17,.76) 100%)}
-  .home-hero-content{width:calc(100% - 40px);margin-bottom:max(34px,calc(24px + env(safe-area-inset-bottom,0px)));padding-left:20px}
-  .home-hero-title{font-size:clamp(40px,14vw,62px);line-height:.96}
-}
-@media (prefers-reduced-motion:reduce){.home-hero::before{transform:none}.home-hero-scroll{transition:none}}
 </style>
 </head><body><header aria-label="Site header" class="site-header"><a aria-label="Return to home page" class="logo" href="/" id="logoHome"><img alt="Stapleford Watches" class="logo-mark" decoding="async" fetchpriority="high" height="360" loading="eager" src="/assets/stapleford-watches-logo@2x.png?v=1" width="295"/></a><button aria-expanded="false" aria-label="Open menu" class="sw-menu-toggle" id="swMenuToggle" type="button"><span class="sw-menu-toggle-bar"></span><span class="sw-menu-toggle-bar"></span></button></header><main class="buy-page" id="buyPage"><div class="grid" id="gallery"></div><div class="show-more-wrap" hidden="" id="showMoreWrap"><button class="show-more-btn" id="showMoreBtn" type="button">SHOW MORE</button></div><div class="no-results" hidden="" id="noResults">No watches found</div></main><main class="info-page" hidden id="infoPage"><section class="info-hero curated-hero" id="infoHero"><a class="curated-hero-kicker" href="https://wa.me/447438196047" id="infoHeroKicker" rel="noopener" target="_blank"><span aria-hidden="true" class="curated-hero-kicker-dot"></span>Chat to us</a><h1 class="curated-hero-title" id="infoTitle"></h1><p class="curated-hero-copy" id="infoCopy"></p><div class="curated-hero-actions" id="infoActions" hidden></div></section><div class="info-body" id="infoBody"></div></main><main class="sell-page" hidden id="sellPage"><section class="sell-hero"><h1 class="sell-hero-title">Sell your watch.</h1><p class="sell-hero-copy">Tell us a bit about your watch and add a few photos. We'll get back to you with a no-obligation offer as soon as possible.</p></section><div class="sell-form-wrap"><form autocomplete="on" class="sell-form" id="sellForm" novalidate=""><fieldset class="sell-fieldset"><legend class="sell-fieldset-legend">About the watch</legend><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellBrand">Brand</label><input class="sell-input" id="sellBrand" name="brand" required="" type="text" placeholder="e.g. Rolex"/></div><div class="sell-field"><label class="sell-label" for="sellModel">Model</label><input class="sell-input" id="sellModel" name="model" required="" type="text" placeholder="e.g. Submariner"/></div></div><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellReference">Reference number <span class="sell-optional">(if known)</span></label><input class="sell-input" id="sellReference" name="reference" type="text" placeholder="e.g. 126610LN"/></div><div class="sell-field"><label class="sell-label" for="sellYear">Year <span class="sell-optional">(approx. is fine)</span></label><input class="sell-input" id="sellYear" name="year" type="text" inputmode="numeric" placeholder="e.g. 2021"/></div></div><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellCondition">Condition</label><select class="sell-select" id="sellCondition" name="condition" required=""><option value="">Select condition</option><option value="Unworn">Unworn</option><option value="Excellent">Excellent</option><option value="Very good">Very good</option><option value="Good">Good</option><option value="Fair">Fair / needs work</option></select></div><div class="sell-field"><label class="sell-label" for="sellBoxPapers">Box &amp; papers</label><select class="sell-select" id="sellBoxPapers" name="boxPapers"><option value="">Select an option</option><option value="Full set (box and papers)">Full set (box and papers)</option><option value="Box only">Box only</option><option value="Papers only">Papers only</option><option value="Watch only">Watch only</option></select></div></div><div class="sell-field"><label class="sell-label" for="sellPrice">Your asking price <span class="sell-optional">(optional)</span></label><input class="sell-input" id="sellPrice" name="askingPrice" type="text" inputmode="decimal" placeholder="e.g. £8,500"/></div><div class="sell-field"><label class="sell-label" for="sellDetails">Anything else we should know? <span class="sell-optional">(optional)</span></label><textarea class="sell-textarea" id="sellDetails" name="details" placeholder="Service history, condition notes, accessories, etc."></textarea></div></fieldset><fieldset class="sell-fieldset"><legend class="sell-fieldset-legend">Photos</legend><div class="sell-field"><div class="sell-dropzone" id="sellDropzone"><svg aria-hidden="true" class="sell-dropzone-icon" fill="none" stroke="currentColor" stroke-width="1.4" viewbox="0 0 24 24"><path d="M12 16V4M12 4 7 9M12 4l5 5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" stroke-linecap="round" stroke-linejoin="round"></path></svg><p class="sell-dropzone-text">Drag &amp; drop photos here, or <span class="sell-dropzone-browse" id="sellBrowseTrigger">browse files</span></p><p class="sell-dropzone-hint">Up to 8 photos, 5MB each · JPG, PNG or HEIC</p><input accept="image/*" class="sell-photo-input" id="sellPhotoInput" multiple="" name="photos" type="file"/></div><div class="sell-photo-grid" id="sellPhotoGrid"></div></div></fieldset><fieldset class="sell-fieldset"><legend class="sell-fieldset-legend">Your details</legend><div class="sell-row"><div class="sell-field"><label class="sell-label" for="sellName">Name</label><input autocomplete="name" class="sell-input" id="sellName" name="name" required="" type="text"/></div><div class="sell-field"><label class="sell-label" for="sellEmail">Email</label><input autocomplete="email" class="sell-input" id="sellEmail" name="email" required="" type="email"/></div></div><div class="sell-field"><label class="sell-label" for="sellPhone">Phone / WhatsApp <span class="sell-optional">(optional)</span></label><input autocomplete="tel" class="sell-input" id="sellPhone" name="phone" type="tel"/></div></fieldset><div class="sell-status" id="sellStatus" role="status"></div><button class="sell-submit" id="sellSubmit" type="submit">Submit</button><p class="sell-privacy-note">By submitting, you agree that we may contact you by email, phone or WhatsApp about your watch and your request. See our <a href="/privacy-policy/">Privacy Policy</a>.</p></form></div></main><main class="journal-page" hidden id="journalPage"><div id="journalListView"><section class="journal-hero"><p class="journal-kicker">Journal</p><h1 class="journal-hero-title">A little bit of this, a little bit of that.</h1><p class="journal-hero-copy">Watch reviews, editorial content and field notes.</p></section><div class="journal-list" id="journalList"></div><p class="journal-empty" id="journalEmpty" hidden>New journal entries are on their way — check back soon.</p></div><div id="journalEntryView" hidden><div class="journal-entry" id="journalEntry"></div></div></main>
 <footer aria-label="Site footer" class="site-footer"><div class="sw-footer-inner"><p class="sw-footer-tag">It's a good day to buy another watch.</p><div class="sw-footer-row"><div class="sw-footer-nav-block"><p class="sw-footer-nav-label">Explore</p><nav aria-label="Footer navigation" class="sw-footer-nav"><a href="/buy/">Buy</a><a href="/sell/">Sell</a><a href="/journal/">Journal</a><a href="/contact/">Contact</a>
@@ -1836,30 +1809,6 @@ body.home-active .site-header .sw-menu-toggle-bar{background:#fff!important}
     const desktopMenuMarkup = '<a class="desktop-site-nav-link" href="/buy/">BUY</a><a class="desktop-site-nav-link" href="/sell/">SELL</a><a class="desktop-site-nav-link" href="/journal/">JOURNAL</a>';
 
     const siteHeader = document.querySelector('.site-header');
-    if(siteHeader && buyPage && !$('homeHero')){
-      const homeHero = document.createElement('section');
-      homeHero.id = 'homeHero';
-      homeHero.className = 'home-hero';
-      homeHero.setAttribute('aria-label','Stapleford Watches introduction');
-      homeHero.innerHTML = [
-        '<div class="home-hero-content">',
-          '<p class="home-hero-kicker">Stapleford Watches</p>',
-          '<p class="home-hero-title">Time, chosen well.</p>',
-          '<a class="home-hero-scroll" href="#catalogIntro">',
-            '<span>Explore the collection</span>',
-            '<svg aria-hidden="true" viewBox="0 0 16 16"><path d="M8 2v11M3.5 9 8 13.5 12.5 9"/></svg>',
-          '</a>',
-        '</div>'
-      ].join('');
-      siteHeader.insertAdjacentElement('afterend', homeHero);
-      homeHero.querySelector('.home-hero-scroll')?.addEventListener('click', (event) => {
-        event.preventDefault();
-        const target = $('catalogIntro') || gallery;
-        if(!target) return;
-        const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-        target.scrollIntoView({ behavior:reduceMotion ? 'auto' : 'smooth', block:'start' });
-      });
-    }
     const siteMenuToggle = $('swMenuToggle');
     if(siteHeader && !$('desktopSiteNav')){
       const desktopNav = document.createElement('nav');
@@ -3486,7 +3435,6 @@ body.home-active .site-header .sw-menu-toggle-bar{background:#fff!important}
     document.body.classList.toggle('legal-info-active', isLegalInfo);
     document.body.classList.toggle('sell-active', isSell);
     document.body.classList.toggle('journal-active', isJournal);
-    document.body.classList.toggle('home-active', key === 'home');
     const buyPageEl = $('buyPage');
     if(buyPageEl) buyPageEl.hidden = !isBuy;
     const infoPageEl = $('infoPage');
